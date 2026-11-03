@@ -6,7 +6,7 @@ HZoi Gameplay decides when a scene should be requested, which eligible participa
 
 ## Project status
 
-This repository initially documents the intended delegation of responsibilities. No gameplay rules, acceptance formulas, interactions, or runtime code have been implemented. The required inZOI APIs remain to be validated.
+Development is deferred. This repository documents the intended delegation of responsibilities. No gameplay rules, acceptance formulas, interactions, or runtime code have been implemented. The required inZOI APIs remain to be validated. SceneZOI's first release retains its own Start SceneZOI buttons on the controlled Zoi and supported furniture; this gameplay integration is not required.
 
 ## The three projects
 
