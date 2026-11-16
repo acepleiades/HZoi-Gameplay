@@ -37,6 +37,11 @@ HZoi Gameplay should use the public SceneZOI API and lifecycle events rather tha
 
 Willingness to begin a scene is distinct from excitement during a scene. This integration decides the former; SceneZOI can implement the latter as an optional capability requested by scene data.
 
+The current scene determines the task definition, including when this
+integration starts the session. HZoi uses SceneZOI’s shared Excitement task.
+An integration can read the active definition with `get_task_state`.
+[SceneZOI task provider rules](https://github.com/acepleiades/SceneZOI/blob/v1.3.12/docs/scene-tasks.md#choose-which-definition-a-scene-uses)
+
 ## HZoi boundary
 
 Animations, media assets, scene graphs, transitions, outfit directives, and scene-specific subsystem configuration belong to HZoi's declarative content.
