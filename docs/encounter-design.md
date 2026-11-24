@@ -88,19 +88,21 @@ After ordinary exit and cleanup, deliver the same confirmed-affair reaction that
 
 The live game already varies reactions by outcome and personality. `Buff_Mood_Success_01` is `Enchanting` +5 for 90 game minutes. `Buff_Mood_Success_02` is `Calm` +2 for 60. The two failure variants use `Irritated` or `Sad` +2 for 60. The meditation script gives Authoritarian (`Arrogant`) `Irritated` +2 for 180, while Pacifist (`Peacemaker`) and Idealist (`Dreamer`) receive Calm. The confirmed-affair script has its own trait reactions and a caught buff of `Cringing` +6 for 300. Its gloating witness variant uses `Excited` +7 and belongs to the native Flirt characteristic. HZoi can use the same pattern of localized titles, causes, durations, and trait overrides. [Buff metadata](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b1/structs/fb1buffbasicinfo/) · [Buff API](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/components/fb2buffcomponent/).
 
-| Per-Zoi result | Proposed default |
-| --- | --- |
-| Both complete | **In Sync**, positive for each Zoi. |
-| Only this Zoi completes | **Satisfied**, a milder positive moodlet. |
-| Only the other Zoi completes | **Out of Sync**, a mild disappointment. A trait can replace it with a different response. |
-| Neither completes and an ordinary sighting stops the scene | **Awkward Timing**, Flustered or Annoyed according to trait. |
-| Neither completes and a participant ends it | **Unfinished Moment**, a mild letdown. |
-| Official partner catches the encounter | Native cheating moodlets and consequences. A trait can contribute an HZoi reaction while preserving the native result. |
-| Room becomes occupied en route | Expected privacy cancellation. Give the NPC initiator a privacy complaint, cancel the attempt, release the venue, and leave the urge pending. |
-| SceneZOI fails to start or ends for a technical reason, including a mid-scene timeout | Use technical feedback and diagnostics and let SceneZOI run cleanup. The failure adds no moodlet, relationship, need, or urge effect. Verified completions and sightings still count. |
-| Game lifecycle ends the scene, such as saving, opening Create a Zoi, or unloading the mod | End neutrally. Preserve any verified completions and sightings. Teardown may leave the final result unavailable. |
+| Per-Zoi result | Proposed default | Reason text |
+| --- | --- | --- |
+| Both complete | **In Sync**, Content for each Zoi. | “We found a rhythm that felt good for both of us.” |
+| Only this Zoi completes | **Satisfied**, a milder Content moodlet. | “I got what I wanted from that moment.” |
+| Only the other Zoi completes | **Out of Sync**, mild Sad. | “They had a good time. I was left wanting more.” |
+| Neither completes and an ordinary sighting stops the scene | **Awkward Timing**, Flustered. | “I was just getting comfortable when someone walked in.” |
+| Neither completes and a participant ends it | **Unfinished Moment**, mild Sad. | “I wish we’d had a little more time together.” |
+| Official partner catches the encounter | Native cheating moodlets and consequences. A trait can contribute an HZoi reaction. | Native moodlets use the game's text. |
+| Room becomes occupied en route | Expected privacy cancellation. Give the NPC initiator a privacy complaint, cancel the attempt, release the venue, and leave the urge pending. | — |
+| SceneZOI fails to start or ends for a technical reason, including a mid-scene timeout | Use technical feedback and diagnostics and let SceneZOI run cleanup. The failure adds no moodlet, relationship, need, or urge effect. Verified completions and sightings still count. | — |
+| Game lifecycle ends the scene, such as saving, opening Create a Zoi, or unloading the mod | End neutrally. Preserve any verified completions and sightings. Teardown may leave the final result unavailable. | — |
 
 Keep a completion result and a stop reason separately. A Zoi can earn satisfaction before an interruption and still react to being seen. Apply at most one HZoi outcome moodlet and one distinct witness moodlet per Zoi. When several traits match, use the most specific rule and break ties with the core personality. Iteration 1 uses current outcomes, current witness type, moodlet adjustments, speech bubbles, and stop preferences. The trait rules need no venue history, follow-up activities, or schedule changes.
+
+Evaluate a completion moodlet from the perspective of the Zoi receiving it. When only the other Zoi completes, trait variants can express sadness, frustration, or anxiety and can soften the intensity. Witness moodlets use the sighting and the Zoi's response to it. Reason text describes what that Zoi experienced in the encounter.
 
 ### SceneZOI failure signals
 
@@ -116,66 +118,67 @@ Use `session_start_failed` or `session_ended` to settle the encounter. A recover
 
 The live `Trait` table has 18 `Nature` rows. The reactions below are HZoi proposals. Mood names use the in-game labels. [Krafton's trait ID reference](https://playinzoi.com/en/guide/cheats#trait--characteristic-id).
 
-| Trait | Trigger | Iteration 1 reaction |
-| --- | --- | --- |
-| Perfectionist (`Perfectionist`) | Only one completes, or the encounter is seen | **Out of Order** adds Annoyed on a mismatch. When seen, prefers to stop and says “Could you knock next time?” |
-| Innovator (`Activist`) | Both complete | **Found a Better Rhythm** adds +2 to `Curious`. Reason text “Exploring new boundaries with someone special felt exciting.” |
-| Recluse (`Helper`) | Encounter is seen | **Nowhere to Hide** adds Flustered (`Cringing`). Prefers to stop and says “I wanted a moment to ourselves.” |
-| Charmer (`Romantic`) | Earns a positive completion moodlet | Add one point to that moodlet's usual strength. |
-| Socialite (`Popular`) | Ordinary witness | **Played It Cool** adds Content. |
-| Go-Getter (`Achiever`) | Neither completes before a participant ends the scene | **Unfinished Business** adds Annoyed. |
-| Visionary (`Artist`) | Both complete | **Perfect Improvisation** adds Curious. |
-| Individualist (`Independent`) | Only the other Zoi completes | **At My Own Pace** adds Content. |
-| Explorer (`Observer`) | Only one completes | **Something to Think About** adds Curious. |
-| Intellectual (`Intellect`) | Only one completes | **A Question of Timing** adds Focused. |
-| Sentinel (`Risk-averse`) | Encounter is seen | **Exactly What I Worried About** adds Nervous. Prefers to stop. |
-| Rulebreaker (`Cooperator`) | Encounter is seen | Prefers to continue. If their official partner is the witness, **Thrill of Being Caught** adds Excited alongside the native reaction. |
-| Troublemaker (`Entertainer`) | Ordinary witness | **What an Entrance** adds Amused. |
-| Adventurer (`Adventurer`) | Both complete | **Worth the Rush** adds Excited. |
-| Authoritarian (`Arrogant`) | Encounter is seen | **Who Let Them In?** adds Annoyed. Prefers to stop. |
-| Leader (`Leader`) | An ordinary sighting stops the scene | **Kept It Together** adds Confident. |
-| Pacifist (`Peacemaker`) | Only the other Zoi completes | **I’m Glad You Enjoyed It** adds Content. Prefers to stop when seen. |
-| Idealist (`Dreamer`) | Both complete | **The World Went Quiet** adds Content. |
+| Trait | Trigger | Iteration 1 reaction | Reason text |
+| --- | --- | --- | --- |
+| Perfectionist (`Perfectionist`) | Only one completes, or the encounter is seen | **Out of Order** adds Annoyed on a mismatch. When seen, prefers to stop and says “Could you knock next time?” | “The whole thing felt out of step when only one of us finished.” |
+| Innovator (`Activist`) | Both complete | **Found a Better Rhythm** adds +2 to `Curious`. | “Exploring new boundaries with someone special felt exciting.” |
+| Recluse (`Helper`) | Encounter is seen | **Nowhere to Hide** adds Flustered (`Cringing`). Prefers to stop and says “I wanted a moment to ourselves.” | “I thought we had the room to ourselves. Now I wish I could disappear.” |
+| Charmer (`Romantic`) | Earns a positive completion moodlet | Add one point to that moodlet's usual strength. | Use the reason text of the moodlet earned. |
+| Socialite (`Popular`) | Ordinary witness | **Played It Cool** adds Content. | “It was awkward for a second. A quick smile made it feel ordinary again.” |
+| Go-Getter (`Achiever`) | Neither completes before a participant ends the scene | **Unfinished Business** adds Annoyed. | “I felt like we were getting somewhere. It was frustrating to leave it unfinished.” |
+| Visionary (`Artist`) | Both complete | **Perfect Improvisation** adds Curious. | “We found a rhythm just by paying attention to each other. I’m still thinking about it.” |
+| Individualist (`Independent`) | This Zoi completes, whether or not the other Zoi does | **At My Own Pace** adds Content. | “I enjoyed the moment on my own terms. That felt good.” |
+| Individualist (`Independent`) | Only the other Zoi completes | **Left Unsatisfied** adds Annoyed. | “I wanted something out of that moment too.” |
+| Explorer (`Observer`) | This Zoi completes | **Something to Think About** adds Curious. | “I’m still curious about the little things that made it feel so good.” |
+| Intellectual (`Intellect`) | Only the other Zoi completes | **A Question of Timing** adds Nervous. | “I kept replaying the moment, wondering when we fell out of step.” |
+| Sentinel (`Risk-averse`) | Encounter is seen | **Exactly What I Worried About** adds Nervous. Prefers to stop. | “I kept thinking someone might walk in. Then someone did.” |
+| Rulebreaker (`Cooperator`) | Encounter is seen | Prefers to continue. If their official partner is the witness, **Thrill of Being Caught** adds Excited alongside the native reaction. | “I felt a rush when my partner caught us. I probably should’ve been worried.” |
+| Troublemaker (`Entertainer`) | Ordinary witness | **What an Entrance** adds Amused. | “The look on their face almost made me laugh.” |
+| Adventurer (`Adventurer`) | Both complete | **Worth the Rush** adds Excited. | “The whole thing left my heart racing. I’d do it again.” |
+| Authoritarian (`Arrogant`) | Encounter is seen | **Who Let Them In?** adds Annoyed. Prefers to stop. | “We had a moment to ourselves. Then someone decided they could just walk in.” |
+| Leader (`Leader`) | An ordinary sighting stops the scene | **Kept It Together** adds Confident. | “It was awkward, and I kept my composure until we could leave.” |
+| Pacifist (`Peacemaker`) | Only the other Zoi completes | **Mixed Feelings** adds mild Sad. Prefers to stop when seen. | “I’m glad they enjoyed themselves. I wish I’d felt the same.” |
+| Idealist (`Dreamer`) | Both complete | **The World Went Quiet** adds Content. | “For a little while, it felt like we were the only two in the world.” |
 
 ### Characteristics and aptitudes
 
 Each row proposes a moodlet or a stop preference using the same outcome data. The four toddler-only rows `Baby_Troublemaker`, `Baby_Innocent`, `Baby_Cuty`, and `Baby_Feisty` stay outside encounter eligibility.
 
-| Characteristic | Iteration 1 reaction |
-| --- | --- |
-| Extroverted (`Extrovert`) | **Let’s Laugh About It** adds Amused after an ordinary sighting. |
-| Introverted (`Introvert`) | **Too Many Eyes** adds Flustered when seen. Prefers to stop. |
-| Cheerful (`Cheerful`) | **Still a Good Time** adds Content when only the other Zoi completes. |
-| Depressed (`Gloomy`) | **A Little Light** adds Content when both complete. |
-| Clumsy (`Clumsy`) | **That Was Awkward** adds Flustered when an ordinary sighting stops the scene. |
-| Bookworm (`Bookworm`) | **A Chapter Worth Keeping** adds Moved when both complete. |
-| Emotionally Needy (`Needy`) | **Stay Close** adds Sad when only the other Zoi completes. |
-| Fitness Enthusiast (`Active`) | **Found Our Pace** adds Excited when both complete. |
-| Lively (`Energetic`) | **Still Buzzing** adds Excited when only this Zoi completes. |
-| Neat Freak (`CleanFreak`) | **Could Use a Shower** adds Uncomfortable if Hygiene is low at exit after an earned completion. |
-| Childish (`Childish`, adult Zoi) | **Couldn’t Keep a Straight Face** adds Amused after an ordinary sighting. |
-| Genius (`Genius`) | **We Can Work That Out** adds Focused when only the other Zoi completes. |
-| Slacker (`Lazy`) | **Good Enough for Me** adds Content when only this Zoi completes. |
-| Materialistic (`Snob`) | **A Little Luxury** adds Content when both complete in a furniture scene. |
-| Malicious (`Mean`) | **I Got Mine** adds Amused when only this Zoi completes. |
-| Workaholic (`Workaholic`) | **A Break Well Spent** adds Content when both complete. |
-| Flirt (`Flirt`) | Prefers to continue when seen, including by their own official partner. **Cool Under Pressure** adds Amused after an ordinary sighting. |
-| Devoted (`Faithful`) | **What Have I Done?** adds Sad when caught by their official partner. Prefers to stop. |
+| Characteristic | Iteration 1 reaction | Reason text |
+| --- | --- | --- |
+| Extroverted (`Extrovert`) | **Let’s Laugh About It** adds Amused after an ordinary sighting. | “Once I laughed, the whole thing felt a lot less awkward.” |
+| Introverted (`Introvert`) | **Too Many Eyes** adds Flustered when seen. Prefers to stop. | “I felt at ease with one person. Suddenly I felt like everyone was looking at me.” |
+| Cheerful (`Cheerful`) | **A Little Let Down** adds mild Sad when only the other Zoi completes. | “There was plenty to like about that moment. I still wish I’d enjoyed it as much as they did.” |
+| Depressed (`Gloomy`) | **A Little Light** adds Content when both complete. | “It was a relief to feel close to someone and enjoy it for a while.” |
+| Clumsy (`Clumsy`) | **That Was Awkward** adds Flustered when an ordinary sighting stops the scene. | “I got so flustered I didn’t even know where to look.” |
+| Bookworm (`Bookworm`) | **A Chapter Worth Keeping** adds Moved when both complete. | “If that moment were a page in a book, I’d fold the corner to find it again.” |
+| Emotionally Needy (`Needy`) | **Stay Close** adds Sad when only the other Zoi completes. | “I wanted a little reassurance that how I felt mattered too.” |
+| Fitness Enthusiast (`Active`) | **Found Our Pace** adds Excited when both complete. | “We fell into the same pace, and the rush stayed with me.” |
+| Lively (`Energetic`) | **Still Buzzing** adds Excited when only this Zoi completes. | “I’m still buzzing from how good that felt.” |
+| Neat Freak (`CleanFreak`) | **Could Use a Shower** adds Uncomfortable if Hygiene is low at exit after an earned completion. | “I enjoyed the moment. Now all I can think about is getting clean.” |
+| Childish (`Childish`, adult Zoi) | **Couldn’t Keep a Straight Face** adds Amused after an ordinary sighting. | “We all looked so surprised that I nearly got the giggles.” |
+| Genius (`Genius`) | **Missing Piece** adds Annoyed when only the other Zoi completes. | “I can usually figure out what went wrong. This time I’m left with a question and a lot of frustration.” |
+| Slacker (`Lazy`) | **Good Enough for Me** adds Content when only this Zoi completes. | “That felt good. I’m happy to take it easy for a while.” |
+| Materialistic (`Snob`) | **A Little Luxury** adds Content when both complete in a furniture scene. | “Having somewhere comfortable to settle made the moment feel like a small luxury.” |
+| Malicious (`Mean`) | **I Got Mine** adds Amused when only this Zoi completes. | “I got what I wanted. The look on their face made it even better.” |
+| Workaholic (`Workaholic`) | **A Break Well Spent** adds Content when both complete. | “Taking a little time for ourselves was worth it.” |
+| Flirt (`Flirt`) | Prefers to continue when seen, including by their own official partner. **Cool Under Pressure** adds Amused after an ordinary sighting. | “They looked more rattled than I felt. I almost laughed.” |
+| Devoted (`Faithful`) | **What Have I Done?** adds Sad when caught by their official partner. Prefers to stop. | “I keep seeing the look on my partner’s face. I know I hurt them.” |
 
-| Aptitude ID | Iteration 1 reaction |
-| --- | --- |
-| `Aptitude_Peace` | **Quiet Again** adds Content when an ordinary sighting stops the scene. |
-| `Aptitude_Wikipedia` | **Well, Now I Know** adds Curious when only one completes. |
-| `Aptitude_Seeker` | **Worth the Detour** adds Excited when both complete. |
-| `Aptitude_Casanova` | **A Good Impression** adds Aflutter when both complete. |
-| `Aptitude_CoffeeMaster` | **A Pleasant Buzz** adds Excited when only this Zoi completes. |
-| `Aptitude_BakingMaster` | **Sweet Finish** adds Content when both complete. |
-| `Aptitude_BeverageMaster` | **Taking It Easy** adds Content when an ordinary sighting stops the scene. |
-| `Aptitude_Collect` | **A Memory to Keep** adds Moved when both complete. |
-| `Aptitude_Fishing` | **Better Luck Next Time** adds Content if a participant ends the scene and neither completed. |
-| `Aptitude_Smith` | **Found the Fit** adds Focused when both complete in a furniture scene. |
-| `Aptitude_Swim` | **A Second Wind** adds Excited on their own completion. |
-| `Aptitude_FirstImpression` | **Kept My Composure** adds Confident after an ordinary sighting. |
+| Aptitude ID | Iteration 1 reaction | Reason text |
+| --- | --- | --- |
+| `Aptitude_Peace` | **Quiet Again** adds Content when an ordinary sighting stops the scene. | “We stepped away and the awkwardness passed. I’m glad we kept things calm.” |
+| `Aptitude_Wikipedia` | **Well, Now I Know** adds Curious when only this Zoi completes. | “Something about that moment worked for me, and I’m curious what made the difference.” |
+| `Aptitude_Seeker` | **Worth the Detour** adds Excited when both complete. | “I’m glad we took the time for it. I’d happily do that again.” |
+| `Aptitude_Casanova` | **A Good Impression** adds Aflutter when both complete. | “Knowing they enjoyed it too gave me butterflies.” |
+| `Aptitude_CoffeeMaster` | **A Pleasant Buzz** adds Excited when only this Zoi completes. | “That little jolt felt like the first sip of a really good cup of coffee.” |
+| `Aptitude_BakingMaster` | **Sweet Finish** adds Content when both complete. | “Everything came together beautifully, and I’m still savoring it.” |
+| `Aptitude_BeverageMaster` | **Taking It Easy** adds Content when an ordinary sighting stops the scene. | “Taking a breath helped the awkwardness settle.” |
+| `Aptitude_Collect` | **A Memory to Keep** adds Moved when both complete. | “Some moments are worth holding on to. That was one of them.” |
+| `Aptitude_Fishing` | **Better Luck Next Time** adds mild Sad if a participant ends the scene and neither completed. | “It was disappointing to call it early. Some things take patience.” |
+| `Aptitude_Smith` | **Found the Fit** adds Focused when both complete in a furniture scene. | “Once we found a comfortable position, everything clicked.” |
+| `Aptitude_Swim` | **A Second Wind** adds Excited on their own completion. | “For a moment it felt like coming up for air. I came away full of energy.” |
+| `Aptitude_FirstImpression` | **Kept My Composure** adds Confident after an ordinary sighting. | “Even with someone looking, I managed to keep my cool.” |
 
 ## First API probes
 
