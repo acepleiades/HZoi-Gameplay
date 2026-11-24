@@ -6,7 +6,7 @@ HZoi Gameplay owns invitations, venue selection, witness reactions, and gameplay
 
 ## Player interaction
 
-Add **Have sex here** with a burning-heart icon to SceneZOI-supported beds and sofas and to walkable ground. Show it for a Young Adult or older initiator. Apply the same eligibility rule to every picker candidate and recheck both Zois before playback.
+Add **Have sex here** with a burning-heart icon to SceneZOI-supported beds and sofas and to walkable ground. Show it for a Young Adult or older initiator. Apply the same eligibility rule to picker candidates.
 
 Keep eligibility in one configurable rule. The current `EB1GrowthStep` adult values are `Youth`, `Adult`, `Old`, and `Elderly`. Ghosts are handled through separate native life-state interfaces. Give supernatural states their own eligibility and compatibility checks. A future vampire can qualify through a verified adult stage even if aging is disabled, or through a configured mapping if a mod introduces a new adult stage. An unknown stage needs an explicit adult mapping. [Growth step enum](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/structguide/enum/eb1growthstep/) · [Life component](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/components/fb2lifecomponent/).
 
