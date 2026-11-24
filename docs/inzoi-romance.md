@@ -2,7 +2,7 @@
 
 Observed on **Windows Steam v0.11.2**, build `20261027.16617.W`, on **2026-11-23**. This is a reference for HZoi Gameplay and other gameplay mods. It describes the base game. [Krafton's build notice](https://steamcommunity.com/app/2456740/announcements/).
 
-**Cheating detection was unreliable in the tested v0.11.2 household.** Five witnessed bed trials produced no confirmed reaction. Later play produced two confirmed records, including one that assigned the caught role to Minah even though Jaewoo initiated every romantic interaction and autonomy was off. [Test conclusions](#conclusions-from-the-tests).
+**Cheating detection appears unreliable in v0.11.2.** The tests suggest that repeated romance with another Zoi near a formal partner will most likely trigger detection eventually. [Test conclusions](#conclusions-from-the-tests).
 
 [Full interaction index (CSV)](inzoi-romance-interactions.csv) · [Marriage](#proposal-engagement-and-marriage) · [Children](#having-children) · [Cheating](#jealousy-and-cheating) · [Validation](#what-we-verified-in-game)
 
@@ -22,7 +22,7 @@ Romance is a numeric stat on a relationship. Friendship, Family, and Business ar
 
 The table gives the boundaries configured in `RelationshipCondition`. At **60** and **90**, the game can pause progression for a relationship focus conversation. The positive choices include **Say You Want to Get Closer** at 60 and **Call Them Your True Love** / **Be Together as True Loves** at 90, depending on who initiates. These choices release the score checkpoint. **Ask Them to Become Your Sweetheart** is a separate interaction with a separate outcome that creates `Youth_Lover`. For example, its lower-Charisma route can already appear at 40 Romance with 30 Friendship.
 
-The [Seoyun Ryu example](#seoyun-ryus-romance-menu) shows how to interpret the interaction menu. Check the pair's named relationship to confirm whether they have made it official.
+The adult **Ask Them to Become Your Sweetheart** option excludes existing `Youth_Lover` and `engagement` relationships between the pair. Check the named relationship to confirm whether they have made it official.
 
 Check both directions if the decision depends on how each Zoi feels. The debug setter used in testing writes both directions, but live relationship values can differ. A score's numeric band and the relationship names reported by the engine may also update at different times. Use actual score, relationship names, and flags as separate inputs.
 
@@ -100,80 +100,21 @@ Krafton documented a partner score penalty, approach reaction and an apology rou
 
 ## What we verified in game
 
-### Roommate household tests
-
-At 45 Romance, before any formal partnership, we queued the successful **Kiss** directly through the game MCP for Jaewoo and Minah. The deep kiss played, Minah's Romance with Jaewoo rose to 51.4, and Xinyu's stayed at 45. We later queued the same kiss after commitment with Xinyu nearby on the same floor. The kiss played again and produced no observed cheating flag, record, confrontation, or score penalty.
-
-A successful confession with Xinyu gave Jaewoo the named `Youth_Lover` relationship. The partnership persisted after we set their Romance back to 45, within **Mutual Crush**. A later successful confession with Minah gave Jaewoo a second `Youth_Lover` relationship while the first remained active.
-
-At about 81 Romance with a formal partner, we opened the live Romance menu. Both **Ask Them to Marry You** and **Suggest Having a Baby** were enabled. The check stopped at the menu.
+Jaewoo held three official `Youth_Lover` relationships at once. The named partnership persisted at 45 Romance (**Mutual Crush**) and after cheating penalties near −100. **Say You Want to Get Closer** advanced the Romance meter to `romance6`. At about 81 Romance, **Ask Them to Marry You** and **Suggest Having a Baby** were enabled for a formal unmarried partner. The proposal check ended at the menu.
 
 ### Set the Mood witness trials
 
-We ran five trials of **Set the Mood Next to Bed** from the normal Romance menu on Steam v0.11.2 at Gaya Apartments, 102, with SceneZOI mounted. In the reloaded Kwon household, Jaewoo started at 0 Romance with Xinyu, Seoyun, and Minah. We boosted each score to 29 within the neutral band, used **Kiss on Forehead** to enter **Mutual Crush**, then boosted within that tier to 58. **Ask Them to Become Your Sweetheart** established each `Youth_Lover` partnership. Minah accepted on the second ask after we restored her Romance to 58. In the first four trials, the witnesses had `Youth_Lover` in both directions and a score of 60 at the pending **Mutual Crush** checkpoint.
-
-Jaewoo first selected **Set the Mood Next to Bed** with Seoyun while Xinyu sat in the lounge chair facing the double bed. The sequence ended at 07:13 in-game. Xinyu registered `howling_MakeLove_Surprise`. Her Romance stayed at 60 in both directions, and we found no cheating flag, record, or confrontation. Jaewoo logged `Record_SetMode_Fail` toward Seoyun, while Seoyun logged `Record_SetMode_Success` toward Jaewoo.
-
-After Minah became Jaewoo's third formal partner, he repeated the interaction with her while Seoyun sat in the same chair and Xinyu moved away from the bedroom. The sequence ended at 07:18 and both participants logged `Record_SetMode_Success`. Seoyun's event cooldown maps stayed empty and her Romance stayed at 60 in both directions, with no cheating flag, record, or confrontation.
-
-Jaewoo then started the interaction with Xinyu at 07:25 while Minah and Seoyun stood by the dresser near the empty lounge chair. Both witnesses were on the same floor as the bed and stayed in place. They began with empty event cooldown maps and no cheating flags, records, or related moodlets. Both participants logged `Record_SetMode_Success` at 07:26:41. Both witnesses retained `Youth_Lover` and 60 Romance in both directions, their cooldown maps stayed empty, and we found no cheating flag, record, moodlet, or confrontation. This trial used the existing partnerships without further cheats and changed the bed partner, witness count, and witness positions from the seated trials.
-
-After restarting the game, Jaewoo repeated the standing trial with Xinyu at 07:33 using the same build and existing partnerships. At launch neither witness had a confirmed-affair cooldown entry, cheating flag, or cheating record. Minah's older `effect_Howling_Mood_After` entry persisted through the reload. Both witnesses stayed by the dresser. The bed sequence ended at 07:34 and the participants received fresh `Buff_Mood_Success` variants while their prior relationship record timestamps stayed the same. Minah registered `howling_MakeLove_Surprise` and received `Show_MakeLove`. Seoyun's event cooldown maps stayed empty. Through 07:35 both witnesses retained `Youth_Lover` and 60 Romance in both directions, with no new cheating flag, record, moodlet, or confrontation.
-
-For the final trial, Jaewoo used **Say You Want to Get Closer** with each partner. All three relationships reached **Sweetheart** (`romance6`) and retained `Youth_Lover` in both directions. We teleported Zois back to approximate starting positions and used **Move Here** to adjust the witnesses' facing. When Jaewoo started the interaction with Xinyu at 07:52, Minah stood 183 game units horizontally from the center of the bed, facing about 12° off center and about 87 units from her original marker. She had no `Exclude_Cheat` tag. She stayed in place, while Seoyun moved into the hall before the bed animation began. Both participants received fresh `buff_Mood_Success_02` applications after the sequence ended at 07:53. Minah registered a new `howling_MakeLove_Surprise` and `show_MakeLove`. She retained `Youth_Lover` and `romance6` in both directions with no confirmed-affair event, cheating flag, record, moodlet, confrontation, or score penalty.
-
-#### Starting positions before the Sweetheart-tier trial
-
-All six Zois were on floor 0 at world Z = 3236.92554. Their rotations were yaw only. The teleport command takes world coordinates. Use yaw as a reference when manually turning a Zoi afterward.
-
-| Zoi | World X | World Y | Yaw (degrees) |
-| --- | ---: | ---: | ---: |
-| Jaewoo Kwon | 162129.86043 | -72840.99005 | -113.74700 |
-| Xinyu Yang | 162089.42405 | -72932.90178 | 66.25300 |
-| Minah Koo | 162216.77584 | -72736.64487 | -165.92764 |
-| Seoyun Ryu | 162226.24033 | -72793.00586 | 172.68051 |
-| Kako Fujita | 162606.32960 | -72635.18786 | -23.74448 |
-| Yiming Yang | 162523.46793 | -72947.63695 | 138.25301 |
-
-### Seoyun Ryu's Romance menu
-
-The screenshot shows **Seoyun Ryu** (Kwon Family) with **Ask Them to Become Your Sweetheart** visible at the top of the Romance menu. The adult visibility rules for this action exclude a current `Youth_Lover` or `engagement` relationship between the pair. Seeing the action suggests that the pair has yet to establish a formal adult partnership. A successful ask would establish `Youth_Lover`. **Sweetheart** on the Romance meter would describe the score band from 60 to below 90.
-
-The same menu shows **Suggest Having a Baby**, **Set the Mood Next to Bed**, **Kiss at the Table**, **Kiss Passionately** (tagged **Lovestruck**), **Ask on a Date**, **Kiss on Forehead**, **Sit and Kiss**, **Peck**, and **Give Heartfelt Hug**. These options have routes available before commitment. The capture establishes which labels were visible. It leaves the pair's Romance score, named relationship, and any interaction outcome unverified.
+Five normal-menu **Set the Mood Next to Bed** trials with SceneZOI mounted reached the bed step with a same-floor `Youth_Lover` witness nearby and produced zero confirmed detections. This held for seated and standing witnesses, after a restart, and at `romance6`. Three runs registered the separate `howling_MakeLove_Surprise` event. Fresh success buffs confirmed participant outcomes on repeats when relationship record timestamps stayed the same.
 
 ### Player follow-up with Suggest Having a Baby
 
-The player confirmed that autonomy was off for all six household members. Only Jaewoo, Xinyu, Minah, Seoyun, Kako, and Yiming were in the apartment. The other Zois were idle between directed actions, and Jaewoo initiated every romantic interaction.
+Only the six household Zois were present, autonomy was off, and Jaewoo initiated every romantic action. **Kiss Passionately** in front of formal partners drew no immediate reaction. A separately tested, directly queued **Kiss** also produced no confirmed detection.
 
-In the Kwon household, the player used **Kiss Passionately** with Jaewoo's `Youth_Lover` partners in front of each other and saw no cheating reaction at the time. An initial **Suggest Having a Baby** attempt produced a toast saying the action was unavailable at that moment. The player suspected someone in the bedroom was blocking the attempt and moved Xinyu, Seoyun, and Minah to the living, dining, and kitchen area (LDK). The cause of that toast was never isolated.
-
-With the other partners nearby in the LDK, Xinyu accepted **Suggest Having a Baby**. The pair stopped before the bed step. The player observed a cheating reaction involving Xinyu around that attempt. Seoyun accepted the next attempt and became pregnant. When the player went to try with Minah, they found that a cheating reaction involving her had already happened. The player reported that Minah was off-screen in another room and associated the result with the attempt involving Seoyun. They took the different-room result as evidence that direct sight might be unnecessary.
-
-Read-only inspection of the live save at 08:12 confirmed separate cheating records for the two pairs. At 08:00:17, Xinyu received `Cheating_Found_Self` toward Jaewoo, the first-found-cheating milestone, and an `effect_Affair_Confirmed` cooldown entry. Jaewoo received `Cheating_Found_Target` toward Xinyu, the first-caught-cheating milestone, and `buff_Caught_Cheating_03`. The player's screenshot of Jaewoo's Flustered mood showed **What Should I Do?** and **Infidelity Exposed**, both acquired 12 in-game minutes earlier. Both directions of the pair's Romance were −90 at inspection, while Family was near −100. Xinyu still had the `TryToHaveChildren` tag from the approach script. Its 30-minute expiry places the +10 Romance effect about ten in-game seconds after the cheating record, consistent with the player's explanation for the −90. Seoyun had fresh pregnancy success and pregnancy start buffs, with pregnancy start recorded at about 08:03:06.
-
-The Minah pair had a second cheating record at 08:03:17, with Romance and Family both about −99.99 in both directions at inspection. Jaewoo received `Cheating_Found_Self`, the first-found-cheating milestone, and an `effect_Affair_Confirmed` cooldown entry. Minah received `Cheating_Found_Target`, the first-caught-cheating milestone, and `buff_Caught_Cheating_03`. The game recorded Jaewoo as the witness and Minah as caught about 11 in-game seconds after Seoyun's pregnancy started. The assigned roles conflict with the player's account that Jaewoo drove all romantic activity and Minah was idle in another room. The confirmed-affair script assigns roles from the Zois it receives for each proximity event. The save preserved the assigned roles and penalties, and the source of the event remains unknown. All three pairs still carried `Youth_Lover` in both directions at inspection.
+Xinyu accepted **Suggest Having a Baby**, and the pair stopped before the bed step. The save confirmed that Xinyu caught Jaewoo. Their Romance was −90, consistent with the accepted conversation adding 10 after detection. Seoyun conceived on the next attempt. Eleven in-game seconds after her pregnancy began, the save recorded Jaewoo as witness and Minah as caught, with Romance near −100 in both directions. Minah was reportedly idle in another room. The trigger and line trace for that event remain unknown.
 
 ### Conclusions from the tests
 
-Jaewoo could hold multiple named `Youth_Lover` relationships at once, including while a partner's Romance meter still showed **Mutual Crush**. **Ask Them to Become Your Sweetheart** created the named partnership, and **Say You Want to Get Closer** later advanced the meter to `romance6`. Romantic actions were visible alongside the confession option in Seoyun's screenshot. The live menu at about 81 Romance confirmed that a formal partner could be offered both marriage and an attempt to have a baby before marriage. The follow-up verified an unmarried pregnancy with Seoyun. The proposal check ended at the menu.
-
-All five normal-menu bed trials reached the step that calls the confirmed-affair event. None produced a confirmed cheating reaction. Xinyu registered the separate surprise event in the first trial, and Minah registered it after the restart and again at `romance6`. Both the restart and the move to `romance6` left the confirmed detection result unchanged in this household. The Sweetheart-tier result applies to Minah, who stayed by the bed after Seoyun left.
-
-The follow-up shows that an interaction without an immediate observed reaction can be followed by confirmed detection during continued play. The player suspects that continuing romantic interactions around named partners makes eventual detection likely. The runs establish that it can happen and leave its probability, the causal action for each detection, and any cooldown effect unmeasured. The confirmed-affair effect pool has a configured 20-second cooldown. [ModKit effect cooldown reference](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b1/structs/fb1howlingeffecttablerow/).
-
-The Minah incident shows that a cheating result can be discovered with the other Zoi off-screen in a different room. The `effect_Affair_Confirmed` entry points to the confirmed-affair route, whose proximity row checks a line trace. `Cheat_Reaction_Howling` and the bed-trial surprise event skip that check. The follow-up did not capture the confirmed-affair trace at the moment it ran. The two records also show that severe Romance penalties can coexist with the named `Youth_Lover` relationship.
-
-The game rolls the participants' post-bed reactions separately, after the confirmed-affair call at the start of the bed step. The first trial recorded a success for one participant and a failure for the other. In repeat runs, fresh success buffs showed the outcome even when prior record timestamps stayed the same. A participant's result and a witness's reaction therefore need separate checks.
-
-The witnessed **Kiss** result applies to a directly queued deep kiss. The witness reaction and timing for a kiss launched through the normal menu remain unverified.
-
-**The v0.11.2 tests show unreliable detection and inconsistent role assignment in this household.** Formal partners stayed near completed bed encounters without a confirmed cheating result. During continued play, the game applied severe relationship penalties and recorded roles that conflicted with the observed actions involving Minah. The underlying cause and the frequency of these outcomes remain unknown.
-
-### Remaining validation
-
-The ceremony, adoption, and childbirth described above still await end-to-end in-game validation. The follow-up verified pregnancy and severe penalties associated with cheating records. The exact event that produced the Minah record and the general rules for when nearby partners detect cheating remain open.
-
-A future reproduction should use the normal interaction menu with a rested, idle established partner in the same unobstructed room. Capture both directions' relationship state and the witness's queue before and after the action. Test successful **Kiss**, emotion-gated **Kiss Passionately**, and a suspicion-triggering action separately. Repeat with the witness on a different floor and with an uncommitted pair. Use a debug command to set up state only, or label the entire trial as a direct-queue test if the interaction is also queued through a command.
+**Cheating detection appears unreliable in v0.11.2.** The working conclusion is that repeated romance with another Zoi near a formal partner will most likely trigger detection eventually. The tests leave the odds and exact trigger unknown. Verify detection using `effect_Affair_Confirmed`, the witness and caught records, and Romance in both directions.
 
 ## Keep this reference current
 
