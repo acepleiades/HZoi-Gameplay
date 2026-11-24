@@ -78,7 +78,7 @@ Check loaded Zois outside the roster during a currently playing intimate action,
 
 An ordinary NPC witness reacts with surprise and prefers to walk away. After a verified sighting during playback, evaluate each session participant's preference once. HZoi requests ordinary exit only if **more than half of the full roster** prefers to stop. One of two is a tie and playback continues. Two of three stop the scene. The normal player Exit remains available.
 
-For an ordinary sighting, a participant defaults to continuing unless a trait gives them a stop preference. For an official-partner sighting, each participant defaults to stopping. A **Rulebreaker with the Flirt characteristic** prefers to continue even when their own official partner is the witness. This applies only to that Zoi's preference. For example, with one Rulebreaker + Flirt and one participant who prefers to stop, the two-Zoi scene continues and the cheating incident is still recorded.
+For an ordinary sighting, a participant defaults to continuing unless a trait gives them a stop preference. For an official-partner sighting, each participant defaults to stopping. The **Rulebreaker trait or the Flirt characteristic** is enough for a Zoi to prefer to continue, even if their own official partner is the witness. That preference takes priority for that Zoi. Two Rulebreakers, two Flirts, or one of each count as two participants who prefer to continue. Each Zoi counts once, including a Zoi with both. In a group of three, two continuing participants keep the scene going. The official-partner sighting still counts as cheating.
 
 Record a confirmed official-partner incident as soon as the witness sees the encounter. Use `Youth_Lover`, engagement, or spouse. Capture the witness, their involved partner, the other participant, and the session ID. Deduplicate by session, witness, and involved partner. The stop preference decides playback. The verified sighting decides cheating.
 
@@ -118,7 +118,7 @@ The live `Trait` table has 18 `Nature` rows. The reactions below are HZoi propos
 | Explorer (`Observer`) | Only one completes | **Something to Think About** adds Curious. |
 | Intellectual (`Intellect`) | Only one completes | **A Question of Timing** adds Focused. |
 | Sentinel (`Risk-averse`) | Encounter is seen | **Exactly What I Worried About** adds Nervous. Prefers to stop. |
-| Rulebreaker (`Cooperator`) | Their official partner sees the encounter | **Thrill of Being Caught** adds Excited alongside the native reaction. With Flirt, prefers to continue. |
+| Rulebreaker (`Cooperator`) | Encounter is seen | Prefers to continue. If their official partner is the witness, **Thrill of Being Caught** adds Excited alongside the native reaction. |
 | Troublemaker (`Entertainer`) | Ordinary witness | **What an Entrance** adds Amused. |
 | Adventurer (`Adventurer`) | Both complete | **Worth the Rush** adds Excited. |
 | Authoritarian (`Arrogant`) | Encounter is seen | **Who Let Them In?** adds Annoyed. Prefers to stop. |
@@ -148,7 +148,7 @@ Each row proposes a moodlet or a stop preference using the same outcome data. Th
 | Materialistic (`Snob`) | **A Little Luxury** adds Content when both complete in a furniture scene. |
 | Malicious (`Mean`) | **I Got Mine** adds Amused when only this Zoi completes. |
 | Workaholic (`Workaholic`) | **A Break Well Spent** adds Content when both complete. |
-| Flirt (`Flirt`) | **Cool Under Pressure** adds Amused after an ordinary sighting. With Rulebreaker, prefers to continue when their official partner sees the encounter. |
+| Flirt (`Flirt`) | Prefers to continue when seen, including by their own official partner. **Cool Under Pressure** adds Amused after an ordinary sighting. |
 | Devoted (`Faithful`) | **What Have I Done?** adds Sad when caught by their official partner. Prefers to stop. |
 
 | Aptitude ID | Iteration 1 reaction |
@@ -175,5 +175,5 @@ Each row proposes a moodlet or a stop preference using the same outcome data. Th
 | Results and moodlets | Verify two, one, and zero completions, plus player Exit, catching, and a timeout with zero completions. The timeout should only clean up and log. Test Auto-mode and the optional stay. Verify the trait moodlet, reason text, and speech bubbles. |
 | Urges | Compare the selected partner, a different partner, partner-only completion, and matching owner completion. Test native UI, completion reward, cooldown, and idempotency. |
 | Needs | Test each need below, at, and just above 33%, plus near-full Fun and Social. Verify quarter deltas for each completion, native decay while playing, and duplicate-event handling. |
-| Witness roles and stop preferences | Test an open doorway, a closed door at the same distance, a visible unrelated NPC, and an official partner arriving off-camera. Check 1 of 2, 2 of 2, and a simulated 2 of 3 stop preferences. Verify that the Rulebreaker + Flirt case continues at a tie and delivers the recorded official-partner reaction once after exit. |
+| Witness roles and stop preferences | Test an open doorway, a closed door at the same distance, a visible unrelated NPC, and an official partner arriving off-camera. Check 1 of 2, 2 of 2, and a simulated 2 of 3 stop preferences. Test Rulebreaker and Flirt independently, pairs with the same preference, and a Zoi with both who counts once. Verify that an official-partner sighting continues at a tie and delivers the recorded reaction once after exit. |
 | NPC venues and concurrency | Test a private room with compatible free furniture, an empty furniture-free room with a compatible standing route, and a public-room rejection. Have a third Zoi enter while the pair walks to the venue. Verify the complaint, canceled start, and pending urge. Check that independent pairs can play simultaneously and competing sofa attempts preserve the active scene. |
