@@ -76,9 +76,13 @@ Watch the reserved room while the NPC pair walks there and check again immediate
 
 Check loaded Zois outside the roster during a currently playing intimate action, including Zois who arrive late. Use the directed action and participant IDs from `Client.actions(snapshot)`. Require an actual sight trace from the witness's viewpoint to the encounter. Use proximity only to bound candidate searches. A blocked or unavailable trace leaves the encounter unwitnessed. Verify the native trace against walls and closed doors across both camera and simulation states. [SceneZOI witness example](https://github.com/acepleiades/SceneZOI/blob/main/docs/addon-authoring.md#a-romantic-partner-catches-the-encounter) · [Native trace API](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b1/classes/ub1functionlibrary/).
 
-An ordinary NPC witness reacts with surprise and prefers to walk away. For an ordinary interruption after playback starts, each participant can choose to stop. An NPC's trait informs that choice. Continue if both are willing, and preserve the controlled Zoi's normal Exit control. At a confirmed official-partner sighting, capture the witness, their involved partner, the other participant, and the session ID. Use `Youth_Lover`, engagement, or spouse and deduplicate by session, witness, and involved partner. Request ordinary scene exit before queuing the native reaction.
+An ordinary NPC witness reacts with surprise and prefers to walk away. After a verified sighting during playback, evaluate each session participant's preference once. HZoi requests ordinary exit only if **more than half of the full roster** prefers to stop. One of two is a tie and playback continues. Two of three stop the scene. The normal player Exit remains available.
 
-After cleanup, deliver the same confirmed-affair reaction that **Set the Mood** uses. Call `OnReceiveHowling("Howling_Affair_Confirmed", involvedPartnerId)` on the witness's Howling component using the recorded roles. Preserve native trait reactions, records, flags, and score consequences. Validate the third-participant handoff before relying on native three-Zoi confrontation. If the directed call fails after a verified sighting and correct role handoff, retain the HZoi incident, log delivery and cooldown details, and investigate a possible inZOI defect. [Vanilla test findings](inzoi-romance.md#conclusions-from-the-tests) · [Native Howling API](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/components/fb2howlingcomponent/).
+For an ordinary sighting, a participant defaults to continuing unless a trait gives them a stop preference. For an official-partner sighting, each participant defaults to stopping. A **Rulebreaker with the Flirt characteristic** prefers to continue even when their own official partner is the witness. This applies only to that Zoi's preference. For example, with one Rulebreaker + Flirt and one participant who prefers to stop, the two-Zoi scene continues and the cheating incident is still recorded.
+
+Record a confirmed official-partner incident as soon as the witness sees the encounter. Use `Youth_Lover`, engagement, or spouse. Capture the witness, their involved partner, the other participant, and the session ID. Deduplicate by session, witness, and involved partner. The stop preference decides playback. The verified sighting decides cheating.
+
+After ordinary exit and cleanup, deliver the same confirmed-affair reaction that **Set the Mood** uses. Call `OnReceiveHowling("Howling_Affair_Confirmed", involvedPartnerId)` on the witness's Howling component with the recorded roles. Queue this same handoff when a scene continues and deliver it when that scene ends. Preserve native trait reactions, records, flags, and score consequences. Validate the third-participant handoff before relying on native three-Zoi confrontation. If the directed call fails after a verified sighting and correct role handoff, retain the HZoi incident, log delivery and cooldown details, and investigate a possible inZOI defect. [Vanilla test findings](inzoi-romance.md#conclusions-from-the-tests) · [Native Howling API](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/components/fb2howlingcomponent/).
 
 ## Outcome moodlets and personality
 
@@ -89,78 +93,78 @@ The live game already varies reactions by outcome and personality. `Buff_Mood_Su
 | Both complete | **In Sync**, positive for each Zoi. |
 | Only this Zoi completes | **Satisfied**, a milder positive moodlet. |
 | Only the other Zoi completes | **Out of Sync**, a mild disappointment. A trait can replace it with a different response. |
-| Neither completes and an ordinary witness interrupts | **Awkward Timing**, embarrassed or annoyed according to trait. |
+| Neither completes and an ordinary sighting stops the scene | **Awkward Timing**, Flustered or Annoyed according to trait. |
 | Neither completes and a participant ends it | **Unfinished Moment**, a mild letdown. |
-| Neither completes and playback times out | **Couldn’t Find the Rhythm**, a brief frustration after playback has started. |
+| Neither completes and playback times out | Technical failure. Clean up the scene and log the timeout. The timeout itself adds no moodlet, relationship, need, or urge effect. Earlier verified events still count. |
 | Official partner catches the encounter | Native cheating moodlets and consequences. A trait can contribute an HZoi reaction while preserving the native result. |
 | Room becomes occupied en route, assets fail, or the game interrupts for saving or teardown | Use the privacy complaint or technical feedback as appropriate. Earned completions remain eligible for their moodlets. |
 
-Keep a completion result and a stop reason separately. A Zoi can earn satisfaction before an interruption and still react to being seen. Apply at most one HZoi outcome moodlet and one distinct interruption moodlet per Zoi. When multiple traits match, prefer the most specific rule for the actual outcome, breaking ties with the core personality. For an ordinary witness during playback, any participant's choice to stop takes precedence. The more relaxed traits below can continue when their partner is comfortable and the observer leaves. The official-partner exit and consequence rules apply to every trait, including Rulebreaker.
+Keep a completion result and a stop reason separately. A Zoi can earn satisfaction before an interruption and still react to being seen. Apply at most one HZoi outcome moodlet and one distinct witness moodlet per Zoi. When several traits match, use the most specific rule and break ties with the core personality. Iteration 1 uses current outcomes, current witness type, moodlet adjustments, speech bubbles, and stop preferences. The trait rules need no venue history, follow-up activities, or schedule changes.
 
 ### All core traits
 
-The live `Trait` table has 18 `Nature` rows. Display names below use the current public name-to-ID mapping. These are proposed HZoi reactions. [Krafton's trait ID reference](https://playinzoi.com/en/guide/cheats#trait--characteristic-id).
+The live `Trait` table has 18 `Nature` rows. The reactions below are HZoi proposals. Mood names use the in-game labels. [Krafton's trait ID reference](https://playinzoi.com/en/guide/cheats#trait--characteristic-id).
 
-| Trait | Trigger | Proposed moodlet or behavior |
+| Trait | Trigger | Iteration 1 reaction |
 | --- | --- | --- |
-| Perfectionist (`Perfectionist`) | Only one completes | **Out of Order**. Irritated by the mismatch and prefers to stop when walked in on. |
-| Innovator (`Activist`) | Both complete | **Found a Better Rhythm**. Inspired when an unfamiliar venue or scene works for both. |
-| Recluse (`Helper`) | Someone walks in | **Nowhere to Hide**. Stops promptly and avoids another invitation in that room for a while. |
-| Charmer (`Romantic`) | Both complete | **A Little Closer**. Aflutter, with a stronger boost when the pair are official partners. |
-| Socialite (`Popular`) | An ordinary witness leaves | **Played It Cool**. Briefly flustered, then can continue if their partner agrees. |
-| Go-Getter (`Achiever`) | Neither completes before timeout | **Unfinished Business**. Frustrated and more inclined to try again later in a valid venue. |
-| Visionary (`Artist`) | Both complete | **Perfect Improvisation**. Inspired after both found their rhythm. |
-| Individualist (`Independent`) | Only the other Zoi completes | **At My Own Pace**. Feels composed and prefers a quiet exit. |
-| Explorer (`Observer`) | Both complete at a new venue | **A Good Discovery**. Curious and pleased to have found a place that works for both. |
-| Intellectual (`Intellect`) | Only one completes | **A Question of Timing**. Curious. If interrupted, steps away and considers what changed. |
-| Sentinel (`Risk-averse`) | Someone walks in | **Exactly What I Worried About**. Stops and favors a more secluded room next time. |
-| Rulebreaker (`Cooperator`) | Caught by an official partner | **Thrill of Being Caught**. A brief positive Excited reaction alongside the native consequences. |
-| Troublemaker (`Entertainer`) | An ordinary witness leaves | **What an Entrance**. Amused and willing to continue if their partner agrees. |
-| Adventurer (`Adventurer`) | Both complete on the ground | **Change of Scenery**. Excited by a successful encounter away from the usual furniture. |
-| Authoritarian (`Arrogant`) | Walked in on or cut short | **Who Let Them In?**. Annoyed and chooses to stop when privacy is broken. |
-| Leader (`Leader`) | An ordinary witness interrupts | **Let’s Call It Here**. Calmly ends the encounter when their partner wants to leave. |
-| Pacifist (`Peacemaker`) | Only the other Zoi completes | **I’m Glad You Enjoyed It**. Calm after a considerate end. Tends to stop when walked in on. |
-| Idealist (`Dreamer`) | Both complete without interruption | **The World Went Quiet**. A longer Calm moodlet after a private encounter. |
+| Perfectionist (`Perfectionist`) | Only one completes, or the encounter is seen | **Out of Order** adds Annoyed on a mismatch. When seen, prefers to stop and says “Could you knock next time?” |
+| Innovator (`Activist`) | Both complete | **Found a Better Rhythm** adds 5 Curiosity points (`Curious`), enough for Inspired in that mood family. Reason text “Exploring new boundaries with someone special felt exciting.” |
+| Recluse (`Helper`) | Encounter is seen | **Nowhere to Hide** adds Flustered (`Cringing`). Prefers to stop and says “I wanted a moment to ourselves.” |
+| Charmer (`Romantic`) | Earns a positive completion moodlet | Add one point to that moodlet's usual strength. |
+| Socialite (`Popular`) | Ordinary witness | **Played It Cool** adds Content. |
+| Go-Getter (`Achiever`) | Neither completes before a participant ends the scene | **Unfinished Business** adds Annoyed. |
+| Visionary (`Artist`) | Both complete | **Perfect Improvisation** adds Curious. |
+| Individualist (`Independent`) | Only the other Zoi completes | **At My Own Pace** adds Content. |
+| Explorer (`Observer`) | Only one completes | **Something to Think About** adds Curious. |
+| Intellectual (`Intellect`) | Only one completes | **A Question of Timing** adds Focused. |
+| Sentinel (`Risk-averse`) | Encounter is seen | **Exactly What I Worried About** adds Nervous. Prefers to stop. |
+| Rulebreaker (`Cooperator`) | Their official partner sees the encounter | **Thrill of Being Caught** adds Excited alongside the native reaction. With Flirt, prefers to continue. |
+| Troublemaker (`Entertainer`) | Ordinary witness | **What an Entrance** adds Amused. |
+| Adventurer (`Adventurer`) | Both complete | **Worth the Rush** adds Excited. |
+| Authoritarian (`Arrogant`) | Encounter is seen | **Who Let Them In?** adds Annoyed. Prefers to stop. |
+| Leader (`Leader`) | An ordinary sighting stops the scene | **Kept It Together** adds Confident. |
+| Pacifist (`Peacemaker`) | Only the other Zoi completes | **I’m Glad You Enjoyed It** adds Content. Prefers to stop when seen. |
+| Idealist (`Dreamer`) | Both complete | **The World Went Quiet** adds Content. |
 
 ### Characteristics and aptitudes
 
-The same table has 18 adult-capable `Characteristic` rows and 12 `Aptitude` rows. Use those as optional modifiers to the same outcome. The four toddler-only rows `Baby_Troublemaker`, `Baby_Innocent`, `Baby_Cuty`, and `Baby_Feisty` stay outside encounter eligibility.
+Each row proposes a moodlet or a stop preference using the same outcome data. The four toddler-only rows `Baby_Troublemaker`, `Baby_Innocent`, `Baby_Cuty`, and `Baby_Feisty` stay outside encounter eligibility.
 
-| Characteristic | Proposed response |
+| Characteristic | Iteration 1 reaction |
 | --- | --- |
-| Extroverted (`Extrovert`) | **Let’s Laugh About It** after a harmless walk-in, and willing to continue once the observer leaves. |
-| Introverted (`Introvert`) | **Too Many Eyes** after a walk-in, and asks to stop. |
-| Cheerful (`Cheerful`) | **Still a Good Time** softens the disappointment when only one completes. |
-| Depressed (`Gloomy`) | **A Little Light** gives a subdued Calm moodlet when both complete. |
-| Clumsy (`Clumsy`) | **That Was Awkward** adds embarrassed amusement when an ordinary interruption ends the scene. |
-| Bookworm (`Bookworm`) | **A Chapter Worth Keeping** adds quiet satisfaction after both complete. |
-| Emotionally Needy (`Needy`) | **Stay Close** makes a mismatch feel more disappointing and prompts an affectionate check-in after exit. |
-| Fitness Enthusiast (`Active`) | **Found Our Pace** gives an Energized-style moodlet when both complete. |
-| Lively (`Energetic`) | **Still Buzzing** gives a short Excited moodlet after their own completion. |
-| Neat Freak (`CleanFreak`) | **Freshen Up First** raises the priority of a hygiene action after playback. |
-| Childish (`Childish`, adult Zoi) | **Couldn’t Keep a Straight Face** gives a brief amused reaction after a harmless interruption. |
-| Genius (`Genius`) | **We Can Work That Out** adds Focused curiosity after a mismatch. |
-| Slacker (`Lazy`) | **Good Enough for Me** gives low-key Calm after their own completion and favors wrapping up. |
-| Materialistic (`Snob`) | **A Room With Standards** adds satisfaction if both complete on high-quality furniture. |
-| Malicious (`Mean`) | **I Got Mine** turns a self-only completion into smug amusement. |
-| Workaholic (`Workaholic`) | **A Break Well Spent** gives a short positive moodlet after both complete, then resumes the prior schedule when available. |
-| Flirt (`Flirt`) | **Cool Under Pressure** favors a lighthearted response to an ordinary witness. Official cheating keeps the game's own Flirt rules. |
-| Devoted (`Faithful`) | **What Have I Done?** adds remorse when caught and favors a quick exit. |
+| Extroverted (`Extrovert`) | **Let’s Laugh About It** adds Amused after an ordinary sighting. |
+| Introverted (`Introvert`) | **Too Many Eyes** adds Flustered when seen. Prefers to stop. |
+| Cheerful (`Cheerful`) | **Still a Good Time** adds Content when only the other Zoi completes. |
+| Depressed (`Gloomy`) | **A Little Light** adds Content when both complete. |
+| Clumsy (`Clumsy`) | **That Was Awkward** adds Flustered when an ordinary sighting stops the scene. |
+| Bookworm (`Bookworm`) | **A Chapter Worth Keeping** adds Moved when both complete. |
+| Emotionally Needy (`Needy`) | **Stay Close** adds Sad when only the other Zoi completes. |
+| Fitness Enthusiast (`Active`) | **Found Our Pace** adds Excited when both complete. |
+| Lively (`Energetic`) | **Still Buzzing** adds Excited when only this Zoi completes. |
+| Neat Freak (`CleanFreak`) | **Could Use a Shower** adds Uncomfortable if Hygiene is low at exit after an earned completion. |
+| Childish (`Childish`, adult Zoi) | **Couldn’t Keep a Straight Face** adds Amused after an ordinary sighting. |
+| Genius (`Genius`) | **We Can Work That Out** adds Focused when only the other Zoi completes. |
+| Slacker (`Lazy`) | **Good Enough for Me** adds Content when only this Zoi completes. |
+| Materialistic (`Snob`) | **A Little Luxury** adds Content when both complete in a furniture scene. |
+| Malicious (`Mean`) | **I Got Mine** adds Amused when only this Zoi completes. |
+| Workaholic (`Workaholic`) | **A Break Well Spent** adds Content when both complete. |
+| Flirt (`Flirt`) | **Cool Under Pressure** adds Amused after an ordinary sighting. With Rulebreaker, prefers to continue when their official partner sees the encounter. |
+| Devoted (`Faithful`) | **What Have I Done?** adds Sad when caught by their official partner. Prefers to stop. |
 
-| Aptitude ID | Proposed response |
+| Aptitude ID | Iteration 1 reaction |
 | --- | --- |
-| `Aptitude_Peace` | **Quiet Again** after handling an ordinary interruption without an argument. |
-| `Aptitude_Wikipedia` | **Well, Now I Know** adds curiosity after a mismatch at an unfamiliar venue. |
-| `Aptitude_Seeker` | **Somewhere New** adds excitement when both complete in a new room. |
-| `Aptitude_Casanova` | **Read the Room** favors a graceful exit if their partner signals discomfort. |
-| `Aptitude_CoffeeMaster` | **A Cup and a Moment** favors making coffee after a mutual success if the pair are free. |
-| `Aptitude_BakingMaster` | **Something Sweet Afterward** favors sharing a baked snack after a mutual success. |
-| `Aptitude_BeverageMaster` | **Let’s Cool Off** favors offering a drink after an ordinary interruption. |
-| `Aptitude_Collect` | **A Memory to Keep** adds Sentimental after a first mutual success with that partner. |
-| `Aptitude_Fishing` | **Better Luck Next Time** favors a patient exit after an incomplete encounter. |
-| `Aptitude_Smith` | **A Small Adjustment** favors finding a better anchor on a later attempt after a venue failure. |
-| `Aptitude_Swim` | **Back in My Element** favors a short solo swim to unwind after a frustrating interruption, when a pool is available. |
-| `Aptitude_FirstImpression` | **Kept My Composure** softens embarrassment after a harmless walk-in. |
+| `Aptitude_Peace` | **Quiet Again** adds Content when an ordinary sighting stops the scene. |
+| `Aptitude_Wikipedia` | **Well, Now I Know** adds Curious when only one completes. |
+| `Aptitude_Seeker` | **Worth the Detour** adds Excited when both complete. |
+| `Aptitude_Casanova` | **A Good Impression** adds Aflutter when both complete. |
+| `Aptitude_CoffeeMaster` | **A Pleasant Buzz** adds Excited when only this Zoi completes. |
+| `Aptitude_BakingMaster` | **Sweet Finish** adds Content when both complete. |
+| `Aptitude_BeverageMaster` | **Taking It Easy** adds Content when an ordinary sighting stops the scene. |
+| `Aptitude_Collect` | **A Memory to Keep** adds Moved when both complete. |
+| `Aptitude_Fishing` | **Better Luck Next Time** adds Content if a participant ends the scene and neither completed. |
+| `Aptitude_Smith` | **Found the Fit** adds Focused when both complete in a furniture scene. |
+| `Aptitude_Swim` | **A Second Wind** adds Excited on their own completion. |
+| `Aptitude_FirstImpression` | **Kept My Composure** adds Confident after an ordinary sighting. |
 
 ## First API probes
 
@@ -168,8 +172,8 @@ The same table has 18 adult-capable `Characteristic` rows and 12 `Aptitude` rows
 | --- | --- |
 | Content preflight | Negotiate `get_version`. Use `find_scenes`, `find_furniture`, and `validate_start` with `start_mode = "start_autonomous_scene"` and the real goal payload. Test a supported pair, an unsupported pair, and a compatible scene with an unreachable goal. Current preflight checks distance and returns `assets_checked = false`. Its response omits the route uncertainty reported by start. If this blocks the pre-invitation guarantee, expose a catalog-only goal-route check with route certainty and keep live placement checks at arrival. |
 | Menu, dialogue, and walking | Check object and ground interaction hooks separately. Prototype the native picker look using the debug starter’s `UB1ZoiGroupEditUIHandler` approach. Test a custom `InteractionBag` and `Coop` for the approach and refusal, then verify native walking completes for both Zois before scene setup. [Coop action](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/actions/fb2action-coop/) · [WalkTo action](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/actions/fb2action-walkto/). |
-| Results and moodlets | Verify two, one, and zero completions, plus unrelated interruption, player Exit, and catching. Test Auto-mode and the optional stay. Try `FB2BuffComponent:AddBuff` and check that the personality rule, displayed reason, and native cheating reaction agree with the outcome. |
+| Results and moodlets | Verify two, one, and zero completions, plus player Exit, catching, and a timeout with zero completions. The timeout should only clean up and log. Test Auto-mode and the optional stay. Verify the trait moodlet, reason text, and speech bubbles. |
 | Urges | Compare the selected partner, a different partner, partner-only completion, and matching owner completion. Test native UI, completion reward, cooldown, and idempotency. |
 | Needs | Test each need below, at, and just above 33%, plus near-full Fun and Social. Verify quarter deltas for each completion, native decay while playing, and duplicate-event handling. |
-| Witness roles | Test an open doorway, a closed door at the same distance, a visible unrelated NPC, and an official partner arriving off-camera after playback begins. Check roles, native consequences, ordinary trait-dependent continuation, and deduplication. |
+| Witness roles and stop preferences | Test an open doorway, a closed door at the same distance, a visible unrelated NPC, and an official partner arriving off-camera. Check 1 of 2, 2 of 2, and a simulated 2 of 3 stop preferences. Verify that the Rulebreaker + Flirt case continues at a tie and delivers the recorded official-partner reaction once after exit. |
 | NPC venues and concurrency | Test a private room with compatible free furniture, an empty furniture-free room with a compatible standing route, and a public-room rejection. Have a third Zoi enter while the pair walks to the venue. Verify the complaint, canceled start, and pending urge. Check that independent pairs can play simultaneously and competing sofa attempts preserve the active scene. |
