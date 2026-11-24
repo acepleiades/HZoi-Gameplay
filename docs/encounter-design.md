@@ -2,7 +2,7 @@
 
 **Status:** Proposed, iteration 1
 
-HZoi Gameplay owns invitations, venue selection, witness reactions, and gameplay consequences. SceneZOI owns placement, playback, task progress, and cleanup. Installed content packs determine which pairs and venues can play a scene.
+Iteration 1 supports encounters between exactly two Zois. HZoi Gameplay owns invitations, venue selection, witness reactions, and gameplay consequences. SceneZOI owns placement, playback, task progress, and cleanup. Installed content packs determine which pairs and venues can play a scene.
 
 ## Player interaction
 
@@ -10,13 +10,14 @@ Add **Have sex here** with a burning-heart icon to SceneZOI-supported beds and s
 
 Keep eligibility in one easily configurable rule, because mods or updates may possibly add life stages. An unknown stage needs an explicit "is eligible" mapping. Ghosts are handled through separate native life-state interfaces, and supernatural Zois (likely coming from mods) such as a succubus, a vampire, an alien, may be implemented similarly. [Growth step enum](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/structguide/enum/eb1growthstep/) · [Life component](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/components/fb2lifecomponent/).
 
-Open a picker patterned on SceneZOI’s debug starter. The initiator is fixed and the player selects one partner. Keep the roster representation compatible with more roles for later packs. The picker should return a selection without starting playback or causing the debug starter’s gameplay-group departures. [SceneZOI picker and group behavior](https://github.com/acepleiades/SceneZOI/blob/main/docs/group-support.md#solo-launcher-and-debug-picker).
+Open a picker patterned on SceneZOI’s debug starter. The initiator is fixed and the player selects one partner to invite. Keep the roster representation compatible with more roles for later packs. The picker should return a selection without starting playback or causing the debug starter’s gameplay-group departures. [SceneZOI picker and group behavior](https://github.com/acepleiades/SceneZOI/blob/main/docs/group-support.md#solo-launcher-and-debug-picker).
 
 ```mermaid
 flowchart TD
     P["Pick one partner"] --> C{"Compatible scene and goals?"}
     C -->|No| T["Show availability toast"]
-    C -->|Yes| A{"Invitation accepted?"}
+    C -->|Yes| I["Approach the selected partner and ask"]
+    I --> A{"Partner accepts?"}
     A -->|No| E["End invitation"]
     A -->|Yes| W["Walk to the venue"]
     W --> R["Revalidate and start playback"]
@@ -27,7 +28,14 @@ flowchart TD
 
 Resolve the actual roster, role bindings, and selected venue before the invitation. Require a compatible route to one `excitement` completion for each Zoi. The current content is expected to cover male/female pairs. Let male/male and female/female pairs reach the same check and show **No compatible scenes are available for these Zois at this spot** when no route exists. Content updates can enable those pairs without a gameplay rule change. Handle busy Zois, occupied furniture, and unreachable locations as temporary availability failures.
 
-The initiator walks up and proposes the encounter using the **Set the Mood** conversation. Match the current build’s eligibility conditions, branch order, and acceptance/refusal weights from `Co_TryTo_Mood_Lover` and `Co_TryTo_Mood_Spouse`. Reuse the native social rules and approach dialogue. HZoi’s venue and adult-eligibility checks supply the equivalent context for ground and supported furniture. End the invitation on refusal. On acceptance, have both Zois walk to separate arrival points at the selected venue. Recheck eligibility, path arrival, and furniture availability before requesting playback. [Vanilla romance reference](inzoi-romance.md) · [Interaction branches](inzoi-romance-interactions.csv).
+The picker chooses whom to ask. The initiator then walks up to the selected partner and asks through an interaction modeled on inZOI’s **Set the Mood Next to Bed**. Use the native approach dialogue and match the social eligibility, branch order, and acceptance/refusal weights from `Co_TryTo_Mood_Lover` and `Co_TryTo_Mood_Spouse`. HZoi’s venue and adult-eligibility checks supply the equivalent context for ground and supported furniture. [Vanilla romance reference](inzoi-romance.md) · [Interaction branches](inzoi-romance-interactions.csv).
+
+- **If the partner accepts**, have both Zois walk to separate arrival points at the selected venue. Recheck eligibility, arrival, and furniture availability before requesting SceneZOI playback.
+- **If the partner refuses**, play the refusal branch and end the invitation there.
+
+### Group invitations
+
+How acceptance and refusal work for encounters with three or more Zois is undecided. Define that flow when the picker supports selecting more than one partner.
 
 ## Playback and consequences
 
@@ -189,7 +197,7 @@ Each row proposes a moodlet or a stop preference using the same outcome data. Th
 | --- | --- |
 | Content preflight | Check `get_version` and read the action categories from `get_definitions`. Call `validate_start` with the documented arguments. Verify a supported pair gets an initial activity when a joint goal route exists, an intercourse clip when it is the only viable opener, and an availability result for an unsupported pair. Test beds with and without the optional AAL tracks. Preflight checks placement and returns `assets_checked = false`. If the placement check blocks validation before the invitation, add a catalog-only route check and keep live placement validation at arrival. |
 | Adaptive playback | Verify that the leading goal drives the four stages and their speed presets. Check that Auto prefers another eligible clip within the same tier when available, avoids excluded actions, and waits for both goals. Complete the last goal manually, then re-enable Auto and verify exit after the completion effects. Compare with a normal Auto completion and verify restoration to the arrival transforms. |
-| Menu, dialogue, and walking | Check object and ground interaction hooks separately. Prototype the native picker look using the debug starter’s `UB1ZoiGroupEditUIHandler` approach. Test a custom `InteractionBag` and `Coop` for the approach and refusal, then verify native walking completes for both Zois before scene setup. [Coop action](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/actions/fb2action-coop/) · [WalkTo action](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/actions/fb2action-walkto/). |
+| Menu, dialogue, and walking | Check object and ground interaction hooks separately. Prototype the native picker look using the debug starter’s `UB1ZoiGroupEditUIHandler` approach. Test both invitation branches with a custom `InteractionBag` and `Coop`. Refusal ends at the conversation. Acceptance sends both Zois to the venue, and scene setup waits for both to arrive. [Coop action](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/actions/fb2action-coop/) · [WalkTo action](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/actions/fb2action-walkto/). |
 | Results and moodlets | Verify two, one, and zero completions, plus player Exit and catching. Test a failed start, a mid-scene technical stop, and an incomplete cleanup. Confirm those failures add no moodlet and leave verified completions and sightings intact. Test Auto-mode, the optional stay, trait moodlets, and speech bubbles. |
 | Urges | Compare the selected partner, a different partner, partner-only completion, and matching owner completion. Test native UI, completion reward, cooldown, and idempotency. |
 | Needs | Test each need below, at, and just above 33%, plus near-full Fun and Social. Verify quarter deltas for each completion, native decay while playing, and duplicate-event handling. |

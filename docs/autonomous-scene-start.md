@@ -106,7 +106,7 @@ for key, value in pairs(arguments) do preflight[key] = value end
 client:request(owner, preflightRequestId, "validate_start", preflight)
 ```
 
-After the invitation is accepted and both Zois arrive, repeat `validate_start` with a new request ID. Pin the initial scene, roles, and slot pair from that successful response. Send `start_autonomous_scene` with a distinct request ID. Check `reply.ok` and `reply.result.accepted`, then wait for `session_started` or `session_start_failed`.
+After the selected partner accepts the [two-Zoi invitation](encounter-design.md#content-check-and-invitation) and both Zois arrive, repeat `validate_start` with a new request ID. Pin the initial scene, roles, and slot pair from that successful response. Send `start_autonomous_scene` with a distinct request ID. Check `reply.ok` and `reply.result.accepted`, then wait for `session_started` or `session_start_failed`.
 
 ```lua
 local ready = arrivalReply.result
