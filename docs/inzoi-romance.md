@@ -77,6 +77,12 @@ For the ordinary paired route, both variants check the absence of success/failur
 
 **Adopt a Child** and **Create a Child with Medical Help** are separate computer/laptop flows. Their object entries check home/household availability; physical adoption also checks Young Adult age and household capacity before opening the native flow. Krafton explicitly documented non-marital birth, adoption, and medical help, including an option to undertake medical help alone or with another Zoi. Consult the native picker for medical-help partner eligibility. A completed pregnancy reaches `ImminentBirth` for the childbirth interaction. [Krafton's v0.2.0 family changes](https://www.playinzoi.com/en/news/8812).
 
+## Set the Mood Romance effects
+
+For **Set the Mood Next to Bed**, the accepted `Co_TryTo_Mood` sequence calls `Mood_Success_Relationship` after the approach conversation, with the initiator as Main and the partner as Sub. The refusal sequence `Co_TryTo_Mood_Fail` calls `TryToHaveChildren_Fail_Talk` after its conversation with the same role order. The later accepted bed step also runs `Mood_Success`. The prototype’s custom co-ops reuse the conversation rows and omit those parent-level scripts. Confirm actual changes by reading both directions before the conversation, after it, and after the bed step. Test both lover and spouse routes away from the score limits, and check for native modifiers and any effects the reused dialogue still applies. The documented additive relationship command accounts for context and relationship limits. [ModKit AddRelationship reference](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/script-execution/exec-addrelationship/).
+
+[HZoi Gameplay’s Romance policy](encounter-design.md#romance-changes) keeps the native refusal timing and bases its success bonus on verified scene outcomes.
+
 ## Jealousy and cheating
 
 **The normal affair witness becomes eligible when there is a named partner, fiancé or spouse relationship.** The game's `Condition[Cheat_Reaction_Howling]` accepts `HighTeen_Lover`, `Youth_Lover`, `engagement`, or family `Spouse`. It excludes a witness with the temporary `Exclude_Cheat` tag. There is no Romance score minimum in that condition, and the score's Mutual Crush, Sweetheart or True Love ID is not a substitute. Early autonomous flirting and kissing can therefore build several romance meters without activating this partner-witness path.
