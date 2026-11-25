@@ -156,6 +156,8 @@ encounter, including an established partner.
 
 At Normal speed, an NPC Urge selected Jaewoo and Xinyu while Seoyun carried on with her own actions. A third Zoi entering the claimed room canceled the first approach. A later native invitation reached the queen bed and completed all four stages. The log recorded one Excitement completion per participant. The need changes included Hunger stopping at −34, no further Hygiene cost where it was already low, and Fun reaching 100. The Urge owner received the standard reward moodlet, 5 Meow Coins and 15 Admit before normal stat decay. The partner received no coins. Both Zois resumed native conversation after cleanup.
 
-The fresh development package showed both HZoi floor actions. Marking a room and removing its mark from a different point in the same room each showed the expected toast. The scheduler also found a standing venue after the queen bed was temporarily removed, chose separate floor points, and started a background scene after both Zois arrived.
+The fresh development package showed both HZoi floor actions. Marking a room and removing its mark from a different point in the same room each showed the expected toast. The scheduler also found a standing venue after the queen bed was temporarily removed, chose separate floor points, and completed a background scene after both Zois arrived.
+
+In a ground invitation, an established partner saw both participants. HZoi stopped the scene, confirmed restoration, then passed the three identities to inZOI. The expected native confrontation actions played for all three Zois.
 
 **Automated coverage.** The Lua fixtures exercise exact room and floor selection, marks resetting on unload, seat and room contention, door permissions, revalidation at arrival, overlap retry, duplicate completions, and recovery from missed SceneZOI notifications. The overlap regression recreates displacement after one Zoi already reached the bed.
