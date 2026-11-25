@@ -10,7 +10,7 @@ Add **Have sex here** with a burning-heart icon to SceneZOI-supported beds and s
 
 Keep eligibility in one easily configurable rule, because mods or updates may possibly add life stages. An unknown stage needs an explicit "is eligible" mapping. Ghosts are handled through separate native life-state interfaces, and supernatural Zois (likely coming from mods) such as a succubus, a vampire, an alien, may be implemented similarly. [Growth step enum](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/structguide/enum/eb1growthstep/) · [Life component](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/components/fb2lifecomponent/).
 
-Open a picker patterned on SceneZOI’s debug starter. The initiator is fixed and the player selects one partner to invite. Keep the roster representation compatible with more roles for later packs. The picker should return a selection without starting playback or causing the debug starter’s gameplay-group departures. [SceneZOI picker and group behavior](https://github.com/acepleiades/SceneZOI/blob/main/docs/group-support.md#solo-launcher-and-debug-picker).
+Open the same native picker as SceneZOI’s debug starter. The selected pair must include the controlled Zoi and one partner. The picker returns the partner to HZoi Gameplay so it can run the invitation. Existing gameplay groups stay intact. Keep the roster representation compatible with more roles for later packs. [SceneZOI picker and group behavior](https://github.com/acepleiades/SceneZOI/blob/main/docs/group-support.md#solo-launcher-and-debug-picker).
 
 ```mermaid
 flowchart TD
@@ -190,6 +190,22 @@ Each row proposes a moodlet or a stop preference using the same outcome data. Th
 | `Aptitude_Smith` | **Found the Fit** adds Focused when both complete in a furniture scene. | [From finishing together]<br>Once you found a comfortable position, everything clicked. |
 | `Aptitude_Swim` | **A Second Wind** adds Excited on their own completion. | [From finishing]<br>You came away feeling energized. |
 | `Aptitude_FirstImpression` | **Kept My Composure** adds Confident after an ordinary sighting. | [From being seen]<br>Keeping your cool in an awkward moment made you feel more confident. |
+
+## Implementation priority
+
+The [queen-bed prototype](../prototype/queen-bed/README.md) completes step 1 and
+the queen-bed part of step 2. Acceptance and refusal passed through the native
+picker on a freestanding queen bed and on one against a wall. Continue step 2
+with sofas, then walkable ground.
+
+1. **Prove one queen-bed encounter.** Use one known pair and a temporary entry point. Test both answers through the in-game conversation. Acceptance hands off before the vanilla bed sequence, walks both Zois to separate arrival points, validates the start again, and runs the four-stage SceneZOI plan through Exit. Refusal ends at the conversation. If distance blocks preflight before the walk, use a content-only compatibility check there and keep full validation at arrival.
+2. **Build the picker and venue options.** Add **Have sex here** on supported beds, sofas and walkable ground. Check eligibility and content before the invitation. Distinguish unsupported content, occupied spots, and failed walks. Carry the selected sofa seat pair through to playback.
+3. **Track the encounter through cleanup.** Correlate the invitation, request, session, and results. Count each completion once and preserve verified events across interruptions. Test refusal, arrival failures, failed starts, manual Exit, and technical interruptions.
+4. **Add needs and default moodlets.** Apply the documented deltas, the 33% floor for costs, and the caps for gains. Verify one, both, and neither Zoi completing, then apply the final moodlet after cleanup.
+5. **Add witnesses and native cheating reactions.** Verify line of sight across open and closed doors, including late arrivals. Add ordinary reactions and the two-Zoi stop vote. Verify the recorded roles in the native affair outcome after cleanup.
+6. **Add the personality rules.** Define moodlet strength, duration, and ties. Implement the core trait, characteristic, and aptitude rules and test how Rulebreaker and Flirt affect stopping and cheating outcomes.
+7. **Prove NPC venue selection.** Trigger it on demand to verify private-room classification, reachability, furniture preference, the ground fallback, intrusion cancellation, and competing seat claims.
+8. **Add partner-specific Urges and enable NPC initiative.** Verify owner-and-partner matching, one reward, and cooldown. Try the native Hope handoff and use HZoi-owned tracking if needed. Set retry timing and run the full encounter under normal autonomy.
 
 ## First API probes
 

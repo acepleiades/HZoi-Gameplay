@@ -1,0 +1,817 @@
+{
+  "Struct": "Condition",
+  "BaseVersion": "20261026.16562.W.MODKIT.EGS",
+  "SaveVersion": "20261026.16562.W.MODKIT.EGS",
+  "PatchList": [
+    {
+      "Method": "Append",
+      "Query": "Condition_Enqueue",
+      "Value": {
+        "Id": "HZoiGameplay_EligibleForMood",
+        "AndConditionsList": [
+          {
+            "Conditions": [
+              {
+                "BaseObject": "Self",
+                "Command": "IsLovable",
+                "CompareType": "Equal",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "IsFromRemoteCity",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "IsFromRemoteCity",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              }
+            ]
+          }
+        ],
+        "OrConditionsList": [
+          {
+            "Conditions": [
+              {
+                "BaseObject": "Target",
+                "Command": "IsFamilyRelationship",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "Equal",
+                "UseHand": "Default",
+                "S1": "Youth_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": -30,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "Less",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 30,
+                "F2": 0
+              }
+            ]
+          },
+          {
+            "Conditions": [
+              {
+                "BaseObject": "Target",
+                "Command": "IsFamilyRelationship",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "Equal",
+                "UseHand": "Default",
+                "S1": "engagement",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": -30,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "Less",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 30,
+                "F2": 0
+              }
+            ]
+          },
+          {
+            "Conditions": [
+              {
+                "BaseObject": "Target",
+                "Command": "IsFamilyRelationship",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "Youth_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "engagement",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 30,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "HighTeen_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "LessOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 60,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "EmotionTendency",
+                "CompareType": "Equal",
+                "UseHand": "Default",
+                "S1": "Negative",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              }
+            ]
+          },
+          {
+            "Conditions": [
+              {
+                "BaseObject": "Target",
+                "Command": "IsFamilyRelationship",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "Equal",
+                "UseHand": "Default",
+                "S1": "Youth_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": -30,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 30,
+                "F2": 0
+              }
+            ]
+          },
+          {
+            "Conditions": [
+              {
+                "BaseObject": "Target",
+                "Command": "IsFamilyRelationship",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "Equal",
+                "UseHand": "Default",
+                "S1": "engagement",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": -30,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 30,
+                "F2": 0
+              }
+            ]
+          },
+          {
+            "Conditions": [
+              {
+                "BaseObject": "Target",
+                "Command": "IsFamilyRelationship",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "Youth_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "engagement",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 30,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "Equal",
+                "UseHand": "Default",
+                "S1": "HighTeen_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              }
+            ]
+          },
+          {
+            "Conditions": [
+              {
+                "BaseObject": "Target",
+                "Command": "IsFamilyRelationship",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "Youth_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "engagement",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 30,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "HighTeen_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "LessOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 60,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "EmotionTendency",
+                "CompareType": "Equal",
+                "UseHand": "Default",
+                "S1": "Natural",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              }
+            ]
+          },
+          {
+            "Conditions": [
+              {
+                "BaseObject": "Target",
+                "Command": "IsFamilyRelationship",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "Youth_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "engagement",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 30,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "HighTeen_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "LessOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 60,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "EmotionTendency",
+                "CompareType": "Equal",
+                "UseHand": "Default",
+                "S1": "Positive",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              }
+            ]
+          },
+          {
+            "Conditions": [
+              {
+                "BaseObject": "Target",
+                "Command": "IsFamilyRelationship",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "Youth_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "engagement",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 30,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "HighTeen_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 61,
+                "F2": 0
+              }
+            ]
+          },
+          {
+            "Conditions": [
+              {
+                "BaseObject": "Target",
+                "Command": "IsFamilyRelationship",
+                "CompareType": "Equal",
+                "UseHand": "Default",
+                "S1": "Spouse",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "family",
+                "S2": "None",
+                "F1": -30,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "Less",
+                "UseHand": "Default",
+                "S1": "family",
+                "S2": "None",
+                "F1": 30,
+                "F2": 0
+              }
+            ]
+          },
+          {
+            "Conditions": [
+              {
+                "BaseObject": "Target",
+                "Command": "IsFamilyRelationship",
+                "CompareType": "Equal",
+                "UseHand": "Default",
+                "S1": "Spouse",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "family",
+                "S2": "None",
+                "F1": -30,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "family",
+                "S2": "None",
+                "F1": 30,
+                "F2": 0
+              }
+            ]
+          }
+        ]
+      },
+      "Enabled": true
+    }
+  ]
+}

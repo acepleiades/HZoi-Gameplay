@@ -1,0 +1,15 @@
+{
+  "FileVersion": 3,
+  "Version": 9,
+  "VersionName": "0.0.9",
+  "FriendlyName": "HZoi Gameplay",
+  "Description": "Invite a Zoi to join you at a queen bed.",
+  "Category": "Other",
+  "CreatedBy": "acepleiades",
+  "CanContainContent": true,
+  "IsBetaVersion": true,
+  "IsExperimentalVersion": true,
+  "Installed": false,
+  "ModCode": "4BD2AC16",
+  "MigrationState": 5
+}

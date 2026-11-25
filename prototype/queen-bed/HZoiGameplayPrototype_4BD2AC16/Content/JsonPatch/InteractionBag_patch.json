@@ -1,0 +1,220 @@
+{
+  "Struct": "InteractionBag",
+  "BaseVersion": "20261026.16562.W.MODKIT.EGS",
+  "SaveVersion": "20261026.16562.W.MODKIT.EGS",
+  "PatchList": [
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_Invite",
+        "AgingConditionFlags": 480,
+        "bUniqueInQueue": true,
+        "DisplayInfo": {
+          "DisplayCategoryTextId": "",
+          "DisplayTextId": "InteractionBag_DisplayInfo_Co_TryTo_Mood_Lover_DisplayTextId",
+          "OverrideQueueTextId": "",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Talk_Mood.Action_Talk_Mood'",
+          "InteractionQueueIcon": "None",
+          "PanelIcon": "None",
+          "PanelIconId": "Conversation_Icon_Mood",
+          "PanelIconColorId": "None",
+          "LeftMarkerId": "None",
+          "PanelIconWithBG": {
+            "IconId": "None",
+            "BGColor1Id": "None",
+            "BGColor2Id": "None"
+          },
+          "bHideUI": false
+        },
+        "EnqueueConditionIds": [
+          "HZoiGameplay_EligibleForMood"
+        ],
+        "InteractionSequence": [
+          {
+            "Id": "Lover_1",
+            "Probability": 0.7,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Lover_01",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Accept",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Lover_2",
+            "Probability": 0.3,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Lover_01",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Refuse",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Lover_3",
+            "Probability": 0.3,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Lover_02",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Accept",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Lover_4",
+            "Probability": 0.7,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Lover_02",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Refuse",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Lover_5",
+            "Probability": 1,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Lover_03",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Accept",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Spouse_1",
+            "Probability": 0.7,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Spouse_01",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Accept",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Spouse_2",
+            "Probability": 0.3,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Spouse_01",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Refuse",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Spouse_3",
+            "Probability": 1,
+            "bSequencial": true,
+            "EnableConditionId": "HZoiGameplay_Mood_Spouse_02",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Accept",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_Walk",
+        "InteractionSequence": [
+          {
+            "Probability": 1.0,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "ClickMove",
+                "Label": "A"
+              }
+            ]
+          }
+        ],
+        "AgingConditionFlags": 508
+      },
+      "Enabled": true
+    }
+  ]
+}
