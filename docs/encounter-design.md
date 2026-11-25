@@ -193,10 +193,12 @@ Each row proposes a moodlet or a stop preference using the same outcome data. Th
 
 ## Implementation priority
 
-The [queen-bed prototype](../prototype/queen-bed/README.md) completes step 1 and
-the queen-bed part of step 2. Acceptance and refusal passed through the native
-picker on a freestanding queen bed and on one against a wall. Continue step 2
-with sofas, then walkable ground.
+The [invitation prototype](../prototype/queen-bed/README.md) completes step 1
+and covers queen beds and sofas in step 2. Acceptance and refusal passed in game
+on freestanding and wall-side queen beds. On a three-seat sofa, an invitation
+started with an available pair and showed an availability toast when both pairs
+were blocked. An unrelated Zoi used the spare seat with **Sit and Relax**.
+Walkable ground is the remaining part of step 2.
 
 1. **Prove one queen-bed encounter.** Use one known pair and a temporary entry point. Test both answers through the in-game conversation. Acceptance hands off before the vanilla bed sequence, walks both Zois to separate arrival points, validates the start again, and runs the four-stage SceneZOI plan through Exit. Refusal ends at the conversation. If distance blocks preflight before the walk, use a content-only compatibility check there and keep full validation at arrival.
 2. **Build the picker and venue options.** Add **Have sex here** on supported beds, sofas and walkable ground. Check eligibility and content before the invitation. Distinguish unsupported content, occupied spots, and failed walks. Carry the selected sofa seat pair through to playback.

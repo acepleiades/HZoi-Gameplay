@@ -11,7 +11,7 @@
       {
         "type": "Component",
         "key": "Stat",
-        "script": "Components.QueenBedInvite"
+        "script": "Components.VenueInvite"
       }
     ]
   }

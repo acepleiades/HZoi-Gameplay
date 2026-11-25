@@ -1,7 +1,8 @@
 local UI = require("Components.InvitationUI")
+local Json = require("SceneZOIAddon.Json")
 local M = {}
 local MOD = "HZoiGameplayPrototype_4BD2AC16"
-local MARKER = "_UIMod_" .. MOD .. "/partner-picker~hzoi_queen_invite"
+local MARKER = "_UIMod_" .. MOD .. "/partner-picker~hzoi_venue_invite"
 local COLLAPSED = 1
 local queenBeds = {
     Bed01 = true, Bed01_v01 = true, Bed01_v02 = true, Bed01_v03 = true, Bed01_v04 = true, Bed01_v05 = true,
@@ -9,6 +10,7 @@ local queenBeds = {
     E01_Bed01 = true, E01_Bed01_v01 = true, E01_Bed01_v03 = true,
 }
 local hidden = {}
+local sofaModels = {}
 local held, elapsed, initialized, lastError
 
 local function read()
@@ -29,17 +31,37 @@ local function release()
     for entry in pairs(hidden) do pcall(restore, entry) end
 end
 
+local function supported(object)
+    if not object then return false end
+    local model = tostring(object.ObjectDataTableId)
+    if queenBeds[model] then return true end
+    local now = os.time()
+    local cached = sofaModels[model]
+    if cached and cached.untilTime > now then return cached.sofa end
+    -- Use native object metadata so sofas added by mods can use the same menu.
+    -- SceneZOI's furniture API checks whether a particular instance fits a scene.
+    local ok, label, raw = inzoi.cli.execute("data.table_get alias=Object row=" .. Json.encode(model))
+    local decoded, row = pcall(Json.decode, raw or label or "")
+    if not ok or not decoded or type(row) ~= "table" then
+        sofaModels[model] = {sofa = false, untilTime = now + 2}
+        return false
+    end
+    local sofa = row.filterCategory == "Sofa" or row.objectCategory == "Sofa"
+    for _, tag in ipairs(row.objectTags or {}) do
+        if tag == "Object_Sofa" then sofa = true; break end
+    end
+    sofaModels[model] = {sofa = sofa, untilTime = now + 30}
+    return sofa
+end
+
 local function updateMenu(ctx, manager, canInvite)
     local seen = {}
     local class = inzoi.UB1ObjectInteractionListEntry:StaticClass()
     for _, entry in ipairs(UE.UWidgetBlueprintLibrary.GetAllWidgetsOfClass(ctx, nil, class, false)) do
         local data = entry.Data
         local own = data and tostring(data.InteractionBagId) == MARKER
-        local bed = own and manager.GameObjectMap:Find(data.TargetEntityId)
-        -- UI Mod currently injects object actions on every object. Filter only
-        -- our own rendered row, using the framework's built-in queen model IDs.
-        -- The live API checks the actual venue, availability and the chosen pair.
-        if own and not (canInvite and bed and queenBeds[tostring(bed.ObjectDataTableId)]) then
+        -- UIMod injects on every object. Filter only this mod's rendered row.
+        if own and not (canInvite and supported(manager.GameObjectMap:Find(data.TargetEntityId))) then
             local visibility = entry:GetVisibility()
             if visibility ~= COLLAPSED then
                 hidden[entry] = visibility
@@ -81,12 +103,12 @@ local function tick()
     end
     if command == held then return end
     held = command
-    local nonce, initiator, bed = command:match("^([a-z0-9_%-]+)|(%d+)|(%d+)$")
+    local nonce, initiator, venue = command:match("^([a-z0-9_%-]+)|(%d+)|(%d+)$")
     if not (nonce and canInvite and tostring(controlled.Value) == initiator) then return end
     local target = inzoi.FB1EntityId()
-    target.Value = tonumber(bed)
+    target.Value = tonumber(venue)
     local object = manager.GameObjectMap:Find(target)
-    if not object or not queenBeds[tostring(object.ObjectDataTableId)] then return end
+    if not supported(object) then return end
     inzoi.message.send_to_sim(controlled, "HZoiGameplay.Invite", command)
 end
 
@@ -113,6 +135,7 @@ end
 function M.on_end()
     release()
     UI.context = nil
+    sofaModels = {}
 end
 
 return M

@@ -13,7 +13,7 @@
       "type": "always_on"
     },
     {
-      "id": "hzoi_queen_invite",
+      "id": "hzoi_venue_invite",
       "type": "interaction_menu",
       "target": "object",
       "label_key": "Have sex here"

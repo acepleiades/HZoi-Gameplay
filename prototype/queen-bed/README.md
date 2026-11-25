@@ -1,11 +1,17 @@
-# Queen-bed invitations
+# Queen-bed and sofa invitations
 
-With a Zoi selected, click a supported queen bed and choose **Have sex here**.
+With a Zoi selected, click a supported queen bed or sofa and choose **Have sex here**.
 The same picker as SceneZOI debug start opens. Keep your controlled Zoi
 selected, choose one partner, then click **Invite**. The game uses the same social
 conditions and odds as **Set the Mood Next to Bed**. A refusal finishes with
-the native conversation. If the answer is yes, both Zois walk to the bed you
-clicked. SceneZOI starts once both arrive and the bed is still available.
+the native conversation. If the answer is yes, both Zois walk to the furniture
+you clicked. SceneZOI starts once both arrive and the selected spot is still
+available.
+
+On a sofa, the invitation uses an available adjacent seat pair with room for
+both Zois to approach. If someone takes those seats while they are walking,
+the attempt ends with a sofa availability message. SceneZOI reserves the
+two selected spots for playback. Other seats can still be used.
 
 ## Test in game
 
@@ -24,17 +30,35 @@ and a queen bed with one side against a wall.
 4. Repeat both outcomes using the other bed. Check that a single bed and
    ordinary furniture have no HZoi menu option.
 
-[HZoiGameplay] records the participants, chosen bed, outcome and arrival
+For sofas, use a three-seat sofa or a four-seat corner sofa.
+
+1. Have another Zoi sit on one end before selecting the pair. Accept the
+   invitation and verify the scene plays at the two seats that are free.
+2. On a three-seat sofa, have a Zoi outside the pair sit in the middle. Check
+   that the invitation shows the sofa availability message even if an end seat
+   is open.
+3. Start with the sofa empty. During playback, try **Sit Down** and **Sit and
+   Relax** with another Zoi. In the three-seat test, **Sit and Relax** worked
+   on the spare seat. **Sit Down** failed during playback and worked after Exit.
+   Check that Exit releases the two reserved spots and both participants can walk.
+4. Take one of the chosen seats with a third Zoi while the pair is on the way.
+   Check that the invitation stops with a sofa availability message. The pair
+   should only use the seats selected before the invitation.
+5. Refuse an invitation. Verify neither Zoi is sent to the sofa.
+
+[HZoiGameplay] records the participants, chosen furniture and sofa pair, outcome and arrival
 points in the inZOI Lua log. Look for `refused` or `accepted`. On acceptance,
 `both_arrived` should precede `scene_started`. `scene_ended` records SceneZOI's
 cleanup result.
 
 ## Implementation
 
-The menu action is available for the models in SceneZOI's built-in queen-bed
-profiles. It opens the native picker through SceneZOI's `open_partner_picker`
-operation. The sim checks the chosen entity against SceneZOI's live furniture
-list and validates the requested encounter before queuing the invitation.
+The menu action uses SceneZOI's built-in queen-bed model IDs and native sofa
+tags and categories. It calls SceneZOI's `open_partner_picker` operation. The sim checks the chosen entity against SceneZOI's live furniture
+list and validates the requested encounter before queuing the invitation. For
+sofas, it queries availability again with the two chosen participants and
+passes the same `furniture_pair_id` to preflight, arrival validation, and
+playback.
 
 The new interaction rows use the game’s lover and spouse conditions, branch
 order and weights. The exact venue check replaces the generic vanilla
@@ -45,15 +69,16 @@ ends, so the add-on waits for both conversation roles and the end of the Coop.
 ## Build
 
 Use the `HZoiGameplayPrototype_4BD2AC16` staging source. Copy
-`sdk/lua/SceneZOIAddon` from the SceneZOI checkout into `lua/B2/` before
-running ModKit PackageUGC. The SceneZOI SDK keeps its GPLv3 license. Install
-SceneZOI with the four-stage API and native partner-picker operation, plus HZoi,
-alongside the test package.
+`sdk/lua/SceneZOIAddon` from the SceneZOI checkout into `lua/B2/`, and copy its `Json.lua`
+into `lua/B1/SceneZOIAddon/` before running ModKit PackageUGC. The SceneZOI
+SDK keeps its GPLv3 license. Install SceneZOI with the four-stage API and native
+partner-picker operation, plus HZoi, alongside the test package.
 
 The Lua smoke test runs with that B2 source directory on Lua's module search
 path. It simulates both answers, an obstruction on one side, cancellation,
 occupied furniture, arrival on the wrong floor, native eligibility rejection
-and the end of SceneZOI playback.
+and the end of SceneZOI playback. The sofa cases cover a seat taken during the
+walk, a sofa moved before arrival, and the approach to a rotated corner sofa.
 
 Run `node test-picker.js` from this directory to check that the menu
-forwards the clicked bed and opens a single picker request.
+forwards the clicked furniture and opens a single picker request.

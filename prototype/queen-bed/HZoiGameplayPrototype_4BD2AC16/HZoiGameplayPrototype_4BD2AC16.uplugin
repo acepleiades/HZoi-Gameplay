@@ -1,9 +1,9 @@
 {
   "FileVersion": 3,
-  "Version": 9,
-  "VersionName": "0.0.9",
+  "Version": 10,
+  "VersionName": "0.0.10",
   "FriendlyName": "HZoi Gameplay",
-  "Description": "Invite a Zoi to join you at a queen bed.",
+  "Description": "Invite a Zoi to join you at a queen bed or sofa.",
   "Category": "Other",
   "CreatedBy": "acepleiades",
   "CanContainContent": true,

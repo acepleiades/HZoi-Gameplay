@@ -1,5 +1,6 @@
 local callbacks, clientCallbacks, pending, queued, logs = {}, nil, {}, {}, {}
 local clock, ownerId, partnerId, bedId, alternateBedId = 100, 20522, 20524, 21166, 21167
+local sofaId, sofaLocation = 21168, {X = 900, Y = 500, Z = 0}
 local controlled, blockedSide, queueResult = ownerId, false, "Success"
 local notices = {}
 local function entity(i) return {Value = i or -1} end
@@ -38,6 +39,9 @@ local manager = {
     end,
     FindGameObject = function(_, i)
         if i.Value == bedId then return bed end
+        if i.Value == sofaId then
+            return {GetLocation = function() return sofaLocation end, GetRotation = bed.GetRotation}
+        end
         if i.Value == alternateBedId then
             return {GetLocation = function() return point(600, 300, 0) end, GetRotation = bed.GetRotation}
         end
@@ -75,7 +79,7 @@ package.loaded["SceneZOIAddon.Client"] = {
         }
     end,
 }
-local module = require("Components.QueenBedInvite")
+local module = require("Components.VenueInvite")
 local component = {GetOwnerEntityId = function() return entity(controlled) end}
 local state = {}
 module.on_begin(state, component)
@@ -211,3 +215,90 @@ invite("ineligible", partnerId, bedId, nil, "EnqueueConditionCheckFail")
 assert(#queued == 0 and notices[#notices] == "not_eligible")
 
 line("Invitation checks passed: dynamic pair and venue, refusal, wall side, both arrivals, cleanup, cancellation, wrong floor, occupied bed and native enqueue refusal.")
+
+local profile = {
+    kind = "sofa.pair",
+    sitting_spots = {
+        {id = "a", offset_cm = {x = -30, y = -100, z = 0}, yaw_degrees = 0},
+        {id = "b", offset_cm = {x = 30, y = -100, z = 0}, yaw_degrees = 0},
+        {id = "c", offset_cm = {x = -100, y = -45, z = 0}, yaw_degrees = -90},
+        {id = "d", offset_cm = {x = -100, y = 35, z = 0}, yaw_degrees = -90},
+    },
+}
+local function sofaRow(isSide, available, furniture)
+    return {furniture_id = tostring(furniture or sofaId), furniture_pair_id = isSide and "side" or "front",
+        sitting_spots = isSide and {"c", "d"} or {"a", "b"}, profile = profile, available = available,
+        status = available and "available" or "occupied"}
+end
+local function sofaInvite(nonce, available)
+    queued = {}
+    module.on_lua_message(state, component, "HZoiGameplay.Invite", table.concat({nonce, ownerId, sofaId}, "|"))
+    reply("get_version", {features = setmetatable({}, {__index = function() return 1 end})})
+    reply("find_furniture", {furniture = {sofaRow(false, false), sofaRow(true, false)}})
+    local picker = reply("open_partner_picker", {opened = true})
+    clientCallbacks.event({name = "partner_picker_finished", request_id = picker.key,
+        code = "selected", partner_id = tostring(partnerId)})
+    local search = reply("find_furniture", {furniture = {
+        sofaRow(false, true, sofaId + 1), sofaRow(false, false), sofaRow(true, available),
+    }})
+    assert(search.args.participants[1] == tostring(ownerId) and search.args.participants[2] == tostring(partnerId))
+    if not available then return end
+    reply("get_definitions", {actions = {
+        handjob = {sexual_activity = "non_penetrative", content_rating = "EXPLICIT"},
+        vaginal_sex = {sexual_activity = "coital", content_rating = "EXPLICIT"},
+    }})
+    local preflight = reply("validate_start", {valid = true, furniture_pair_id = "side"})
+    assert(preflight.args.furniture_id == tostring(sofaId) and preflight.args.furniture_pair_id == "side")
+    assert(preflight.args.placement.max_start_distance_m == 100 and #queued == 1)
+end
+local function arriveAtSofa()
+    conversation(false)
+    assert(#queued == 3 and queued[2].bag == WALK and queued[3].bag == WALK)
+    local first, second = queued[2].destination, queued[3].destination
+    -- Yaw 90 + pair yaw -90 faces +Y, and the pair lies 100 cm behind the
+    -- object origin along world Y. The other arm would get different points.
+    assert(math.abs(first.Y - 490) < .01 and math.abs(second.Y - 490) < .01)
+    assert(math.abs((first.X + second.X) / 2 - 905) < .01 and math.abs(first.X - second.X) == 110)
+    owner:MoveTo(point(first.X, first.Y, first.Z + 90))
+    fire("finished", ownerId, WALK, -1)
+    tick()
+    assert(#pending == 0)
+    partner:MoveTo(point(second.X, second.Y, second.Z + 90))
+    fire("finished", partnerId, WALK, -1)
+    tick()
+end
+
+sofaInvite("sofa-occupied", false)
+assert(#pending == 0 and #queued == 0 and notices[#notices] == "sofa_unavailable")
+sofaInvite("sofa-refused", true)
+conversation(true)
+assert(#pending == 0 and #queued == 1 and logs[#logs]:find("refused"))
+sofaInvite("sofa-taken-during-walk", true)
+arriveAtSofa()
+local blocked = reply("validate_start", {valid = false, code = "furniture_unavailable"})
+assert(blocked.args.furniture_pair_id == "side" and not blocked.args.placement.max_start_distance_m)
+assert(#pending == 0 and notices[#notices] == "sofa_unavailable", "An alternate pair must never replace the chosen pair on arrival")
+sofaInvite("sofa-changed-pair", true)
+arriveAtSofa()
+reply("validate_start", {valid = true, furniture_pair_id = "front"})
+assert(#pending == 0 and notices[#notices] == "sofa_unavailable")
+sofaInvite("sofa-moved", true)
+arriveAtSofa()
+sofaLocation = point(900, 520, 0)
+reply("validate_start", {valid = true, furniture_pair_id = "side"})
+assert(#pending == 0 and notices[#notices] == "sofa_unavailable")
+sofaLocation = point(900, 500, 0)
+sofaInvite("sofa-ready", true)
+arriveAtSofa()
+local sofaArrival = reply("validate_start", {valid = true, furniture_pair_id = "side", scene_id = "hzoi.sofa",
+    bindings = {male = tostring(ownerId), female = tostring(partnerId)}})
+assert(sofaArrival.args.furniture_pair_id == "side")
+local sofaStart = reply("start_autonomous_scene", {accepted = true, stages = 4})
+assert(sofaStart.args.furniture_id == tostring(sofaId) and sofaStart.args.furniture_pair_id == "side")
+assert(sofaStart.args.scene_id == "hzoi.sofa")
+assert(sofaStart.args.reservation == nil and sofaStart.args.sitting_spots == nil)
+clientCallbacks.event({name = "session_started", request_id = sofaStart.key, session_id = "sofa"})
+clientCallbacks.event({name = "session_ended", request_id = sofaStart.key, session_id = "sofa",
+    result_facts = {cleanup_complete = true, cleanup_code = "ok"}})
+assert(logs[#logs]:find("scene_ended"))
+line("Sofa invitations passed: actual roster, exact pair across start checks, occupied or moved sofa, refusal, rotated corner sofa approach and cleanup.")

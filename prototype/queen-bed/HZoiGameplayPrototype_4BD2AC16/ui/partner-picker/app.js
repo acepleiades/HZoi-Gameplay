@@ -18,7 +18,7 @@
             if (!writing) close();
             return;
         }
-        if (event.triggerId !== 'hzoi_queen_invite' || writing) return;
+        if (event.triggerId !== 'hzoi_venue_invite' || writing) return;
         var bed = String(event.targetEntityId);
         if (!/^[1-9]\d*$/.test(bed)) return close();
         writing = true;

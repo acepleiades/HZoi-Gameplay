@@ -23,13 +23,13 @@ async function check() {
     };
     vm.runInNewContext(fs.readFileSync(path.join(ui, 'app.js'), 'utf8'), { inzoi });
     await activate({ triggerId: 'hzoi_menu_ready' });
-    const first = activate({ triggerId: 'hzoi_queen_invite', targetEntityId: 120 });
-    await activate({ triggerId: 'hzoi_queen_invite', targetEntityId: 121 });
+    const first = activate({ triggerId: 'hzoi_venue_invite', targetEntityId: 120 });
+    await activate({ triggerId: 'hzoi_venue_invite', targetEntityId: 121 });
     await first;
     assert.equal(writes.length, 1);
     assert.equal(writes[0].key, 'invite');
     assert.match(writes[0].value, /^invite-\d+-\d+\|20\|120$/);
     assert.equal(hidden, 3);
 }
-check().then(() => console.log('Queen-bed menu dispatch passes through and opens exactly one picker.'))
+check().then(() => console.log('Venue menu dispatch passes through and opens exactly one picker.'))
     .catch(error => { console.error(error); process.exitCode = 1; });

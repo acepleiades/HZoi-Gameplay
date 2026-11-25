@@ -1,4 +1,4 @@
-local invitation = require("Components.QueenBedInvite")
+local invitation = require("Components.VenueInvite")
 
 local M = {}
 

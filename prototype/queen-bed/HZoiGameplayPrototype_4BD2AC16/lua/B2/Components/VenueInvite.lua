@@ -1,6 +1,7 @@
 local Client = require("SceneZOIAddon.Client")
 local Json = require("SceneZOIAddon.Json")
-local makeArguments = require("QueenBedArguments")
+local makeArguments = require("EncounterArguments")
+local Sofa = require("SofaArrival")
 
 local M = {}
 local INVITE = "HZoiGameplay_Invite"
@@ -20,8 +21,9 @@ local subscriptions = {}
 local function log(phase, details)
     details = details or {}
     if attempt then
-        details.request, details.initiator, details.partner, details.bed =
-            attempt.nonce, attempt.initiator, attempt.partner, attempt.bed
+        details.request, details.initiator, details.partner, details.furniture =
+            attempt.nonce, attempt.initiator, attempt.partner, attempt.furniture
+        details.furniture_pair = attempt.seats and attempt.seats.id
     end
     print("[HZoiGameplay] " .. phase .. " " .. Json.encode(details))
 end
@@ -79,17 +81,21 @@ local function fail(reason, notice)
     elseif active.phase == "walking" then
         for who in pairs(active.walks) do cancel(actor(who), WALK) end
     end
+    if active.kind == "sofa.pair" then
+        if notice == "furniture_unavailable" then notice = "sofa_unavailable" end
+        if notice == "walk_failed" then notice = "sofa_walk_failed" end
+    end
     notify(active.initiator, notice or "failed")
 end
 
 local function request(step, operation, data)
-    client:request(owner, "queen." .. attempt.nonce .. "." .. step, operation, data)
+    client:request(owner, "encounter." .. attempt.nonce .. "." .. step, operation, data)
 end
 
 local function validation(step)
     local args = {start_mode = "start_autonomous_scene"}
     for key, value in pairs(attempt.args) do args[key] = value end
-    -- Before asking, the pair may still be far from the bed. The real start
+    -- Before asking, the pair may still be far from the venue. The real start
     -- uses SceneZOI's normal distance limit after both walk actions finish.
     if step == "invitation" then args.placement = {max_start_distance_m = 100, exit = "restore"} end
     request(step, "validate_start", args)
@@ -112,8 +118,7 @@ local function distanceSquared(a, b)
     return (a.X - b.X)^2 + (a.Y - b.Y)^2 + (a.Z - b.Z)^2
 end
 
-local function arrivalPoints(bed)
-    local floor = assert(inzoi.getB2Subsystem("FB2PathFindSystem"), "Path finder unavailable")
+local function bedArrivalPoints(bed, floor)
     local center = bed:GetLocation()
     local yaw = math.rad(bed:GetRotation().Yaw)
     local points = {}
@@ -127,13 +132,23 @@ local function arrivalPoints(bed)
             end
         end
     end
-    error("Could not find two separate walkable arrival points near the queen bed")
+    return nil
 end
 
 local function beginWalking()
     local initiator, partner = confirmPair()
-    local bed = assert(manager():FindGameObject(entity(attempt.bed)), "The selected queen bed is unavailable")
-    local points = arrivalPoints(bed)
+    local furniture = manager():FindGameObject(entity(attempt.furniture))
+    if not furniture then fail("The selected furniture is no longer loaded", "furniture_unavailable"); return end
+    local floor = assert(inzoi.getB2Subsystem("FB2PathFindSystem"), "Path finder unavailable")
+    local points
+    if attempt.seats then
+        points = Sofa.points(attempt.seats, furniture, floor)
+        attempt.sofaLocation = furniture:GetLocation()
+        attempt.sofaYaw = furniture:GetRotation().Yaw
+    else
+        points = bedArrivalPoints(furniture, floor)
+    end
+    if not points then fail("No two separate arrival points at the selected venue", "walk_failed"); return end
     attempt.phase, attempt.deadline = "walking", os.time() + 60
     if distanceSquared(initiator:GetLocation(), points[1]) + distanceSquared(partner:GetLocation(), points[2]) >
        distanceSquared(initiator:GetLocation(), points[2]) + distanceSquared(partner:GetLocation(), points[1]) then
@@ -201,12 +216,45 @@ local function validated(step, result)
         fail(step .. ": " .. tostring(result.code or "uncertain goal route"), result.code or "no_matching_scenes")
         return false
     end
+    if attempt.seats and result.furniture_pair_id ~= attempt.seats.id then
+        fail(step .. ": SceneZOI did not confirm the selected sofa pair", "furniture_unavailable")
+        return false
+    end
     return true
+end
+
+local function discoverVenue(step, participants)
+    request(step, "find_furniture", {origin_id = attempt.initiator, radius_m = 100,
+        include_unavailable = true, participants = participants})
+end
+
+local function selectSofaSeats(rows)
+    local furniture = manager():FindGameObject(entity(attempt.furniture))
+    if not furniture then fail("Selected sofa is no longer loaded", "furniture_unavailable"); return end
+    local floor = assert(inzoi.getB2Subsystem("FB2PathFindSystem"), "Path finder unavailable")
+    local hasSeats = false
+    for _, row in ipairs(rows) do
+        if row.furniture_id == attempt.furniture and row.profile.kind == "sofa.pair" and row.available then
+            hasSeats = true
+            local seats = Sofa.seats(row)
+            if seats and Sofa.points(seats, furniture, floor) then
+                attempt.seats = seats
+                log("sofa_pair_selected", {spots = row.sitting_spots})
+                request("definitions", "get_definitions")
+                return
+            end
+        end
+    end
+    if hasSeats then
+        fail("No walkable approach to an available sofa pair", "walk_failed")
+    else
+        fail("No adjacent sofa seats available for this roster", "furniture_unavailable")
+    end
 end
 
 local function onResponse(reply)
     if not attempt then return end
-    local prefix = "queen." .. attempt.nonce .. "."
+    local prefix = "encounter." .. attempt.nonce .. "."
     if reply.request_id:sub(1, #prefix) ~= prefix then return end
     local step = reply.request_id:sub(#prefix + 1)
     if not reply.ok then
@@ -218,25 +266,35 @@ local function onResponse(reply)
         for _, key in ipairs(FEATURES) do
             if result.features[key] ~= 1 then fail("Missing SceneZOI feature " .. key, "update_scenezoi"); return end
         end
-        request("venue", "find_furniture", {origin_id = attempt.initiator, radius_m = 100, include_unavailable = true})
+        discoverVenue("venue")
     elseif step == "picker" then
         assert(result.opened, "The native partner picker did not open")
     elseif step == "venue" then
         local selected
         for _, furniture in ipairs(result.furniture) do
-            if furniture.furniture_id == attempt.bed and furniture.profile.kind == "bed.queen" then
+            if furniture.furniture_id == attempt.furniture
+                and (furniture.profile.kind == "bed.queen" or furniture.profile.kind == "sofa.pair") then
                 selected = furniture
                 break
             end
         end
-        if not selected then fail("Selected object is outside the queen-bed catalog", "unsupported_bed"); return end
-        if selected.status == "occupied" then fail("Selected queen bed is occupied", "furniture_unavailable"); return end
+        if not selected then fail("Selected object has no supported furniture profile", "unsupported_venue"); return end
+        attempt.kind = selected.profile.kind
+        -- A sofa pair can be usable if one of its occupants is chosen in the picker.
+        if attempt.kind == "bed.queen" and selected.status == "occupied" then
+            fail("Selected queen bed is occupied", "furniture_unavailable")
+            return
+        end
         attempt.phase = "picking"
         request("picker", "open_partner_picker")
+    elseif step == "sofa_seats" then
+        confirmPair()
+        selectSofaSeats(result.furniture)
     elseif step == "definitions" then
         local initiator, partner = confirmPair()
         local male = inzoi.EB1GenderType.Male
-        local args, reason = makeArguments(result.actions, attempt.initiator, attempt.partner, attempt.bed, nil,
+        local args, reason = makeArguments(result.actions, attempt.initiator, attempt.partner, attempt.furniture,
+            attempt.seats and attempt.seats.id,
             initiator:GetGenderType() == male and partner:GetGenderType() == male)
         if not args then fail(reason, reason); return end
         attempt.args = args
@@ -256,6 +314,15 @@ local function onResponse(reply)
     elseif step == "arrival" then
         if not validated(step, result) then return end
         confirmPair()
+        if attempt.seats then
+            local sofa = manager():FindGameObject(entity(attempt.furniture))
+            if not sofa
+                or distanceSquared(sofa:GetLocation(), attempt.sofaLocation) > 1
+                or math.abs((sofa:GetRotation().Yaw - attempt.sofaYaw + 180) % 360 - 180) > .1 then
+                fail("The selected sofa pair changed during arrival", "furniture_unavailable")
+                return
+            end
+        end
         attempt.args.scene_id, attempt.args.bindings = result.scene_id, result.bindings
         attempt.phase, attempt.deadline = "starting", os.time() + 60
         request("start", "start_autonomous_scene", attempt.args)
@@ -267,7 +334,7 @@ end
 
 local function onSceneEvent(event)
     if not attempt then return end
-    local prefix = "queen." .. attempt.nonce
+    local prefix = "encounter." .. attempt.nonce
     if event.name == "partner_picker_finished" and event.request_id == prefix .. ".picker"
         and attempt.phase == "picking" then
         if event.code == "cancelled" then
@@ -278,7 +345,11 @@ local function onSceneEvent(event)
             attempt.partner = event.partner_id
             attempt.phase, attempt.deadline = "preflight", os.time() + 45
             confirmPair()
-            request("definitions", "get_definitions")
+            if attempt.kind == "sofa.pair" then
+                discoverVenue("sofa_seats", {attempt.initiator, attempt.partner})
+            else
+                request("definitions", "get_definitions")
+            end
         else
             fail("Partner picker finished: " .. tostring(event.code), "picker_unavailable")
         end
@@ -327,12 +398,12 @@ function M.on_lua_message(self, component, kind, content)
         if attempt and who == attempt.initiator then client:on_message(kind, content) end
         return
     end
-    local nonce, initiator, bed = content:match("^([a-z0-9_%-]+)|(%d+)|(%d+)$")
+    local nonce, initiator, furniture = content:match("^([a-z0-9_%-]+)|(%d+)|(%d+)$")
     if not nonce or #nonce > 48 or who ~= initiator
         or who ~= id(inzoi.FB2ControllerSystem.GetPossessEntityId()) then return end
     if attempt then notify(who, "busy"); return end
     owner = actor(who)
-    attempt = {nonce = nonce, initiator = initiator, bed = bed,
+    attempt = {nonce = nonce, initiator = initiator, furniture = furniture,
         phase = "preflight", deadline = os.time() + 45, walks = {}, dialogue = {}}
     guarded(function()
         assert(owner and eligible(owner), "The initiator is unavailable")
