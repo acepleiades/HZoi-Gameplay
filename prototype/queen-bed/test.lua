@@ -3,10 +3,12 @@ local clock, ownerId, partnerId, bedId, alternateBedId = 100, 20522, 20524, 2116
 local sofaId, sofaLocation = 21168, {X = 900, Y = 500, Z = 0}
 local controlled, blockedSide, queueResult = ownerId, false, "Success"
 local notices = {}
+local walkable = function() return true end
 local function entity(i) return {Value = i or -1} end
 local function point(x, y, z) return {X = x, Y = y, Z = z} end
 local function actor(i)
     local pos = point(0, 0, 0)
+    local clickPosition
     local component = {
         IsCurrentInteractionCoop = function() return false end,
         AddInteractionQueueByParam = function(_, target, destination, bag)
@@ -24,6 +26,22 @@ local function actor(i)
         GetGrowthStep = function() return 32 end,
         GetGenderType = function() return i == ownerId and 1 or 2 end,
         GetLocation = function() return pos end,
+        ClickGround = function(_, location, inQueue)
+            clickPosition = location
+            -- The real start event arrived before the current bag and ID changed.
+            component.GetCurrentInteractionBagId = function() return inQueue and "None" or "HZoiGameplay_GroundInvite" end
+            component.GetCurrentInteractionQueueId = function() return inQueue and -1 or 40 end
+            component.InteractionQueue = {
+                {InteractionQueueId = 39, InteractionBagId = "Other", ImpactPoint = point(1, 2, 3)},
+            }
+            if inQueue then
+                component.InteractionQueue[2] = {InteractionQueueId = 40,
+                    InteractionBagId = "HZoiGameplay_GroundInvite", ImpactPoint = location}
+            end
+            component.GetCurrentAction = function()
+                return {NonTargetLocation = clickPosition}
+            end
+        end,
         MoveTo = function(_, p) pos = p end,
     }
 end
@@ -54,13 +72,14 @@ UE = {FVector = point}
 inzoi = {
     FB1EntityId = entity, getB2Manager = function() return manager end,
     getB2Subsystem = function()
-        return {IsOnWalkableGrid = function(_, p) return not blockedSide or p.X >= 600 end}
+        return {IsOnWalkableGrid = function(_, p) return (not blockedSide or p.X >= 600) and walkable(p) end}
     end,
     EB1GrowthStep = {Youth = 32, Adult = 64, Old = 128, Elderly = 256}, EB1GenderType = {Male = 1},
     message = {send_to_client = function(_, kind, value)
         assert(kind == "HZoiGameplay.Notice")
         notices[#notices + 1] = value
     end},
+    EB1ActionType = {Delay = 33},
     EB2ComponentType = {Interaction = 1}, EB1InteractionPlayReason = {User = 1},
     EB1InteractionCancelReason = {User = 1}, EB1AddInteractionQueueResult = {Success = "Success", EnqueueConditionCheckFail = "EnqueueConditionCheckFail"},
     FB2ControllerSystem = {GetPossessEntityId = function() return entity(controlled) end},
@@ -302,3 +321,103 @@ clientCallbacks.event({name = "session_ended", request_id = sofaStart.key, sessi
     result_facts = {cleanup_complete = true, cleanup_code = "ok"}})
 assert(logs[#logs]:find("scene_ended"))
 line("Sofa invitations passed: actual roster, exact pair across start checks, occupied or moved sofa, refusal, rotated corner sofa approach and cleanup.")
+
+
+local clickedFloor = point(900, 650, 340)
+local standing = {valid = true, scene_id = "hzoi.standing", bindings = {male = tostring(ownerId), female = tostring(partnerId)}}
+
+local function selectGround(inQueue)
+    queued = {}
+    local selector = controlled == ownerId and owner or partner
+    selector:ClickGround(clickedFloor, inQueue)
+    fire("started", controlled, "HZoiGameplay_GroundInvite", -1)
+end
+
+local function groundInvite()
+    selectGround(controlled == ownerId)
+    reply("get_version", {features = setmetatable({}, {__index = function() return 1 end})})
+    local picker = reply("open_partner_picker", {opened = true})
+    clientCallbacks.event({name = "partner_picker_finished", request_id = picker.key,
+        code = "selected", partner_id = tostring(controlled == ownerId and partnerId or ownerId)})
+    reply("get_definitions", {actions = {
+        handjob = {sexual_activity = "non_penetrative", content_rating = "EXPLICIT"},
+        vaginal_sex = {sexual_activity = "coital", content_rating = "EXPLICIT"},
+    }})
+    local preflight = reply("validate_start", standing)
+    assert(not preflight.args.furniture_id and not preflight.args.furniture_pair_id)
+    assert(#queued == 1 and queued[1].bag == INVITE)
+end
+
+-- Keep the original floor, sidestep a blocked direction, and preserve the
+-- animated Zoi's anchor even when the other participant controls the picker.
+local function arriveAtGround(wrongFloor)
+    controlled = partnerId
+    owner:MoveTo(point(900, 800, 430))
+    partner:MoveTo(point(1100, 650, 430))
+    groundInvite()
+    walkable = function(p) return p.X <= clickedFloor.X and p.Z == clickedFloor.Z end
+    conversation(false)
+    assert(#queued == 3 and queued[2].id == partnerId and queued[3].id == ownerId)
+    assert(queued[2].bag == WALK and queued[3].bag == WALK)
+    local second, anchor = queued[2].destination, queued[3].destination
+    assert(anchor.X == clickedFloor.X and anchor.Y == clickedFloor.Y and anchor.Z == clickedFloor.Z)
+    assert(second.X <= anchor.X and second.Z == anchor.Z)
+    assert(math.abs((anchor.X - second.X)^2 + (anchor.Y - second.Y)^2 - 150^2) < .01)
+    partner:MoveTo(point(second.X, second.Y, second.Z + 90))
+    fire("finished", partnerId, WALK, -1)
+    tick()
+    assert(#pending == 0, "A ground scene must wait for both walk actions")
+    owner:MoveTo(point(anchor.X, anchor.Y, anchor.Z + (wrongFloor and 300 or 90)))
+    fire("finished", ownerId, WALK, -1)
+    tick()
+    walkable = function() return true end
+    return anchor
+end
+
+walkable = function() return false end
+selectGround(true)
+assert(#pending == 0 and #queued == 0 and notices[#notices] == "ground_unavailable")
+
+-- An unrelated current action can have a point of its own. Never use it
+-- when neither the ground queue row nor the active ground action exists.
+local clickComponent = owner:GetComponent()
+clickComponent.InteractionQueue = {}
+fire("started", ownerId, "HZoiGameplay_GroundInvite", -1)
+clock = clock + 3
+tick()
+assert(#pending == 0 and #queued == 0 and notices[#notices] == "ground_click_missing")
+walkable = function() return true end
+groundInvite()
+conversation(true)
+assert(#queued == 1 and #pending == 0 and logs[#logs]:find("refused"))
+
+groundInvite()
+walkable = function(p) return p.X == clickedFloor.X and p.Y == clickedFloor.Y end
+conversation(false)
+assert(#queued == 1 and #pending == 0 and notices[#notices] == "ground_walk_failed")
+walkable = function() return true end
+
+arriveAtGround(true)
+assert(#pending == 0 and notices[#notices] == "ground_walk_failed")
+local anchor = arriveAtGround(false)
+owner:MoveTo(point(anchor.X + 90, anchor.Y, anchor.Z + 90))
+reply("validate_start", standing)
+assert(#pending == 0 and notices[#notices] == "ground_walk_failed")
+arriveAtGround(false)
+walkable = function(p) return p.X ~= clickedFloor.X or p.Y ~= clickedFloor.Y end
+reply("validate_start", standing)
+assert(#pending == 0 and notices[#notices] == "ground_walk_failed")
+walkable = function() return true end
+
+arriveAtGround(false)
+local arrivalCheck = reply("validate_start", standing)
+assert(not arrivalCheck.args.placement.max_start_distance_m)
+assert(arrivalCheck.args.scene_id == standing.scene_id and arrivalCheck.args.bindings == standing.bindings)
+local groundStart = reply("start_autonomous_scene", {accepted = true})
+assert(groundStart.args.scene_id == standing.scene_id and groundStart.args.bindings == standing.bindings)
+assert(not groundStart.args.furniture_id and not groundStart.args.furniture_pair_id)
+clientCallbacks.event({name = "session_started", request_id = groundStart.key, session_id = "ground"})
+clientCallbacks.event({name = "session_ended", request_id = groundStart.key, session_id = "ground",
+    result_facts = {cleanup_complete = true, cleanup_code = "ok"}})
+assert(logs[#logs]:find("scene_ended"))
+line("Ground invitations passed: native click handoff, both answers, separate destinations, blocked ground, wrong floor, departure and revalidation.")

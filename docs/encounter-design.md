@@ -31,7 +31,7 @@ Resolve the actual roster, role bindings, and selected venue before the invitati
 The picker chooses whom to ask. The initiator then walks up to the selected partner and asks through an interaction modeled on inZOI’s **Set the Mood Next to Bed**. Use the native approach dialogue and match the social eligibility, branch order, and acceptance/refusal weights from `Co_TryTo_Mood_Lover` and `Co_TryTo_Mood_Spouse`. HZoi’s venue and adult-eligibility checks supply the equivalent context for ground and supported furniture. [Vanilla romance reference](inzoi-romance.md) · [Interaction branches](inzoi-romance-interactions.csv).
 
 - **If the partner accepts**, have both Zois walk to separate arrival points at the selected venue. Recheck eligibility, arrival, and furniture availability before requesting SceneZOI playback.
-- **If the partner refuses**, play the refusal branch and end the invitation there.
+- **If the partner refuses**, play the refusal branch and end the invitation there. For two Zois who can otherwise use the interaction and have no established romantic relationship, a Romance score below 30 always takes this branch.
 
 ### Group invitations
 

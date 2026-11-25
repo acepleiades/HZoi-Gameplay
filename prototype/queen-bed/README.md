@@ -1,10 +1,11 @@
-# Queen-bed and sofa invitations
+# Invitations at queen beds, sofas, and on the ground
 
-With a Zoi selected, click a supported queen bed or sofa and choose **Have sex here**.
+With a Zoi selected, click a supported queen bed, sofa, or a walkable spot on the ground and choose **Have sex here**.
 The same picker as SceneZOI debug start opens. Keep your controlled Zoi
-selected, choose one partner, then click **Invite**. The game uses the same social
-conditions and odds as **Set the Mood Next to Bed**. A refusal finishes with
-the native conversation. If the answer is yes, both Zois walk to the furniture
+selected, choose one partner, then click **Invite**. The game uses the social
+conditions and odds from **Set the Mood Next to Bed**. If the pair can talk
+but has less than 30 Romance and isn't an official couple, the partner
+refuses through the native conversation. If the answer is yes, both Zois walk to the venue
 you clicked. SceneZOI starts once both arrive and the selected spot is still
 available.
 
@@ -13,12 +14,18 @@ both Zois to approach. If someone takes those seats while they are walking,
 the attempt ends with a sofa availability message. SceneZOI reserves the
 two selected spots for playback. Other seats can still be used.
 
+For the included standing scenes, the Zoi playing the male role walks to the
+clicked spot. The other Zoi walks to a separate spot on the same floor.
+If either walk fails or a spot becomes unavailable, the scene stops preparing
+and shows a message.
+
 ## Test in game
 
 Load the usual test household at Normal speed. Try a free-standing queen bed
 and a queen bed with one side against a wall.
 
-1. Use a pair that can refuse under the native rules. A married pair with
+1. Use two friends with Romance 0. They should play the refusal conversation
+   every time. To test the existing invitation odds, a married pair with
    Family below 30 but at least -30 has a 30% refusal chance. An eligible
    unnamed romantic pair at Romance 30–60 has a 70% refusal chance when the
    target's emotion tendency is Negative.
@@ -46,6 +53,12 @@ For sofas, use a three-seat sofa or a four-seat corner sofa.
    should only use the seats selected before the invitation.
 5. Refuse an invitation. Verify neither Zoi is sent to the sofa.
 
+On the ground, test refusal and acceptance from an open spot with the two
+Zois starting elsewhere. On refusal, neither should walk to the spot. On
+acceptance, watch each walk to a different spot before playback starts. Try
+again near a wall or on another floor, and try canceling the second walk
+while the first Zoi is already there.
+
 [HZoiGameplay] records the participants, chosen furniture and sofa pair, outcome and arrival
 points in the inZOI Lua log. Look for `refused` or `accepted`. On acceptance,
 `both_arrived` should precede `scene_started`. `scene_ended` records SceneZOI's
@@ -58,10 +71,16 @@ tags and categories. It calls SceneZOI's `open_partner_picker` operation. The si
 list and validates the requested encounter before queuing the invitation. For
 sofas, it queries availability again with the two chosen participants and
 passes the same `furniture_pair_id` to preflight, arrival validation, and
-playback.
+playback. The ground option is appended to the game's Click selection set.
+The invitation reads the clicked world point from its native queue entry
+before the game makes that entry current. The menu action itself has no
+movement target. After acceptance, both walks are checked against the scene
+and role bindings selected before the invitation.
 
 The new interaction rows use the game’s lover and spouse conditions, branch
-order and weights. The exact venue check replaces the generic vanilla
+order and weights. A separate branch lets an otherwise eligible pair below
+the ordinary Romance threshold reach the existing refusal dialogue. The exact
+venue check replaces the generic vanilla
 site-has-a-double-bed condition. The two Coop rows use the game's approach and
 dialogue. The game finishes the parent RequestCoop action before the dialogue
 ends, so the add-on waits for both conversation roles and the end of the Coop.
@@ -79,6 +98,8 @@ path. It simulates both answers, an obstruction on one side, cancellation,
 occupied furniture, arrival on the wrong floor, native eligibility rejection
 and the end of SceneZOI playback. The sofa cases cover a seat taken during the
 walk, a sofa moved before arrival, and the approach to a rotated corner sofa.
+The ground cases cover blocked floor, a missing second spot, and a Zoi leaving
+their arrival point while SceneZOI validates the start.
 
 Run `node test-picker.js` from this directory to check that the menu
 forwards the clicked furniture and opens a single picker request.

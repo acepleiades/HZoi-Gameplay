@@ -1,0 +1,21 @@
+{
+  "Struct": "Interaction",
+  "BaseVersion": "20261026.16562.W.MODKIT.EGS",
+  "SaveVersion": "20261026.16562.W.MODKIT.EGS",
+  "PatchList": [
+    {
+      "Method": "Append",
+      "Query": "Interaction",
+      "Value": {
+        "NoneTargetPlayable": true,
+        "bCheckCanMoveToSlot": false,
+        "ActionIdList": [
+          "Delay_0.1"
+        ],
+        "ID": "HZoiGameplay_SelectGround",
+        "InteractionSlotUsage": "None"
+      },
+      "Enabled": true
+    }
+  ]
+}

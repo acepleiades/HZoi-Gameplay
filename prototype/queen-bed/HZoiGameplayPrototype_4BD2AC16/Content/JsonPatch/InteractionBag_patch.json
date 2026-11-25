@@ -190,6 +190,26 @@
             "CoopId": "HZoiGameplay_Coop_Accept",
             "bIsTalk": false,
             "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "LowRomance_Refuse",
+            "Probability": 1,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_LowRomance",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Refuse",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
           }
         ]
       },
@@ -215,6 +235,37 @@
         "AgingConditionFlags": 508
       },
       "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Enabled": true,
+      "Value": {
+        "AgingConditionFlags": 480,
+        "InteractionBagCategory": "Click",
+        "PostureGroupId": "AllGroup",
+        "bUniqueInQueue": true,
+        "bAddSameInteractionToGroupMember": false,
+        "DisplayInfo": {
+          "DisplayTextId": "Have sex here",
+          "DisplayCategoryTextId": "InteractionBag_DisplayInfo_ClickMove_Self_DisplayCategoryTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Talk_Mood.Action_Talk_Mood'",
+          "PanelIconId": "Conversation_Icon_Mood"
+        },
+        "InteractionSequence": [
+          {
+            "Probability": 1,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "HZoiGameplay_SelectGround",
+                "Label": "A"
+              }
+            ]
+          }
+        ],
+        "ID": "HZoiGameplay_GroundInvite"
+      }
     }
   ]
 }

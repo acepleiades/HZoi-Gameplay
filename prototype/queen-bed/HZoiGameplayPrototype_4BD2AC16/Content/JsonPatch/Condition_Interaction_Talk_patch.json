@@ -731,6 +731,121 @@
         "OrConditionsList": []
       },
       "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Condition_Interaction_Talk",
+      "Value": {
+        "Id": "HZoiGameplay_Mood_LowRomance",
+        "AndConditionsList": [
+          {
+            "Conditions": [
+              {
+                "BaseObject": "Self",
+                "Command": "IsLovable",
+                "CompareType": "Equal",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "IsFromRemoteCity",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "IsFromRemoteCity",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "IsFamilyRelationship",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "None",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "GrowthStep",
+                "CompareType": "GreaterOrEqual",
+                "UseHand": "Default",
+                "S1": "Youth",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "Youth_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "engagement",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Target",
+                "Command": "RelationshipName",
+                "CompareType": "NotEqual",
+                "UseHand": "Default",
+                "S1": "HighTeen_Lover",
+                "S2": "None",
+                "F1": 0,
+                "F2": 0
+              },
+              {
+                "BaseObject": "Self",
+                "Command": "RelationshipStat",
+                "CompareType": "Less",
+                "UseHand": "Default",
+                "S1": "romance",
+                "S2": "None",
+                "F1": 30,
+                "F2": 0
+              }
+            ]
+          }
+        ],
+        "OrConditionsList": []
+      },
+      "Enabled": true
     }
   ]
 }

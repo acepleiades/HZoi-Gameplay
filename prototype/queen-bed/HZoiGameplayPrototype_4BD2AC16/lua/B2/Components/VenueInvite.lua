@@ -2,10 +2,12 @@ local Client = require("SceneZOIAddon.Client")
 local Json = require("SceneZOIAddon.Json")
 local makeArguments = require("EncounterArguments")
 local Sofa = require("SofaArrival")
+local Ground = require("GroundArrival")
 
 local M = {}
 local INVITE = "HZoiGameplay_Invite"
 local WALK = "HZoiGameplay_Walk"
+local GROUND = "HZoiGameplay_GroundInvite"
 local DIALOGUE = {
     accept = "Coop_TalkLike_Before_MakeLove",
     refuse = "Coop_TalkLike_Before_MakeLove_Fail",
@@ -17,6 +19,8 @@ local FEATURES = {
 }
 local owner, client, attempt
 local subscriptions = {}
+local groundSerial = 0
+local groundClick, beginAttempt
 
 local function log(phase, details)
     details = details or {}
@@ -24,6 +28,9 @@ local function log(phase, details)
         details.request, details.initiator, details.partner, details.furniture =
             attempt.nonce, attempt.initiator, attempt.partner, attempt.furniture
         details.furniture_pair = attempt.seats and attempt.seats.id
+        if attempt.ground then
+            details.ground = {x = attempt.ground.X, y = attempt.ground.Y, z = attempt.ground.Z}
+        end
     end
     print("[HZoiGameplay] " .. phase .. " " .. Json.encode(details))
 end
@@ -84,6 +91,8 @@ local function fail(reason, notice)
     if active.kind == "sofa.pair" then
         if notice == "furniture_unavailable" then notice = "sofa_unavailable" end
         if notice == "walk_failed" then notice = "sofa_walk_failed" end
+    elseif active.ground and notice == "walk_failed" then
+        notice = "ground_walk_failed"
     end
     notify(active.initiator, notice or "failed")
 end
@@ -137,23 +146,31 @@ end
 
 local function beginWalking()
     local initiator, partner = confirmPair()
-    local furniture = manager():FindGameObject(entity(attempt.furniture))
-    if not furniture then fail("The selected furniture is no longer loaded", "furniture_unavailable"); return end
     local floor = assert(inzoi.getB2Subsystem("FB2PathFindSystem"), "Path finder unavailable")
     local points
-    if attempt.seats then
-        points = Sofa.points(attempt.seats, furniture, floor)
-        attempt.sofaLocation = furniture:GetLocation()
-        attempt.sofaYaw = furniture:GetRotation().Yaw
+    if attempt.ground then
+        local other = attempt.groundAnchor == attempt.initiator and partner or initiator
+        local spot = Ground.partnerPoint(floor, attempt.ground, other:GetLocation())
+        if spot then
+            points = attempt.groundAnchor == attempt.initiator and {attempt.ground, spot} or {spot, attempt.ground}
+        end
     else
-        points = bedArrivalPoints(furniture, floor)
+        local furniture = manager():FindGameObject(entity(attempt.furniture))
+        if not furniture then fail("The selected furniture is no longer loaded", "furniture_unavailable"); return end
+        if attempt.seats then
+            points = Sofa.points(attempt.seats, furniture, floor)
+            attempt.sofaLocation = furniture:GetLocation()
+            attempt.sofaYaw = furniture:GetRotation().Yaw
+        else
+            points = bedArrivalPoints(furniture, floor)
+        end
+        if points and distanceSquared(initiator:GetLocation(), points[1]) + distanceSquared(partner:GetLocation(), points[2]) >
+            distanceSquared(initiator:GetLocation(), points[2]) + distanceSquared(partner:GetLocation(), points[1]) then
+            points[1], points[2] = points[2], points[1]
+        end
     end
     if not points then fail("No two separate arrival points at the selected venue", "walk_failed"); return end
     attempt.phase, attempt.deadline = "walking", os.time() + 60
-    if distanceSquared(initiator:GetLocation(), points[1]) + distanceSquared(partner:GetLocation(), points[2]) >
-       distanceSquared(initiator:GetLocation(), points[2]) + distanceSquared(partner:GetLocation(), points[1]) then
-        points[1], points[2] = points[2], points[1]
-    end
     for index, person in ipairs({initiator, partner}) do
         local who, spot = id(person:GetEntityId()), points[index]
         local queued, reason = queue(person, entity(), spot, WALK)
@@ -163,10 +180,51 @@ local function beginWalking()
     end
 end
 
+local function readGroundPoint(person)
+    local actions = interaction(person)
+    local isCurrent = tostring(actions:GetCurrentInteractionBagId()) == GROUND
+    local currentId = isCurrent and actions:GetCurrentInteractionQueueId()
+    -- interaction.started fires while the unique ground request is still in
+    -- the queue. The game sets its current bag and queue ID after that event.
+    for _, row in ipairs(actions.InteractionQueue or {}) do
+        if tostring(row.InteractionBagId) == GROUND and (not isCurrent or row.InteractionQueueId == currentId) then
+            return row.ImpactPoint
+        end
+    end
+    if isCurrent then
+        local ok, action = pcall(actions.GetCurrentAction, actions, inzoi.EB1ActionType.Delay)
+        if ok and action then return action.NonTargetLocation end
+    end
+end
+
+local function consumeGroundClick(who)
+    if not groundClick or groundClick.who ~= who then return end
+    if who ~= id(inzoi.FB2ControllerSystem.GetPossessEntityId()) then
+        groundClick = nil
+        return
+    end
+    local person = actor(who)
+    local point = person and readGroundPoint(person)
+    if not point then return end
+    groundClick = nil
+    groundSerial = groundSerial + 1
+    beginAttempt(who, ("ground-%d-%d"):format(os.time(), groundSerial), nil,
+        UE.FVector(point.X, point.Y, point.Z))
+end
+
 local function onNativeEvent(kind, event)
-    if not attempt then return end
     local who, target = id(event.entity_id), id(event.target_entity_id)
     local bag = tostring(event.interaction_bag_id)
+    if bag == GROUND then
+        if kind == "started" and who == id(inzoi.FB2ControllerSystem.GetPossessEntityId()) then
+            groundClick = {who = who, deadline = os.time() + 2}
+            consumeGroundClick(who)
+        elseif groundClick and groundClick.who == who then
+            consumeGroundClick(who)
+        end
+        return
+    end
+    if not attempt then return end
     local initiator, partner = attempt.initiator, attempt.partner
     if attempt.phase == "conversation" and who == initiator and target == partner and bag == INVITE then
         if kind == "started" then
@@ -252,6 +310,39 @@ local function selectSofaSeats(rows)
     end
 end
 
+local function openPicker()
+    attempt.phase = "picking"
+    request("picker", "open_partner_picker")
+end
+
+local function arrived()
+    confirmPair()
+    local floor = attempt.ground and inzoi.getB2Subsystem("FB2PathFindSystem")
+    for _, who in ipairs({attempt.initiator, attempt.partner}) do
+        local walk = attempt.walks[who]
+        if not walk or not walk.finished then return false end
+        if attempt.ground and not Ground.walkable(floor, walk.point) then
+            fail("A ground arrival point became unavailable for " .. who, "walk_failed")
+            return false
+        end
+        local position = assert(actor(who), "Participant unloaded during arrival"):GetLocation()
+        local horizontal = math.sqrt((position.X - walk.point.X)^2 + (position.Y - walk.point.Y)^2)
+        -- ClickMove takes a floor point, while GetLocation includes the Zoi's capsule height.
+        local height = math.abs(position.Z - walk.point.Z)
+        local limit = attempt.ground and 65 or 80
+        if horizontal > limit or height > 125 then
+            fail(string.format("Walk ended away from the target for %s (%.1f cm across, %.1f cm in height)",
+                who, horizontal, height), "walk_failed")
+            return false
+        end
+        if not walk.reported then
+            walk.reported = true
+            log("walk_arrived", {participant = who, horizontal_cm = horizontal, height_cm = height})
+        end
+    end
+    return true
+end
+
 local function onResponse(reply)
     if not attempt then return end
     local prefix = "encounter." .. attempt.nonce .. "."
@@ -266,7 +357,7 @@ local function onResponse(reply)
         for _, key in ipairs(FEATURES) do
             if result.features[key] ~= 1 then fail("Missing SceneZOI feature " .. key, "update_scenezoi"); return end
         end
-        discoverVenue("venue")
+        if attempt.ground then openPicker() else discoverVenue("venue") end
     elseif step == "picker" then
         assert(result.opened, "The native partner picker did not open")
     elseif step == "venue" then
@@ -285,8 +376,7 @@ local function onResponse(reply)
             fail("Selected queen bed is occupied", "furniture_unavailable")
             return
         end
-        attempt.phase = "picking"
-        request("picker", "open_partner_picker")
+        openPicker()
     elseif step == "sofa_seats" then
         confirmPair()
         selectSofaSeats(result.furniture)
@@ -302,6 +392,12 @@ local function onResponse(reply)
     elseif step == "invitation" then
         if not validated(step, result) then return end
         local initiator, partner = confirmPair()
+        if attempt.ground then
+            -- Keep the preflight's scene and roles so the Zoi who walks to the
+            -- clicked point is still the anchor when the same scene starts.
+            attempt.args.scene_id, attempt.args.bindings = result.scene_id, result.bindings
+            attempt.groundAnchor = result.bindings.male or attempt.initiator
+        end
         attempt.phase, attempt.deadline = "conversation", os.time() + 90
         local queued, reason = queue(initiator, partner:GetEntityId(), partner:GetLocation(), INVITE)
         if not queued then
@@ -313,7 +409,21 @@ local function onResponse(reply)
         log("invitation_queued")
     elseif step == "arrival" then
         if not validated(step, result) then return end
-        confirmPair()
+        if attempt.ground then
+            if not arrived() then return end
+            if result.scene_id ~= attempt.args.scene_id or not result.bindings then
+                fail("SceneZOI could not confirm the selected ground scene", "no_matching_scenes")
+                return
+            end
+            for role, who in pairs(attempt.args.bindings) do
+                if result.bindings[role] ~= who then
+                    fail("SceneZOI changed the roles after the ground approach", "no_matching_scenes")
+                    return
+                end
+            end
+        else
+            confirmPair()
+        end
         if attempt.seats then
             local sofa = manager():FindGameObject(entity(attempt.furniture))
             if not sofa
@@ -391,6 +501,25 @@ function M.on_begin()
     log("simulation_ready")
 end
 
+beginAttempt = function(who, nonce, furniture, ground)
+    if not client or who ~= id(inzoi.FB2ControllerSystem.GetPossessEntityId()) then return end
+    if attempt then notify(who, "busy"); return end
+    owner = actor(who)
+    attempt = {nonce = nonce, initiator = who, furniture = furniture, ground = ground,
+        phase = "preflight", deadline = os.time() + 45, walks = {}, dialogue = {}}
+    guarded(function()
+        assert(owner and eligible(owner), "The initiator is unavailable")
+        if ground then
+            log("ground_selected")
+            if not Ground.walkable(inzoi.getB2Subsystem("FB2PathFindSystem"), ground) then
+                fail("The selected ground is not walkable", "ground_unavailable")
+                return
+            end
+        end
+        request("features", "get_version")
+    end)
+end
+
 function M.on_lua_message(self, component, kind, content)
     if not client then return end
     local who = id(component:GetOwnerEntityId())
@@ -399,16 +528,7 @@ function M.on_lua_message(self, component, kind, content)
         return
     end
     local nonce, initiator, furniture = content:match("^([a-z0-9_%-]+)|(%d+)|(%d+)$")
-    if not nonce or #nonce > 48 or who ~= initiator
-        or who ~= id(inzoi.FB2ControllerSystem.GetPossessEntityId()) then return end
-    if attempt then notify(who, "busy"); return end
-    owner = actor(who)
-    attempt = {nonce = nonce, initiator = initiator, furniture = furniture,
-        phase = "preflight", deadline = os.time() + 45, walks = {}, dialogue = {}}
-    guarded(function()
-        assert(owner and eligible(owner), "The initiator is unavailable")
-        request("features", "get_version")
-    end)
+    if nonce and #nonce <= 48 and who == initiator then beginAttempt(who, nonce, furniture) end
 end
 
 local function tickAttempt()
@@ -429,30 +549,23 @@ local function tickAttempt()
         end
         return
     end
-    if attempt.phase ~= "walking" then return end
-    confirmPair()
-    for _, who in ipairs({attempt.initiator, attempt.partner}) do
-        local walk = attempt.walks[who]
-        if not walk or not walk.finished then return end
-        local person = assert(actor(who), "Participant unloaded during arrival")
-        local position = person:GetLocation()
-        local horizontal = math.sqrt((position.X - walk.point.X)^2 + (position.Y - walk.point.Y)^2)
-        -- ClickMove takes a floor point, while GetLocation includes the Zoi's capsule height.
-        local height = math.abs(position.Z - walk.point.Z)
-        assert(horizontal <= 80 and height <= 125,
-            string.format("Walk ended away from the target for %s (%.1f cm across, %.1f cm in height)", who, horizontal, height))
-        if not walk.reported then
-            walk.reported = true
-            log("walk_arrived", {participant = who, horizontal_cm = horizontal, height_cm = height})
-        end
-    end
+    if attempt.phase ~= "walking" or not arrived() then return end
     log("both_arrived")
     attempt.phase, attempt.deadline = "arrival", os.time() + 30
     validation("arrival")
 end
 
 function M.on_tick(self, component, dt)
-    if not attempt or id(component:GetOwnerEntityId()) ~= attempt.initiator then return end
+    local who = id(component:GetOwnerEntityId())
+    if groundClick and who == groundClick.who then
+        local ok, problem = pcall(consumeGroundClick, who)
+        if groundClick and (not ok or os.time() >= groundClick.deadline) then
+            groundClick = nil
+            log("ground_click_missing_location", {initiator = who, reason = tostring(problem or "Native action ended")})
+            notify(who, "ground_click_missing")
+        end
+    end
+    if not attempt or who ~= attempt.initiator then return end
     owner = actor(attempt.initiator)
     guarded(function()
         assert(owner, "Initiator unloaded")
@@ -471,7 +584,7 @@ function M.shutdown()
     for name, handle in pairs(subscriptions) do
         if handle and handle ~= 0 then inzoi.event.off(name, handle) end
     end
-    subscriptions, client, attempt, owner = {}, nil, nil, nil
+    subscriptions, client, attempt, owner, groundClick = {}, nil, nil, nil, nil
 end
 
 return M

@@ -1,0 +1,15 @@
+{
+  "Struct": "ObjectSelectionSet",
+  "BaseVersion": "20261026.16562.W.MODKIT.EGS",
+  "SaveVersion": "20261026.16562.W.MODKIT.EGS",
+  "PatchList": [
+    {
+      "Method": "Append",
+      "Query": "ObjectSelectionSet[Id=Click].SelectionSets[StateGroupId=Normal].InteractionBagList",
+      "Value": [
+        "HZoiGameplay_GroundInvite"
+      ],
+      "Enabled": true
+    }
+  ]
+}
