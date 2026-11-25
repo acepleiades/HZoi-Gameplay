@@ -2,6 +2,7 @@ local Affair = require("NativeAffair")
 local flags, calls = {}, 0
 local function byId(id) return tostring(id.Value) end
 local reject, gloat = false, false
+local receiveCooldowns, failureCooldowns = {Effect_Affair_Confirmed = 300, OtherEffect = 75}, {}
 local CHEATER, OTHER = "Affair_Caught_Cheater", "Affair_Caught_Mistress"
 
 local function makeActor(id, components)
@@ -29,11 +30,16 @@ local witness = makeActor(10, {
         end,
     },
     Howling = {
+        CooltimeMap = receiveCooldowns,
+        FailCooltimeMap = {ToTable = function() return failureCooldowns end},
         OnReceiveHowling = function(_, name, actor)
             assert(name == "Howling_Affair_Confirmed" and actor.Value == 20)
             if not gloat then assert(flags["30"] == OTHER) else assert(not flags["30"]) end
             calls = calls + 1
-            if reject then return false end
+            if reject then
+                failureCooldowns.Effect_Affair_Confirmed = 360
+                return false
+            end
             flags["20"] = CHEATER
             return true
         end,
@@ -70,12 +76,17 @@ inzoi = {
 reject = true
 local outcome = Affair.deliver(witness, cheater, other)
 assert(outcome.code == "native_witness_declined" and outcome.receiver == false)
+assert(outcome.cooldowns.before.receive.Effect_Affair_Confirmed == 300)
+assert(outcome.cooldowns.before.receive.OtherEffect == nil)
+assert(not next(outcome.cooldowns.before.failure) and outcome.cooldowns.after.failure.Effect_Affair_Confirmed == 360)
 assert(next(flags) == nil and calls == 1)
 reject = false
 outcome = Affair.deliver(witness, cheater, other)
 assert(outcome.code == "native_witness_processed" and outcome.primary_flag and outcome.other_flag)
 assert(flags["30"] == OTHER and calls == 2)
-assert(Affair.deliver(witness, cheater, other).code == "native_confrontation_pending" and calls == 2)
+outcome = Affair.deliver(witness, cheater, other)
+assert(outcome.code == "native_confrontation_pending" and calls == 2)
+assert(outcome.cooldowns.before.failure.Effect_Affair_Confirmed == 360 and outcome.cooldowns.after == nil)
 flags = {}
 gloat = true
 outcome = Affair.deliver(witness, cheater, other)

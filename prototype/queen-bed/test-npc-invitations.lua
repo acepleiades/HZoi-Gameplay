@@ -2,6 +2,8 @@ local now = 100
 local controlled = 1
 local callbacks, wire, queued, canceled, completed, terminal = {}, {}, {}, {}, {}, {}
 local observers, tickCount
+local privacyQueries, complaints = {}, {}
+local Json = require("SceneZOIAddon.Json")
 local function entity(value) return {Value = value or -1} end
 local function point(x, y, z) return {X = x, Y = y or 0, Z = z or 0} end
 local function roomAt(p) return math.floor(p.X / 1000) end
@@ -9,10 +11,11 @@ local function roomAt(p) return math.floor(p.X / 1000) end
 local actors = {}
 for _, number in ipairs({1, 11, 12, 21, 22, 31}) do
     local location = point(300)
-    local busy, currentBag, currentReason = false, nil, nil
+    local busy, currentBag, currentReason, currentTarget, autonomy = false, nil, nil, nil, true
     local interaction = {
         GetCurrentInteractionQueueId = function() return currentBag and 42 or -1 end,
         GetCurrentInteractionBagId = function() return currentBag or "None" end,
+        GetCurrentInteractionTargetEntityId = function() return entity(currentTarget) end,
         GetCurrentInteractionPlayReason = function() return currentReason end,
         IsQueueEmpty = function() return not busy end,
         IsPlayingInteraction = function() return busy end,
@@ -23,6 +26,9 @@ for _, number in ipairs({1, 11, 12, 21, 22, 31}) do
         end,
         TryCancelInteractionByBagId = function(_, bag)
             canceled[#canceled + 1] = {who = number, bag = bag}
+        end,
+        TryCancelInteraction = function(_, queueId)
+            canceled[#canceled + 1] = {who = number, queue = queueId}
         end,
     }
     actors[number] = {
@@ -35,7 +41,11 @@ for _, number in ipairs({1, 11, 12, 21, 22, 31}) do
         GetLocation = function() return location end,
         move = function(_, p) location = p end,
         busy = function(_, state) busy = state end,
-        setRunning = function(_, bag, reason) currentBag, currentReason = bag, reason end,
+        setRunning = function(_, bag, reason, target) currentBag, currentReason, currentTarget = bag, reason, target end,
+        autonomyAllowed = function(_, value)
+            if value ~= nil then autonomy = value end
+            return autonomy
+        end,
     }
 end
 
@@ -80,7 +90,7 @@ inzoi = {
     getB2Subsystem = function()
         return {IsOnWalkableGrid = function(_, p) return site:IsIn(p) and p.Y >= -800 and p.Y <= 800 end}
     end,
-    EB1GrowthStep = {Youth = 32, Adult = 64, Old = 128, Elderly = 256}, EB1GenderType = {Male = 1},
+    EB1GrowthStep = {Youth = 32, Adult = 64, Old = 128, Elderly = 256}, EB1GenderType = {Male = 1, Female = 2},
     EB1SiteType = {Residence = 1}, EB2EntityType = {Character = 3},
     EB2ComponentType = {Interaction = 1, Hope = 2, Mission = 3},
     EB1InteractionPlayReason = {User = 3, Autonomy = 8}, EB1InteractionCancelReason = {User = 1},
@@ -90,7 +100,12 @@ inzoi = {
         on = function(name, callback) callbacks[name] = callback; return 1 end,
         off = function(name) callbacks[name] = nil end,
     },
-    message = {send_to_client = function() error("NPC failures should stay in the diagnostics") end},
+    message = {send_to_client = function(owner, kind, payload)
+        assert(owner.Value == controlled and kind == "HZoiGameplay.WitnessTrace",
+            "NPC failures should stay in the diagnostics")
+        local query = Json.decode(payload)
+        if query.kind == "arrival" then privacyQueries[#privacyQueries + 1] = query end
+    end},
 }
 UE = {FVector = point}
 local emit = print
@@ -124,12 +139,19 @@ package.loaded["EncounterConsequences"] = {
     end,
 }
 
-package.loaded.NpcInitiative = {new = function() end, canAct = function(person) return person:IsAutonomyEnable() end}
+package.loaded.NpcInitiative = {new = function() end, canAct = function(person) return person:autonomyAllowed() end}
 package.loaded.OwnedEncounterUrges = {
     pending = function(owner) return {partner = tostring(owner:GetEntityId().Value + 1)} end,
     canInvite = function() return true end,
     onCompletion = function() return false end,
     reset = function() end,
+}
+package.loaded.WitnessNative = {
+    relationshipScore = function(observer)
+        assert(observer == actors[31], "Read the observer's side")
+        return 0
+    end,
+    privacyComplaint = function(speaker) complaints[#complaints + 1] = speaker end,
 }
 local invite = require("Components.VenueInvite")
 invite.on_begin()
@@ -145,6 +167,15 @@ local function reply(nonce, step, op, data)
     wire[key] = nil
     observers.response({request_id = key, result = data, ok = true})
     return args
+end
+local function confirmPrivacy(nonce, visible)
+    local wire = assert(table.remove(privacyQueries, 1))
+    assert(wire.token:find(nonce, 1, true) and wire.points[wire.participants[1]])
+    invite.on_lua_message({}, {GetOwnerEntityId = function() return entity(controlled) end},
+        "HZoiGameplay.WitnessResult", Json.encode({
+            kind = "arrival", token = wire.token, revision = wire.revision,
+            observations = Json.array(visible or {}),
+        }))
 end
 local function tick()
     local before = tickCount
@@ -198,7 +229,8 @@ local function arrived(who, bag)
     event("finished", who, -1, walk.bag)
 end
 local function valid(first, second, pair)
-    return {valid = true, scene_id = "hzoi.scene", bindings = {male = tostring(first), female = tostring(second)},
+    return {valid = true, scene_id = "hzoi.scene", anchor_participant_id = tostring(first),
+        bindings = {male = tostring(first), female = tostring(second)},
         furniture_pair_id = pair}
 end
 local function snapshot(nonce, session, first, second, phase, name, facts)
@@ -234,6 +266,7 @@ arrived(12)
 arrived(21)
 tick()
 reply(a, "arrival", "validate_start", valid(11, 12))
+confirmPrivacy(a)
 local args = reply(a, "start", "start_autonomous_scene", {accepted = true})
 assert(args.background and args.furniture_id == "411" and args.initiator == "11")
 observers.event(snapshot(a, "session-a", 11, 12, "playing", "session_started"))
@@ -241,13 +274,19 @@ observers.event(snapshot(a, "session-a", 11, 12, "playing", "session_started"))
 actors[31]:move(point(2450))
 now = now + 1
 tick()
-assert(#canceled == 1 and canceled[1].who == 22,
-    "An intrusion cancels the still-pending walk only, leaving the independent scene running")
+assert(#canceled == 0, "Room occupancy alone cannot cancel a still-pending walk")
+arrived(22)
+tick()
+reply(b, "arrival", "validate_start", valid(21, 22, "center"))
+confirmPrivacy(b, {{id = "31"}})
+assert(not wire["encounter." .. b .. ".start"] and #complaints == 2 and #canceled == 0,
+    "A visible unqualified observer prevents playback after both arrivals")
 
 actors[31]:move(point(300))
 actors[21]:move(point(300))
+actors[22]:move(point(300))
 local success, retry = invite.beginNpc(21, 22, {point(3320)})
-assert(success, "Intrusion releases the participants and room")
+assert(success, "A confirmed privacy denial releases the participants and room and preserves the urge")
 preflight(retry, 21, 22, rows)
 -- The occupied first room is filtered. Fall back after the second room fails content preflight.
 local sofa = reply(retry, "venue-1", "validate_start", {valid = false, code = "no_matching_scenes"})
@@ -261,6 +300,7 @@ arrived(21)
 arrived(22)
 tick()
 reply(retry, "arrival", "validate_start", valid(21, 22))
+confirmPrivacy(retry)
 reply(retry, "start", "start_autonomous_scene", {accepted = true})
 observers.event(snapshot(retry, "session-b", 21, 22, "playing", "session_started"))
 
@@ -375,7 +415,14 @@ pushAside(destination)
 arrived(12, RETRY)
 actors[31]:move(destination)
 tick()
-assert(#queued == 4 and not wire["encounter." .. nonce .. ".arrival"], "Recheck privacy before returning")
+assert(#queued == 5 and not wire["encounter." .. nonce .. ".arrival"], "A new occupant does not block a return walk")
+arrived(11, RETRY)
+tick()
+reply(nonce, "arrival", "validate_start", valid(11, 12))
+confirmPrivacy(nonce)
+reply(nonce, "start", "start_autonomous_scene", {accepted = true})
+observers.event({name = "session_start_failed", request_id = "encounter." .. nonce .. ".start",
+    addon_id = "hzoi.gameplay", code = "start_failed"})
 
 nonce, destination = prepareApproach()
 event("canceled", 12, -1, WALK, "CharacterOverlap")
@@ -388,6 +435,64 @@ assert(#queued == 5)
 event("finished", 11, -1, RETRY)
 tick()
 assert(#queued == 5 and not wire["encounter." .. nonce .. ".arrival"], "Allow only one return")
+invite.shutdown()
+
+invite.on_begin()
+for _, person in pairs(actors) do person:move(point(300)); person:setRunning() end
+local ready, pauseConversation = invite.beginNpc(11, 12)
+assert(ready, pauseConversation)
+preflight(pauseConversation, 11, 12)
+reply(pauseConversation, "venue-1", "validate_start", valid(11, 12))
+local branch = "Coop_TalkLike_Before_MakeLove"
+event("started", 11, 12, "HZoiGameplay_Invite")
+event("finished", 11, 12, "HZoiGameplay_Invite")
+event("started", 11, 12, branch)
+actors[11]:setRunning(branch, "Autonomy", 12)
+local actions = actors[12]:GetComponent(1)
+actions.InteractionQueue = {
+    {InteractionQueueId = 51, InteractionBagId = branch .. "_Feedback", PickedEntityId = entity(11)},
+    {InteractionQueueId = 52, InteractionBagId = branch .. "_Feedback", PickedEntityId = entity(31)},
+}
+local canceledBefore, queuedBefore = #canceled, #queued
+actors[12]:autonomyAllowed(false)
+tick()
+assert(#canceled == canceledBefore + 3 and canceled[canceledBefore + 1].bag == "HZoiGameplay_Invite")
+assert(canceled[canceledBefore + 2].who == 11 and canceled[canceledBefore + 2].queue == 42)
+assert(canceled[canceledBefore + 3].who == 12 and canceled[canceledBefore + 3].queue == 51,
+    "Cancel only the matching conversation roles when either person's autonomy changes")
+actors[12]:autonomyAllowed(true)
+nativeConversation(11, 12)
+assert(#queued == queuedBefore, "Late canceled conversation events must not start the approach")
+actions.InteractionQueue = nil
+
+nonce = prepareApproach()
+arrived(11)
+arrived(12)
+tick()
+reply(nonce, "arrival", "validate_start", valid(11, 12))
+confirmPrivacy(nonce)
+reply(nonce, "start", "start_autonomous_scene", {accepted = true})
+now = now + 1
+actors[11]:autonomyAllowed(false)
+tick()
+local cancelArgs = reply(nonce, "cancel-start", "cancel_start", {accepted = true})
+assert(cancelArgs.start_request_id == "encounter." .. nonce .. ".start")
+reply(nonce, "observe-1", "get_request_status", {phase = "failed", code = "start_failed"})
+actors[11]:autonomyAllowed(true)
+
+nonce = prepareApproach()
+arrived(11)
+arrived(12)
+tick()
+reply(nonce, "arrival", "validate_start", valid(11, 12))
+confirmPrivacy(nonce)
+reply(nonce, "start", "start_autonomous_scene", {accepted = true})
+observers.event(snapshot(nonce, "keep-playing", 11, 12, "playing", "session_started"))
+now = now + 1
+actors[12]:autonomyAllowed(false)
+tick()
+assert(not wire["encounter." .. nonce .. ".cancel-start"], "An already-playing session can finish")
+actors[12]:autonomyAllowed(true)
 invite.shutdown()
 
 emit("NPC invitation checks passed: concurrent sessions, privacy, venue fallback, and one-time return after native overlap.")

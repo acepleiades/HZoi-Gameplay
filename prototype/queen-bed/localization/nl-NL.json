@@ -1,0 +1,296 @@
+{
+  "moodlets": {
+    "InSync": [
+      "Op één lijn",
+      "Jullie vonden een ritme dat voor iedereen goed voelde. Daarna wilde je nog even dicht bij elkaar blijven."
+    ],
+    "Satisfied": [
+      "Helemaal tevreden",
+      "Je voelt je ontspannen en tevreden. Je had graag gezien dat iedereen evenveel kans had gehad om klaar te komen."
+    ],
+    "OutOfSync": [
+      "Uit de maat",
+      "Het was fijn om iemand te zien klaarkomen, maar zelf was je nog onderweg toen het eindigde. Je had graag nog wat meer tijd gehad."
+    ],
+    "AwkwardTiming": [
+      "Ongelukkig moment",
+      "Iemand zag wat er gebeurde en het samenzijn werd onderbroken. Daarna is het lastig om weer in de stemming te komen."
+    ],
+    "UnfinishedMoment": [
+      "Een onaf moment",
+      "Het begon net echt fijn te worden toen jullie stopten. Je blijft denken aan wat er had kunnen gebeuren als jullie meer tijd hadden gehad."
+    ],
+    "OutOfOrder": [
+      "Uit balans",
+      "Je wilde dat iedereen ervan zou genieten. Doordat het eindigde voordat iedereen klaar kon komen, voelde het een beetje uit balans."
+    ],
+    "FoundABetterRhythm": [
+      "Een beter ritme gevonden",
+      "Toen jullie beter op elkaar gingen letten, kwam de afwisseling vanzelf. Je bent blij dat jullie iets anders hebben geprobeerd."
+    ],
+    "NowhereToHide": [
+      "Nergens om je te verstoppen",
+      "Je dacht dat jullie wat privacy hadden. Zodra je besefte dat iemand je kon zien, wilde je het liefst door de grond zakken."
+    ],
+    "PlayedItCool": [
+      "Koel gebleven",
+      "Het was even ongemakkelijk om gezien te worden, maar je bleef rustig. Voor jou is het geen reden om er iets groots van te maken."
+    ],
+    "UnfinishedBusiness": [
+      "Er zit nog iets dwars",
+      "Je begon er net echt van te genieten toen het ophield. Het gevoel dat er iets onaf is gebleven, laat je niet los."
+    ],
+    "PerfectImprovisation": [
+      "Perfect geïmproviseerd",
+      "Jullie hielden op met bedenken hoe het moest gaan en volgden elkaars signalen. Nu ben je nieuwsgierig naar wat nog meer zo vanzelf zou kunnen gaan."
+    ],
+    "AtMyOwnPace": [
+      "Op mijn eigen tempo",
+      "Je nam rustig de tijd om van de intimiteit te genieten, zonder je te haasten. Dat was precies wat je nodig had."
+    ],
+    "SomethingToThinkAbout": [
+      "Iets om over na te denken",
+      "Je blijft nadenken over waarom het zo goed voelde. Misschien is het de moeite waard om de volgende keer te vertellen wat je fijn vond."
+    ],
+    "AQuestionOfTiming": [
+      "Een kwestie van timing",
+      "Iemand kwam klaar net toen jij er bijna was. Je vraagt je nog steeds af hoe jullie ritme zo uit de pas kon lopen."
+    ],
+    "ExactlyWhatIWorriedAbout": [
+      "Precies waar ik bang voor was",
+      "Je had je al afgevraagd of iemand jullie zou kunnen zien. En toen gebeurde het echt. Het zal even duren voor je je daar geen zorgen meer over maakt."
+    ],
+    "ThrillOfBeingCaught": [
+      "De spanning van betrapt worden",
+      "Je partner betrapte je met iemand anders. Je weet dat het gesprek niet makkelijk zal zijn, maar die onverwachte spanning overviel je."
+    ],
+    "WhatAnEntrance": [
+      "Wat een binnenkomst",
+      "De timing was zo slecht dat het bijna grappig was. Toen de schrik voorbij was, moest je moeite doen om niet te lachen."
+    ],
+    "WorthTheRush": [
+      "De spanning waard",
+      "Je samen laten meeslepen voelde beter dan je had verwacht. Als je eraan terugdenkt, klopt je hart nog steeds wat sneller."
+    ],
+    "WhoLetThemIn": [
+      "Wie liet diegene binnen?",
+      "Je had wat privacy verwacht. Je denkt er nog aan hoe makkelijk iemand jullie kon zien en hoe vervelend je dat vindt."
+    ],
+    "KeptItTogether": [
+      "De rust bewaard",
+      "Eerst schaamde je je, maar je haalde diep adem en bleef kalm. Het voelt goed om te weten dat je zo’n ongemakkelijk moment aankunt."
+    ],
+    "MixedFeelings": [
+      "Gemengde gevoelens",
+      "Je bent blij dat iemand het fijn heeft gehad. Je had voor jezelf ook graag nog wat tijd gehad."
+    ],
+    "TheWorldWentQuiet": [
+      "De wereld werd stil",
+      "Even vergat je alles buiten dat ene moment. Dat rustige gevoel draag je nog met je mee."
+    ],
+    "LetsLaughAboutIt": [
+      "Laten we erom lachen",
+      "Het was gênant om te beseffen dat iemand jullie kon zien, maar de timing was zo absurd dat het moeilijk was om ernstig te blijven. Inmiddels kun je erom lachen."
+    ],
+    "TooManyEyes": [
+      "Te veel ogen",
+      "Het voelde als een moment voor jullie alleen, totdat je merkte dat iemand keek. Je bent nu liever ergens rustig, zonder iemand onder ogen te hoeven komen."
+    ],
+    "ALittleLetDown": [
+      "Een kleine tegenvaller",
+      "Je hebt genoten van de nabijheid. Het is toch een beetje jammer om te stoppen als je er bijna bent."
+    ],
+    "ALittleLight": [
+      "Een lichtpuntje",
+      "Je gewild en dicht bij iemand voelen gaf je even rust van alles wat op je drukte. Je bent blij dat jullie die tijd samen hadden."
+    ],
+    "ThatWasAwkward": [
+      "Dat was ongemakkelijk",
+      "Zodra je doorhad dat iemand keek, wist je niet meer waar je heen moest kijken. Als je aan de ongemakkelijke stilte denkt, krimp je alweer ineen."
+    ],
+    "AChapterWorthKeeping": [
+      "Een hoofdstuk om te bewaren",
+      "Het zijn de kleine dingen die je bijblijven, zoals de blik die jullie daarna uitwisselden. Je bent blij dat jullie die tijd samen hadden."
+    ],
+    "StayClose": [
+      "Blijf nog even",
+      "Iemand kwam klaar terwijl jij er nog naartoe werkte. Je zou graag even gerustgesteld worden en nog wat langer dicht bij elkaar blijven."
+    ],
+    "FoundOurPace": [
+      "Ons ritme gevonden",
+      "Toen jullie een tempo vonden dat voor iedereen fijn was, viel alles op zijn plek. Je bent weer op adem, maar de opwinding voel je nog steeds."
+    ],
+    "StillBuzzing": [
+      "Nog vol energie",
+      "Voor sommigen eindigde het vroeg, maar jij hield er meer energie aan over dan je had verwacht. Stilzitten spreekt je nu niet echt aan."
+    ],
+    "CouldUseAShower": [
+      "Tijd voor een douche",
+      "Je hebt het fijn gehad, maar nu voelt alles wat plakkerig. Een warme douche en schone kleren klinken heerlijk."
+    ],
+    "CouldntKeepAStraightFace": [
+      "Ik kon mijn lach niet inhouden",
+      "Je wist dat je waarschijnlijk serieus moest kijken, maar je was te verrast. Je krijgt nog steeds de slappe lach als je eraan denkt."
+    ],
+    "MissingPiece": [
+      "Het ontbrekende stukje",
+      "Je blijft terugdenken aan wat er gebeurde. Iemand kwam klaar en je vindt het frustrerend dat je niet weet wat je zelf miste."
+    ],
+    "GoodEnoughForMe": [
+      "Goed genoeg voor mij",
+      "Je kreeg wat je nodig had en doet het nu graag rustig aan. Een paar minuten voor jezelf klinken best goed."
+    ],
+    "ALittleLuxury": [
+      "Een beetje luxe",
+      "Op een comfortabele plek was het veel makkelijker om samen te ontspannen. Je zou eraan kunnen wennen om zo de tijd voor elkaar te nemen."
+    ],
+    "IGotMine": [
+      "Ik heb wat ik wilde",
+      "Je merkte dat sommigen nog niet waren klaargekomen toen het eindigde. Je bent nog steeds behoorlijk ingenomen met hoe goed het voor jou liep."
+    ],
+    "ABreakWellSpent": [
+      "Een goed bestede pauze",
+      "Jullie konden alles even opzijzetten en elkaar jullie volle aandacht geven. Het was de moeite waard om daar tijd voor te maken."
+    ],
+    "CoolUnderPressure": [
+      "Koelbloedig onder druk",
+      "Je zag iemand kijken en moest er eerder om lachen dan je ervoor schamen. Een beetje ongemak was voor jou niet genoeg om het moment te verpesten."
+    ],
+    "WhatHaveIDone": [
+      "Wat heb ik gedaan?",
+      "Toen je betrapt werd, drong het tot je door hoeveel pijn je je partner had gedaan. Je wou dat je ongedaan kon maken wat er net is gebeurd."
+    ],
+    "QuietAgain": [
+      "Eindelijk weer rust",
+      "De spanning liep op toen je besefte dat iemand jullie had gezien. Nu jullie gestopt zijn, ben je blij dat je even op adem kunt komen."
+    ],
+    "WellNowIKnow": [
+      "Nou, dat weet ik dan",
+      "Klaarkomen liet je nadenken over hoe belangrijk je eigen voorkeuren zijn. Je zou het daar graag eens over hebben."
+    ],
+    "WorthTheDetour": [
+      "De omweg waard",
+      "Een korte pauze op de dag werd een herinnering waar je later nog om zult glimlachen. Je bent blij dat je ervoor bent gegaan."
+    ],
+    "AGoodImpression": [
+      "Een goede indruk",
+      "Je kreeg vlinders in je buik toen je merkte dat iedereen ervan genoot. Je denkt nog steeds aan de blikken die jullie daarna uitwisselden."
+    ],
+    "APleasantBuzz": [
+      "Een aangename tinteling",
+      "Je dacht dat je daarna slaperig zou zijn, maar je voelt je nog vol energie. Dat is een aangename verrassing."
+    ],
+    "SweetFinish": [
+      "Een fijne afloop",
+      "Jullie namen de tijd en dat was voor iedereen de moeite waard. Je hoeft dat fijne gevoel nog niet los te laten."
+    ],
+    "TakingItEasy": [
+      "Even rustig aan",
+      "Het werd gespannen toen iemand doorhad wat er gebeurde. Nu je gestopt bent en even hebt ademgehaald, kun je het ongemak laten zakken."
+    ],
+    "AMemoryToKeep": [
+      "Een herinnering om te koesteren",
+      "Je betrapt jezelf er al op dat je glimlacht als je aan die intimiteit denkt. Het is zo’n moment dat je graag wilt vasthouden."
+    ],
+    "BetterLuckNextTime": [
+      "Volgende keer beter",
+      "Het eindigde voordat iemand klaar kon komen. Je bent teleurgesteld, maar met wat meer tijd gaat het de volgende keer misschien beter."
+    ],
+    "FoundTheFit": [
+      "Zo voelde het goed",
+      "Toen jullie eenmaal een comfortabele houding hadden gevonden, konden jullie je op elkaar richten. De volgende keer weet je nog wat goed werkte."
+    ],
+    "ASecondWind": [
+      "Een tweede adem",
+      "Je was even uitgeput, maar uiteindelijk heb je meer energie dan daarvoor. Je kunt weer verder met je dag."
+    ],
+    "KeptMyComposure": [
+      "Ik bleef kalm",
+      "Je schaamde je even toen je doorhad dat iemand jullie kon zien. Dat je rustig bleef, geeft je vertrouwen in jezelf."
+    ],
+    "SawEncounter": [
+      "Onverwachte ontmoeting",
+      "Je had net te laat door wat er gebeurde. Je had iedereen graag wat meer privacy gegund."
+    ]
+  },
+  "causes": {
+    "[From everyone reaching orgasm]": "[Omdat iedereen klaarkwam]",
+    "[From reaching orgasm when some participants didn’t]": "[Omdat je klaarkwam terwijl dat anderen niet lukte]",
+    "[From someone else reaching orgasm while you didn’t]": "[Omdat iemand anders klaarkwam en jij niet]",
+    "[From being interrupted during sex]": "[Omdat jullie tijdens de seks werden onderbroken]",
+    "[From stopping early]": "[Omdat jullie vroeg ophielden]",
+    "[From the encounter ending before everyone reached orgasm]": "[Omdat het samenzijn eindigde voordat iedereen klaarkwam]",
+    "[From being seen having sex]": "[Omdat iemand jullie seks zag hebben]",
+    "[From reaching orgasm]": "[Omdat je klaarkwam]",
+    "[From getting caught cheating]": "[Van betrapt worden op vreemdgaan]",
+    "[From feeling sweaty after sex]": "[Omdat je bezweet bent na de seks]",
+    "[From walking in on Zois having sex]": "[Omdat je Zois betrapte terwijl ze seks hadden]"
+  },
+  "messages": {
+    "Could you knock next time?": "Zou je de volgende keer kunnen kloppen?",
+    "I wanted a little privacy.": "Ik wilde even wat privacy.",
+    "Can’t we have a little private time?": "Kunnen we niet even wat privacy hebben?",
+    "They walked in at the worst moment.": "Diegene kwam op het slechtst mogelijke moment binnen.",
+    "I thought this room was empty.": "Ik dacht dat deze kamer leeg was.",
+    "Have sex here": "Hier seks hebben",
+    "Toggle HZoi private room": "HZoi-privémarkering wijzigen",
+    "Could not open the HZoi partner picker.": "De HZoi-partnerkiezer kon niet worden geopend.",
+    "Your Zoi wants some private time with {partner}.": "Je Zoi wil even alleen zijn met {partner}.",
+    "Your Zoi fulfilled their urge with {partner}.": "Je Zoi heeft de wens met {partner} vervuld.",
+    "{first} and {second} decided to stop after someone walked in on them.": "{first} en {second} besloten te stoppen toen iemand binnenkwam.",
+    "The encounter ended after someone walked in.": "Het samenzijn eindigde toen er iemand binnenkwam.",
+    "{first} and {second} decided to stop after one of their romantic partners caught them together.": "{first} en {second} besloten te stoppen toen ze samen werden betrapt door de romantische partner van een van hen.",
+    "The encounter ended after a romantic partner walked in on it.": "Het samenzijn eindigde toen een vaste partner binnenkwam en zag wat er aan de hand was.",
+    "The partner picker could not open. Close any open picker and make sure your Zoi is out of their group.": "De partnerkiezer kon niet worden geopend. Sluit een eventuele open kiezer en zorg dat je Zoi niet meer in een groep zit.",
+    "Close the current Zoi picker before sending an invitation.": "Sluit de huidige Zoi-kiezer voordat je een uitnodiging stuurt.",
+    "An HZoi invitation is already in progress.": "Er loopt al een HZoi-uitnodiging.",
+    "Could not finish the invitation.": "De uitnodiging kon niet worden afgerond.",
+    "That bed is occupied or unavailable.": "Dat bed is bezet of niet beschikbaar.",
+    "The selected sofa seats are occupied or unavailable.": "De gekozen zitplaatsen op de bank zijn bezet of niet beschikbaar.",
+    "Both Zois need a clear path to the selected sofa seats.": "Beide Zois moeten de gekozen zitplaatsen op de bank via een vrije route kunnen bereiken.",
+    "Choose a walkable spot for the encounter.": "Kies een begaanbare plek voor de ontmoeting.",
+    "Could not read the selected ground spot. Open the ground menu and try again.": "De gekozen plek op de grond kon niet worden gelezen. Open het grondmenu en probeer het opnieuw.",
+    "Both Zois need a clear path and room to stand at the selected spot.": "Beide Zois hebben een vrije route en voldoende ruimte nodig om op de gekozen plek te staan.",
+    "Marked this room private for HZoi in the current loaded game.": "Deze ruimte is in het geladen spel als privéruimte voor HZoi gemarkeerd.",
+    "Removed the HZoi private-room mark.": "De HZoi-markering voor deze privéruimte is verwijderd.",
+    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "Ga in een kamer van de woning van je huishouden staan en kies een begaanbare plek op de vloer.",
+    "This room already has a room purpose.": "Deze ruimte heeft al een functie.",
+    "Select the Zoi who sent the invitation first.": "Kies eerst de Zoi die de uitnodiging heeft verstuurd.",
+    "No eligible partner was selected.": "Er is geen geschikte partner geselecteerd.",
+    "No scenes were found for these Zois at this spot.": "Er zijn op deze locatie geen passende scènes gevonden voor deze Zois.",
+    "No scenes at this spot can complete the goals for this pair.": "Geen enkele scène op deze locatie kan de doelen van beide Zois voltooien.",
+    "These Zois cannot use Set the Mood right now.": "Deze Zois kunnen ‘Sfeer maken’ nu niet gebruiken.",
+    "One of the Zois is already in a SceneZOI session. Try again afterward.": "Een van de Zois zit al in een SceneZOI-sessie. Probeer het daarna opnieuw.",
+    "The invitation could not be added to the action queue.": "De uitnodiging kon niet aan de actiewachtrij worden toegevoegd.",
+    "An activity needed for this encounter is unavailable.": "Een vereiste activiteit voor deze ontmoeting is niet beschikbaar.",
+    "End the current SceneZOI session before starting another.": "Beëindig de huidige SceneZOI-sessie voordat je een nieuwe start.",
+    "The invitation took too long. Check the Zois' action queues and try again.": "De uitnodiging duurde te lang. Controleer de actiewachtrijen van de Zois en probeer het opnieuw.",
+    "SceneZOI did not respond. Check that it is installed and enabled.": "SceneZOI reageerde niet. Controleer of het geïnstalleerd en ingeschakeld is.",
+    "SceneZOI could not find a supported bed or adjacent sofa seats here.": "SceneZOI kon hier geen ondersteund bed of twee aangrenzende zitplaatsen op de bank vinden.",
+    "Update SceneZOI to use HZoi Gameplay.": "Werk SceneZOI bij om HZoi Gameplay te gebruiken.",
+    "Both Zois need a clear path to the selected bed.": "Beide Zois moeten het gekozen bed via een vrije route kunnen bereiken.",
+    "Your Zoi wants some private time with their partner.": "Je Zoi wil even alleen zijn met diens partner.",
+    "Your Zoi fulfilled their urge with their partner.": "Je Zoi heeft die wens samen met diens partner vervuld.",
+    "I trusted you. How could you?": "Ik vertrouwde je. Hoe kon je?",
+    "I can’t believe you’d do this to me.": "Ik kan niet geloven dat je me dit aandoet.",
+    "I never thought I’d catch you in the act.": "Ik had nooit gedacht dat ik je op heterdaad zou betrappen.",
+    "I thought what we had meant something.": "Ik dacht dat wat wij hadden iets betekende.",
+    "Is this what you’ve been doing behind my back?": "Is dit wat je achter mijn rug deed?",
+    "Oh! Sorry, I’ll give you some privacy.": "O! Sorry, ik geef jullie wat privacy.",
+    "I didn’t mean to walk in on this.": "Ik wilde hier niet zomaar binnenvallen.",
+    "Oh! I saw more than I meant to.": "O! Ik heb meer gezien dan ik wilde.",
+    "Sorry. I’ve clearly come at a bad time.": "Sorry. Ik kom duidelijk ongelegen.",
+    "Oh! This looks private. I’ll come back later.": "O! Dit lijkt me privé. Ik kom later terug.",
+    "Oh, hey! I’ll let you have your moment.": "O, hé! Ik laat jullie even van dit moment genieten.",
+    "Of all the times to drop by! I’ll catch up with you later.": "Wat een timing om langs te komen! Ik spreek jullie later.",
+    "Oh! No need to explain. I’ll give you some space.": "O! Jullie hoeven niets uit te leggen. Ik geef jullie wat ruimte.",
+    "Ah, so that’s what you were up to. I’ll leave you to it.": "Aha, daar waren jullie dus mee bezig. Ga gerust verder.",
+    "Oh! I can take a hint. See you later.": "O! Ik snap de hint. Tot later.",
+    "Oh! Getting pretty cozy in here.": "O! Nogal knus hier.",
+    "Well, that’s a little more than flirting.": "Tja, dat is iets meer dan flirten.",
+    "Oh! I see what kind of mood everyone’s in.": "O! Ik zie in wat voor stemming iedereen is.",
+    "Well! It’s getting warm in here.": "Nou! Het wordt warm hier.",
+    "Oh! Here I thought you were just talking.": "O! En ik dacht dat jullie alleen maar aan het praten waren.",
+    "They decided to wait for some privacy. Someone they don’t know well enough could see them.": "Ze besloten te wachten op wat meer privacy. Iemand die ze niet goed genoeg kennen, kon hen zien."
+  }
+}

@@ -1,160 +1,213 @@
 Key,SourceString
 mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_DisplayTextId,In Sync
-mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_EmotionReasonDescTextId,You and your partner found a rhythm that worked for both of you.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_ReasonTextId,"[From everyone reaching orgasm]
+You found a rhythm that felt right for everyone. Afterward, you wanted to stay close a little longer."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_EmotionReasonDescTextId,"You found a rhythm that felt right for everyone. Afterward, you wanted to stay close a little longer."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_DisplayTextId,Satisfied
-mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_ReasonTextId,From being the only one to finish
-mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_EmotionReasonDescTextId,You came away satisfied.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_ReasonTextId,"[From reaching orgasm when some participants didn’t]
+You feel relaxed and satisfied. You wish everyone had had the same chance to finish."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_EmotionReasonDescTextId,You feel relaxed and satisfied. You wish everyone had had the same chance to finish.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_DisplayTextId,Out of Sync
-mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_ReasonTextId,From only your partner finishing
-mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_EmotionReasonDescTextId,You were left wanting more.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_ReasonTextId,"[From someone else reaching orgasm while you didn’t]
+It was good to see someone finish, but you were still getting there when it ended. You wish you’d had a little more time."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_EmotionReasonDescTextId,"It was good to see someone finish, but you were still getting there when it ended. You wish you’d had a little more time."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_DisplayTextId,Awkward Timing
-mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_ReasonTextId,From being seen
-mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_EmotionReasonDescTextId,"Someone saw you, and the encounter ended early."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_ReasonTextId,"[From being interrupted during sex]
+Someone saw what was happening, and the encounter stopped. It’s hard to get back in the mood after that."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_EmotionReasonDescTextId,"Someone saw what was happening, and the encounter stopped. It’s hard to get back in the mood after that."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_DisplayTextId,Unfinished Moment
-mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_ReasonTextId,From ending the encounter early
-mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_EmotionReasonDescTextId,You were disappointed that the moment ended so soon.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_ReasonTextId,"[From stopping early]
+Things were only just getting good when you stopped. You’re left thinking about what might have happened with a little more time."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_EmotionReasonDescTextId,Things were only just getting good when you stopped. You’re left thinking about what might have happened with a little more time.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_DisplayTextId,Out of Order
-mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_ReasonTextId,From a mismatch
-mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_EmotionReasonDescTextId,The encounter felt out of step when only one of you finished.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_ReasonTextId,"[From the encounter ending before everyone reached orgasm]
+You wanted everyone to enjoy it. Ending before everyone could finish made the whole thing feel a little uneven."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_EmotionReasonDescTextId,You wanted everyone to enjoy it. Ending before everyone could finish made the whole thing feel a little uneven.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_DisplayTextId,Found a Better Rhythm
-mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_EmotionReasonDescTextId,Exploring new boundaries with someone special felt exciting.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_ReasonTextId,"[From everyone reaching orgasm]
+Changing things up came naturally once you started paying attention to each other. You’re glad you tried something different."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_EmotionReasonDescTextId,Changing things up came naturally once you started paying attention to each other. You’re glad you tried something different.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_DisplayTextId,Nowhere to Hide
-mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_ReasonTextId,From being seen
-mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_EmotionReasonDescTextId,You wanted privacy. Being seen left you flustered.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_ReasonTextId,"[From being seen having sex]
+You thought you had some privacy. The second you realized someone could see you, you wished you could disappear."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_EmotionReasonDescTextId,"You thought you had some privacy. The second you realized someone could see you, you wished you could disappear."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_DisplayTextId,Played It Cool
-mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_ReasonTextId,From being seen
-mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_EmotionReasonDescTextId,You took the awkward moment in stride.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_ReasonTextId,"[From being seen having sex]
+Being seen was awkward for a second, but you kept your cool. It doesn’t feel like something you need to make a big deal of."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_EmotionReasonDescTextId,"Being seen was awkward for a second, but you kept your cool. It doesn’t feel like something you need to make a big deal of."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_DisplayTextId,Unfinished Business
-mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_ReasonTextId,From ending the encounter early
-mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_EmotionReasonDescTextId,You were frustrated to stop before either of you finished.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_ReasonTextId,"[From stopping early]
+You were just getting into it when things stopped. The feeling that you left something unfinished is hard to shake."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_EmotionReasonDescTextId,You were just getting into it when things stopped. The feeling that you left something unfinished is hard to shake.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_DisplayTextId,Perfect Improvisation
-mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_EmotionReasonDescTextId,The rhythm you found together left you curious about what else might work.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_ReasonTextId,"[From everyone reaching orgasm]
+You stopped thinking about how it ought to go and followed each other’s lead. Now you’re curious what else might feel that natural."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_EmotionReasonDescTextId,You stopped thinking about how it ought to go and followed each other’s lead. Now you’re curious what else might feel that natural.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_DisplayTextId,At My Own Pace
-mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_ReasonTextId,From finishing
-mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_EmotionReasonDescTextId,You enjoyed the moment on your own terms.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_ReasonTextId,"[From reaching orgasm]
+You gave yourself time to enjoy being close without worrying about how fast things were moving. That was exactly what you needed."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_EmotionReasonDescTextId,You gave yourself time to enjoy being close without worrying about how fast things were moving. That was exactly what you needed.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_DisplayTextId,Something to Think About
-mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_ReasonTextId,From finishing
-mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_EmotionReasonDescTextId,You’re curious about what made the encounter feel so good.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_ReasonTextId,"[From reaching orgasm]
+You keep thinking about what made that feel so good. It might be worth talking about what you liked next time."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_EmotionReasonDescTextId,You keep thinking about what made that feel so good. It might be worth talking about what you liked next time.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_DisplayTextId,A Question of Timing
-mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_ReasonTextId,From only your partner finishing
-mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_EmotionReasonDescTextId,"You keep replaying the moment, wondering where your timing went wrong."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_ReasonTextId,"[From someone else reaching orgasm while you didn’t]
+Someone finished just when you were starting to get close. You’re still wondering how the timing got so out of step."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_EmotionReasonDescTextId,Someone finished just when you were starting to get close. You’re still wondering how the timing got so out of step.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_DisplayTextId,Exactly What I Worried About
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_ReasonTextId,From being seen
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_EmotionReasonDescTextId,"Someone saw you, just as you feared."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_ReasonTextId,"[From being seen having sex]
+You’d been wondering whether someone might see you, and then it actually happened. It’s going to take a while to stop worrying about it."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_EmotionReasonDescTextId,"You’d been wondering whether someone might see you, and then it actually happened. It’s going to take a while to stop worrying about it."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_DisplayTextId,Thrill of Being Caught
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_ReasonTextId,From getting caught cheating
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_EmotionReasonDescTextId,You felt an unexpected rush when your partner caught you.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_ReasonTextId,"[From getting caught cheating]
+Your partner caught you with someone else. You know the conversation won’t be easy, but the rush caught you by surprise."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_EmotionReasonDescTextId,"Your partner caught you with someone else. You know the conversation won’t be easy, but the rush caught you by surprise."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_DisplayTextId,What an Entrance
-mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_ReasonTextId,From being seen
-mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_EmotionReasonDescTextId,The awkward timing amused you.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_ReasonTextId,"[From being seen having sex]
+The timing was so bad that it was almost funny. Once the surprise wore off, you had to fight the urge to laugh."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_EmotionReasonDescTextId,"The timing was so bad that it was almost funny. Once the surprise wore off, you had to fight the urge to laugh."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_DisplayTextId,Worth the Rush
-mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_EmotionReasonDescTextId,You came away exhilarated.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_ReasonTextId,"[From everyone reaching orgasm]
+Getting carried away together felt better than you expected. Your heart is still racing a little just thinking about it."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_EmotionReasonDescTextId,Getting carried away together felt better than you expected. Your heart is still racing a little just thinking about it.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_DisplayTextId,Who Let Them In?
-mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_ReasonTextId,From being seen
-mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_EmotionReasonDescTextId,You’re annoyed that someone intruded on a private moment.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_ReasonTextId,"[From being seen having sex]
+You expected a bit of privacy. Now you’re thinking about how easily someone saw you and how annoyed you are about it."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_EmotionReasonDescTextId,You expected a bit of privacy. Now you’re thinking about how easily someone saw you and how annoyed you are about it.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_DisplayTextId,Kept It Together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_ReasonTextId,From an encounter interrupted by a witness
-mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_EmotionReasonDescTextId,You kept your composure when the encounter ended.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_ReasonTextId,"[From being interrupted during sex]
+You were embarrassed at first, but you took a breath and kept your composure. It feels good to know you can handle an awkward moment."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_EmotionReasonDescTextId,"You were embarrassed at first, but you took a breath and kept your composure. It feels good to know you can handle an awkward moment."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_DisplayTextId,Mixed Feelings
-mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_ReasonTextId,From only your partner finishing
-mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_EmotionReasonDescTextId,You’re glad your partner enjoyed it. You wish you’d felt the same.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_ReasonTextId,"[From someone else reaching orgasm while you didn’t]
+You’re glad someone had a good time. You wish you’d had a little more time too."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_EmotionReasonDescTextId,You’re glad someone had a good time. You wish you’d had a little more time too.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_DisplayTextId,The World Went Quiet
-mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_EmotionReasonDescTextId,"For a little while, it felt like you were the only two in the world."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_ReasonTextId,"[From everyone reaching orgasm]
+For a little while you forgot about everything outside that moment. You’re still carrying that quiet feeling with you."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_EmotionReasonDescTextId,For a little while you forgot about everything outside that moment. You’re still carrying that quiet feeling with you.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_DisplayTextId,Let’s Laugh About It
-mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_ReasonTextId,From being seen
-mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_EmotionReasonDescTextId,You found the funny side of being seen.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_ReasonTextId,"[From being seen having sex]
+It was embarrassing to realize someone could see you, but the timing was hard to take seriously. You can already laugh about it."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_EmotionReasonDescTextId,"It was embarrassing to realize someone could see you, but the timing was hard to take seriously. You can already laugh about it."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_DisplayTextId,Too Many Eyes
-mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_ReasonTextId,From being seen
-mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_EmotionReasonDescTextId,The extra attention made you feel exposed.
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_DisplayTextId,A Little Let Down
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_ReasonTextId,From only your partner finishing
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_EmotionReasonDescTextId,You enjoyed being together and still feel a little let down.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_ReasonTextId,"[From being seen having sex]
+The moment felt private until you noticed someone looking. You’d rather be somewhere quiet where you don’t have to face anyone for a bit."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_EmotionReasonDescTextId,The moment felt private until you noticed someone looking. You’d rather be somewhere quiet where you don’t have to face anyone for a bit.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_DisplayTextId,A Little Letdown
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_ReasonTextId,"[From someone else reaching orgasm while you didn’t]
+You enjoyed the closeness. It’s still a little disappointing to stop when you were getting close."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_EmotionReasonDescTextId,You enjoyed the closeness. It’s still a little disappointing to stop when you were getting close.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_DisplayTextId,A Little Light
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_EmotionReasonDescTextId,Spending a good moment with someone brought you some relief.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_ReasonTextId,"[From everyone reaching orgasm]
+Feeling wanted and close to someone gave you a break from the things weighing on you. You’re glad you had that time together."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_EmotionReasonDescTextId,Feeling wanted and close to someone gave you a break from the things weighing on you. You’re glad you had that time together.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_DisplayTextId,That Was Awkward
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_ReasonTextId,From an encounter interrupted by a witness
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_EmotionReasonDescTextId,You were too flustered to know where to look.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_ReasonTextId,"[From being interrupted during sex]
+The second you noticed someone watching, you forgot where to look. Just remembering the awkward silence makes you cringe."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_EmotionReasonDescTextId,"The second you noticed someone watching, you forgot where to look. Just remembering the awkward silence makes you cringe."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_DisplayTextId,A Chapter Worth Keeping
-mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_EmotionReasonDescTextId,You shared a moment worth remembering.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_ReasonTextId,"[From everyone reaching orgasm]
+It’s the little details you’ll remember, like the look you shared afterward. You’re glad you got to spend that time together."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_EmotionReasonDescTextId,"It’s the little details you’ll remember, like the look you shared afterward. You’re glad you got to spend that time together."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_DisplayTextId,Stay Close
-mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_ReasonTextId,From only your partner finishing
-mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_EmotionReasonDescTextId,You’re left wanting reassurance that your experience mattered too.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_ReasonTextId,"[From someone else reaching orgasm while you didn’t]
+Someone finished while you were still getting there. You’d like a little reassurance and a moment to stay close."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_EmotionReasonDescTextId,Someone finished while you were still getting there. You’d like a little reassurance and a moment to stay close.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_DisplayTextId,Found Our Pace
-mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_EmotionReasonDescTextId,Finding a pace that suited you both gave you a rush.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_ReasonTextId,"[From everyone reaching orgasm]
+Once you found a pace that felt good to everyone, everything clicked. You still feel the rush now that you’ve caught your breath."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_EmotionReasonDescTextId,"Once you found a pace that felt good to everyone, everything clicked. You still feel the rush now that you’ve caught your breath."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_DisplayTextId,Still Buzzing
-mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_ReasonTextId,From being the only one to finish
-mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_EmotionReasonDescTextId,You’re still buzzing from how good it felt.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_ReasonTextId,"[From reaching orgasm when some participants didn’t]
+Even though the encounter ended early for some, you came away with more energy than you expected. Sitting still doesn’t sound very appealing right now."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_EmotionReasonDescTextId,"Even though the encounter ended early for some, you came away with more energy than you expected. Sitting still doesn’t sound very appealing right now."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_DisplayTextId,Could Use a Shower
-mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_ReasonTextId,From low Hygiene after an encounter
-mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_EmotionReasonDescTextId,You feel uncomfortable and keep thinking about getting clean.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_ReasonTextId,"[From feeling sweaty after sex]
+You had a good time, but now everything feels a little sticky. A warm shower and a change of clothes sound wonderful."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_EmotionReasonDescTextId,"You had a good time, but now everything feels a little sticky. A warm shower and a change of clothes sound wonderful."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_DisplayTextId,Couldn’t Keep a Straight Face
-mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_ReasonTextId,From being seen
-mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_EmotionReasonDescTextId,The surprise was enough to give you the giggles.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_ReasonTextId,"[From being seen having sex]
+You knew you should probably look serious, but the surprise got the better of you. Thinking about it still makes you want to giggle."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_EmotionReasonDescTextId,"You knew you should probably look serious, but the surprise got the better of you. Thinking about it still makes you want to giggle."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_DisplayTextId,Missing Piece
-mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_ReasonTextId,From only your partner finishing
-mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_EmotionReasonDescTextId,You’re frustrated that you can’t figure out why the encounter fell short for you.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_ReasonTextId,"[From someone else reaching orgasm while you didn’t]
+You can’t help replaying what happened. Someone finished, and you’re frustrated that you can’t work out what was missing for you."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_EmotionReasonDescTextId,"You can’t help replaying what happened. Someone finished, and you’re frustrated that you can’t work out what was missing for you."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_DisplayTextId,Good Enough for Me
-mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_ReasonTextId,From being the only one to finish
-mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_EmotionReasonDescTextId,You’re satisfied and ready to relax.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_ReasonTextId,"[From reaching orgasm when some participants didn’t]
+You got what you needed and now you’re happy to take it easy. A few quiet minutes to yourself sound pretty good."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_EmotionReasonDescTextId,You got what you needed and now you’re happy to take it easy. A few quiet minutes to yourself sound pretty good.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_DisplayTextId,A Little Luxury
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_EmotionReasonDescTextId,A comfortable place made the moment feel like a small luxury.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_ReasonTextId,"[From everyone reaching orgasm]
+Having somewhere comfortable made it so much easier to relax together. You could get used to taking your time like that."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_EmotionReasonDescTextId,Having somewhere comfortable made it so much easier to relax together. You could get used to taking your time like that.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_DisplayTextId,I Got Mine
-mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_ReasonTextId,From being the only one to finish
-mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_EmotionReasonDescTextId,You feel smug about getting what you wanted.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_ReasonTextId,"[From reaching orgasm when some participants didn’t]
+You noticed some hadn’t finished when it ended. You’re still feeling pretty smug about how well things went for you."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_EmotionReasonDescTextId,You noticed some hadn’t finished when it ended. You’re still feeling pretty smug about how well things went for you.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_DisplayTextId,A Break Well Spent
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_EmotionReasonDescTextId,Making time for each other felt worthwhile.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_ReasonTextId,"[From everyone reaching orgasm]
+You managed to put everything else aside and give each other your full attention. It was worth making room for that."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_EmotionReasonDescTextId,You managed to put everything else aside and give each other your full attention. It was worth making room for that.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_DisplayTextId,Cool Under Pressure
-mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_ReasonTextId,From being seen
-mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_EmotionReasonDescTextId,The awkward moment amused you.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_ReasonTextId,"[From being seen having sex]
+You caught someone looking and felt more amused than embarrassed. A little awkwardness wasn’t enough to ruin the moment for you."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_EmotionReasonDescTextId,You caught someone looking and felt more amused than embarrassed. A little awkwardness wasn’t enough to ruin the moment for you.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_DisplayTextId,What Have I Done?
-mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_ReasonTextId,From getting caught cheating
-mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_EmotionReasonDescTextId,You feel guilty for hurting your partner.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_ReasonTextId,"[From getting caught cheating]
+Getting caught made it sink in how much you’d hurt your partner. You wish you could take back what just happened."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_EmotionReasonDescTextId,Getting caught made it sink in how much you’d hurt your partner. You wish you could take back what just happened.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_DisplayTextId,Quiet Again
-mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_ReasonTextId,From an encounter interrupted by a witness
-mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_EmotionReasonDescTextId,The awkwardness passed once the encounter ended.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_ReasonTextId,"[From being interrupted during sex]
+Things got tense when you realized someone had seen you. Now that you’ve stopped, you’re glad to have a moment to breathe."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_EmotionReasonDescTextId,"Things got tense when you realized someone had seen you. Now that you’ve stopped, you’re glad to have a moment to breathe."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_DisplayTextId,"Well, Now I Know"
-mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_ReasonTextId,From being the only one to finish
-mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_EmotionReasonDescTextId,You’re curious about what made the difference for you.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_ReasonTextId,"[From reaching orgasm when some participants didn’t]
+Finishing made you think about how much your own preferences matter. You’d like to compare notes sometime."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_EmotionReasonDescTextId,Finishing made you think about how much your own preferences matter. You’d like to compare notes sometime.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_DisplayTextId,Worth the Detour
-mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_EmotionReasonDescTextId,You’re glad you made time for a moment that felt this good.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_ReasonTextId,"[From everyone reaching orgasm]
+Taking a little time out of the day turned into something you’ll be smiling about later. You’re glad you went for it."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_EmotionReasonDescTextId,Taking a little time out of the day turned into something you’ll be smiling about later. You’re glad you went for it.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_DisplayTextId,A Good Impression
-mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_EmotionReasonDescTextId,Knowing your partner enjoyed it too gave you butterflies.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_ReasonTextId,"[From everyone reaching orgasm]
+Knowing everyone enjoyed it gave you butterflies. You’re still thinking about the looks you shared afterward."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_EmotionReasonDescTextId,Knowing everyone enjoyed it gave you butterflies. You’re still thinking about the looks you shared afterward.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_DisplayTextId,A Pleasant Buzz
-mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_ReasonTextId,From being the only one to finish
-mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_EmotionReasonDescTextId,You still feel a little jolt of excitement.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_ReasonTextId,"[From reaching orgasm when some participants didn’t]
+You thought you might feel sleepy afterward, but your body is still humming with energy. It’s a pleasant surprise."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_EmotionReasonDescTextId,"You thought you might feel sleepy afterward, but your body is still humming with energy. It’s a pleasant surprise."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_DisplayTextId,Sweet Finish
-mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_EmotionReasonDescTextId,You’re still savoring how well the moment went.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_ReasonTextId,"[From everyone reaching orgasm]
+You took your time and it paid off for everyone. You’re in no hurry to move on from how good that felt."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_EmotionReasonDescTextId,You took your time and it paid off for everyone. You’re in no hurry to move on from how good that felt.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_DisplayTextId,Taking It Easy
-mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_ReasonTextId,From an encounter interrupted by a witness
-mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_EmotionReasonDescTextId,You feel calmer now that the awkward moment has passed.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_ReasonTextId,"[From being interrupted during sex]
+It was tense when someone noticed what was happening. After stopping and taking a breath, you’re ready to let the awkwardness pass."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_EmotionReasonDescTextId,"It was tense when someone noticed what was happening. After stopping and taking a breath, you’re ready to let the awkwardness pass."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_DisplayTextId,A Memory to Keep
-mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_EmotionReasonDescTextId,You shared a moment you want to remember.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_ReasonTextId,"[From everyone reaching orgasm]
+You’ve already caught yourself smiling at the memory of being that close. It’s one of those moments you’d like to hold on to."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_EmotionReasonDescTextId,You’ve already caught yourself smiling at the memory of being that close. It’s one of those moments you’d like to hold on to.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_DisplayTextId,Better Luck Next Time
-mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_ReasonTextId,From ending the encounter early
-mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_EmotionReasonDescTextId,"You’re disappointed it ended, and you hope next time goes better."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_ReasonTextId,"[From stopping early]
+Things ended before anyone could finish. You’re disappointed, but maybe you’ll have better luck when there’s more time."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_EmotionReasonDescTextId,"Things ended before anyone could finish. You’re disappointed, but maybe you’ll have better luck when there’s more time."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_DisplayTextId,Found the Fit
-mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_ReasonTextId,From finishing together
-mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_EmotionReasonDescTextId,A comfortable position made everything click.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_ReasonTextId,"[From everyone reaching orgasm]
+Once you found a comfortable position, you could pay attention to each other. You’ll remember what worked next time."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_EmotionReasonDescTextId,"Once you found a comfortable position, you could pay attention to each other. You’ll remember what worked next time."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_DisplayTextId,A Second Wind
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_ReasonTextId,From finishing
-mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_EmotionReasonDescTextId,You came away feeling energized.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_ReasonTextId,"[From reaching orgasm]
+You felt worn out for a moment, then came away more energized than before. You could keep going with your day now."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_EmotionReasonDescTextId,"You felt worn out for a moment, then came away more energized than before. You could keep going with your day now."
 mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_DisplayTextId,Kept My Composure
-mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_ReasonTextId,From being seen
-mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_EmotionReasonDescTextId,Keeping your cool in an awkward moment made you feel more confident.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_ReasonTextId,"[From being seen having sex]
+You felt a flash of embarrassment when you realized someone could see you. Staying calm through it left you feeling sure of yourself."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_EmotionReasonDescTextId,You felt a flash of embarrassment when you realized someone could see you. Staying calm through it left you feeling sure of yourself.
 mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_DisplayTextId,Unexpected Company
-mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_ReasonTextId,From walking in on an encounter
-mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_EmotionReasonDescTextId,You stumbled into a private moment.
+mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_ReasonTextId,"[From walking in on Zois having sex]
+You realized a second too late what was happening. You wish you’d given everyone a bit more privacy."
+mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_EmotionReasonDescTextId,You realized a second too late what was happening. You wish you’d given everyone a bit more privacy.

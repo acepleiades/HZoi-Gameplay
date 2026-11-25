@@ -20,8 +20,6 @@ function matches(row, state) {
                 case 'IsLovable': actual = state.lovable; expected = true; break;
                 case 'IsFromRemoteCity': actual = state.remote === BaseObject; expected = true; break;
                 case 'IsFamilyRelationship': actual = state.familyRelationship ?? 'None'; expected = S1; break;
-                case 'GrowthStep': actual = state.belowYouth === BaseObject ? -1 : 0; expected = 0;
-                    assert.equal(S1, 'Youth'); break;
                 case 'RelationshipName': actual = state.relationship; expected = S1; break;
                 case 'RelationshipStat': actual = state[S1]; expected = F1; break;
                 case 'EmotionTendency': actual = state.emotion; expected = S1; break;
@@ -71,7 +69,6 @@ check({relationship: 'HighTeen_Lover', romance: 30}, [[accept, 1]]);
 check({remote: 'Target'}, []);
 check({remote: 'Self'}, []);
 check({lovable: false}, []);
-check({belowYouth: 'Target'}, []);
 check({familyRelationship: 'Sibling'}, []);
 console.log('Native invitation rules passed');
 

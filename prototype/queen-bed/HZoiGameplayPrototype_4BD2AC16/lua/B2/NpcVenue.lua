@@ -1,4 +1,5 @@
 local Planner = require("NpcVenuePlanner")
+local FurnitureKind = require("VenueFurnitureKind")
 local Marks = require("PrivateRoomMarks")
 local M = {}
 local claims = {}
@@ -68,7 +69,7 @@ local function distanceSquared(first, second)
     return (first.X - second.X)^2 + (first.Y - second.Y)^2 + (first.Z - second.Z)^2
 end
 
-local function scope(initiator, partner)
+local function scope(initiator, partner, checkVacancy)
     local entityManager = inzoi.getB2Manager("FB2EntityManager")
     local siteManager = inzoi.getB2Manager("FB2SiteManager")
     local pathFinder = inzoi.getB2Subsystem("FB2PathFindSystem")
@@ -82,16 +83,18 @@ local function scope(initiator, partner)
 
     local siteId = tostring(site:GetSiteId())
     if siteId == "" or siteId == "None" then return end
-    local firstId, secondId = initiator:GetEntityId().Value, partner:GetEntityId().Value
     local occupants = {}
-    for _, entity in pairs(entityManager:GetAllEntities(inzoi.EB2EntityType.Character)) do
-        local entityId = entity:GetEntityId()
-        if entityId.Value ~= firstId and entityId.Value ~= secondId and entity:IsSpawned() then
-            local character = entityManager:FindCharacter(entityId)
-            -- Without a location, vacancy cannot be confirmed.
-            if not character then return end
-            local location = character:GetLocation()
-            if site:IsIn(location) then occupants[#occupants + 1] = location end
+    if checkVacancy then
+        local firstId, secondId = initiator:GetEntityId().Value, partner:GetEntityId().Value
+        for _, entity in pairs(entityManager:GetAllEntities(inzoi.EB2EntityType.Character)) do
+            local entityId = entity:GetEntityId()
+            if entityId.Value ~= firstId and entityId.Value ~= secondId and entity:IsSpawned() then
+                local character = entityManager:FindCharacter(entityId)
+                -- Without a location, vacancy cannot be confirmed.
+                if not character then return end
+                local location = character:GetLocation()
+                if site:IsIn(location) then occupants[#occupants + 1] = location end
+            end
         end
     end
     return {
@@ -127,15 +130,15 @@ local function privateRoom(world, point, allowInferredBedroom)
     return room
 end
 
-local function availableRoom(world, point, claimId, allowInferredBedroom)
+local function availableRoom(world, point, allowInferredBedroom)
     local room, reason = privateRoom(world, point, allowInferredBedroom)
     if not room then return nil, reason or "room_unclassified" end
     for _, occupant in ipairs(world.occupants) do
         local inside = world.site:IsSameRoom(point, occupant)
         if inside ~= false then return nil, inside and "room_occupied" or "room_unknown" end
     end
-    for key, claim in pairs(claims) do
-        if key ~= claimId and claim.site_id == world.site_id
+    for _, claim in pairs(claims) do
+        if claim.site_id == world.site_id
             and world.site:IsSameRoom(point, claim.point) ~= false then
             return nil, "room_claimed"
         end
@@ -173,12 +176,12 @@ end
 -- The adapters are intentionally read-only. Confirm playback compatibility
 -- with SceneZOI before claiming one of the ranked candidates.
 function M.candidates(initiator, partner, rows, groundAnchors, arrivalPoints)
-    local world = scope(initiator, partner)
+    local world = scope(initiator, partner, true)
     if not world then return {}, "site_unavailable" end
     local furniture = {}
     for _, row in ipairs(rows) do
         local kind = row.profile.kind
-        if kind == "bed.queen" or kind == "sofa.pair" then
+        if FurnitureKind.supported(kind) then
             local nativeId = inzoi.FB1EntityId()
             nativeId.Value = tonumber(row.furniture_id)
             local object = world.manager:FindGameObject(nativeId)
@@ -194,7 +197,7 @@ function M.candidates(initiator, partner, rows, groundAnchors, arrivalPoints)
     end
 
     local ranked = Planner.candidates(furniture, groundAnchors, function(option)
-        local room = availableRoom(world, option.point, nil, option.kind ~= "ground")
+        local room = availableRoom(world, option.point, option.kind ~= "ground")
         if not room then return end
         local points = arrivalPoints(option, roomFloor(world, option.point))
         if not eligiblePoints(world, option, points) then return end
@@ -206,9 +209,9 @@ end
 
 function M.claim(key, candidate, initiator, partner)
     if claims[key] then return false, "room_claimed" end
-    local world = scope(initiator, partner)
+    local world = scope(initiator, partner, true)
     if not world or world.site_id ~= candidate.site_id then return false, "site_unavailable" end
-    local room, reason = availableRoom(world, candidate.point, nil, candidate.kind ~= "ground")
+    local room, reason = availableRoom(world, candidate.point, candidate.kind ~= "ground")
     if not room then return false, reason end
     local initiatorId, partnerId = initiator:GetEntityId().Value, partner:GetEntityId().Value
     for _, claim in pairs(claims) do
@@ -234,8 +237,10 @@ function M.recheck(key, initiator, partner, destinations)
     end
     local world = scope(initiator, partner)
     if not world or world.site_id ~= claim.site_id then return false, "site_unavailable" end
-    local room, reason = availableRoom(world, claim.point, key, claim.kind ~= "ground")
-    if not room then return false, reason end
+    -- Vacancy and competing claims were checked when this room was claimed.
+    -- Judge anyone who enters afterward by sight once the pair arrives.
+    local room, reason = privateRoom(world, claim.point, claim.kind ~= "ground")
+    if not room then return false, reason or "room_unclassified" end
     if destinations and not eligiblePoints(world, claim, destinations) then return false, "walk_failed" end
     return true
 end

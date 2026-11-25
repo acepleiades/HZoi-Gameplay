@@ -1,0 +1,296 @@
+{
+  "messages": {
+    "Have sex here": "在这里做爱",
+    "Toggle HZoi private room": "切换 HZoi 私密房间标记",
+    "Could not open the HZoi partner picker.": "无法打开 HZoi 的伴侣选择界面。",
+    "Your Zoi wants some private time with {partner}.": "你的 Zoi 想和 {partner} 单独相处一会儿。",
+    "Your Zoi fulfilled their urge with {partner}.": "你的 Zoi 和 {partner} 一起满足了这个心愿。",
+    "{first} and {second} decided to stop after someone walked in on them.": "有人撞见了 {first} 和 {second}，两人决定停下来。",
+    "The encounter ended after someone walked in.": "有人突然闯入，这场亲密接触就此结束。",
+    "{first} and {second} decided to stop after one of their romantic partners caught them together.": "{first} 和 {second} 被其中一人的恋爱伴侣撞见了，两人决定停下来。",
+    "The encounter ended after a romantic partner walked in on it.": "其中一位参与者的恋爱伴侣突然闯入，这场亲密接触就此结束。",
+    "The partner picker could not open. Close any open picker and make sure your Zoi is out of their group.": "无法打开伴侣选择界面。请关闭已打开的选择界面，并确认你的 Zoi 已离开所在的群组。",
+    "Close the current Zoi picker before sending an invitation.": "发送邀请前，请先关闭当前的 Zoi 选择界面。",
+    "An HZoi invitation is already in progress.": "已有一个 HZoi 邀请正在进行。",
+    "Could not finish the invitation.": "未能完成邀请。",
+    "That bed is occupied or unavailable.": "这张床正在使用中，或暂时无法使用。",
+    "The selected sofa seats are occupied or unavailable.": "选中的沙发座位已被占用，或暂时无法使用。",
+    "Both Zois need a clear path to the selected sofa seats.": "两位 Zoi 都需要能走到选中的沙发座位。",
+    "Choose a walkable spot for the encounter.": "请选择一个两人都能走到的地方。",
+    "Could not read the selected ground spot. Open the ground menu and try again.": "无法读取选中的地面位置。请重新打开地面菜单后再试一次。",
+    "Both Zois need a clear path and room to stand at the selected spot.": "两位 Zoi 都需要能走到选中的位置，该处也要有能让两人站立的空间。",
+    "Marked this room private for HZoi in the current loaded game.": "已在当前载入的游戏中将此房间标记为 HZoi 私密房间。",
+    "Removed the HZoi private-room mark.": "已移除此房间的 HZoi 私密房间标记。",
+    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "请先站在自己住处的房间内，再选择该房间中可通行的地面。",
+    "This room already has a room purpose.": "这个房间已经设有用途。",
+    "Select the Zoi who sent the invitation first.": "请先选中发出邀请的 Zoi。",
+    "No eligible partner was selected.": "未选择符合条件的伴侣。",
+    "No scenes were found for these Zois at this spot.": "在这个位置找不到适合这两位 Zoi 的场景。",
+    "No scenes at this spot can complete the goals for this pair.": "这个位置没有能让两人都完成目标的场景。",
+    "These Zois cannot use Set the Mood right now.": "这两位 Zoi 现在无法使用“营造氛围”互动。",
+    "One of the Zois is already in a SceneZOI session. Try again afterward.": "其中一位 Zoi 已在参加 SceneZOI 会话，请等会话结束后再试。",
+    "The invitation could not be added to the action queue.": "无法将邀请添加到行动队列。",
+    "An activity needed for this encounter is unavailable.": "这次相处所需的一项活动无法使用。",
+    "End the current SceneZOI session before starting another.": "请先结束当前的 SceneZOI 会话，再开始新的会话。",
+    "The invitation took too long. Check the Zois' action queues and try again.": "邀请超时。请检查两位 Zoi 的行动队列后重试。",
+    "SceneZOI did not respond. Check that it is installed and enabled.": "SceneZOI 没有响应。请确认已安装并启用。",
+    "SceneZOI could not find a supported bed or adjacent sofa seats here.": "SceneZOI 在这里找不到支持的床或相邻的沙发座位。",
+    "Update SceneZOI to use HZoi Gameplay.": "请更新 SceneZOI，以便使用 HZoi Gameplay。",
+    "Both Zois need a clear path to the selected bed.": "两位 Zoi 都需要能走到选中的床。",
+    "Could you knock next time?": "下次能先敲门吗？",
+    "I wanted a little privacy.": "我只是想有点私人空间。",
+    "Can’t we have a little private time?": "不能让我们单独待一会儿吗？",
+    "They walked in at the worst moment.": "偏偏在这种时候走进来。",
+    "I thought this room was empty.": "我还以为这个房间没人呢。",
+    "Your Zoi wants some private time with their partner.": "你的 Zoi 想和伴侣单独相处一会儿。",
+    "Your Zoi fulfilled their urge with their partner.": "你的 Zoi 和伴侣一起满足了这个心愿。",
+    "I trusted you. How could you?": "我那么信任你。你怎么能这样？",
+    "I can’t believe you’d do this to me.": "真不敢相信你会这样对我。",
+    "I never thought I’d catch you in the act.": "没想到我会亲眼撞见这一幕。",
+    "I thought what we had meant something.": "我还以为我们之间的感情很重要。",
+    "Is this what you’ve been doing behind my back?": "你就是这样背着我做这些事的？",
+    "Oh! Sorry, I’ll give you some privacy.": "啊！不好意思，不打扰了。",
+    "I didn’t mean to walk in on this.": "我不是故意撞见这一幕的。",
+    "Oh! I saw more than I meant to.": "啊！我好像看到了不该看的。",
+    "Sorry. I’ve clearly come at a bad time.": "不好意思，我来得真不是时候。",
+    "Oh! This looks private. I’ll come back later.": "啊！这好像是私事，我晚点再来。",
+    "Oh, hey! I’ll let you have your moment.": "哦，你们好！你们继续，不打扰了。",
+    "Of all the times to drop by! I’ll catch up with you later.": "偏偏在这个时候过来！回头再聊。",
+    "Oh! No need to explain. I’ll give you some space.": "啊！不用解释，我先不打扰了。",
+    "Ah, so that’s what you were up to. I’ll leave you to it.": "哦，原来你们在忙这个。你们继续吧。",
+    "Oh! I can take a hint. See you later.": "啊！我懂了，回头见。",
+    "Oh! Getting pretty cozy in here.": "哟！这儿的气氛挺亲密的嘛。",
+    "Well, that’s a little more than flirting.": "嗯，这可不只是调情了。",
+    "Oh! I see what kind of mood everyone’s in.": "哦！我看得出大家现在是什么心情了。",
+    "Well! It’s getting warm in here.": "哟！这儿开始升温了。",
+    "Oh! Here I thought you were just talking.": "哦！我还以为你们只是在聊天呢。",
+    "They decided to wait for some privacy. Someone they don’t know well enough could see them.": "大家决定等有点私人空间再继续。这里有个大家不太熟的人能看到发生了什么。"
+  },
+  "causes": {
+    "[From everyone reaching orgasm]": "[因为所有人都达到了高潮]",
+    "[From reaching orgasm when some participants didn’t]": "[因为自己达到了高潮，但有些人没有]",
+    "[From someone else reaching orgasm while you didn’t]": "[因为别人达到了高潮，自己却没有]",
+    "[From being interrupted during sex]": "[因为做爱时被打断]",
+    "[From stopping early]": "[因为提前停下]",
+    "[From the encounter ending before everyone reached orgasm]": "[因为还没等所有人达到高潮就结束了]",
+    "[From being seen having sex]": "[因为做爱时被人看见]",
+    "[From reaching orgasm]": "[因为达到了高潮]",
+    "[From getting caught cheating]": "[因为出轨被撞见]",
+    "[From feeling sweaty after sex]": "[因为做爱后出了一身汗]",
+    "[From walking in on Zois having sex]": "[因为撞见了正在做爱的 Zoi]"
+  },
+  "moodlets": {
+    "InSync": [
+      "默契十足",
+      "你们找到了大家都觉得舒服的节奏。结束后，你还想和大家再待一会儿。"
+    ],
+    "Satisfied": [
+      "心满意足",
+      "你觉得放松又满足。要是每个人都有同样的机会达到高潮就好了。"
+    ],
+    "OutOfSync": [
+      "没跟上节奏",
+      "看到有人达到高潮，你也很开心。可轮到自己快到的时候，却结束了。要是能多一点时间就好了。"
+    ],
+    "AwkwardTiming": [
+      "来得真不是时候",
+      "有人看到你们在做什么，你们只好停了下来。出了这种事，一时很难找回刚才的心情。"
+    ],
+    "UnfinishedMoment": [
+      "意犹未尽",
+      "刚渐入佳境，你们就停了下来。你不禁想，要是再多一点时间，会怎样呢？"
+    ],
+    "OutOfOrder": [
+      "有点不公平",
+      "你希望大家都能享受这段时光。有人还没到高潮就结束了，总觉得有点不尽兴。"
+    ],
+    "FoundABetterRhythm": [
+      "找到了更好的节奏",
+      "开始留意彼此的反应以后，你们很自然地换了个方式。还好当时试了点不一样的。"
+    ],
+    "NowhereToHide": [
+      "恨不得找个地缝",
+      "你以为能有点私人空间。发现有人能看见你的那一刻，你只想找个地方躲起来。"
+    ],
+    "PlayedItCool": [
+      "若无其事",
+      "被人撞见的那一刻有点尴尬，不过你稳住了。仔细想想，这事也没必要闹大。"
+    ],
+    "UnfinishedBusiness": [
+      "总觉得还没完",
+      "你才刚投入进去，一切就停了下来。那种事情还没做完的感觉，怎么也挥不去。"
+    ],
+    "PerfectImprovisation": [
+      "临场发挥",
+      "你们不再想着事情应该怎样发展，而是顺着彼此的反应来。你现在有点好奇，还有什么事也能这么自然。"
+    ],
+    "AtMyOwnPace": [
+      "按自己的节奏来",
+      "你没再操心进展快慢，而是慢慢体会和对方亲近的感觉。这正是你想要的。"
+    ],
+    "SomethingToThinkAbout": [
+      "值得回味",
+      "你还在琢磨刚才为什么那么舒服。下次也许可以聊聊自己喜欢什么。"
+    ],
+    "AQuestionOfTiming": [
+      "节奏没对上",
+      "你才刚有点接近高潮，就有人先到了。你还在想，怎么偏偏在这种时候没能合上节奏。"
+    ],
+    "ExactlyWhatIWorriedAbout": [
+      "担心的事还是发生了",
+      "你刚才还在担心会不会被看见，结果真让人看见了。这股不安一时半会儿恐怕消不掉。"
+    ],
+    "ThrillOfBeingCaught": [
+      "被撞见的刺激",
+      "伴侣撞见了你和别人亲热。你知道接下来那场谈话不会轻松，却没想到自己那一刻竟有些兴奋。"
+    ],
+    "WhatAnEntrance": [
+      "真会挑时候",
+      "那人来得太不是时候，反倒让你觉得好笑。惊讶过去之后，你差点没忍住笑。"
+    ],
+    "WorthTheRush": [
+      "尽兴的感觉真好",
+      "你们一起尽兴时，感觉比想象中还好。现在想起来，心跳还是会快一点。"
+    ],
+    "WhoLetThemIn": [
+      "谁让他们进来的？",
+      "你以为这里能有点私人空间。现在一想到这么容易就被人看见，还是忍不住生气。"
+    ],
+    "KeptItTogether": [
+      "还好稳住了",
+      "你一开始觉得难为情，但深吸一口气后就稳住了。能应付这种尴尬的场面，让你对自己挺满意的。"
+    ],
+    "MixedFeelings": [
+      "心情复杂",
+      "你很高兴有人享受了这段时光。要是自己也能多一点时间就好了。"
+    ],
+    "TheWorldWentQuiet": [
+      "世界安静了下来",
+      "有那么一会儿，你忘了那一刻之外的所有事。那份安静的感觉，到现在都还在。"
+    ],
+    "LetsLaughAboutIt": [
+      "笑一笑就过去了",
+      "发现有人看见你们时，你有些难为情。可时间也赶得太巧了，现在已经能拿这事开玩笑了。"
+    ],
+    "TooManyEyes": [
+      "受不了被人看着",
+      "直到发现有人在看，你还以为这段时光没人打扰。现在只想找个安静的地方，暂时谁也不见。"
+    ],
+    "ALittleLetDown": [
+      "有点扫兴",
+      "你很享受那种亲近的感觉。只是在自己快到高潮时不得不停下，还是有点遗憾。"
+    ],
+    "ALittleLight": [
+      "心里轻松了一点",
+      "被人渴望、与人亲近，让你暂时抛开了那些压在心头的事。还好你们有了这段相处的时间。"
+    ],
+    "ThatWasAwkward": [
+      "太尴尬了",
+      "发现有人在看时，你一下子连眼睛该往哪儿放都不知道。光想起那阵沉默，你就浑身不自在。"
+    ],
+    "AChapterWorthKeeping": [
+      "值得留在心里的片段",
+      "你会记住的，大概是结束后你们交换眼神之类的小细节。能一起度过那段时间，真好。"
+    ],
+    "StayClose": [
+      "再陪我一会儿",
+      "你还没到高潮，就有人先到了。你想听几句安慰，也想再靠近一会儿。"
+    ],
+    "FoundOurPace": [
+      "找到两人都舒服的节奏",
+      "一找到大家都舒服的节奏，一切就顺了起来。现在已经缓过气了，你还是能感到那股兴奋劲儿。"
+    ],
+    "StillBuzzing": [
+      "还是停不下来",
+      "有些人还没达到高潮就结束了，可你没想到自己之后反而精力充沛。现在一点也不想干坐着。"
+    ],
+    "CouldUseAShower": [
+      "真想冲个澡",
+      "刚才很开心，不过现在身上有点黏。洗个热水澡，再换身衣服，想想就舒服。"
+    ],
+    "CouldntKeepAStraightFace": [
+      "没忍住笑",
+      "你知道自己应该正经点，可刚才实在太出乎意料了。现在想起来，还是有点想笑。"
+    ],
+    "MissingPiece": [
+      "总觉得少了点什么",
+      "你忍不住反复回想刚才的事。别人达到了高潮，你却想不出自己究竟差了什么，越想越烦。"
+    ],
+    "GoodEnoughForMe": [
+      "这样就够了",
+      "你得到了自己想要的，现在只想歇一歇。一个人安安静静待上几分钟，感觉挺不错。"
+    ],
+    "ALittleLuxury": [
+      "小小的享受",
+      "有个舒适的地方，让你们两个人更容易放松。像这样慢慢来，其实挺好。"
+    ],
+    "IGotMine": [
+      "反正我满足了",
+      "结束时你也看出有人还没达到高潮。可想到自己这么尽兴，还是忍不住有点得意。"
+    ],
+    "ABreakWellSpent": [
+      "歇得真值",
+      "你总算把手边的事放下，好好把注意力放在彼此身上。专门腾出那点时间，挺值的。"
+    ],
+    "CoolUnderPressure": [
+      "尴尬也能一笑而过",
+      "发现有人在看时，你觉得好笑多过羞窘。这点尴尬还不至于破坏刚才的好心情。"
+    ],
+    "WhatHaveIDone": [
+      "我都干了些什么？",
+      "被撞见以后，你才意识到自己把伴侣伤得有多深。要是刚才的事能重来就好了。"
+    ],
+    "QuietAgain": [
+      "终于能喘口气",
+      "发现有人看见你们之后，气氛一下子紧张了。现在停下来，终于能喘口气了。"
+    ],
+    "WellNowIKnow": [
+      "这下心里有数了",
+      "达到高潮后，你才发现自己的喜好有多重要。找个机会，也想聊聊各自喜欢什么。"
+    ],
+    "WorthTheDetour": [
+      "这点时间花得值",
+      "从一天的忙碌里抽出了一点时间，却换来一件以后想起还会笑的事。你庆幸自己当时没犹豫。"
+    ],
+    "AGoodImpression": [
+      "印象不错",
+      "知道大家都玩得开心，你有点心跳加速。你还在想结束后大家交换的那些眼神。"
+    ],
+    "APleasantBuzz": [
+      "舒服的余韵",
+      "你以为结束后会犯困，没想到身体还挺有劲。这倒是个让人开心的意外。"
+    ],
+    "SweetFinish": [
+      "甜蜜的收尾",
+      "你们没着急，结果大家都很尽兴。你还想再沉浸在那份好感觉里一会儿。"
+    ],
+    "TakingItEasy": [
+      "慢慢缓过来",
+      "发现有人注意到时，你绷紧了神经。停下来缓了口气之后，你愿意让那点尴尬慢慢过去。"
+    ],
+    "AMemoryToKeep": [
+      "想留住的回忆",
+      "光是回想两个人那样亲近，你就已经忍不住笑了。这样的时刻，你想好好记住。"
+    ],
+    "BetterLuckNextTime": [
+      "下次再来",
+      "还没人达到高潮，事情就结束了。你有点失望，不过下次时间多些，也许会顺利一点。"
+    ],
+    "FoundTheFit": [
+      "舒服的姿势",
+      "找到舒服的姿势以后，你们终于能留心彼此的感受。下次可以记得用刚才那样的方式。"
+    ],
+    "ASecondWind": [
+      "又有精神了",
+      "刚结束时你一度觉得很累，缓过来后反而比之前更有活力。接下来要做的事，好像也没那么费劲了。"
+    ],
+    "KeptMyComposure": [
+      "沉住了气",
+      "发觉有人看见你们时，你那一瞬间有些尴尬。不过你稳住了，心里也多了点底气。"
+    ],
+    "SawEncounter": [
+      "意外撞见",
+      "你晚了一拍才明白自己撞见了什么。早知道就该悄悄走开，给他们留点私人空间。"
+    ]
+  }
+}

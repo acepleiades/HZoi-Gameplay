@@ -124,10 +124,10 @@ assert(pending.partner == "23" and pending.expires == ticks + 12 * hour)
 assert(#notices == 1 and notices[1].kind == "selected" and notices[1].partner == 'Alex "Jr." Test')
 assert(not Urges.request(owner, third), "A later eligible partner cannot replace the ongoing Urge")
 
-local encounter = {initiator = "23", partner = "14", session_id = "first"}
+local encounter = {initiator = "23", partner = "14", participants = {"23", "14"}, session_id = "first"}
 assert(not Urges.onCompletion(encounter, partner, "excitement"))
 assert(not Urges.onCompletion(encounter, owner, "other_task"))
-assert(not Urges.onCompletion({initiator = "14", partner = "42"}, owner, "excitement"))
+assert(not Urges.onCompletion({participants = {"14", "42"}}, owner, "excitement"))
 assert(Urges.pending(owner) and #rewards == 0)
 assert(Urges.onCompletion(encounter, owner, "excitement"))
 assert(not Urges.pending(owner) and #rewards == 3 and #notices == 2)
@@ -144,6 +144,9 @@ assert(not Urges.pending(owner) and not Urges.onCompletion(encounter, owner, "ex
 assert(not Urges.request(owner, partner), "Expiration does not reset the cooldown")
 ticks = 14 * hour
 assert(Urges.request(owner, partner), "A backward game-time jump clears old world state")
+local group = {initiator = "42", partner = "14", participants = {"42", "14", "23"}, session_id = "group"}
+assert(not Urges.onCompletion(group, third, "excitement") and Urges.pending(owner))
+assert(Urges.onCompletion(group, owner, "excitement"), "The requested partner may be outside the first two roles")
 Urges.reset()
 assert(not Urges.pending(owner), "World teardown clears the fallback")
 local found = Urges.requestEligible(owner, function(id)

@@ -4,17 +4,23 @@ local function validCount(value)
     return type(value) == "number" and value >= 0 and value < math.huge and value % 1 == 0
 end
 
-function M.new(requestId, clientId, attempt)
+function M.new(requestId, clientId, attempt, participantIds)
+    local roster, completions = {}, {}
+    for index, id in ipairs(participantIds) do
+        assert(not completions[id], "Duplicate encounter participant")
+        roster[index] = id
+        completions[id] = {}
+    end
     return {
         request_id = requestId,
         client_id = clientId,
         initiator = attempt.initiator,
         partner = attempt.partner,
-        participants = {attempt.initiator, attempt.partner},
+        participants = roster,
         furniture = attempt.furniture,
         furniture_pair = attempt.seats and attempt.seats.id,
         kind = attempt.kind,
-        completions = {[attempt.initiator] = {}, [attempt.partner] = {}},
+        completions = completions,
     }
 end
 

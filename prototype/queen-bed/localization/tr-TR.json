@@ -1,0 +1,296 @@
+{
+  "moodlets": {
+    "InSync": [
+      "Uyum İçinde",
+      "Herkese iyi gelen bir ritim yakaladınız. Sonrasında biraz daha bir arada kalmak istedin."
+    ],
+    "Satisfied": [
+      "Tatmin Olmuş",
+      "Kendini rahatlamış ve tatmin olmuş hissediyorsun. Keşke herkesin orgazm olmak için aynı fırsatı olsaydı."
+    ],
+    "OutOfSync": [
+      "Uyum Bozuldu",
+      "Birinin orgazm olduğunu görmek güzeldi ama sen de tam yaklaşmışken her şey bitti. Keşke biraz daha zamanın olsaydı."
+    ],
+    "AwkwardTiming": [
+      "Kötü Zamanlama",
+      "Biri olan biteni gördü ve buluşma orada bitti. Bundan sonra yeniden havaya girmek zor."
+    ],
+    "UnfinishedMoment": [
+      "Yarım Kalan An",
+      "Tam her şey güzelleşmeye başlamışken durdunuz. Biraz daha zaman olsa neler olabileceğini düşünmeden edemiyorsun."
+    ],
+    "OutOfOrder": [
+      "Denge Bozuldu",
+      "Herkesin keyif almasını istiyordun. Herkes orgazm olamadan bitince sanki bir şeyler yarım kaldı."
+    ],
+    "FoundABetterRhythm": [
+      "Daha İyi Bir Ritim",
+      "Birbirinizin tepkilerine dikkat edince bir şeyleri değiştirmek kendiliğinden oldu. Farklı bir şey denediğinize seviniyorsun."
+    ],
+    "NowhereToHide": [
+      "Saklanacak Yer Yok",
+      "Biraz mahremiyetin var sanmıştın. Birinin seni görebildiğini fark ettiğin anda yer yarılsa da içine girsem diye düşündün."
+    ],
+    "PlayedItCool": [
+      "Soğukkanlılığını Korudun",
+      "Görülmek bir an için utandırdı, ama sakin kalmayı başardın. Bunu büyütmeye gerek yokmuş gibi geliyor."
+    ],
+    "UnfinishedBusiness": [
+      "Yarım Kalan İş",
+      "Tam keyif almaya başlamışken her şey durdu. Bir şeylerin yarım kaldığı hissi aklından çıkmıyor."
+    ],
+    "PerfectImprovisation": [
+      "Kusursuz Doğaçlama",
+      "Her şeyin nasıl gitmesi gerektiğini düşünmeyi bırakıp birbirinizin tepkilerine göre hareket ettiniz. Başka nelerin bu kadar doğal gelebileceğini merak ediyorsun."
+    ],
+    "AtMyOwnPace": [
+      "Kendi Tempomda",
+      "Acele etmeden yakınlığın tadını çıkarmak için kendine zaman tanıdın. Tam da buna ihtiyacın vardı."
+    ],
+    "SomethingToThinkAbout": [
+      "Üzerinde Düşünmeye Değer",
+      "Bunu bu kadar güzel yapan şeyin ne olduğunu düşünüp duruyorsun. Bir dahaki sefere nelerden hoşlandığını konuşmak iyi olabilir."
+    ],
+    "AQuestionOfTiming": [
+      "Zamanlama Meselesi",
+      "Sen daha yeni yaklaşmaya başlamışken biri orgazm oldu. Zamanlamanın nasıl bu kadar şaştığını hâlâ düşünüyorsun."
+    ],
+    "ExactlyWhatIWorriedAbout": [
+      "Tam Da Korktuğum Şey",
+      "Birinin sizi görüp göremeyeceği zaten aklına takılmıştı ve sonunda gerçekten oldu. Bunun kaygısından kurtulman biraz sürecek."
+    ],
+    "ThrillOfBeingCaught": [
+      "Yakalanmanın Heyecanı",
+      "Partnerin seni başka biriyle yakaladı. Konuşmanın kolay olmayacağını biliyorsun, ama birden hissettiğin heyecan seni de şaşırttı."
+    ],
+    "WhatAnEntrance": [
+      "Ne Giriş Ama!",
+      "Zamanlama o kadar kötüydü ki neredeyse komikti. İlk şaşkınlık geçince gülmemek için kendini zor tuttun."
+    ],
+    "WorthTheRush": [
+      "Heyecana Değdi",
+      "Kendinizi birlikte ana kaptırmak beklediğinden daha iyi hissettirdi. Sadece düşününce bile kalbin biraz hızlanıyor."
+    ],
+    "WhoLetThemIn": [
+      "Kim İçeri Aldı?",
+      "Biraz mahremiyet bekliyordun. Birinin seni ne kadar kolay gördüğünü hatırlamak hâlâ sinirini bozuyor."
+    ],
+    "KeptItTogether": [
+      "Kendini Toparladın",
+      "İlk başta utandın, ama derin bir nefes alıp sakinliğini korudun. Böyle tuhaf bir anın üstesinden gelebilmek insana iyi geliyor."
+    ],
+    "MixedFeelings": [
+      "Karışık Duygular",
+      "Birinin iyi vakit geçirmesine sevindin. Keşke senin de biraz daha zamanın olsaydı."
+    ],
+    "TheWorldWentQuiet": [
+      "Dünya Sessizleşti",
+      "Bir süreliğine o anın dışındaki her şeyi unuttun. O sakinlik duygusu hâlâ içinde."
+    ],
+    "LetsLaughAboutIt": [
+      "Gülüp Geçelim",
+      "Birinin sizi görebildiğini anlamak utandırıcıydı, ama zamanlama o kadar saçmaydı ki ciddiye almak zordu. Şimdiden gülüp geçebiliyorsun."
+    ],
+    "TooManyEyes": [
+      "Çok Fazla Göz",
+      "Birinin baktığını fark edene kadar o anın size ait olduğunu sanıyordun. Şimdi bir süre kimseyle karşılaşmayacağın sessiz bir yere gitmek istiyorsun."
+    ],
+    "ALittleLetDown": [
+      "Küçük Bir Hayal Kırıklığı",
+      "Birbirinize yakın olmak hoşuna gitti. Yine de tam yaklaşmışken durmak biraz hevesini kaçırdı."
+    ],
+    "ALittleLight": [
+      "Biraz Işık",
+      "Birinin seni istemesi ve ona yakın olmak, üzerinde ağırlık yapan şeyleri kısa bir süreliğine unutturdu. Bu zamanı birlikte geçirdiğinize seviniyorsun."
+    ],
+    "ThatWasAwkward": [
+      "Ne Garip Bir An",
+      "Birinin baktığını fark edince gözlerini nereye çevireceğini bilemedin. O garip sessizlik aklına gelince hâlâ yüzün kızarıyor."
+    ],
+    "AChapterWorthKeeping": [
+      "Saklamaya Değer Bir An",
+      "Sonrasında birbirinize nasıl baktığınız gibi küçük ayrıntılar aklında kalacak. O zamanı birlikte geçirebildiğinize seviniyorsun."
+    ],
+    "StayClose": [
+      "Biraz Daha Yanımda Kal",
+      "Sen daha yaklaşırken biri orgazm oldu. Şimdi içini rahatlatacak birkaç söz duymak ve biraz daha yakın kalmak istiyorsun."
+    ],
+    "FoundOurPace": [
+      "Tempomuzu Bulduk",
+      "Herkese iyi gelen bir tempo bulunca her şey yerine oturdu. Nefesini toplamış olsan da o heyecan hâlâ sürüyor."
+    ],
+    "StillBuzzing": [
+      "Enerjim Yerinde",
+      "Buluşma bazıları için erken bitmiş olsa da kendini beklediğinden daha enerjik hissediyorsun. Şu an yerinde oturmak hiç içinden gelmiyor."
+    ],
+    "CouldUseAShower": [
+      "Bir Duş İyi Gider",
+      "Güzel vakit geçirdin, ama şimdi tenin biraz yapış yapış. Sıcak bir duş ve temiz kıyafet kulağa harika geliyor."
+    ],
+    "CouldntKeepAStraightFace": [
+      "Gülmemek Zordu",
+      "Ciddi görünmen gerektiğini biliyordun, ama şaşkınlığın ağır bastı. Hatırlayınca hâlâ kıkırdayasın geliyor."
+    ],
+    "MissingPiece": [
+      "Eksik Parça",
+      "Olanları tekrar tekrar düşünmeden edemiyorsun. Biri orgazm oldu, ama senin için neyin eksik kaldığını anlayamamak canını sıkıyor."
+    ],
+    "GoodEnoughForMe": [
+      "Bana Yeter",
+      "İstediğini aldın, şimdi de biraz rahatına bakmak istiyorsun. Kendi başına birkaç sessiz dakika fena olmaz."
+    ],
+    "ALittleLuxury": [
+      "Biraz Lüks",
+      "Rahat bir yerde olmak birlikte gevşemenizi çok kolaylaştırdı. Birbirinize böyle zaman ayırmaya alışabilirsin."
+    ],
+    "IGotMine": [
+      "Ben İstediğimi Aldım",
+      "Buluşma bittiğinde orgazm olamayanlar olduğunu fark ettin. Yine de işlerin senin için ne kadar iyi gittiğini düşünüp içten içe böbürleniyorsun."
+    ],
+    "ABreakWellSpent": [
+      "İyi Değerlendirilmiş Bir Mola",
+      "Her şeyi bir kenara bırakıp tüm dikkatinizi birbirinize verebildiniz. Bunun için zaman ayırmaya değdi."
+    ],
+    "CoolUnderPressure": [
+      "Baskı Altında Sakin",
+      "Birinin baktığını fark edince utanmaktan çok eğlendin. Biraz gariplik senin için o anı bozmaya yetmedi."
+    ],
+    "WhatHaveIDone": [
+      "Ben Ne Yaptım?",
+      "Yakalanınca sevgilini ne kadar incittiğini anladın. Keşke az önce olanları geri alabilsen."
+    ],
+    "QuietAgain": [
+      "Yine Sessizlik",
+      "Birinin sizi gördüğünü fark edince ortam gerildi. Şimdi durduğunuza göre bir nefes almak iyi geliyor."
+    ],
+    "WellNowIKnow": [
+      "Artık Biliyorum",
+      "Orgazm olmak, kendi zevklerinin ne kadar önemli olduğunu düşündürdü. Bir ara kimin nelerden hoşlandığını konuşmak istiyorsun."
+    ],
+    "WorthTheDetour": [
+      "Araya Sıkıştırmaya Değdi",
+      "Günün ortasında ayırdığın kısa bir zaman, sonra hatırlayıp gülümseyeceğin bir anıya dönüştü. İyi ki tereddüt etmemişsin."
+    ],
+    "AGoodImpression": [
+      "İyi Bir İzlenim",
+      "Herkesin keyif aldığını bilmek içini kıpır kıpır etti. Sonrasında birbirinize attığınız bakışlar hâlâ aklında."
+    ],
+    "APleasantBuzz": [
+      "Hoş Bir Canlılık",
+      "Sonrasında uykunun geleceğini sanıyordun, ama bedenin hâlâ enerji dolu. Bu hoş bir sürpriz."
+    ],
+    "SweetFinish": [
+      "Güzel Bir Son",
+      "Acele etmediniz ve bu herkese iyi geldi. O güzel hissin hemen geçmesini istemiyorsun."
+    ],
+    "TakingItEasy": [
+      "Biraz Rahatlayalım",
+      "Biri olan biteni fark ettiğinde ortam gerildi. Durup bir nefes aldıktan sonra artık o tuhaflığı geride bırakmaya hazırsın."
+    ],
+    "AMemoryToKeep": [
+      "Saklanacak Bir Anı",
+      "O yakınlığı hatırlayınca kendini çoktan gülümserken buldun. Hafızanda kalmasını isteyeceğin anlardan biri."
+    ],
+    "BetterLuckNextTime": [
+      "Bir Dahaki Sefere",
+      "Kimse orgazm olamadan her şey bitti. Canın sıkıldı ama belki bir dahaki sefere daha çok zamanınız olur ve işler daha iyi gider."
+    ],
+    "FoundTheFit": [
+      "Rahat Pozisyonu Bulduk",
+      "Rahat bir pozisyon bulunca birbirinize odaklanabildiniz. Bir dahaki sefere neyin işe yaradığını hatırlayacaksın."
+    ],
+    "ASecondWind": [
+      "Yeniden Enerji",
+      "Bir an tükenmiş gibiydin, ama sonrasında öncekinden daha enerjik hissettin. Şimdi gününe kaldığın yerden devam edebilirsin."
+    ],
+    "KeptMyComposure": [
+      "Sakinliğimi Korudum",
+      "Birinin sizi görebildiğini fark ettiğinde bir an utandın. Böyle bir anda sakin kalabilmek kendine güvenini artırdı."
+    ],
+    "SawEncounter": [
+      "Beklenmedik Karşılaşma",
+      "Ne olduğunu bir an geç anladın. Keşke sessizce uzaklaşıp herkese biraz mahremiyet tanısaydın."
+    ]
+  },
+  "causes": {
+    "[From everyone reaching orgasm]": "[Herkes orgazm olduğu için]",
+    "[From reaching orgasm when some participants didn’t]": "[Bazıları orgazm olamadığı hâlde sen olduğun için]",
+    "[From someone else reaching orgasm while you didn’t]": "[Başka biri orgazm olurken sen olamadığın için]",
+    "[From being interrupted during sex]": "[Seks sırasında bölündüğünüz için]",
+    "[From stopping early]": "[Erken durduğunuz için]",
+    "[From the encounter ending before everyone reached orgasm]": "[Herkes orgazm olmadan buluşma sona erdiği için]",
+    "[From being seen having sex]": "[Seks sırasında görüldüğünüz için]",
+    "[From reaching orgasm]": "[Orgazm olduğun için]",
+    "[From getting caught cheating]": "[Aldatırken yakalandığın için]",
+    "[From feeling sweaty after sex]": "[Seks sonrasında terli hissettiğin için]",
+    "[From walking in on Zois having sex]": "[Seks yapan Zoilere denk geldiğin için]"
+  },
+  "messages": {
+    "Could you knock next time?": "Bir dahaki sefere kapıyı çalabilir misin?",
+    "I wanted a little privacy.": "Biraz mahremiyet istemiştim.",
+    "Can’t we have a little private time?": "Biraz baş başa kalamaz mıyız?",
+    "They walked in at the worst moment.": "En olmayacak zamanda içeri girdiler.",
+    "I thought this room was empty.": "Bu odanın boş olduğunu sanmıştım.",
+    "Have sex here": "Burada seks yap",
+    "Toggle HZoi private room": "HZoi özel oda işaretini değiştir",
+    "Could not open the HZoi partner picker.": "HZoi partner seçimi açılamadı.",
+    "Your Zoi wants some private time with {partner}.": "Zoi’n {partner} ile biraz baş başa kalmak istiyor.",
+    "Your Zoi fulfilled their urge with {partner}.": "Zoi’n {partner} ile arzusunu gerçekleştirdi.",
+    "{first} and {second} decided to stop after someone walked in on them.": "{first} ve {second}, biri içeri girip onları görünce durmaya karar verdi.",
+    "The encounter ended after someone walked in.": "Biri içeri girince buluşma sona erdi.",
+    "{first} and {second} decided to stop after one of their romantic partners caught them together.": "{first} ve {second}, içlerinden birinin partneri onları birlikte yakalayınca durmaya karar verdi.",
+    "The encounter ended after a romantic partner walked in on it.": "Katılanlardan birinin sevgilisi içeri girince buluşma sona erdi.",
+    "The partner picker could not open. Close any open picker and make sure your Zoi is out of their group.": "Partner seçimi açılamadı. Açık olan seçim ekranlarını kapat ve Zoi’nin grubundan ayrıldığından emin ol.",
+    "Close the current Zoi picker before sending an invitation.": "Davet göndermeden önce açık Zoi seçim ekranını kapat.",
+    "An HZoi invitation is already in progress.": "Bir HZoi daveti zaten devam ediyor.",
+    "Could not finish the invitation.": "Davet tamamlanamadı.",
+    "That bed is occupied or unavailable.": "Bu yatak dolu veya kullanılamaz durumda.",
+    "The selected sofa seats are occupied or unavailable.": "Seçilen kanepe yerleri dolu veya kullanılamaz durumda.",
+    "Both Zois need a clear path to the selected sofa seats.": "İki Zoi’nin de seçilen kanepe yerlerine gidebileceği açık bir yol olmalı.",
+    "Choose a walkable spot for the encounter.": "Buluşma için yürüyerek ulaşılabilen bir yer seç.",
+    "Could not read the selected ground spot. Open the ground menu and try again.": "Seçilen zemin noktası okunamadı. Zemin menüsünü açıp tekrar dene.",
+    "Both Zois need a clear path and room to stand at the selected spot.": "İki Zoi’nin de seçilen noktaya gidebileceği açık bir yol ve ayakta durabileceği yeterli alan olmalı.",
+    "Marked this room private for HZoi in the current loaded game.": "Bu oda açık olan oyunda HZoi için özel oda olarak işaretlendi.",
+    "Removed the HZoi private-room mark.": "HZoi özel oda işareti kaldırıldı.",
+    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "Hanendeki Zoilerin yaşadığı evde bir odanın içine gir ve zeminde yürünebilir bir nokta seç.",
+    "This room already has a room purpose.": "Bu odaya zaten bir işlev atanmış.",
+    "Select the Zoi who sent the invitation first.": "Önce daveti gönderen Zoi’yi seç.",
+    "No eligible partner was selected.": "Uygun bir partner seçilmedi.",
+    "No scenes were found for these Zois at this spot.": "Bu noktada bu Zoilere uygun sahne bulunamadı.",
+    "No scenes at this spot can complete the goals for this pair.": "Bu noktadaki hiçbir sahne ikilinin hedeflerini tamamlamaya uygun değil.",
+    "These Zois cannot use Set the Mood right now.": "Bu Zoiler şu anda “Havayı Ayarla” eylemini kullanamaz.",
+    "One of the Zois is already in a SceneZOI session. Try again afterward.": "Zoilerden biri zaten bir SceneZOI oturumunda. Oturum bittikten sonra tekrar dene.",
+    "The invitation could not be added to the action queue.": "Davet eylem kuyruğuna eklenemedi.",
+    "An activity needed for this encounter is unavailable.": "Bu buluşma için gereken bir etkinlik kullanılamıyor.",
+    "End the current SceneZOI session before starting another.": "Yeni bir oturum başlatmadan önce mevcut SceneZOI oturumunu sonlandır.",
+    "The invitation took too long. Check the Zois' action queues and try again.": "Davet çok uzun sürdü. Zoilerin eylem kuyruklarını kontrol edip tekrar dene.",
+    "SceneZOI did not respond. Check that it is installed and enabled.": "SceneZOI yanıt vermedi. Kurulu ve etkin olduğundan emin ol.",
+    "SceneZOI could not find a supported bed or adjacent sofa seats here.": "SceneZOI burada desteklenen bir yatak veya yan yana iki kanepe yeri bulamadı.",
+    "Update SceneZOI to use HZoi Gameplay.": "HZoi Gameplay’i kullanmak için SceneZOI’yi güncelle.",
+    "Both Zois need a clear path to the selected bed.": "İki Zoi’nin de seçilen yatağa gidebileceği açık bir yol olmalı.",
+    "Your Zoi wants some private time with their partner.": "Zoi’n partneriyle biraz baş başa kalmak istiyor.",
+    "Your Zoi fulfilled their urge with their partner.": "Zoi’n arzusunu partneriyle gerçekleştirdi.",
+    "I trusted you. How could you?": "Sana güvenmiştim. Bunu nasıl yapabildin?",
+    "I can’t believe you’d do this to me.": "Bana bunu yaptığına inanamıyorum.",
+    "I never thought I’d catch you in the act.": "Seni iş üstünde yakalayacağım hiç aklıma gelmezdi.",
+    "I thought what we had meant something.": "Aramızdakinin bir anlamı var sanıyordum.",
+    "Is this what you’ve been doing behind my back?": "Arkamdan bunları mı yapıyordun?",
+    "Oh! Sorry, I’ll give you some privacy.": "Aa! Kusura bakmayın, sizi yalnız bırakayım.",
+    "I didn’t mean to walk in on this.": "Böyle bir ana denk gelmek istemezdim.",
+    "Oh! I saw more than I meant to.": "Aa! Niyet ettiğimden fazlasını gördüm.",
+    "Sorry. I’ve clearly come at a bad time.": "Kusura bakmayın. Belli ki yanlış zamanda geldim.",
+    "Oh! This looks private. I’ll come back later.": "Aa! Bu özel bir an galiba. Sonra gelirim.",
+    "Oh, hey! I’ll let you have your moment.": "Aa, selam! Anın tadını çıkarın, ben sizi bölmeyeyim.",
+    "Of all the times to drop by! I’ll catch up with you later.": "Uğramak için ne zaman ama! Sonra görüşürüz.",
+    "Oh! No need to explain. I’ll give you some space.": "Aa! Açıklamanıza gerek yok. Size biraz alan bırakayım.",
+    "Ah, so that’s what you were up to. I’ll leave you to it.": "Ha, demek bunu yapıyordunuz. Rahatınıza bakın.",
+    "Oh! I can take a hint. See you later.": "Aa! Mesajı aldım. Sonra görüşürüz.",
+    "Oh! Getting pretty cozy in here.": "Aa! Burası bayağı samimi olmuş.",
+    "Well, that’s a little more than flirting.": "Eh, bu flörtten biraz fazlası.",
+    "Oh! I see what kind of mood everyone’s in.": "Aa! Herkesin nasıl bir havada olduğu belli.",
+    "Well! It’s getting warm in here.": "Vay! Burası ısınıyor.",
+    "Oh! Here I thought you were just talking.": "Aa! Ben de sadece konuşuyorsunuz sanmıştım.",
+    "They decided to wait for some privacy. Someone they don’t know well enough could see them.": "Biraz mahremiyet olana kadar beklemeye karar verdiler. Yeterince tanımadıkları biri onları görebiliyordu."
+  }
+}

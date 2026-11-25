@@ -1,4 +1,5 @@
 local M = {}
+local MAX_ARRIVAL_WITNESSES = 128
 
 local function headPoint(actor)
     local mesh = actor and actor.Mesh
@@ -35,22 +36,31 @@ end
 
 -- Run in B1. The caller must correlate this response with the requesting
 -- session and node revision before attaching B2 relationship information.
-function M.sample(characters, participantIds, revision)
+function M.sample(characters, participantIds, revision, arrivalPoints, baseline)
     local roster, targets, actors = {}, {}, {}
     for _, id in ipairs(participantIds) do
         local actor = characters[id]
         local target = headPoint(actor)
         if not target then return {}, "participant_view_unavailable" end
+        if arrivalPoints then
+            local point = arrivalPoints[id]
+            -- Use each prepared spot at its participant's current eye-level
+            -- height so sight is tested across walls, not into the walkable floor.
+            target = UE.FVector(point.x, point.y, target.Z)
+        end
         roster[id], targets[id] = true, target
         actors[#actors + 1] = actor
     end
     if #actors < 2 then return {}, "encounter_roster_missing" end
 
-    local origin = targets[participantIds[1]]
     local nearby = {}
     for id, actor in pairs(characters) do
         if not roster[id] then
-            local distance = distanceSquared(actor:K2_GetActorLocation(), origin)
+            local origin = actor:K2_GetActorLocation()
+            local distance = math.huge
+            for _, target in pairs(targets) do
+                distance = math.min(distance, distanceSquared(origin, target))
+            end
             if distance <= 900^2 then nearby[#nearby + 1] = {id = id, actor = actor, distance = distance} end
         end
     end
@@ -59,21 +69,45 @@ function M.sample(characters, participantIds, revision)
         return a.distance < b.distance
     end)
 
-    local observations = {}
-    for i = 1, math.min(#nearby, 24) do
-        local row = nearby[i]
-        local eye = viewpoint(row.actor)
-        if eye then
-            local visible = {}
-            for id, target in pairs(targets) do
-                if clearTrace(row.actor, eye, target, actors) then visible[id] = true end
+    local observations, baselineAbsent = {}, {}
+    for i, row in ipairs(nearby) do
+        local trackBaseline = baseline and baseline[row.id]
+        if arrivalPoints or i <= 24 or trackBaseline then
+            local eye = viewpoint(row.actor)
+            if arrivalPoints then
+                eye = eye or headPoint(row.actor)
+                if not eye then return {}, "observer_view_unavailable" end
             end
-            if next(visible) then
-                observations[#observations + 1] = {id = row.id, visible = visible, revision = revision}
+            if eye then
+                local visible = {}
+                for id, target in pairs(targets) do
+                    if clearTrace(row.actor, eye, target, actors) then
+                        visible[id] = true
+                        if arrivalPoints then break end
+                    end
+                end
+                if next(visible) then
+                    if arrivalPoints then
+                        if #observations == MAX_ARRIVAL_WITNESSES then return {}, "observer_limit" end
+                        observations[#observations + 1] = {id = row.id}
+                    elseif i <= 24 then
+                        observations[#observations + 1] = {id = row.id, visible = visible, revision = revision}
+                    end
+                elseif trackBaseline then
+                    baselineAbsent[#baselineAbsent + 1] = row.id
+                end
             end
         end
     end
-    return observations
+    if baseline then
+        local nearbyIds = {}
+        for _, row in ipairs(nearby) do nearbyIds[row.id] = true end
+        for id in pairs(baseline) do
+            if not nearbyIds[id] then baselineAbsent[#baselineAbsent + 1] = id end
+        end
+        table.sort(baselineAbsent)
+    end
+    return observations, nil, baselineAbsent
 end
 
 return M

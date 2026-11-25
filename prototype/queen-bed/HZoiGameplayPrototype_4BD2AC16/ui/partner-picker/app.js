@@ -8,6 +8,16 @@
         var value = result && result.data !== undefined ? result.data : result;
         return typeof value === 'string' ? JSON.parse(value) : value;
     }
+    function showFailure() {
+        var english = 'Could not open the HZoi partner picker.';
+        return inzoi.cli.execute('gameplay.get_settings').then(decode).then(function (settings) {
+            var language = String(settings.language || settings.Language || '').toLowerCase().replace(/_/g, '-').replace(/-mod$/, '');
+            var aliases = { en: 'en-us', ko: 'ko-kr', zh: 'zh-cn', 'zh-hans': 'zh-cn', 'zh-hant': 'zh-tw' };
+            return window.HZoiGameplayPickerMessages[aliases[language] || language] || english;
+        }).catch(function () { return english; }).then(function (message) {
+            return inzoi.cli.execute('toast.show', { message: message, immediate: true });
+        });
+    }
     function close() {
         writing = false;
         inzoi.view.hide();
@@ -31,7 +41,7 @@
             });
         }).then(close, function () {
             close();
-            return inzoi.cli.execute('toast.show', { message: 'Could not open the HZoi partner picker.', immediate: true });
+            return showFailure();
         });
     });
     close();

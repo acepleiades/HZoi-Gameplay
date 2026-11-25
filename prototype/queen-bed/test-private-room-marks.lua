@@ -116,7 +116,8 @@ assert(#ranked == 1 and ranked[1].kind == "ground" and ranked[1].point.X < 1000)
 assert(Venue.claim("mark", ranked[1], owner, partner))
 assert(Venue.recheck("mark", owner, partner))
 vacant = false
-assert(#candidates({}) == 0 and not Venue.recheck("mark", owner, partner))
+assert(#candidates({}) == 0 and Venue.recheck("mark", owner, partner),
+    "Vacancy gates new claims while sight decides whether the existing invitation can start")
 vacant, reachable = true, false
 assert(not Venue.recheck("mark", owner, partner, ranked[1].arrival_points))
 reachable, roomAccess = true, false

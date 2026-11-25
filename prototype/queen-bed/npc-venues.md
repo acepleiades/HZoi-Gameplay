@@ -16,11 +16,11 @@ offer a standing scene if there are two clear arrival points. A room with
 occupied furniture stays out of the floor fallback.
 
 Each NPC pair needs permission to enter the room and a path for both Zois.
-A bystander in the room makes it unavailable. Once reserved, the room stays
-claimed by that pair through approach. Recheck vacancy as they walk and before
-playback. Release the room on cancellation or cleanup, including when a
-bystander walks in during the approach. When the room becomes occupied, the
-initiator can show the game's line about wanting some time alone.
+Choose a vacant room and keep the claim through approach. If a bystander
+arrives while the pair is walking, check whether that Zoi can see the pair
+and qualifies under the [arrival privacy rules](../../docs/encounter-design.md#arrival-privacy-check).
+Both participants give a localized frustration line if a visible observer
+fails the check. Release the room on cancellation or session cleanup.
 
 ## Test the venue prototype
 
@@ -33,8 +33,9 @@ floor menu. Leave the common areas as they are.
 2. Have a third Zoi occupy the bedroom and repeat. The bedroom should be
    excluded. If the other marked room has no supported furniture and both
    destinations are walkable, a ground candidate can be selected there.
-3. Have a bystander enter while a pair is walking. The venue check should
-   stop the attempt with the room occupied, and the room claim should release.
+3. Have an unfamiliar bystander enter while a pair is walking. A clear
+   sightline at arrival should cancel the attempt and release the room claim.
+   Repeat with the bystander out of sight and with an observer who qualifies.
 4. Try a second pair in a separate private room. The claims should coexist.
    In the same room, only the first pair should get a claim.
 5. Try a locked door or a room without a supported purpose. The venue check

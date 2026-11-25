@@ -1,4 +1,5 @@
 local Json = require("SceneZOIAddon.Json")
+local LifeStage = require("LifeStageEligibility")
 local M = {}
 
 local MINUTE = 600000000
@@ -34,12 +35,6 @@ local function now()
     return tick
 end
 
-local function adult(actor)
-    local growth = actor:GetGrowthStep()
-    local steps = inzoi.EB1GrowthStep
-    return growth == steps.Youth or growth == steps.Adult or growth == steps.Old or growth == steps.Elderly
-end
-
 local function scriptContext(ownerId, partnerId)
     return inzoi.FB2ScriptContext(ownerId, partnerId, inzoi.EB1ScriptReason.Hope)
 end
@@ -66,7 +61,7 @@ local function namedRelationship(data)
 end
 
 local function eligiblePair(owner, partner)
-    if not owner or not partner or not adult(owner) or not adult(partner)
+    if not LifeStage.allowsCharacter(owner) or not LifeStage.allowsCharacter(partner)
         or owner:IsDeath() ~= false or partner:IsDeath() ~= false or owner:IsInRabbitHole() ~= false then return end
     local ownerId, partnerId = entity(owner), entity(partner)
     if not id(ownerId) or not id(partnerId) or ownerId.Value == partnerId.Value then return end
@@ -116,7 +111,7 @@ end
 local function displayName(person)
     local first, last = person:GetFirstName(), person:GetLastName()
     local full = ((first or "") .. " " .. (last or "")):match("^%s*(.-)%s*$")
-    return full ~= "" and full or "their partner"
+    return full ~= "" and full or nil
 end
 
 function M.pending(owner)
@@ -178,13 +173,17 @@ end
 function M.onCompletion(encounter, owner, taskId)
     if taskId ~= "excitement" then return false end
     local key, tick = id(entity(owner)), now()
-    if not key or not tick or (key ~= encounter.initiator and key ~= encounter.partner) then return false end
-    local partner = key == encounter.initiator and encounter.partner or encounter.initiator
-    local row = rows[key]
-    if not row or not row.expires or tick >= row.expires or row.partner ~= partner then return false end
+    local row = key and rows[key]
+    if not tick or not row or not row.expires or tick >= row.expires then return false end
+    local ownerPresent, partnerPresent = false, false
+    for _, participant in ipairs(encounter.participants) do
+        if participant == key then ownerPresent = true end
+        if participant == row.partner then partnerPresent = true end
+    end
+    if not (ownerPresent and partnerPresent) then return false end
 
     local target = inzoi.FB1EntityId()
-    target.Value = tonumber(partner)
+    target.Value = tonumber(row.partner)
     local context = scriptContext(entity(owner), target)
     -- Consume before calling native scripts. A partially applied reward must
     -- not be submitted again on a repeated event.

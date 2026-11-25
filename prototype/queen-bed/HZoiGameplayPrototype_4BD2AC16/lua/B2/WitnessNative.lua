@@ -20,9 +20,30 @@ function M.isOfficialPartner(witness, participant)
     return false
 end
 
+function M.relationshipScore(person, target, stat)
+    local relationships = person:GetComponent(inzoi.EB2ComponentType.Relationship)
+    if not relationships then return end
+    local entry = relationships:FindRelationshipStatData(target:GetEntityId(), stat)
+    if not entry then return 0 end
+    local value = entry.Value
+    if type(value) == "number" and math.abs(value) < math.huge then return value end
+end
+
 function M.hasTrait(character, trait)
     local view = character:GetComponent(inzoi.EB2ComponentType.Trait)
     return view and view:HasTrait(trait) == true
+end
+
+function M.addMoodlet(character, buffId, initiator)
+    local buffs = character and character:GetComponent(inzoi.EB2ComponentType.Buff)
+    if not buffs then return false end
+
+    -- Retail's Lua binding requires an explicit detail and emotion argument.
+    local detail = inzoi.FB1BuffDetail()
+    detail.Initiator = (initiator or character):GetEntityId()
+    detail.Reason = inzoi.EB1ScriptReason.Howling
+    buffs:AddBuff(buffId, detail, "None")
+    return true
 end
 
 -- Let an idle, non-possessed bystander move out of the encounter's way.
@@ -50,20 +71,46 @@ function M.walkAway(witness, near)
         local point = UE.FVector(here.X + math.cos(angle) * 180, here.Y + math.sin(angle) * 180, here.Z)
         if grid:IsOnWalkableGrid(point) and site:CheckReachablePoint(point) and site:IsExistInternalPath(here, point, query) then
             return interaction:AddInteractionQueueByParam(
-                inzoi.FB1EntityId(), point, "HZoiGameplay_Walk", inzoi.EB1InteractionPlayReason.Reaction,
+                inzoi.FB1EntityId(), point, "HZoiGameplay_WitnessWalk", inzoi.EB1InteractionPlayReason.Reaction,
                 false, false, "HZoi Gameplay witness", true, false)
         end
     end
 end
 
--- Let the native localized line explain why the NPC dropped the approach.
-function M.privacyComplaint(initiator, partner)
-    local context = inzoi.FB2ScriptContext(initiator:GetEntityId(), partner:GetEntityId(), inzoi.EB1ScriptReason.Howling)
+function M.say(speaker, target, bubble)
+    local context = inzoi.FB2ScriptContext(speaker:GetEntityId(), target:GetEntityId(), inzoi.EB1ScriptReason.Howling)
     local command = inzoi.FB1Execute()
     command.BaseObject = inzoi.EB1BaseObject.Self
     command.Command = inzoi.EB1ExecuteType.AddSpeechBubble
-    command.S1, command.S2, command.Prob = "SpeechBubble_Hope_Solitude_HaveAloneTime", "None", 1
+    command.S1, command.S2, command.Prob = bubble, "None", 1
     inzoi.FB2Script_SpeechBubble.Execute_AddSpeechBubble(context, command)
+end
+
+local witnessDialogueStages = {"HighTeen", "Youth", "Adult", "Old", "Elderly"}
+
+function M.sayAsWitness(witness, participant, pool)
+    local steps = inzoi.EB1GrowthStep
+    local step = witness:GetGrowthStep()
+    if not steps or step == nil then return end
+    for _, name in ipairs(witnessDialogueStages) do
+        if step == steps[name] then
+            local bubble = "HZoiGameplay_Witness" .. pool .. math.random(5)
+            M.say(witness, participant, bubble)
+            return bubble
+        end
+    end
+end
+
+local privacyBubbles = {
+    "HZoiGameplay_PrivacyPrivateTime",
+    "HZoiGameplay_PrivacyWorstMoment",
+    "HZoiGameplay_PrivacyEmptyRoom",
+}
+
+function M.privacyComplaint(initiator, partner)
+    local bubble = privacyBubbles[math.random(#privacyBubbles)]
+    M.say(initiator, partner, bubble)
+    return bubble
 end
 
 return M

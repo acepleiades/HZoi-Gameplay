@@ -1,0 +1,296 @@
+{
+  "moodlets": {
+    "InSync": [
+      "Em sintonia",
+      "Vocês encontraram um ritmo que funcionou para todo mundo. Depois, deu vontade de ficar pertinho mais um pouco."
+    ],
+    "Satisfied": [
+      "Satisfação",
+      "Você sente calma e satisfação. Queria que todo mundo tivesse tido a mesma chance de chegar lá."
+    ],
+    "OutOfSync": [
+      "Fora de sintonia",
+      "Foi bom ver alguém chegar lá, mas você ainda estava no meio do caminho quando acabou. Teria sido bom ter mais um tempinho."
+    ],
+    "AwkwardTiming": [
+      "Na pior hora",
+      "Alguém viu o que estava acontecendo, e o encontro foi interrompido. Depois de uma dessas, é difícil voltar ao clima."
+    ],
+    "UnfinishedMoment": [
+      "Momento inacabado",
+      "As coisas estavam começando a ficar boas quando vocês pararam. Você ficou pensando no que poderia ter acontecido com um pouco mais de tempo."
+    ],
+    "OutOfOrder": [
+      "Em descompasso",
+      "Você queria que fosse bom para todo mundo. Acabar antes que todo mundo chegasse lá deixou a sensação de que faltou alguma coisa."
+    ],
+    "FoundABetterRhythm": [
+      "Um ritmo melhor",
+      "Quando começaram a prestar atenção um no outro, mudar o ritmo veio naturalmente. Ainda bem que vocês tentaram algo diferente."
+    ],
+    "NowhereToHide": [
+      "Sem onde se esconder",
+      "Você achou que tinha um pouco de privacidade. No instante em que percebeu que alguém podia ver você, deu vontade de desaparecer."
+    ],
+    "PlayedItCool": [
+      "Sem perder a calma",
+      "Ser visto deu vergonha na hora, mas você manteve a calma. Agora, nem parece que vale a pena fazer alarde."
+    ],
+    "UnfinishedBusiness": [
+      "Ficou faltando",
+      "Você estava começando a se entregar quando tudo parou. É difícil tirar da cabeça a sensação de que ficou algo por terminar."
+    ],
+    "PerfectImprovisation": [
+      "Improviso perfeito",
+      "Vocês deixaram de pensar em como as coisas deveriam acontecer e foram sentindo o ritmo um do outro. Agora dá curiosidade de saber o que mais pode surgir assim, naturalmente."
+    ],
+    "AtMyOwnPace": [
+      "No meu ritmo",
+      "Você se deu tempo para aproveitar a intimidade sem se preocupar com a pressa. Era exatamente o que precisava."
+    ],
+    "SomethingToThinkAbout": [
+      "Vale pensar nisso",
+      "Você ainda está pensando no que fez aquilo ser tão bom. Talvez valha a pena falar sobre o que você gostou da próxima vez."
+    ],
+    "AQuestionOfTiming": [
+      "Questão de ritmo",
+      "Alguém chegou lá bem quando você estava quase conseguindo. Você ainda se pergunta como foi que o ritmo se desencontrou tanto."
+    ],
+    "ExactlyWhatIWorriedAbout": [
+      "Era o que eu temia",
+      "Você já estava com receio de que alguém visse vocês. Aconteceu mesmo, e vai demorar um pouco para esquecer a preocupação."
+    ],
+    "ThrillOfBeingCaught": [
+      "A adrenalina do flagrante",
+      "Seu par pegou você com outra pessoa. Você sabe que a conversa vai ser difícil, mas a adrenalina pegou você de surpresa."
+    ],
+    "WhatAnEntrance": [
+      "Que entrada!",
+      "A hora foi tão ruim que chegou a ser engraçado. Depois que o susto passou, foi difícil segurar a risada."
+    ],
+    "WorthTheRush": [
+      "Valeu a adrenalina",
+      "Deixar o momento levar vocês foi melhor do que você esperava. Só de lembrar, o coração ainda acelera um pouco."
+    ],
+    "WhoLetThemIn": [
+      "Quem deixou entrar?",
+      "Você esperava um pouco de privacidade. Agora, só consegue pensar em como foi fácil alguém ver vocês e no quanto isso incomodou."
+    ],
+    "KeptItTogether": [
+      "Mantive a compostura",
+      "Deu vergonha no começo, mas você respirou fundo e manteve a compostura. É bom saber que consegue lidar com um momento constrangedor."
+    ],
+    "MixedFeelings": [
+      "Sentimentos misturados",
+      "Você fica contente que alguém tenha se divertido. Queria só ter tido um pouco mais de tempo também."
+    ],
+    "TheWorldWentQuiet": [
+      "O mundo ficou em silêncio",
+      "Por um instante, você esqueceu tudo que existia fora daquele momento. Um pouco daquela tranquilidade ficou com você."
+    ],
+    "LetsLaughAboutIt": [
+      "Dá para rir disso",
+      "Foi constrangedor perceber que alguém podia ver vocês, mas a hora foi tão absurda que ficou difícil levar a sério. Agora já dá para rir."
+    ],
+    "TooManyEyes": [
+      "Olhares demais",
+      "Parecia um momento só de vocês, até você perceber alguém olhando. Por enquanto, você preferia ficar em um canto tranquilo, sem ter de encarar ninguém."
+    ],
+    "ALittleLetDown": [
+      "Uma pontinha de decepção",
+      "Você gostou da proximidade. Ainda assim, é um pouco decepcionante parar quando já estava quase lá."
+    ],
+    "ALittleLight": [
+      "Um pouco de leveza",
+      "Sentir que alguém queria estar perto de você deu uma trégua no que vinha pesando. Foi bom ter esse tempo juntos."
+    ],
+    "ThatWasAwkward": [
+      "Que constrangimento",
+      "Quando percebeu que alguém estava olhando, você nem sabia para onde olhar. Só de lembrar daquele silêncio já bate vergonha."
+    ],
+    "AChapterWorthKeeping": [
+      "Um capítulo para guardar",
+      "São os detalhes que vão ficar na memória, como o olhar que vocês trocaram depois. Foi bom ter aquele tempo juntos."
+    ],
+    "StayClose": [
+      "Fica mais um pouco",
+      "Alguém chegou lá quando você ainda estava no meio do caminho. Ia ser bom ter um pouco de acolhimento e continuar pertinho por mais um instante."
+    ],
+    "FoundOurPace": [
+      "Achamos nosso ritmo",
+      "Depois que vocês encontraram um ritmo bom para todo mundo, tudo se encaixou. Você já recuperou o fôlego, mas ainda sente a empolgação."
+    ],
+    "StillBuzzing": [
+      "A energia ainda não passou",
+      "Para algumas pessoas, o encontro acabou cedo, mas para você sobrou mais energia do que esperava. Ficar sem fazer nada não parece muito atraente agora."
+    ],
+    "CouldUseAShower": [
+      "Um banho cairia bem",
+      "Foi bom, mas agora está tudo meio grudento. Um banho morno e roupa limpa parecem uma ótima ideia."
+    ],
+    "CouldntKeepAStraightFace": [
+      "Não deu para segurar o riso",
+      "Você sabia que provavelmente era hora de fazer cara séria, mas o susto levou a melhor. Só de lembrar já dá vontade de rir de novo."
+    ],
+    "MissingPiece": [
+      "Faltou alguma coisa",
+      "Você fica repassando o que aconteceu. Alguém chegou lá, e é frustrante não conseguir entender o que faltou para você."
+    ],
+    "GoodEnoughForMe": [
+      "Para mim está ótimo",
+      "Você teve o que precisava e agora só quer aproveitar a calma. Alguns minutos de sossego parecem uma boa ideia."
+    ],
+    "ALittleLuxury": [
+      "Um pequeno luxo",
+      "Estar em um lugar confortável deixou muito mais fácil relaxar juntos. Você bem que poderia se acostumar a aproveitar o tempo assim."
+    ],
+    "IGotMine": [
+      "Eu aproveitei",
+      "Você reparou que algumas pessoas não tinham chegado lá quando acabou. Ainda está se achando um pouco por ter sido tão bom para você."
+    ],
+    "ABreakWellSpent": [
+      "Uma pausa bem aproveitada",
+      "Vocês conseguiram deixar todo o resto de lado e dar atenção de verdade um ao outro. Valeu a pena abrir espaço para isso."
+    ],
+    "CoolUnderPressure": [
+      "Tranquilidade sob pressão",
+      "Você percebeu alguém olhando e achou mais graça do que sentiu vergonha. Um pouco de constrangimento não estragou o momento para você."
+    ],
+    "WhatHaveIDone": [
+      "O que foi que eu fiz?",
+      "O flagrante fez cair a ficha de quanto você magoou seu parceiro. Você queria poder desfazer o que acabou de acontecer."
+    ],
+    "QuietAgain": [
+      "De volta ao sossego",
+      "O clima ficou tenso quando você percebeu que alguém tinha visto vocês. Agora que pararam, é bom ter um momento para respirar."
+    ],
+    "WellNowIKnow": [
+      "Agora eu sei",
+      "Chegar lá fez você pensar no quanto suas preferências são importantes. Você queria conversar mais sobre isso alguma hora."
+    ],
+    "WorthTheDetour": [
+      "Valeu o desvio",
+      "Fazer uma pausa no meio do dia virou uma lembrança que vai fazer você sorrir depois. Você fica contente por ter topado."
+    ],
+    "AGoodImpression": [
+      "Uma ótima impressão",
+      "Saber que todo mundo gostou deu um friozinho bom na barriga. Você ainda pensa nos olhares que vocês trocaram depois."
+    ],
+    "APleasantBuzz": [
+      "Uma energia boa",
+      "Você achou que fosse ficar com sono depois, mas seu corpo ainda está cheio de energia. Foi uma surpresa boa."
+    ],
+    "SweetFinish": [
+      "Um final gostoso",
+      "Vocês foram com calma, e valeu a pena para todo mundo. Você não está com pressa de deixar para trás aquela sensação boa."
+    ],
+    "TakingItEasy": [
+      "Levando numa boa",
+      "O clima ficou tenso quando alguém notou o que estava acontecendo. Agora que você parou e respirou fundo, dá para deixar a vergonha passar."
+    ],
+    "AMemoryToKeep": [
+      "Uma lembrança para guardar",
+      "Você já se pegou sorrindo ao lembrar daquela intimidade. É um daqueles momentos que dá vontade de guardar."
+    ],
+    "BetterLuckNextTime": [
+      "Mais sorte da próxima vez",
+      "Acabou antes que alguém conseguisse chegar lá. Foi decepcionante, mas com mais tempo talvez seja melhor da próxima vez."
+    ],
+    "FoundTheFit": [
+      "Do jeito certo",
+      "Quando encontraram uma posição confortável, ficou mais fácil prestar atenção um no outro. Na próxima vez, você vai lembrar do que funcionou."
+    ],
+    "ASecondWind": [
+      "Um novo fôlego",
+      "Por um instante, bateu o cansaço. Depois, você se sentiu com ainda mais energia do que antes e pronto para o resto do dia."
+    ],
+    "KeptMyComposure": [
+      "Sem perder o controle",
+      "Bateu uma onda de vergonha quando você percebeu que alguém podia ver vocês. Manter a calma deu confiança para lidar com o que aconteceu."
+    ],
+    "SawEncounter": [
+      "Companhia inesperada",
+      "Você percebeu o que estava acontecendo um segundo tarde demais. Queria ter dado um pouco mais de privacidade a todo mundo."
+    ]
+  },
+  "causes": {
+    "[From everyone reaching orgasm]": "[Por todo mundo ter chegado ao orgasmo]",
+    "[From reaching orgasm when some participants didn’t]": "[Por ter chegado ao orgasmo enquanto algumas pessoas não chegaram]",
+    "[From someone else reaching orgasm while you didn’t]": "[Por outra pessoa ter chegado ao orgasmo enquanto você não chegou]",
+    "[From being interrupted during sex]": "[Por uma interrupção durante o sexo]",
+    "[From stopping early]": "[Por pararem antes da hora]",
+    "[From the encounter ending before everyone reached orgasm]": "[Por o encontro ter acabado antes que todo mundo chegasse ao orgasmo]",
+    "[From being seen having sex]": "[Por alguém ver vocês transando]",
+    "[From reaching orgasm]": "[Por chegar ao orgasmo]",
+    "[From getting caught cheating]": "[Por uma traição descoberta no flagra]",
+    "[From feeling sweaty after sex]": "[Por suar depois do sexo]",
+    "[From walking in on Zois having sex]": "[Por surpreender Zois enquanto transavam]"
+  },
+  "messages": {
+    "Have sex here": "Transar aqui",
+    "Toggle HZoi private room": "Alternar a marca de cômodo privado do HZoi",
+    "Could not open the HZoi partner picker.": "Não foi possível abrir o seletor de pares do HZoi.",
+    "Your Zoi wants some private time with {partner}.": "Seu Zoi quer um tempo a sós com {partner}.",
+    "Your Zoi fulfilled their urge with {partner}.": "Seu Zoi realizou o desejo com {partner}.",
+    "{first} and {second} decided to stop after someone walked in on them.": "{first} e {second} decidiram parar quando alguém entrou e pegou os dois de surpresa.",
+    "The encounter ended after someone walked in.": "O encontro terminou quando alguém entrou.",
+    "{first} and {second} decided to stop after one of their romantic partners caught them together.": "{first} e {second} decidiram parar quando um de seus pares românticos pegou os dois juntos.",
+    "The encounter ended after a romantic partner walked in on it.": "O encontro terminou quando um parceiro amoroso entrou e viu o que estava acontecendo.",
+    "The partner picker could not open. Close any open picker and make sure your Zoi is out of their group.": "Não foi possível abrir o seletor de pares. Feche qualquer seletor aberto e tire seu Zoi do grupo, se estiver em um.",
+    "Close the current Zoi picker before sending an invitation.": "Feche o seletor de Zois atual antes de enviar um convite.",
+    "An HZoi invitation is already in progress.": "Já há um convite do HZoi em andamento.",
+    "Could not finish the invitation.": "Não foi possível concluir o convite.",
+    "That bed is occupied or unavailable.": "Essa cama está ocupada ou indisponível.",
+    "The selected sofa seats are occupied or unavailable.": "Os assentos selecionados do sofá estão ocupados ou indisponíveis.",
+    "Both Zois need a clear path to the selected sofa seats.": "Os dois Zois precisam de um caminho livre até os assentos selecionados.",
+    "Choose a walkable spot for the encounter.": "Escolha um ponto acessível para o encontro.",
+    "Could not read the selected ground spot. Open the ground menu and try again.": "Não foi possível identificar o ponto escolhido. Abra o menu do chão e tente de novo.",
+    "Both Zois need a clear path and room to stand at the selected spot.": "Os dois Zois precisam de um caminho livre e de espaço para ficar de pé no ponto escolhido.",
+    "Marked this room private for HZoi in the current loaded game.": "Este cômodo foi marcado como privado para o HZoi enquanto a partida atual estiver carregada.",
+    "Removed the HZoi private-room mark.": "A marca de cômodo privado do HZoi foi removida.",
+    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "Fique dentro de um cômodo da residência da sua família e escolha um ponto acessível no chão.",
+    "This room already has a room purpose.": "Este cômodo já tem uma finalidade definida.",
+    "Select the Zoi who sent the invitation first.": "Primeiro, selecione o Zoi que enviou o convite.",
+    "No eligible partner was selected.": "Nenhum par elegível foi selecionado.",
+    "No scenes were found for these Zois at this spot.": "Nenhuma cena foi encontrada para esses Zois neste local.",
+    "No scenes at this spot can complete the goals for this pair.": "Nenhuma cena neste local permite que o par conclua seus objetivos.",
+    "These Zois cannot use Set the Mood right now.": "Esses Zois não podem usar “Defina o clima” agora.",
+    "One of the Zois is already in a SceneZOI session. Try again afterward.": "Um dos Zois já está em uma sessão do SceneZOI. Tente de novo quando ela terminar.",
+    "The invitation could not be added to the action queue.": "Não foi possível adicionar o convite à fila de ações.",
+    "An activity needed for this encounter is unavailable.": "Uma atividade necessária para este encontro está indisponível.",
+    "End the current SceneZOI session before starting another.": "Encerre a sessão atual do SceneZOI antes de iniciar outra.",
+    "The invitation took too long. Check the Zois' action queues and try again.": "O convite demorou demais. Confira as filas de ações dos Zois e tente de novo.",
+    "SceneZOI did not respond. Check that it is installed and enabled.": "O SceneZOI não respondeu. Confira se ele está instalado e ativado.",
+    "SceneZOI could not find a supported bed or adjacent sofa seats here.": "O SceneZOI não encontrou uma cama compatível nem assentos vizinhos no sofá.",
+    "Update SceneZOI to use HZoi Gameplay.": "Atualize o SceneZOI para usar o HZoi Gameplay.",
+    "Both Zois need a clear path to the selected bed.": "Os dois Zois precisam de um caminho livre até a cama escolhida.",
+    "Could you knock next time?": "Pode bater na porta da próxima vez?",
+    "I wanted a little privacy.": "Eu queria um pouco de privacidade.",
+    "Can’t we have a little private time?": "A gente não pode ter um pouco de privacidade?",
+    "They walked in at the worst moment.": "Entraram na pior hora.",
+    "I thought this room was empty.": "Achei que este cômodo estivesse vazio.",
+    "Your Zoi wants some private time with their partner.": "Seu Zoi quer um tempo a sós com seu par.",
+    "Your Zoi fulfilled their urge with their partner.": "Seu Zoi realizou o desejo com seu par.",
+    "I trusted you. How could you?": "Eu confiava em você. Como pôde fazer isso?",
+    "I can’t believe you’d do this to me.": "Não acredito que você fez isso comigo.",
+    "I never thought I’d catch you in the act.": "Nunca imaginei que ia pegar você no flagra.",
+    "I thought what we had meant something.": "Eu achava que o que a gente tinha significava alguma coisa.",
+    "Is this what you’ve been doing behind my back?": "É isso que você andava fazendo pelas minhas costas?",
+    "Oh! Sorry, I’ll give you some privacy.": "Ah! Desculpa, vou dar um pouco de privacidade a vocês.",
+    "I didn’t mean to walk in on this.": "Não era minha intenção entrar bem nessa hora.",
+    "Oh! I saw more than I meant to.": "Ah! Vi mais do que queria.",
+    "Sorry. I’ve clearly come at a bad time.": "Desculpa. Cheguei numa péssima hora.",
+    "Oh! This looks private. I’ll come back later.": "Ah! Parece que é um momento privado. Volto depois.",
+    "Oh, hey! I’ll let you have your moment.": "Ah, oi! Vou deixar vocês curtirem o momento.",
+    "Of all the times to drop by! I’ll catch up with you later.": "Que hora para aparecer! A gente se fala depois.",
+    "Oh! No need to explain. I’ll give you some space.": "Ah! Não precisam explicar. Vou dar um pouco de espaço.",
+    "Ah, so that’s what you were up to. I’ll leave you to it.": "Ah, então era isso que vocês estavam fazendo. Vou deixar continuarem.",
+    "Oh! I can take a hint. See you later.": "Ah! Entendi a indireta. Até mais.",
+    "Oh! Getting pretty cozy in here.": "Ah! Está bem aconchegante por aqui.",
+    "Well, that’s a little more than flirting.": "Bom, isso é um pouco mais do que flerte.",
+    "Oh! I see what kind of mood everyone’s in.": "Ah! Já vi em que clima o pessoal está.",
+    "Well! It’s getting warm in here.": "Nossa! Está esquentando por aqui.",
+    "Oh! Here I thought you were just talking.": "Ah! E eu achando que vocês só estavam conversando.",
+    "They decided to wait for some privacy. Someone they don’t know well enough could see them.": "Resolveram esperar até ter um pouco de privacidade. Tinha alguém que não conhecem bem o bastante e que podia ver o que estava acontecendo."
+  }
+}

@@ -2,7 +2,10 @@ local callbacks, clientCallbacks, pending, queued, logs = {}, nil, {}, {}, {}
 local clock, ownerId, partnerId, bedId, alternateBedId = 100, 20522, 20524, 21166, 21167
 local sofaId, sofaLocation = 21168, {X = 900, Y = 500, Z = 0}
 local controlled, blockedSide, queueResult = ownerId, false, "Success"
-local notices = {}
+local notices, privacyQueries, complaints = {}, {}, {}
+local observerId = 20526
+local scores = {}
+local partnerStage, partnerGender, ownerGender = 32, 2, 1
 local walkable = function() return true end
 local function entity(i) return {Value = i or -1} end
 local function point(x, y, z) return {X = x, Y = y, Z = z} end
@@ -23,8 +26,9 @@ local function actor(i)
     return {
         GetEntityId = function() return entity(i) end,
         GetComponent = function() return component end,
-        GetGrowthStep = function() return 32 end,
-        GetGenderType = function() return i == ownerId and 1 or 2 end,
+        GetGrowthStep = function() return i == partnerId and partnerStage or 32 end,
+        IsSpawned = function() return true end,
+        GetGenderType = function() return i == ownerId and ownerGender or partnerGender end,
         GetLocation = function() return pos end,
         ClickGround = function(_, location, inQueue, bag)
             clickPosition = location
@@ -46,15 +50,17 @@ local function actor(i)
         MoveTo = function(_, p) pos = p end,
     }
 end
-local owner, partner = actor(ownerId), actor(partnerId)
+local owner, partner, observer = actor(ownerId), actor(partnerId), actor(observerId)
 local bed = {
     GetLocation = function() return point(300, 300, 0) end,
     GetRotation = function() return {Yaw = 90} end,
 }
 local manager = {
+    GetAllEntities = function() return {owner, partner} end,
     FindCharacter = function(_, i)
         if i.Value == ownerId then return owner end
         if i.Value == partnerId then return partner end
+        if i.Value == observerId then return observer end
     end,
     FindGameObject = function(_, i)
         if i.Value == bedId then return bed end
@@ -75,10 +81,15 @@ inzoi = {
     getB2Subsystem = function()
         return {IsOnWalkableGrid = function(_, p) return (not blockedSide or p.X >= 600) and walkable(p) end}
     end,
-    EB1GrowthStep = {Youth = 32, Adult = 64, Old = 128, Elderly = 256}, EB1GenderType = {Male = 1},
+    EB2EntityType = {Character = 3}, EB1GenderType = {Male = 1, Female = 2},
     message = {send_to_client = function(_, kind, value)
-        assert(kind == "HZoiGameplay.Notice")
-        notices[#notices + 1] = value
+        if kind == "HZoiGameplay.WitnessTrace" then
+            local query = require("SceneZOIAddon.Json").decode(value)
+            if query.kind == "arrival" then privacyQueries[#privacyQueries + 1] = query end
+        else
+            assert(kind == "HZoiGameplay.Notice")
+            notices[#notices + 1] = value
+        end
     end},
     EB1ActionType = {Delay = 33},
     EB2ComponentType = {Interaction = 1}, EB1InteractionPlayReason = {User = 1},
@@ -90,6 +101,20 @@ inzoi = {
     },
 }
 local completions, outcomes = {}, {}
+local refusalEffects, resultEffects = {}, {}
+package.loaded.EncounterRelationship = {
+    onRefusal = function(attempt, initiator, partner)
+        assert(initiator:GetEntityId().Value == tonumber(attempt.initiator))
+        assert(partner:GetEntityId().Value == tonumber(attempt.partner))
+        refusalEffects[#refusalEffects + 1] = attempt.nonce
+    end,
+    onResult = function(attempt, record, result, initiator, partner)
+        assert(initiator:GetEntityId().Value == tonumber(attempt.initiator))
+        assert(partner:GetEntityId().Value == tonumber(attempt.partner))
+        assert(record.ended and result.apply_outcome and result.cleanup_complete)
+        resultEffects[#resultEffects + 1] = record.session_id
+    end,
+}
 package.loaded["EncounterConsequences"] = {
     onCompletion = function(record, who, task, index)
         completions[#completions + 1] = {session = record.session_id, who = who, task = task, index = index}
@@ -110,6 +135,15 @@ package.loaded["SceneZOIAddon.Client"] = {
     end,
 }
 package.loaded.NpcInitiative = {new = function() end}
+package.loaded.WitnessNative = {
+    privacyComplaint = function(speaker, target)
+        complaints[#complaints + 1] = {speaker:GetEntityId().Value, target:GetEntityId().Value}
+    end,
+    relationshipScore = function(witness, target, stat)
+        assert(witness == observer, "Read the score from the observer's side")
+        return scores[target:GetEntityId().Value][stat]
+    end,
+}
 local module = require("Components.VenueInvite")
 local component = {GetOwnerEntityId = function() return entity(controlled) end}
 local state = {}
@@ -124,6 +158,16 @@ local function reply(op, value)
     local call = request(op)
     clientCallbacks.response({request_id = call.key, ok = true, result = value})
     return call
+end
+local json = require("SceneZOIAddon.Json")
+local function privacyReply(query, seen, diagnostic)
+    module.on_lua_message(state, component, "HZoiGameplay.WitnessResult", json.encode({
+        kind = "arrival", token = query.token, revision = query.revision,
+        observations = seen and json.array(seen) or nil, diagnostic = diagnostic,
+    }))
+end
+local function confirmPrivacy()
+    privacyReply(assert(table.remove(privacyQueries, 1)), {})
 end
 local function snapshot(call, sessionId, phase, properties)
     local value = {
@@ -146,18 +190,29 @@ local function fire(kind, player, bag, victim, reason)
         entity_id = entity(player), target_entity_id = entity(victim), interaction_bag_id = bag, reason = reason,
     })
 end
-local function invite(nonce, partner, bed, bedStatus, rejection, cancelPicker)
+local function features(hasStopExplanation)
+    return setmetatable({stop_session_display_reason = hasStopExplanation}, {__index = function(_, feature)
+        if feature ~= "stop_session_display_reason" then return 1 end
+    end})
+end
+
+local function invite(nonce, partner, bed, bedStatus, rejection, cancelPicker, preflightResult)
     local before = #queued
     module.on_lua_message(state, component, "HZoiGameplay.Invite", table.concat({nonce, controlled, bed}, "|"))
-    reply("get_version", {features = setmetatable({}, {__index = function() return 1 end})})
+    reply("get_version", {features = features(1)})
     local venues = reply("find_furniture", {furniture = {
         {furniture_id = tostring(bedId), profile = {kind = "bed.queen"}, status = bedStatus or "available"},
-        {furniture_id = tostring(alternateBedId), profile = {kind = "bed.queen"}, status = "available"}
+        {furniture_id = tostring(alternateBedId), profile = {kind = "bed.single"}, status = "available"}
     }})
     assert(venues.args.origin_id == tostring(controlled))
 
     if bedStatus == "occupied" then return end
+    if partnerStage ~= 32 then
+        assert(#pending == 0 and notices[#notices] == "partner_ineligible")
+        return
+    end
     local picker = reply("open_partner_picker", {opened = true})
+    assert(#picker.args.candidate_ids == 1 and picker.args.candidate_ids[1] == tostring(partner))
     clientCallbacks.event({name = "partner_picker_finished", request_id = "unrelated", code = "selected", partner_id = "999"})
     assert(#queued == before and #pending == 0)
     if cancelPicker then
@@ -169,32 +224,42 @@ local function invite(nonce, partner, bed, bedStatus, rejection, cancelPicker)
     reply("get_definitions", {actions = {
         handjob = {sexual_activity = "non_penetrative", content_rating = "EXPLICIT"},
         vaginal_sex = {sexual_activity = "coital", content_rating = "EXPLICIT"},
+        anal_sex = {sexual_activity = "penetrative_non_coital", content_rating = "EXPLICIT"},
     }})
     queueResult = rejection or "Success"
-    local preflight = reply("validate_start", {valid = true})
+    local preflight = reply("validate_start", preflightResult or {valid = true})
     queueResult = "Success"
-    assert(preflight.args.placement.max_start_distance_m == 100)
+    assert(preflight.args.check_start_distance == false and preflight.args.placement.max_start_distance_m == nil)
+    local actions = table.concat(preflight.args.search.any_actions, ",")
+    assert((actions:find("anal_sex", 1, true) ~= nil) == (ownerGender == 1 and partnerGender == 1))
     assert(preflight.args.furniture_id == tostring(bed) and preflight.args.stages == 4)
     assert(#preflight.args.goals == 2 and preflight.args.start_mode == "start_autonomous_scene")
 end
 local INVITE, WALK = "HZoiGameplay_Invite", "HZoiGameplay_Walk"
 
-local function conversation(refusal)
+local function conversation(refusal, switchAfterRefusal)
     local first, second = controlled, controlled == ownerId and partnerId or ownerId
     local bag = INVITE
     local action = "Coop_TalkLike_Before_MakeLove" .. (refusal and "_Fail" or "")
-    local count = #queued
+    local count, effects = #queued, #refusalEffects
     fire("started", first, bag, second)
     fire("finished", first, bag, second)
     tick()
-    assert(#queued == count and #pending == 0, "RequestCoop alone is not an answer")
+    assert(#queued == count and #pending == 0 and #refusalEffects == effects, "RequestCoop alone is not an answer")
     fire("started", first, action, second)
     fire("started", second, action .. "_Feedback", first)
     fire("finished", first, action, second)
     tick()
-    assert(#queued == count and #pending == 0, "Wait for the selected partner's response")
+    assert(#queued == count and #pending == 0 and #refusalEffects == effects, "Wait for the selected partner's response")
     fire("finished", second, action .. "_Feedback", first)
+    assert(#refusalEffects == effects + (refusal and 1 or 0), "Settle the confirmed refusal immediately")
+    if switchAfterRefusal then controlled = observerId end
     tick()
+    if switchAfterRefusal then
+        controlled = first
+        fire("finished", second, action .. "_Feedback", first)
+    end
+    assert(#refusalEffects == effects + (refusal and 1 or 0), "Settle the confirmed refusal only once")
 end
 
 
@@ -202,7 +267,7 @@ invite("picker-cancelled", partnerId, bedId, nil, nil, true)
 assert(#queued == 0 and #pending == 0 and logs[#logs]:find("picker_cancelled"))
 invite("refused", partnerId, bedId)
 assert(queued[1].bag == INVITE and queued[1].target == partnerId)
-conversation(true)
+conversation(true, true)
 assert(logs[#logs]:find("refused") and #queued == 1 and #pending == 0)
 
 -- The same action can be used by another selected Zoi, at a different bed.
@@ -224,17 +289,51 @@ owner:MoveTo(point(p2.X, p2.Y, p2.Z + 90))
 fire("finished", ownerId, WALK, -1)
 tick()
 local arrival = reply("validate_start", {valid = true, scene_id = "hzoi.bed", bindings = {male = "20522", female = "20524"}})
-assert(not arrival.args.placement.max_start_distance_m and arrival.args.furniture_id == tostring(alternateBedId))
+assert(arrival.args.check_start_distance == nil and arrival.args.furniture_id == tostring(alternateBedId))
+assert(#pending == 0 and #privacyQueries == 1, "Wait for sight proof before starting")
+local query = table.remove(privacyQueries, 1)
+assert(query.points[tostring(partnerId)].x == p1.X and query.points[tostring(ownerId)].x == p2.X)
+privacyReply(query, nil, "observer_view_unavailable")
+assert(#pending == 0 and #privacyQueries == 0)
+clock = clock + 1
+tick()
+local retryQuery = assert(table.remove(privacyQueries, 1))
+assert(retryQuery.token ~= query.token and retryQuery.revision == query.revision + 1)
+privacyReply(query, {})
+assert(#pending == 0, "An obsolete sight reply cannot start the encounter")
+scores = {[ownerId] = {Romance = 30}, [partnerId] = {Romance = 0, Friendship = 30}}
+privacyReply(retryQuery, {{id = tostring(observerId)}})
 local start = reply("start_autonomous_scene", {accepted = true, stages = 4})
 assert(start.args.scene_id == "hzoi.bed" and start.args.bindings.male == "20522")
-assert(logs[#logs]:find("start_accepted") and not logs[#logs]:find("scene_started"))
+assert(logs[#logs]:find("start_accepted") and not logs[#logs]:find("session_started"))
 clientCallbacks.event(snapshot(start, "unrelated", "playing", {name = "session_started",
     addon_client_id = "different.client"}))
 clientCallbacks.event(snapshot(start, "unrelated", "playing", {name = "session_started",
     participants = {{id = tostring(ownerId)}, {id = "999"}}}))
-assert(not logs[#logs]:find("scene_started"))
+assert(not logs[#logs]:find("session_started"))
 clientCallbacks.event(snapshot(start, "test", "playing", {name = "session_started"}))
-assert(logs[#logs]:find("scene_started"))
+assert(logs[#logs]:find("session_started"))
+
+local function reportWitnessStop(session, startCall, expectedDisplayReason)
+    local json = require("SceneZOIAddon.Json")
+    local witness = require("EncounterWitness")
+    local original = witness.reply
+    local message = "Jaewoo and Minah decided to stop after someone walked in on them."
+    witness.reply = function(record, _, _, _, _, _, stop)
+        if session == "test" then
+            assert(record.arrivalWitnesses[tostring(observerId)], "Successful arrival establishes the continuity baseline")
+        end
+        stop("witness_sighting", message)
+    end
+    module.on_lua_message(state, component, "HZoiGameplay.WitnessResult",
+        json.encode({token = startCall.key .. ".1"}))
+    witness.reply = original
+    local stop = reply("request_stop", {accepted = true})
+    assert(stop.args.session_id == session and stop.args.reason == "witness_sighting")
+    assert(stop.args.display_reason == (expectedDisplayReason and message or nil))
+end
+
+reportWitnessStop("test", start, true)
 local completion = snapshot(start, "test", "playing", {name = "task_completed", participant_id = tostring(ownerId),
     task = {id = "excitement", completion_index = 1}})
 clientCallbacks.event(completion)
@@ -249,7 +348,8 @@ clientCallbacks.event(ended)
 assert(#completions == 2 and completions[2].index == 2 and #outcomes == 1)
 assert(outcomes[1].record.completions[tostring(partnerId)].excitement == 0)
 assert(outcomes[1].record.furniture == tostring(alternateBedId))
-assert(outcomes[1].result.task_counts_complete and logs[#logs]:find("scene_ended"))
+assert(outcomes[1].result.task_counts_complete and logs[#logs]:find("session_ended"))
+assert(#resultEffects == 1 and resultEffects[1] == "test", "Apply the relationship result once after cleanup")
 
 controlled, blockedSide, queued = ownerId, false, {}
 invite("canceled", partnerId, bedId)
@@ -278,6 +378,22 @@ invite("occupied", partnerId, bedId, "occupied")
 assert(#queued == 0 and notices[#notices] == "furniture_unavailable")
 invite("ineligible", partnerId, bedId, nil, "EnqueueConditionCheckFail")
 assert(#queued == 0 and notices[#notices] == "not_eligible")
+
+module.on_lua_message(state, component, "HZoiGameplay.Invite", ("lost-picker|%d|%d"):format(controlled, bedId))
+reply("get_version", {features = features(1)})
+reply("find_furniture", {furniture = {{furniture_id = tostring(bedId), profile = {kind = "bed.queen"}}}})
+local lostPicker = reply("open_partner_picker", {opened = true})
+clock = clock + 60
+tick()
+module.on_lua_message(state, component, "HZoiGameplay.Invite", ("picker-still-active|%d|%d"):format(controlled, bedId))
+assert(#pending == 0 and notices[#notices] == "busy", "Allow time for the player to choose a partner")
+clock = clock + 241
+tick()
+assert(notices[#notices] == "timeout", "Recover a picker without a completion event")
+clientCallbacks.event({name = "partner_picker_finished", request_id = lostPicker.key,
+    code = "selected", partner_id = tostring(partnerId)})
+assert(#pending == 0, "Ignore a selection for an expired invitation")
+invite("picker-retried", partnerId, bedId, nil, nil, true)
 
 line("Invitation checks passed: dynamic pair and venue, refusal, wall side, both arrivals, cleanup, cancellation, wrong floor, occupied bed and native enqueue refusal.")
 
@@ -314,7 +430,7 @@ local function sofaInvite(nonce, available)
     }})
     local preflight = reply("validate_start", {valid = true, furniture_pair_id = "side"})
     assert(preflight.args.furniture_id == tostring(sofaId) and preflight.args.furniture_pair_id == "side")
-    assert(preflight.args.placement.max_start_distance_m == 100 and #queued == 1)
+    assert(preflight.args.check_start_distance == false and #queued == 1)
 end
 local function arriveAtSofa()
     conversation(false)
@@ -341,7 +457,7 @@ assert(#pending == 0 and #queued == 1 and logs[#logs]:find("refused"))
 sofaInvite("sofa-taken-during-walk", true)
 arriveAtSofa()
 local blocked = reply("validate_start", {valid = false, code = "furniture_unavailable"})
-assert(blocked.args.furniture_pair_id == "side" and not blocked.args.placement.max_start_distance_m)
+assert(blocked.args.furniture_pair_id == "side" and blocked.args.check_start_distance == nil)
 assert(#pending == 0 and notices[#notices] == "sofa_unavailable", "An alternate pair must never replace the chosen pair on arrival")
 sofaInvite("sofa-changed-pair", true)
 arriveAtSofa()
@@ -358,6 +474,7 @@ arriveAtSofa()
 local sofaArrival = reply("validate_start", {valid = true, furniture_pair_id = "side", scene_id = "hzoi.sofa",
     bindings = {male = tostring(ownerId), female = tostring(partnerId)}})
 assert(sofaArrival.args.furniture_pair_id == "side")
+confirmPrivacy()
 local sofaStart = reply("start_autonomous_scene", {accepted = true, stages = 4})
 assert(sofaStart.args.furniture_id == tostring(sofaId) and sofaStart.args.furniture_pair_id == "side")
 assert(sofaStart.args.scene_id == "hzoi.sofa")
@@ -370,13 +487,14 @@ assert(query.args.request_id == sofaStart.key)
 local recovered = reply("get_session_result", {result = snapshot(sofaStart, "sofa", "ended", {
     result_facts = ordinaryEnd, task_state = taskCounts(1, 1), plan = {outcome = "goals_met"},
 })})
-assert(recovered.args.session_id == "sofa" and logs[#logs]:find("scene_ended"))
+assert(recovered.args.session_id == "sofa" and logs[#logs]:find("session_ended"))
 assert(#completions == 4 and #outcomes == 2 and outcomes[2].record.furniture_pair == "side")
 line("Sofa invitations passed: actual roster, exact pair across start checks, occupied or moved sofa, refusal, rotated corner sofa approach and cleanup.")
 
 
 local clickedFloor = point(900, 650, 340)
-local standing = {valid = true, scene_id = "hzoi.standing", bindings = {male = tostring(ownerId), female = tostring(partnerId)}}
+local standing = {valid = true, scene_id = "hzoi.standing", anchor_participant_id = tostring(ownerId),
+    bindings = {lead = tostring(ownerId), second = tostring(partnerId)}}
 
 local markBag = "HZoiGameplay_MarkPrivateRoom"
 local marks = require("PrivateRoomMarks")
@@ -414,7 +532,7 @@ end
 
 local function groundInvite()
     selectGround(controlled == ownerId)
-    reply("get_version", {features = setmetatable({}, {__index = function() return 1 end})})
+    reply("get_version", {features = features()})
     local picker = reply("open_partner_picker", {opened = true})
     clientCallbacks.event({name = "partner_picker_finished", request_id = picker.key,
         code = "selected", partner_id = tostring(controlled == ownerId and partnerId or ownerId)})
@@ -490,12 +608,14 @@ walkable = function() return true end
 
 arriveAtGround(false)
 local arrivalCheck = reply("validate_start", standing)
-assert(not arrivalCheck.args.placement.max_start_distance_m)
+assert(arrivalCheck.args.check_start_distance == nil)
 assert(arrivalCheck.args.scene_id == standing.scene_id and arrivalCheck.args.bindings == standing.bindings)
+confirmPrivacy()
 local groundStart = reply("start_autonomous_scene", {accepted = true})
 assert(groundStart.args.scene_id == standing.scene_id and groundStart.args.bindings == standing.bindings)
 assert(not groundStart.args.furniture_id and not groundStart.args.furniture_pair_id)
 clientCallbacks.event(snapshot(groundStart, "ground", "playing", {name = "session_started"}))
+reportWitnessStop("ground", groundStart, false)
 clock = clock + 9
 tick()
 local current = request("get_session")
@@ -509,11 +629,36 @@ reply("get_session_result", {result = snapshot(groundStart, "ground", "ended", {
     result_facts = {cleanup_complete = false, cleanup_code = "restore_timeout", stop_reason = "ok",
         stop_origin = ordinaryEnd.stop_origin},
 })})
-assert(logs[#logs]:find("scene_ended") and #completions == 5 and #outcomes == 2)
+assert(logs[#logs]:find("session_ended") and #completions == 5 and #outcomes == 2)
 line("Ground invitations passed: native click handoff, both answers, separate destinations, blocked ground, wrong floor, departure and revalidation.")
 
 arriveAtGround(false)
 reply("validate_start", standing)
+scores[ownerId].Romance = 29
+local refusalBefore, outcomeBefore = #refusalEffects, #resultEffects
+privacyReply(assert(table.remove(privacyQueries, 1)), {{id = tostring(observerId)}})
+assert(#pending == 0 and notices[#notices] == "arrival_privacy_denied")
+assert(#complaints == 2 and complaints[1][1] == complaints[2][2]
+    and complaints[1][2] == complaints[2][1], "Both participants react to the privacy denial")
+assert(#refusalEffects == refusalBefore and #resultEffects == outcomeBefore, "Keep relationships unchanged")
+
+arriveAtGround(false)
+reply("validate_start", standing)
+for revision = 1, 3 do
+    local missingProof = assert(table.remove(privacyQueries, 1))
+    assert(missingProof.revision == revision)
+    clock = clock + 2
+    tick()
+    privacyReply(missingProof, {})
+    assert(#pending == 0, "An expired sight reply cannot start the encounter")
+    if revision < 3 then clock = clock + 1; tick() end
+end
+assert(#privacyQueries == 0 and #complaints == 2 and notices[#notices] == "failed",
+    "Unresolved sight proof fails as technical, without the social reaction")
+
+arriveAtGround(false)
+reply("validate_start", standing)
+confirmPrivacy()
 local startFailed = reply("start_autonomous_scene", {accepted = true})
 clientCallbacks.event({name = "session_start_failed", request_id = startFailed.key, addon_id = "hzoi.gameplay",
     code = "start_failed"})
@@ -521,6 +666,18 @@ assert(notices[#notices] == "start_failed" and #completions == 5 and #outcomes =
 
 arriveAtGround(false)
 reply("validate_start", standing)
+confirmPrivacy()
+local timedOut = reply("start_autonomous_scene", {accepted = true})
+clock = clock + 60
+tick()
+local cancelCall = reply("cancel_start", {accepted = true})
+assert(cancelCall.args.start_request_id == timedOut.key)
+reply("get_request_status", {phase = "failed", code = "start_failed"})
+assert(notices[#notices] == "timeout", "Confirm cancellation before dropping the owned start")
+
+arriveAtGround(false)
+reply("validate_start", standing)
+confirmPrivacy()
 local interrupted = reply("start_autonomous_scene", {accepted = true})
 clientCallbacks.event(snapshot(interrupted, "interrupted", "playing", {name = "session_started"}))
 clientCallbacks.event(snapshot(interrupted, "interrupted", "ended", {name = "session_ended",
@@ -530,14 +687,31 @@ assert(#completions == 6 and #outcomes == 2, "An interruption preserves confirme
 
 arriveAtGround(false)
 reply("validate_start", standing)
+confirmPrivacy()
 local missing = reply("start_autonomous_scene", {accepted = true})
 clientCallbacks.event(snapshot(missing, "missing", "playing", {name = "session_started"}))
+local witness = require("EncounterWitness")
+local previousWitnessTick = witness.tick
+witness.tick = function(record)
+    record.witnessPolicy = {incidents = {{
+        session_id = record.session_id, witness_id = tostring(observerId),
+        cheater_id = tostring(ownerId), other_participant_id = tostring(partnerId),
+    }}}
+end
 clock = clock + 9
 tick()
+witness.tick = previousWitnessTick
 current = request("get_session")
 clientCallbacks.response({request_id = current.key, ok = false, code = "session_not_found"})
 reply("get_session_result", {result = require("SceneZOIAddon.Json").null})
 assert(logs[#logs]:find("No verified ended result") and #completions == 6 and #outcomes == 2)
+local terminalFailure = json.decode(assert(logs[#logs]:match("^%[HZoiGameplay%] failed (.+)$")))
+assert(#terminalFailure.witness_incidents == 1
+    and terminalFailure.witness_incidents[1].witness_id == tostring(observerId)
+    and terminalFailure.witness_incidents[1].cheater_id == tostring(ownerId)
+    and terminalFailure.witness_incidents[1].session_id == "missing",
+    "Retain verified incidents when the terminal result cannot be recovered")
+assert(#resultEffects == 2, "Ineligible outcomes never reach the relationship bonus")
 
 line("Encounter results passed: request and roster matching, deduplication, lost notifications, cleanup, and unknown outcomes.")
 
@@ -619,3 +793,25 @@ fire("canceled", partnerId, WALK, -1, 1)
 tick()
 assert(#queued == 3 and #pending == 0 and notices[#notices] == "walk_failed")
 line("Arrival overlap checks passed: serial retry, stale events, current native recovery, superseding actions, cancellation, and final revalidation.")
+
+-- The same policy gates picker candidates and NPC/Urge eligibility in B2.
+local life = require("LifeStageEligibility")
+assert(life.allows(32) and life.allows(64) and life.allows(128) and life.allows(256))
+assert(not life.allows(nil) and not life.allows(16) and not life.allows(1024))
+local beforeCompatibility = #queued
+partnerStage = 1024
+invite("unknown-stage", partnerId, alternateBedId)
+assert(#queued == beforeCompatibility)
+partnerStage, partnerGender = 32, 1
+invite("same-sex-unsupported", partnerId, alternateBedId, nil, nil, false,
+    {valid = false, code = "no_matching_scenes"})
+assert(#queued == beforeCompatibility and notices[#notices] == "no_matching_scenes")
+invite("same-sex-with-content", partnerId, alternateBedId, nil, "EnqueueConditionCheckFail", false,
+    {valid = true, scene_id = "custom.male_pair"})
+assert(notices[#notices] == "not_eligible", "Same-sex content proceeds to the native invitation check")
+ownerGender, partnerGender = 2, 2
+invite("same-sex-female-with-content", partnerId, alternateBedId, nil, "EnqueueConditionCheckFail", false,
+    {valid = true, scene_id = "custom.female_pair"})
+assert(notices[#notices] == "not_eligible", "Female/female content uses the same native invitation check")
+ownerGender = 1
+partnerGender = 2

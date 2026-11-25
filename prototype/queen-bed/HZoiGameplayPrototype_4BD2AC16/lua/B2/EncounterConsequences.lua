@@ -14,7 +14,7 @@ local NEED_CHANGES = {
 local NEED_FLOOR = 0.33
 local STAT_BOUND_PROBE = 1e9
 local MOODLET = {
-    both = "HZoiGameplay_InSync",
+    all = "HZoiGameplay_InSync",
     own = "HZoiGameplay_Satisfied",
     other = "HZoiGameplay_OutOfSync",
     witnessed = "HZoiGameplay_AwkwardTiming",
@@ -79,12 +79,12 @@ local function completed(encounter, who)
     return counts ~= nil and (counts.excitement or 0) > 0
 end
 
-local function defaultMoodlet(own, other, result)
-    if own and other then return MOODLET.both end
+local function defaultMoodlet(own, anyCompleted, allCompleted, result, unfamiliarStop)
+    if allCompleted then return MOODLET.all end
     if own then return MOODLET.own end
-    if other then return MOODLET.other end
+    if anyCompleted then return MOODLET.other end
     local origin = result.stop_origin or {}
-    if result.stop_reason == "addon_requested" and origin.reason == "witness_sighting" then
+    if unfamiliarStop then
         return MOODLET.witnessed
     end
     if result.stop_reason == "ok" and origin.source == "framework" then
@@ -92,15 +92,9 @@ local function defaultMoodlet(own, other, result)
     end
 end
 
-local function addMoodlet(encounter, who, moodlet)
-    local person = actor(who)
-    local buffs = person and person:GetComponent(inzoi.EB2ComponentType.Buff)
-    if not buffs then
-        log("outcome_moodlet_unavailable", encounter, who, {buff_id = moodlet})
-        return
-    end
-    buffs:AddBuff(moodlet)
-    log("outcome_moodlet_queued", encounter, who, {buff_id = moodlet})
+local function addMoodlet(encounter, who, person, moodlet)
+    local requested = NativeWitness.addMoodlet(person, moodlet)
+    log(requested and "outcome_moodlet_queued" or "outcome_moodlet_unavailable", encounter, who, {buff_id = moodlet})
 end
 
 local function hasLowHygiene(person)
@@ -112,13 +106,13 @@ local function hasLowHygiene(person)
     return stats:GetStat("Cleanliness") <= minimum + (maximum - minimum) * NEED_FLOOR
 end
 
-local function applyOutcomeFor(encounter, result, who, partner)
+local function applyOutcomeFor(encounter, result, who, anyCompleted, allCompleted)
     local person = actor(who)
     if not person then return end
     local function hasTrait(trait)
         return NativeWitness.hasTrait(person, trait)
     end
-    local own, other = completed(encounter, who), completed(encounter, partner)
+    local own = completed(encounter, who)
     local origin = result.stop_origin or {}
     local witnesses = encounter.witnessPolicy or {}
     local incidents = witnesses.incidents or {}
@@ -128,30 +122,41 @@ local function applyOutcomeFor(encounter, result, who, partner)
         if incident.cheater_id == who then caught = true; break end
     end
     local ordinaryStop = result.stop_reason == "addon_requested" and origin.reason == "witness_sighting"
-    local ordinary = witnesses.ordinary_sighting == true or ordinaryStop
-    local outcome, reaction = Traits.select(hasTrait, {
-        self_completed = own, partner_completed = other, furniture = encounter.furniture ~= nil,
+    local ordinary = witnesses.ordinary_sighting == true
+    local unfamiliar = witnesses.ordinary_unfamiliar or {}
+    local stoppingUnfamiliar = witnesses.ordinary_stop_unfamiliar or {}
+    local unfamiliarStop = ordinaryStop and stoppingUnfamiliar[who] == true
+    local selected = Traits.select(hasTrait, {
+        self_completed = own, any_completed = anyCompleted, all_completed = allCompleted,
+        furniture = encounter.furniture ~= nil,
         player_exit = result.stop_reason == "ok" and origin.source == "framework",
         low_hygiene = own and hasTrait("CleanFreak") and hasLowHygiene(person),
         seen = ordinary or official, ordinary_sighting = ordinary, ordinary_stop = ordinaryStop,
-        caught_by_own_partner = caught,
+        ordinary_unfamiliar = unfamiliar[who] == true, ordinary_stop_unfamiliar = unfamiliarStop,
+        official_sighting = official, caught_by_own_partner = caught,
     })
 
+    local outcome, reaction = selected.outcome, selected.witness
     if not official then
-        local moodlet = Traits.buffId(outcome, hasTrait) or defaultMoodlet(own, other, result)
-        if not outcome and (moodlet == MOODLET.both or moodlet == MOODLET.own) and hasTrait("Romantic") then
+        local moodlet = Traits.buffId(outcome, hasTrait)
+            or defaultMoodlet(own, anyCompleted, allCompleted, result, unfamiliarStop)
+        if not outcome and (moodlet == MOODLET.all or moodlet == MOODLET.own) and hasTrait("Romantic") then
             moodlet = moodlet .. "_Romantic"
         end
-        if moodlet and (not reaction or moodlet ~= MOODLET.witnessed) then addMoodlet(encounter, who, moodlet) end
+        if moodlet and (not reaction or moodlet ~= MOODLET.witnessed) then addMoodlet(encounter, who, person, moodlet) end
     end
-    if reaction then addMoodlet(encounter, who, reaction.buff_id) end
+    if reaction then addMoodlet(encounter, who, person, reaction.buff_id) end
 end
 
 function M.onResult(encounter, result)
-    local first, second = encounter.participants[1], encounter.participants[2]
-    for _, pair in ipairs({{first, second}, {second, first}}) do
-        local who, partner = pair[1], pair[2]
-        local ok, err = pcall(applyOutcomeFor, encounter, result, who, partner)
+    local count = 0
+    for _, who in ipairs(encounter.participants) do
+        if completed(encounter, who) then count = count + 1 end
+    end
+    local anyCompleted = count > 0
+    local allCompleted = count == #encounter.participants
+    for _, who in ipairs(encounter.participants) do
+        local ok, err = pcall(applyOutcomeFor, encounter, result, who, anyCompleted, allCompleted)
         if not ok then log("outcome_moodlet_failed", encounter, who, {error = tostring(err)}) end
     end
 end

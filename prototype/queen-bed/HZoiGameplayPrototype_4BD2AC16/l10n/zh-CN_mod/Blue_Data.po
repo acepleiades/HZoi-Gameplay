@@ -1,0 +1,743 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Blue_Data\n"
+"Language: zh-CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_DisplayTextId"
+msgid "In Sync"
+msgstr "默契十足"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nYou found a rhythm that felt right for everyone. Afterward, you wanted to stay close a little longer."
+msgstr "[因为所有人都达到了高潮]\r\n你们找到了大家都觉得舒服的节奏。结束后，你还想和大家再待一会儿。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_EmotionReasonDescTextId"
+msgid "You found a rhythm that felt right for everyone. Afterward, you wanted to stay close a little longer."
+msgstr "你们找到了大家都觉得舒服的节奏。结束后，你还想和大家再待一会儿。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_DisplayTextId"
+msgid "Satisfied"
+msgstr "心满意足"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_ReasonTextId"
+msgid "[From reaching orgasm when some participants didn’t]\r\nYou feel relaxed and satisfied. You wish everyone had had the same chance to finish."
+msgstr "[因为自己达到了高潮，但有些人没有]\r\n你觉得放松又满足。要是每个人都有同样的机会达到高潮就好了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_EmotionReasonDescTextId"
+msgid "You feel relaxed and satisfied. You wish everyone had had the same chance to finish."
+msgstr "你觉得放松又满足。要是每个人都有同样的机会达到高潮就好了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_DisplayTextId"
+msgid "Out of Sync"
+msgstr "没跟上节奏"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_ReasonTextId"
+msgid "[From someone else reaching orgasm while you didn’t]\r\nIt was good to see someone finish, but you were still getting there when it ended. You wish you’d had a little more time."
+msgstr "[因为别人达到了高潮，自己却没有]\r\n看到有人达到高潮，你也很开心。可轮到自己快到的时候，却结束了。要是能多一点时间就好了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_EmotionReasonDescTextId"
+msgid "It was good to see someone finish, but you were still getting there when it ended. You wish you’d had a little more time."
+msgstr "看到有人达到高潮，你也很开心。可轮到自己快到的时候，却结束了。要是能多一点时间就好了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_DisplayTextId"
+msgid "Awkward Timing"
+msgstr "来得真不是时候"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_ReasonTextId"
+msgid "[From being interrupted during sex]\r\nSomeone saw what was happening, and the encounter stopped. It’s hard to get back in the mood after that."
+msgstr "[因为做爱时被打断]\r\n有人看到你们在做什么，你们只好停了下来。出了这种事，一时很难找回刚才的心情。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_EmotionReasonDescTextId"
+msgid "Someone saw what was happening, and the encounter stopped. It’s hard to get back in the mood after that."
+msgstr "有人看到你们在做什么，你们只好停了下来。出了这种事，一时很难找回刚才的心情。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_DisplayTextId"
+msgid "Unfinished Moment"
+msgstr "意犹未尽"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_ReasonTextId"
+msgid "[From stopping early]\r\nThings were only just getting good when you stopped. You’re left thinking about what might have happened with a little more time."
+msgstr "[因为提前停下]\r\n刚渐入佳境，你们就停了下来。你不禁想，要是再多一点时间，会怎样呢？"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_EmotionReasonDescTextId"
+msgid "Things were only just getting good when you stopped. You’re left thinking about what might have happened with a little more time."
+msgstr "刚渐入佳境，你们就停了下来。你不禁想，要是再多一点时间，会怎样呢？"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_DisplayTextId"
+msgid "Out of Order"
+msgstr "有点不公平"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_ReasonTextId"
+msgid "[From the encounter ending before everyone reached orgasm]\r\nYou wanted everyone to enjoy it. Ending before everyone could finish made the whole thing feel a little uneven."
+msgstr "[因为还没等所有人达到高潮就结束了]\r\n你希望大家都能享受这段时光。有人还没到高潮就结束了，总觉得有点不尽兴。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_EmotionReasonDescTextId"
+msgid "You wanted everyone to enjoy it. Ending before everyone could finish made the whole thing feel a little uneven."
+msgstr "你希望大家都能享受这段时光。有人还没到高潮就结束了，总觉得有点不尽兴。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_DisplayTextId"
+msgid "Found a Better Rhythm"
+msgstr "找到了更好的节奏"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nChanging things up came naturally once you started paying attention to each other. You’re glad you tried something different."
+msgstr "[因为所有人都达到了高潮]\r\n开始留意彼此的反应以后，你们很自然地换了个方式。还好当时试了点不一样的。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_EmotionReasonDescTextId"
+msgid "Changing things up came naturally once you started paying attention to each other. You’re glad you tried something different."
+msgstr "开始留意彼此的反应以后，你们很自然地换了个方式。还好当时试了点不一样的。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_DisplayTextId"
+msgid "Nowhere to Hide"
+msgstr "恨不得找个地缝"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_ReasonTextId"
+msgid "[From being seen having sex]\r\nYou thought you had some privacy. The second you realized someone could see you, you wished you could disappear."
+msgstr "[因为做爱时被人看见]\r\n你以为能有点私人空间。发现有人能看见你的那一刻，你只想找个地方躲起来。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_EmotionReasonDescTextId"
+msgid "You thought you had some privacy. The second you realized someone could see you, you wished you could disappear."
+msgstr "你以为能有点私人空间。发现有人能看见你的那一刻，你只想找个地方躲起来。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_DisplayTextId"
+msgid "Played It Cool"
+msgstr "若无其事"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_ReasonTextId"
+msgid "[From being seen having sex]\r\nBeing seen was awkward for a second, but you kept your cool. It doesn’t feel like something you need to make a big deal of."
+msgstr "[因为做爱时被人看见]\r\n被人撞见的那一刻有点尴尬，不过你稳住了。仔细想想，这事也没必要闹大。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_EmotionReasonDescTextId"
+msgid "Being seen was awkward for a second, but you kept your cool. It doesn’t feel like something you need to make a big deal of."
+msgstr "被人撞见的那一刻有点尴尬，不过你稳住了。仔细想想，这事也没必要闹大。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_DisplayTextId"
+msgid "Unfinished Business"
+msgstr "总觉得还没完"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_ReasonTextId"
+msgid "[From stopping early]\r\nYou were just getting into it when things stopped. The feeling that you left something unfinished is hard to shake."
+msgstr "[因为提前停下]\r\n你才刚投入进去，一切就停了下来。那种事情还没做完的感觉，怎么也挥不去。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_EmotionReasonDescTextId"
+msgid "You were just getting into it when things stopped. The feeling that you left something unfinished is hard to shake."
+msgstr "你才刚投入进去，一切就停了下来。那种事情还没做完的感觉，怎么也挥不去。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_DisplayTextId"
+msgid "Perfect Improvisation"
+msgstr "临场发挥"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nYou stopped thinking about how it ought to go and followed each other’s lead. Now you’re curious what else might feel that natural."
+msgstr "[因为所有人都达到了高潮]\r\n你们不再想着事情应该怎样发展，而是顺着彼此的反应来。你现在有点好奇，还有什么事也能这么自然。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_EmotionReasonDescTextId"
+msgid "You stopped thinking about how it ought to go and followed each other’s lead. Now you’re curious what else might feel that natural."
+msgstr "你们不再想着事情应该怎样发展，而是顺着彼此的反应来。你现在有点好奇，还有什么事也能这么自然。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_DisplayTextId"
+msgid "At My Own Pace"
+msgstr "按自己的节奏来"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_ReasonTextId"
+msgid "[From reaching orgasm]\r\nYou gave yourself time to enjoy being close without worrying about how fast things were moving. That was exactly what you needed."
+msgstr "[因为达到了高潮]\r\n你没再操心进展快慢，而是慢慢体会和对方亲近的感觉。这正是你想要的。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_EmotionReasonDescTextId"
+msgid "You gave yourself time to enjoy being close without worrying about how fast things were moving. That was exactly what you needed."
+msgstr "你没再操心进展快慢，而是慢慢体会和对方亲近的感觉。这正是你想要的。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_DisplayTextId"
+msgid "Something to Think About"
+msgstr "值得回味"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_ReasonTextId"
+msgid "[From reaching orgasm]\r\nYou keep thinking about what made that feel so good. It might be worth talking about what you liked next time."
+msgstr "[因为达到了高潮]\r\n你还在琢磨刚才为什么那么舒服。下次也许可以聊聊自己喜欢什么。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_EmotionReasonDescTextId"
+msgid "You keep thinking about what made that feel so good. It might be worth talking about what you liked next time."
+msgstr "你还在琢磨刚才为什么那么舒服。下次也许可以聊聊自己喜欢什么。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_DisplayTextId"
+msgid "A Question of Timing"
+msgstr "节奏没对上"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_ReasonTextId"
+msgid "[From someone else reaching orgasm while you didn’t]\r\nSomeone finished just when you were starting to get close. You’re still wondering how the timing got so out of step."
+msgstr "[因为别人达到了高潮，自己却没有]\r\n你才刚有点接近高潮，就有人先到了。你还在想，怎么偏偏在这种时候没能合上节奏。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_EmotionReasonDescTextId"
+msgid "Someone finished just when you were starting to get close. You’re still wondering how the timing got so out of step."
+msgstr "你才刚有点接近高潮，就有人先到了。你还在想，怎么偏偏在这种时候没能合上节奏。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_DisplayTextId"
+msgid "Exactly What I Worried About"
+msgstr "担心的事还是发生了"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_ReasonTextId"
+msgid "[From being seen having sex]\r\nYou’d been wondering whether someone might see you, and then it actually happened. It’s going to take a while to stop worrying about it."
+msgstr "[因为做爱时被人看见]\r\n你刚才还在担心会不会被看见，结果真让人看见了。这股不安一时半会儿恐怕消不掉。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_EmotionReasonDescTextId"
+msgid "You’d been wondering whether someone might see you, and then it actually happened. It’s going to take a while to stop worrying about it."
+msgstr "你刚才还在担心会不会被看见，结果真让人看见了。这股不安一时半会儿恐怕消不掉。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_DisplayTextId"
+msgid "Thrill of Being Caught"
+msgstr "被撞见的刺激"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_ReasonTextId"
+msgid "[From getting caught cheating]\r\nYour partner caught you with someone else. You know the conversation won’t be easy, but the rush caught you by surprise."
+msgstr "[因为出轨被撞见]\r\n伴侣撞见了你和别人亲热。你知道接下来那场谈话不会轻松，却没想到自己那一刻竟有些兴奋。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_EmotionReasonDescTextId"
+msgid "Your partner caught you with someone else. You know the conversation won’t be easy, but the rush caught you by surprise."
+msgstr "伴侣撞见了你和别人亲热。你知道接下来那场谈话不会轻松，却没想到自己那一刻竟有些兴奋。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_DisplayTextId"
+msgid "What an Entrance"
+msgstr "真会挑时候"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_ReasonTextId"
+msgid "[From being seen having sex]\r\nThe timing was so bad that it was almost funny. Once the surprise wore off, you had to fight the urge to laugh."
+msgstr "[因为做爱时被人看见]\r\n那人来得太不是时候，反倒让你觉得好笑。惊讶过去之后，你差点没忍住笑。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_EmotionReasonDescTextId"
+msgid "The timing was so bad that it was almost funny. Once the surprise wore off, you had to fight the urge to laugh."
+msgstr "那人来得太不是时候，反倒让你觉得好笑。惊讶过去之后，你差点没忍住笑。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_DisplayTextId"
+msgid "Worth the Rush"
+msgstr "尽兴的感觉真好"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nGetting carried away together felt better than you expected. Your heart is still racing a little just thinking about it."
+msgstr "[因为所有人都达到了高潮]\r\n你们一起尽兴时，感觉比想象中还好。现在想起来，心跳还是会快一点。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_EmotionReasonDescTextId"
+msgid "Getting carried away together felt better than you expected. Your heart is still racing a little just thinking about it."
+msgstr "你们一起尽兴时，感觉比想象中还好。现在想起来，心跳还是会快一点。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_DisplayTextId"
+msgid "Who Let Them In?"
+msgstr "谁让他们进来的？"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_ReasonTextId"
+msgid "[From being seen having sex]\r\nYou expected a bit of privacy. Now you’re thinking about how easily someone saw you and how annoyed you are about it."
+msgstr "[因为做爱时被人看见]\r\n你以为这里能有点私人空间。现在一想到这么容易就被人看见，还是忍不住生气。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_EmotionReasonDescTextId"
+msgid "You expected a bit of privacy. Now you’re thinking about how easily someone saw you and how annoyed you are about it."
+msgstr "你以为这里能有点私人空间。现在一想到这么容易就被人看见，还是忍不住生气。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_DisplayTextId"
+msgid "Kept It Together"
+msgstr "还好稳住了"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_ReasonTextId"
+msgid "[From being interrupted during sex]\r\nYou were embarrassed at first, but you took a breath and kept your composure. It feels good to know you can handle an awkward moment."
+msgstr "[因为做爱时被打断]\r\n你一开始觉得难为情，但深吸一口气后就稳住了。能应付这种尴尬的场面，让你对自己挺满意的。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_EmotionReasonDescTextId"
+msgid "You were embarrassed at first, but you took a breath and kept your composure. It feels good to know you can handle an awkward moment."
+msgstr "你一开始觉得难为情，但深吸一口气后就稳住了。能应付这种尴尬的场面，让你对自己挺满意的。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_DisplayTextId"
+msgid "Mixed Feelings"
+msgstr "心情复杂"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_ReasonTextId"
+msgid "[From someone else reaching orgasm while you didn’t]\r\nYou’re glad someone had a good time. You wish you’d had a little more time too."
+msgstr "[因为别人达到了高潮，自己却没有]\r\n你很高兴有人享受了这段时光。要是自己也能多一点时间就好了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_EmotionReasonDescTextId"
+msgid "You’re glad someone had a good time. You wish you’d had a little more time too."
+msgstr "你很高兴有人享受了这段时光。要是自己也能多一点时间就好了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_DisplayTextId"
+msgid "The World Went Quiet"
+msgstr "世界安静了下来"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nFor a little while you forgot about everything outside that moment. You’re still carrying that quiet feeling with you."
+msgstr "[因为所有人都达到了高潮]\r\n有那么一会儿，你忘了那一刻之外的所有事。那份安静的感觉，到现在都还在。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_EmotionReasonDescTextId"
+msgid "For a little while you forgot about everything outside that moment. You’re still carrying that quiet feeling with you."
+msgstr "有那么一会儿，你忘了那一刻之外的所有事。那份安静的感觉，到现在都还在。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_DisplayTextId"
+msgid "Let’s Laugh About It"
+msgstr "笑一笑就过去了"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_ReasonTextId"
+msgid "[From being seen having sex]\r\nIt was embarrassing to realize someone could see you, but the timing was hard to take seriously. You can already laugh about it."
+msgstr "[因为做爱时被人看见]\r\n发现有人看见你们时，你有些难为情。可时间也赶得太巧了，现在已经能拿这事开玩笑了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_EmotionReasonDescTextId"
+msgid "It was embarrassing to realize someone could see you, but the timing was hard to take seriously. You can already laugh about it."
+msgstr "发现有人看见你们时，你有些难为情。可时间也赶得太巧了，现在已经能拿这事开玩笑了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_DisplayTextId"
+msgid "Too Many Eyes"
+msgstr "受不了被人看着"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_ReasonTextId"
+msgid "[From being seen having sex]\r\nThe moment felt private until you noticed someone looking. You’d rather be somewhere quiet where you don’t have to face anyone for a bit."
+msgstr "[因为做爱时被人看见]\r\n直到发现有人在看，你还以为这段时光没人打扰。现在只想找个安静的地方，暂时谁也不见。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_EmotionReasonDescTextId"
+msgid "The moment felt private until you noticed someone looking. You’d rather be somewhere quiet where you don’t have to face anyone for a bit."
+msgstr "直到发现有人在看，你还以为这段时光没人打扰。现在只想找个安静的地方，暂时谁也不见。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_DisplayTextId"
+msgid "A Little Letdown"
+msgstr "有点扫兴"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_ReasonTextId"
+msgid "[From someone else reaching orgasm while you didn’t]\r\nYou enjoyed the closeness. It’s still a little disappointing to stop when you were getting close."
+msgstr "[因为别人达到了高潮，自己却没有]\r\n你很享受那种亲近的感觉。只是在自己快到高潮时不得不停下，还是有点遗憾。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_EmotionReasonDescTextId"
+msgid "You enjoyed the closeness. It’s still a little disappointing to stop when you were getting close."
+msgstr "你很享受那种亲近的感觉。只是在自己快到高潮时不得不停下，还是有点遗憾。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_DisplayTextId"
+msgid "A Little Light"
+msgstr "心里轻松了一点"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nFeeling wanted and close to someone gave you a break from the things weighing on you. You’re glad you had that time together."
+msgstr "[因为所有人都达到了高潮]\r\n被人渴望、与人亲近，让你暂时抛开了那些压在心头的事。还好你们有了这段相处的时间。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_EmotionReasonDescTextId"
+msgid "Feeling wanted and close to someone gave you a break from the things weighing on you. You’re glad you had that time together."
+msgstr "被人渴望、与人亲近，让你暂时抛开了那些压在心头的事。还好你们有了这段相处的时间。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_DisplayTextId"
+msgid "That Was Awkward"
+msgstr "太尴尬了"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_ReasonTextId"
+msgid "[From being interrupted during sex]\r\nThe second you noticed someone watching, you forgot where to look. Just remembering the awkward silence makes you cringe."
+msgstr "[因为做爱时被打断]\r\n发现有人在看时，你一下子连眼睛该往哪儿放都不知道。光想起那阵沉默，你就浑身不自在。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_EmotionReasonDescTextId"
+msgid "The second you noticed someone watching, you forgot where to look. Just remembering the awkward silence makes you cringe."
+msgstr "发现有人在看时，你一下子连眼睛该往哪儿放都不知道。光想起那阵沉默，你就浑身不自在。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_DisplayTextId"
+msgid "A Chapter Worth Keeping"
+msgstr "值得留在心里的片段"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nIt’s the little details you’ll remember, like the look you shared afterward. You’re glad you got to spend that time together."
+msgstr "[因为所有人都达到了高潮]\r\n你会记住的，大概是结束后你们交换眼神之类的小细节。能一起度过那段时间，真好。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_EmotionReasonDescTextId"
+msgid "It’s the little details you’ll remember, like the look you shared afterward. You’re glad you got to spend that time together."
+msgstr "你会记住的，大概是结束后你们交换眼神之类的小细节。能一起度过那段时间，真好。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_DisplayTextId"
+msgid "Stay Close"
+msgstr "再陪我一会儿"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_ReasonTextId"
+msgid "[From someone else reaching orgasm while you didn’t]\r\nSomeone finished while you were still getting there. You’d like a little reassurance and a moment to stay close."
+msgstr "[因为别人达到了高潮，自己却没有]\r\n你还没到高潮，就有人先到了。你想听几句安慰，也想再靠近一会儿。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_EmotionReasonDescTextId"
+msgid "Someone finished while you were still getting there. You’d like a little reassurance and a moment to stay close."
+msgstr "你还没到高潮，就有人先到了。你想听几句安慰，也想再靠近一会儿。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_DisplayTextId"
+msgid "Found Our Pace"
+msgstr "找到两人都舒服的节奏"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nOnce you found a pace that felt good to everyone, everything clicked. You still feel the rush now that you’ve caught your breath."
+msgstr "[因为所有人都达到了高潮]\r\n一找到大家都舒服的节奏，一切就顺了起来。现在已经缓过气了，你还是能感到那股兴奋劲儿。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_EmotionReasonDescTextId"
+msgid "Once you found a pace that felt good to everyone, everything clicked. You still feel the rush now that you’ve caught your breath."
+msgstr "一找到大家都舒服的节奏，一切就顺了起来。现在已经缓过气了，你还是能感到那股兴奋劲儿。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_DisplayTextId"
+msgid "Still Buzzing"
+msgstr "还是停不下来"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_ReasonTextId"
+msgid "[From reaching orgasm when some participants didn’t]\r\nEven though the encounter ended early for some, you came away with more energy than you expected. Sitting still doesn’t sound very appealing right now."
+msgstr "[因为自己达到了高潮，但有些人没有]\r\n有些人还没达到高潮就结束了，可你没想到自己之后反而精力充沛。现在一点也不想干坐着。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_EmotionReasonDescTextId"
+msgid "Even though the encounter ended early for some, you came away with more energy than you expected. Sitting still doesn’t sound very appealing right now."
+msgstr "有些人还没达到高潮就结束了，可你没想到自己之后反而精力充沛。现在一点也不想干坐着。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_DisplayTextId"
+msgid "Could Use a Shower"
+msgstr "真想冲个澡"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_ReasonTextId"
+msgid "[From feeling sweaty after sex]\r\nYou had a good time, but now everything feels a little sticky. A warm shower and a change of clothes sound wonderful."
+msgstr "[因为做爱后出了一身汗]\r\n刚才很开心，不过现在身上有点黏。洗个热水澡，再换身衣服，想想就舒服。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_EmotionReasonDescTextId"
+msgid "You had a good time, but now everything feels a little sticky. A warm shower and a change of clothes sound wonderful."
+msgstr "刚才很开心，不过现在身上有点黏。洗个热水澡，再换身衣服，想想就舒服。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_DisplayTextId"
+msgid "Couldn’t Keep a Straight Face"
+msgstr "没忍住笑"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_ReasonTextId"
+msgid "[From being seen having sex]\r\nYou knew you should probably look serious, but the surprise got the better of you. Thinking about it still makes you want to giggle."
+msgstr "[因为做爱时被人看见]\r\n你知道自己应该正经点，可刚才实在太出乎意料了。现在想起来，还是有点想笑。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_EmotionReasonDescTextId"
+msgid "You knew you should probably look serious, but the surprise got the better of you. Thinking about it still makes you want to giggle."
+msgstr "你知道自己应该正经点，可刚才实在太出乎意料了。现在想起来，还是有点想笑。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_DisplayTextId"
+msgid "Missing Piece"
+msgstr "总觉得少了点什么"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_ReasonTextId"
+msgid "[From someone else reaching orgasm while you didn’t]\r\nYou can’t help replaying what happened. Someone finished, and you’re frustrated that you can’t work out what was missing for you."
+msgstr "[因为别人达到了高潮，自己却没有]\r\n你忍不住反复回想刚才的事。别人达到了高潮，你却想不出自己究竟差了什么，越想越烦。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_EmotionReasonDescTextId"
+msgid "You can’t help replaying what happened. Someone finished, and you’re frustrated that you can’t work out what was missing for you."
+msgstr "你忍不住反复回想刚才的事。别人达到了高潮，你却想不出自己究竟差了什么，越想越烦。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_DisplayTextId"
+msgid "Good Enough for Me"
+msgstr "这样就够了"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_ReasonTextId"
+msgid "[From reaching orgasm when some participants didn’t]\r\nYou got what you needed and now you’re happy to take it easy. A few quiet minutes to yourself sound pretty good."
+msgstr "[因为自己达到了高潮，但有些人没有]\r\n你得到了自己想要的，现在只想歇一歇。一个人安安静静待上几分钟，感觉挺不错。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_EmotionReasonDescTextId"
+msgid "You got what you needed and now you’re happy to take it easy. A few quiet minutes to yourself sound pretty good."
+msgstr "你得到了自己想要的，现在只想歇一歇。一个人安安静静待上几分钟，感觉挺不错。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_DisplayTextId"
+msgid "A Little Luxury"
+msgstr "小小的享受"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nHaving somewhere comfortable made it so much easier to relax together. You could get used to taking your time like that."
+msgstr "[因为所有人都达到了高潮]\r\n有个舒适的地方，让你们两个人更容易放松。像这样慢慢来，其实挺好。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_EmotionReasonDescTextId"
+msgid "Having somewhere comfortable made it so much easier to relax together. You could get used to taking your time like that."
+msgstr "有个舒适的地方，让你们两个人更容易放松。像这样慢慢来，其实挺好。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_DisplayTextId"
+msgid "I Got Mine"
+msgstr "反正我满足了"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_ReasonTextId"
+msgid "[From reaching orgasm when some participants didn’t]\r\nYou noticed some hadn’t finished when it ended. You’re still feeling pretty smug about how well things went for you."
+msgstr "[因为自己达到了高潮，但有些人没有]\r\n结束时你也看出有人还没达到高潮。可想到自己这么尽兴，还是忍不住有点得意。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_EmotionReasonDescTextId"
+msgid "You noticed some hadn’t finished when it ended. You’re still feeling pretty smug about how well things went for you."
+msgstr "结束时你也看出有人还没达到高潮。可想到自己这么尽兴，还是忍不住有点得意。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_DisplayTextId"
+msgid "A Break Well Spent"
+msgstr "歇得真值"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nYou managed to put everything else aside and give each other your full attention. It was worth making room for that."
+msgstr "[因为所有人都达到了高潮]\r\n你总算把手边的事放下，好好把注意力放在彼此身上。专门腾出那点时间，挺值的。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_EmotionReasonDescTextId"
+msgid "You managed to put everything else aside and give each other your full attention. It was worth making room for that."
+msgstr "你总算把手边的事放下，好好把注意力放在彼此身上。专门腾出那点时间，挺值的。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_DisplayTextId"
+msgid "Cool Under Pressure"
+msgstr "尴尬也能一笑而过"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_ReasonTextId"
+msgid "[From being seen having sex]\r\nYou caught someone looking and felt more amused than embarrassed. A little awkwardness wasn’t enough to ruin the moment for you."
+msgstr "[因为做爱时被人看见]\r\n发现有人在看时，你觉得好笑多过羞窘。这点尴尬还不至于破坏刚才的好心情。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_EmotionReasonDescTextId"
+msgid "You caught someone looking and felt more amused than embarrassed. A little awkwardness wasn’t enough to ruin the moment for you."
+msgstr "发现有人在看时，你觉得好笑多过羞窘。这点尴尬还不至于破坏刚才的好心情。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_DisplayTextId"
+msgid "What Have I Done?"
+msgstr "我都干了些什么？"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_ReasonTextId"
+msgid "[From getting caught cheating]\r\nGetting caught made it sink in how much you’d hurt your partner. You wish you could take back what just happened."
+msgstr "[因为出轨被撞见]\r\n被撞见以后，你才意识到自己把伴侣伤得有多深。要是刚才的事能重来就好了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_EmotionReasonDescTextId"
+msgid "Getting caught made it sink in how much you’d hurt your partner. You wish you could take back what just happened."
+msgstr "被撞见以后，你才意识到自己把伴侣伤得有多深。要是刚才的事能重来就好了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_DisplayTextId"
+msgid "Quiet Again"
+msgstr "终于能喘口气"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_ReasonTextId"
+msgid "[From being interrupted during sex]\r\nThings got tense when you realized someone had seen you. Now that you’ve stopped, you’re glad to have a moment to breathe."
+msgstr "[因为做爱时被打断]\r\n发现有人看见你们之后，气氛一下子紧张了。现在停下来，终于能喘口气了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_EmotionReasonDescTextId"
+msgid "Things got tense when you realized someone had seen you. Now that you’ve stopped, you’re glad to have a moment to breathe."
+msgstr "发现有人看见你们之后，气氛一下子紧张了。现在停下来，终于能喘口气了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_DisplayTextId"
+msgid "Well, Now I Know"
+msgstr "这下心里有数了"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_ReasonTextId"
+msgid "[From reaching orgasm when some participants didn’t]\r\nFinishing made you think about how much your own preferences matter. You’d like to compare notes sometime."
+msgstr "[因为自己达到了高潮，但有些人没有]\r\n达到高潮后，你才发现自己的喜好有多重要。找个机会，也想聊聊各自喜欢什么。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_EmotionReasonDescTextId"
+msgid "Finishing made you think about how much your own preferences matter. You’d like to compare notes sometime."
+msgstr "达到高潮后，你才发现自己的喜好有多重要。找个机会，也想聊聊各自喜欢什么。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_DisplayTextId"
+msgid "Worth the Detour"
+msgstr "这点时间花得值"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nTaking a little time out of the day turned into something you’ll be smiling about later. You’re glad you went for it."
+msgstr "[因为所有人都达到了高潮]\r\n从一天的忙碌里抽出了一点时间，却换来一件以后想起还会笑的事。你庆幸自己当时没犹豫。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_EmotionReasonDescTextId"
+msgid "Taking a little time out of the day turned into something you’ll be smiling about later. You’re glad you went for it."
+msgstr "从一天的忙碌里抽出了一点时间，却换来一件以后想起还会笑的事。你庆幸自己当时没犹豫。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_DisplayTextId"
+msgid "A Good Impression"
+msgstr "印象不错"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nKnowing everyone enjoyed it gave you butterflies. You’re still thinking about the looks you shared afterward."
+msgstr "[因为所有人都达到了高潮]\r\n知道大家都玩得开心，你有点心跳加速。你还在想结束后大家交换的那些眼神。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_EmotionReasonDescTextId"
+msgid "Knowing everyone enjoyed it gave you butterflies. You’re still thinking about the looks you shared afterward."
+msgstr "知道大家都玩得开心，你有点心跳加速。你还在想结束后大家交换的那些眼神。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_DisplayTextId"
+msgid "A Pleasant Buzz"
+msgstr "舒服的余韵"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_ReasonTextId"
+msgid "[From reaching orgasm when some participants didn’t]\r\nYou thought you might feel sleepy afterward, but your body is still humming with energy. It’s a pleasant surprise."
+msgstr "[因为自己达到了高潮，但有些人没有]\r\n你以为结束后会犯困，没想到身体还挺有劲。这倒是个让人开心的意外。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_EmotionReasonDescTextId"
+msgid "You thought you might feel sleepy afterward, but your body is still humming with energy. It’s a pleasant surprise."
+msgstr "你以为结束后会犯困，没想到身体还挺有劲。这倒是个让人开心的意外。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_DisplayTextId"
+msgid "Sweet Finish"
+msgstr "甜蜜的收尾"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nYou took your time and it paid off for everyone. You’re in no hurry to move on from how good that felt."
+msgstr "[因为所有人都达到了高潮]\r\n你们没着急，结果大家都很尽兴。你还想再沉浸在那份好感觉里一会儿。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_EmotionReasonDescTextId"
+msgid "You took your time and it paid off for everyone. You’re in no hurry to move on from how good that felt."
+msgstr "你们没着急，结果大家都很尽兴。你还想再沉浸在那份好感觉里一会儿。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_DisplayTextId"
+msgid "Taking It Easy"
+msgstr "慢慢缓过来"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_ReasonTextId"
+msgid "[From being interrupted during sex]\r\nIt was tense when someone noticed what was happening. After stopping and taking a breath, you’re ready to let the awkwardness pass."
+msgstr "[因为做爱时被打断]\r\n发现有人注意到时，你绷紧了神经。停下来缓了口气之后，你愿意让那点尴尬慢慢过去。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_EmotionReasonDescTextId"
+msgid "It was tense when someone noticed what was happening. After stopping and taking a breath, you’re ready to let the awkwardness pass."
+msgstr "发现有人注意到时，你绷紧了神经。停下来缓了口气之后，你愿意让那点尴尬慢慢过去。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_DisplayTextId"
+msgid "A Memory to Keep"
+msgstr "想留住的回忆"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nYou’ve already caught yourself smiling at the memory of being that close. It’s one of those moments you’d like to hold on to."
+msgstr "[因为所有人都达到了高潮]\r\n光是回想两个人那样亲近，你就已经忍不住笑了。这样的时刻，你想好好记住。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_EmotionReasonDescTextId"
+msgid "You’ve already caught yourself smiling at the memory of being that close. It’s one of those moments you’d like to hold on to."
+msgstr "光是回想两个人那样亲近，你就已经忍不住笑了。这样的时刻，你想好好记住。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_DisplayTextId"
+msgid "Better Luck Next Time"
+msgstr "下次再来"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_ReasonTextId"
+msgid "[From stopping early]\r\nThings ended before anyone could finish. You’re disappointed, but maybe you’ll have better luck when there’s more time."
+msgstr "[因为提前停下]\r\n还没人达到高潮，事情就结束了。你有点失望，不过下次时间多些，也许会顺利一点。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_EmotionReasonDescTextId"
+msgid "Things ended before anyone could finish. You’re disappointed, but maybe you’ll have better luck when there’s more time."
+msgstr "还没人达到高潮，事情就结束了。你有点失望，不过下次时间多些，也许会顺利一点。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_DisplayTextId"
+msgid "Found the Fit"
+msgstr "舒服的姿势"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nOnce you found a comfortable position, you could pay attention to each other. You’ll remember what worked next time."
+msgstr "[因为所有人都达到了高潮]\r\n找到舒服的姿势以后，你们终于能留心彼此的感受。下次可以记得用刚才那样的方式。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_EmotionReasonDescTextId"
+msgid "Once you found a comfortable position, you could pay attention to each other. You’ll remember what worked next time."
+msgstr "找到舒服的姿势以后，你们终于能留心彼此的感受。下次可以记得用刚才那样的方式。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_DisplayTextId"
+msgid "A Second Wind"
+msgstr "又有精神了"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_ReasonTextId"
+msgid "[From reaching orgasm]\r\nYou felt worn out for a moment, then came away more energized than before. You could keep going with your day now."
+msgstr "[因为达到了高潮]\r\n刚结束时你一度觉得很累，缓过来后反而比之前更有活力。接下来要做的事，好像也没那么费劲了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_EmotionReasonDescTextId"
+msgid "You felt worn out for a moment, then came away more energized than before. You could keep going with your day now."
+msgstr "刚结束时你一度觉得很累，缓过来后反而比之前更有活力。接下来要做的事，好像也没那么费劲了。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_DisplayTextId"
+msgid "Kept My Composure"
+msgstr "沉住了气"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_ReasonTextId"
+msgid "[From being seen having sex]\r\nYou felt a flash of embarrassment when you realized someone could see you. Staying calm through it left you feeling sure of yourself."
+msgstr "[因为做爱时被人看见]\r\n发觉有人看见你们时，你那一瞬间有些尴尬。不过你稳住了，心里也多了点底气。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_EmotionReasonDescTextId"
+msgid "You felt a flash of embarrassment when you realized someone could see you. Staying calm through it left you feeling sure of yourself."
+msgstr "发觉有人看见你们时，你那一瞬间有些尴尬。不过你稳住了，心里也多了点底气。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_DisplayTextId"
+msgid "Unexpected Company"
+msgstr "意外撞见"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_ReasonTextId"
+msgid "[From walking in on Zois having sex]\r\nYou realized a second too late what was happening. You wish you’d given everyone a bit more privacy."
+msgstr "[因为撞见了正在做爱的 Zoi]\r\n你晚了一拍才明白自己撞见了什么。早知道就该悄悄走开，给他们留点私人空间。"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_EmotionReasonDescTextId"
+msgid "You realized a second too late what was happening. You wish you’d given everyone a bit more privacy."
+msgstr "你晚了一拍才明白自己撞见了什么。早知道就该悄悄走开，给他们留点私人空间。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist_MessageTextId"
+msgid "Could you knock next time?"
+msgstr "下次能先敲门吗？"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse_MessageTextId"
+msgid "I wanted a little privacy."
+msgstr "我只是想有点私人空间。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyPrivateTime_MessageTextId"
+msgid "Can’t we have a little private time?"
+msgstr "不能让我们单独待一会儿吗？"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyWorstMoment_MessageTextId"
+msgid "They walked in at the worst moment."
+msgstr "偏偏在这种时候走进来。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyEmptyRoom_MessageTextId"
+msgid "I thought this room was empty."
+msgstr "我还以为这个房间没人呢。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessBetrayed1_MessageTextId"
+msgid "I trusted you. How could you?"
+msgstr "我那么信任你。你怎么能这样？"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessBetrayed2_MessageTextId"
+msgid "I can’t believe you’d do this to me."
+msgstr "真不敢相信你会这样对我。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessBetrayed3_MessageTextId"
+msgid "I never thought I’d catch you in the act."
+msgstr "没想到我会亲眼撞见这一幕。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessBetrayed4_MessageTextId"
+msgid "I thought what we had meant something."
+msgstr "我还以为我们之间的感情很重要。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessBetrayed5_MessageTextId"
+msgid "Is this what you’ve been doing behind my back?"
+msgstr "你就是这样背着我做这些事的？"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessUnfamiliar1_MessageTextId"
+msgid "Oh! Sorry, I’ll give you some privacy."
+msgstr "啊！不好意思，不打扰了。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessUnfamiliar2_MessageTextId"
+msgid "I didn’t mean to walk in on this."
+msgstr "我不是故意撞见这一幕的。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessUnfamiliar3_MessageTextId"
+msgid "Oh! I saw more than I meant to."
+msgstr "啊！我好像看到了不该看的。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessUnfamiliar4_MessageTextId"
+msgid "Sorry. I’ve clearly come at a bad time."
+msgstr "不好意思，我来得真不是时候。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessUnfamiliar5_MessageTextId"
+msgid "Oh! This looks private. I’ll come back later."
+msgstr "啊！这好像是私事，我晚点再来。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessFamiliar1_MessageTextId"
+msgid "Oh, hey! I’ll let you have your moment."
+msgstr "哦，你们好！你们继续，不打扰了。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessFamiliar2_MessageTextId"
+msgid "Of all the times to drop by! I’ll catch up with you later."
+msgstr "偏偏在这个时候过来！回头再聊。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessFamiliar3_MessageTextId"
+msgid "Oh! No need to explain. I’ll give you some space."
+msgstr "啊！不用解释，我先不打扰了。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessFamiliar4_MessageTextId"
+msgid "Ah, so that’s what you were up to. I’ll leave you to it."
+msgstr "哦，原来你们在忙这个。你们继续吧。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessFamiliar5_MessageTextId"
+msgid "Oh! I can take a hint. See you later."
+msgstr "啊！我懂了，回头见。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessClose1_MessageTextId"
+msgid "Oh! Getting pretty cozy in here."
+msgstr "哟！这儿的气氛挺亲密的嘛。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessClose2_MessageTextId"
+msgid "Well, that’s a little more than flirting."
+msgstr "嗯，这可不只是调情了。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessClose3_MessageTextId"
+msgid "Oh! I see what kind of mood everyone’s in."
+msgstr "哦！我看得出大家现在是什么心情了。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessClose4_MessageTextId"
+msgid "Well! It’s getting warm in here."
+msgstr "哟！这儿开始升温了。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessClose5_MessageTextId"
+msgid "Oh! Here I thought you were just talking."
+msgstr "哦！我还以为你们只是在聊天呢。"

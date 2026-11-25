@@ -1,0 +1,296 @@
+{
+  "messages": {
+    "Have sex here": "ここでセックスする",
+    "Toggle HZoi private room": "HZoi のプライベートルーム指定を切り替える",
+    "Could not open the HZoi partner picker.": "HZoi の相手選択画面を開けませんでした。",
+    "Your Zoi wants some private time with {partner}.": "あなたの Zoi は {partner} と二人きりで過ごしたがっています。",
+    "Your Zoi fulfilled their urge with {partner}.": "あなたの Zoi は {partner} と過ごして欲求を満たしました。",
+    "{first} and {second} decided to stop after someone walked in on them.": "{first} と {second} は、誰かが入ってきたため、やめることにしました。",
+    "The encounter ended after someone walked in.": "誰かが入ってきたため、その場はお開きになりました。",
+    "{first} and {second} decided to stop after one of their romantic partners caught them together.": "{first} と {second} は、どちらかの恋人に二人でいるところを見られ、やめることにしました。",
+    "The encounter ended after a romantic partner walked in on it.": "参加者の恋人が入ってきたため、その場はお開きになりました。",
+    "The partner picker could not open. Close any open picker and make sure your Zoi is out of their group.": "相手選択画面を開けませんでした。開いている選択画面を閉じ、操作中の Zoi がグループに入っていないことを確認してください。",
+    "Close the current Zoi picker before sending an invitation.": "招待する前に、開いている Zoi の選択画面を閉じてください。",
+    "An HZoi invitation is already in progress.": "すでに HZoi の招待が進行中です。",
+    "Could not finish the invitation.": "招待を完了できませんでした。",
+    "That bed is occupied or unavailable.": "このベッドは使用中か、利用できません。",
+    "The selected sofa seats are occupied or unavailable.": "選択したソファの席は使用中か、利用できません。",
+    "Both Zois need a clear path to the selected sofa seats.": "両方の Zoi が選択したソファの席まで歩いて行ける必要があります。",
+    "Choose a walkable spot for the encounter.": "二人が歩いて行ける場所を選んでください。",
+    "Could not read the selected ground spot. Open the ground menu and try again.": "選択した床の位置を取得できませんでした。床のメニューを開き直して、もう一度お試しください。",
+    "Both Zois need a clear path and room to stand at the selected spot.": "両方の Zoi が選択した場所まで歩いて行けることと、二人が立てるスペースが必要です。",
+    "Marked this room private for HZoi in the current loaded game.": "現在ロード中のゲームで、この部屋を HZoi のプライベートルームに指定しました。",
+    "Removed the HZoi private-room mark.": "HZoi のプライベートルーム指定を解除しました。",
+    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "世帯の住居にある部屋に入り、その部屋の歩ける床を選んでください。",
+    "This room already has a room purpose.": "この部屋にはすでに用途が設定されています。",
+    "Select the Zoi who sent the invitation first.": "先に招待を送った Zoi を選んでください。",
+    "No eligible partner was selected.": "招待できる相手が選択されていません。",
+    "No scenes were found for these Zois at this spot.": "この場所で、この二人の Zoi に合うシーンが見つかりませんでした。",
+    "No scenes at this spot can complete the goals for this pair.": "この場所には、二人の目標を達成できるシーンがありません。",
+    "These Zois cannot use Set the Mood right now.": "この二人の Zoi は、今は「雰囲気作り」を使えません。",
+    "One of the Zois is already in a SceneZOI session. Try again afterward.": "どちらかの Zoi がすでに SceneZOI のセッションに参加しています。終了後にもう一度お試しください。",
+    "The invitation could not be added to the action queue.": "招待を行動キューに追加できませんでした。",
+    "An activity needed for this encounter is unavailable.": "このやりとりに必要なアクティビティを利用できません。",
+    "End the current SceneZOI session before starting another.": "現在の SceneZOI セッションを終了してから、次のセッションを始めてください。",
+    "The invitation took too long. Check the Zois' action queues and try again.": "招待がタイムアウトしました。Zoi の行動キューを確認して、もう一度お試しください。",
+    "SceneZOI did not respond. Check that it is installed and enabled.": "SceneZOI から応答がありません。インストール済みで有効になっているか確認してください。",
+    "SceneZOI could not find a supported bed or adjacent sofa seats here.": "SceneZOI は、ここで対応するベッドや隣り合うソファの席を見つけられませんでした。",
+    "Update SceneZOI to use HZoi Gameplay.": "HZoi Gameplay を使うには、SceneZOI をアップデートしてください。",
+    "Both Zois need a clear path to the selected bed.": "両方の Zoi が選択したベッドまで歩いて行ける必要があります。",
+    "Could you knock next time?": "今度からノックしてくれない？",
+    "I wanted a little privacy.": "少しくらい、誰にも邪魔されたくなかったな。",
+    "Can’t we have a little private time?": "少しくらい、二人きりにしてくれないかな。",
+    "They walked in at the worst moment.": "よりによってこんなときに入ってくるなんて。",
+    "I thought this room was empty.": "この部屋、誰もいないと思ったのに。",
+    "Your Zoi wants some private time with their partner.": "あなたの Zoi は相手と二人きりで過ごしたがっています。",
+    "Your Zoi fulfilled their urge with their partner.": "あなたの Zoi は相手と過ごして欲求を満たしました。",
+    "I trusted you. How could you?": "信じてたのに。どうしてこんなことができるの？",
+    "I can’t believe you’d do this to me.": "私にこんなことをするなんて、信じられない。",
+    "I never thought I’d catch you in the act.": "こんなところを見てしまうなんて、思いもしなかった。",
+    "I thought what we had meant something.": "私たちの関係は大事なものだと思ってた。",
+    "Is this what you’ve been doing behind my back?": "陰でこんなことをしていたの？",
+    "Oh! Sorry, I’ll give you some privacy.": "あっ、ごめん。邪魔しないよ。",
+    "I didn’t mean to walk in on this.": "こんな場面に出くわすつもりじゃなかったんだ。",
+    "Oh! I saw more than I meant to.": "わっ、見るつもりのないところまで見ちゃった。",
+    "Sorry. I’ve clearly come at a bad time.": "ごめん。明らかにタイミングが悪かったね。",
+    "Oh! This looks private. I’ll come back later.": "あっ、これはお邪魔みたい。あとで来るね。",
+    "Oh, hey! I’ll let you have your moment.": "あ、どうも！ 邪魔しないようにするね。",
+    "Of all the times to drop by! I’ll catch up with you later.": "よりによって今来ちゃうなんて！ またあとで話そう。",
+    "Oh! No need to explain. I’ll give you some space.": "あっ、説明しなくていいよ。席を外すね。",
+    "Ah, so that’s what you were up to. I’ll leave you to it.": "ああ、そういうことだったんだ。じゃあ、お邪魔しないよ。",
+    "Oh! I can take a hint. See you later.": "あっ、察したよ。またね。",
+    "Oh! Getting pretty cozy in here.": "おっ、ずいぶんいい雰囲気だね。",
+    "Well, that’s a little more than flirting.": "いや、これはちょっとしたイチャつきじゃ済まないね。",
+    "Oh! I see what kind of mood everyone’s in.": "おっ、みんながどんな気分なのかわかったよ。",
+    "Well! It’s getting warm in here.": "おや、なんだかここは暑くなってきたね。",
+    "Oh! Here I thought you were just talking.": "おっと、ただ話してるだけだと思ってたよ。",
+    "They decided to wait for some privacy. Someone they don’t know well enough could see them.": "人目がなくなるまで待つことにしました。よく知らない Zoi から見える場所でした。"
+  },
+  "causes": {
+    "[From everyone reaching orgasm]": "[全員がオーガズムに達したため]",
+    "[From reaching orgasm when some participants didn’t]": "[自分はオーガズムに達したが、達しなかった人もいたため]",
+    "[From someone else reaching orgasm while you didn’t]": "[ほかの人がオーガズムに達し、自分は達しなかったため]",
+    "[From being interrupted during sex]": "[セックスの途中で邪魔が入ったため]",
+    "[From stopping early]": "[途中でやめたため]",
+    "[From the encounter ending before everyone reached orgasm]": "[全員がオーガズムに達する前に終わったため]",
+    "[From being seen having sex]": "[セックスをしているところを見られたため]",
+    "[From reaching orgasm]": "[オーガズムに達したため]",
+    "[From getting caught cheating]": "[浮気がばれたため]",
+    "[From feeling sweaty after sex]": "[セックスのあとに汗ばんでいたため]",
+    "[From walking in on Zois having sex]": "[セックス中のZoiたちに出くわしたため]"
+  },
+  "moodlets": {
+    "InSync": [
+      "息がぴったり",
+      "みんなにとって心地よいリズムが見つかった。終わったあとも、もう少しそばにいたいと思った。"
+    ],
+    "Satisfied": [
+      "満たされた気分",
+      "気持ちが落ち着いて、満たされている。みんなにも同じようにオーガズムに達する機会があればよかったのに。"
+    ],
+    "OutOfSync": [
+      "すれ違うリズム",
+      "誰かがオーガズムに達したのはうれしかった。でも、自分ももう少しというところで終わってしまった。あと少し時間があればよかったのに。"
+    ],
+    "AwkwardTiming": [
+      "気まずいタイミング",
+      "何をしているか誰かに見られて、そこで終わった。あんなことがあったあとで、またその気になるのは難しい。"
+    ],
+    "UnfinishedMoment": [
+      "途中で終わったひととき",
+      "やっといい感じになってきたところで、やめてしまった。もう少し時間があったらどうなっていたか、つい考えてしまう。"
+    ],
+    "OutOfOrder": [
+      "なんだか不公平",
+      "みんなに楽しんでほしかった。全員がオーガズムに達する前に終わってしまい、どこかちぐはぐな気がする。"
+    ],
+    "FoundABetterRhythm": [
+      "もっといいリズム",
+      "お互いの反応を気にかけていたら、自然とやり方が変わった。いつもと違うことを試してよかった。"
+    ],
+    "NowhereToHide": [
+      "隠れる場所もない",
+      "誰にも邪魔されないと思っていた。誰かに見られていると気づいた瞬間、その場から消えたくなった。"
+    ],
+    "PlayedItCool": [
+      "平然としたまま",
+      "見られた瞬間は気まずかったけれど、取り乱さずに済んだ。わざわざ大げさにするほどのことでもない気がする。"
+    ],
+    "UnfinishedBusiness": [
+      "まだ終わっていない気分",
+      "ようやく夢中になってきたところで、終わってしまった。何かをやり残したような気がしてならない。"
+    ],
+    "PerfectImprovisation": [
+      "成り行きに任せて",
+      "こうすべきだと考えるのをやめて、お互いの反応に身を任せた。ほかにも、あんなふうに自然に楽しめることがあるのか気になる。"
+    ],
+    "AtMyOwnPace": [
+      "自分のペースで",
+      "進み方を気にせず、ゆっくり肌を重ねる心地よさを味わった。ちょうどそういう時間が欲しかった。"
+    ],
+    "SomethingToThinkAbout": [
+      "何がよかったんだろう",
+      "何があんなによかったのか、つい考えてしまう。次は何が好きだったのか話してみたい。"
+    ],
+    "AQuestionOfTiming": [
+      "タイミングの問題",
+      "自分がもう少しというところで、誰かが先にオーガズムに達した。どうしてこんなにタイミングがずれたのか、まだ考えている。"
+    ],
+    "ExactlyWhatIWorriedAbout": [
+      "心配していたことが現実に",
+      "誰かに見られるかもしれないと気にしていたら、本当に見られてしまった。しばらく気持ちが落ち着きそうにない。"
+    ],
+    "ThrillOfBeingCaught": [
+      "バレた瞬間のスリル",
+      "別の人といるところを恋人に見られた。このあと話すのは気が重いけれど、思いがけず胸が高鳴った。"
+    ],
+    "WhatAnEntrance": [
+      "なんて登場の仕方",
+      "あまりに間が悪くて、逆におかしくなってきた。驚きが収まると、笑いをこらえるのが大変だった。"
+    ],
+    "WorthTheRush": [
+      "夢中になってよかった",
+      "二人で夢中になるのが、思ったよりずっと心地よかった。思い出すだけで、まだ少し胸がどきどきする。"
+    ],
+    "WhoLetThemIn": [
+      "誰が通したの？",
+      "もう少し人目を避けられると思っていた。あっさり見られてしまったことを思い出すと、腹が立つ。"
+    ],
+    "KeptItTogether": [
+      "落ち着きを取り戻した",
+      "最初は恥ずかしかったけれど、ひと呼吸置いて落ち着いた。気まずいときでも、ちゃんと切り抜けられるのはうれしい。"
+    ],
+    "MixedFeelings": [
+      "複雑な気持ち",
+      "誰かが楽しめたのはよかった。自分にももう少し時間があればよかったのに。"
+    ],
+    "TheWorldWentQuiet": [
+      "世界が静かになった",
+      "しばらくのあいだ、そのひととき以外のことは何もかも忘れていた。あの静けさが、今も心に残っている。"
+    ],
+    "LetsLaughAboutIt": [
+      "いっそ笑い話に",
+      "見られていると気づいたときは恥ずかしかったけれど、あまりに間が悪くて真顔ではいられなかった。もう笑って話せそうだ。"
+    ],
+    "TooManyEyes": [
+      "人目が気になる",
+      "誰かが見ていると気づくまでは、誰にも邪魔されない時間だった。しばらくは誰にも会わずに済む、静かな場所にいたい。"
+    ],
+    "ALittleLetDown": [
+      "少し残念",
+      "近くにいられたのはよかった。でも、自分ももう少しというところで止めるのは、やっぱり少し残念だ。"
+    ],
+    "ALittleLight": [
+      "気持ちが少し軽くなった",
+      "求められていると感じ、誰かのそばにいる間だけは、重くのしかかっていたことを忘れられた。一緒にいられてよかった。"
+    ],
+    "ThatWasAwkward": [
+      "あれは気まずかった",
+      "誰かが見ていると気づいた瞬間、どこを見ればいいのか分からなくなった。あの気まずい沈黙を思い出すだけで、いたたまれない。"
+    ],
+    "AChapterWorthKeeping": [
+      "心に残るひとこま",
+      "思い出に残るのは、終わったあとに交わしたまなざしのような、ささいなことだろう。あの時間を一緒に過ごせてよかった。"
+    ],
+    "StayClose": [
+      "もう少しそばにいて",
+      "自分はまだ途中だったのに、誰かが先にオーガズムに達した。少し安心させてもらって、しばらくそばにいたい。"
+    ],
+    "FoundOurPace": [
+      "二人のペースが見つかった",
+      "みんなが心地よいペースを見つけたら、すべてがうまくかみ合った。息が整った今も、まだ胸が高鳴っている。"
+    ],
+    "StillBuzzing": [
+      "まだじっとしていられない",
+      "オーガズムに達する前に終わった人もいたけれど、自分は思った以上に元気だ。今はじっと座っていたくない。"
+    ],
+    "CouldUseAShower": [
+      "シャワーを浴びたい",
+      "楽しかったけれど、今は体が少しべたつく。温かいシャワーを浴びて、服を着替えたら気持ちよさそうだ。"
+    ],
+    "CouldntKeepAStraightFace": [
+      "真顔ではいられなかった",
+      "真面目な顔をしたほうがいいと思ったけれど、驚きのほうが勝った。思い返すと、今でもくすっと笑いそうになる。"
+    ],
+    "MissingPiece": [
+      "何かが足りなかった",
+      "あのときのことを何度も思い返してしまう。誰かはオーガズムに達したのに、自分には何が足りなかったのか分からなくてもどかしい。"
+    ],
+    "GoodEnoughForMe": [
+      "自分には十分",
+      "求めていたものは得られたし、今はのんびりしたい。一人で静かに過ごす数分が、ちょうどよさそうだ。"
+    ],
+    "ALittleLuxury": [
+      "ちょっとしたぜいたく",
+      "居心地のいい場所だったおかげで、二人ともずっと気楽になれた。あんなふうにゆっくり時間をかけるのも、悪くない。"
+    ],
+    "IGotMine": [
+      "自分は満足",
+      "オーガズムに達しなかった人もいたのは分かっている。それでも、自分にはうまくいったと少し得意になっている。"
+    ],
+    "ABreakWellSpent": [
+      "いい息抜きになった",
+      "ほかのことをいったん脇に置いて、お互いだけに気持ちを向けられた。そのために時間を作ったかいがあった。"
+    ],
+    "CoolUnderPressure": [
+      "気まずさにも動じない",
+      "誰かが見ていると気づいたけれど、恥ずかしさより面白さが勝った。少しくらい気まずくても、せっかくの気分は台無しにならなかった。"
+    ],
+    "WhatHaveIDone": [
+      "なんてことをしたんだろう",
+      "見つかって初めて、恋人をどれほど傷つけたか実感した。今起きたことを取り消せたらいいのに。"
+    ],
+    "QuietAgain": [
+      "やっとひと息",
+      "誰かに見られたと気づいて、空気が張り詰めた。やめた今は、ひと息つけるのがありがたい。"
+    ],
+    "WellNowIKnow": [
+      "自分の好みが分かった",
+      "オーガズムに達してみて、自分の好みも大事なんだと気づいた。いつか、お互い何がよかったか話してみたい。"
+    ],
+    "WorthTheDetour": [
+      "寄り道してよかった",
+      "その日の予定を少し空けただけなのに、思い出すたびに笑顔になりそうな時間になった。思い切ってよかった。"
+    ],
+    "AGoodImpression": [
+      "いい印象を残せた",
+      "みんなが楽しめたと分かって胸が弾んだ。終わったあとに交わした視線が、今も頭に浮かぶ。"
+    ],
+    "APleasantBuzz": [
+      "心地よい余韻",
+      "終わったら眠くなると思っていたのに、体にはまだ元気がみなぎっている。うれしい誤算だ。"
+    ],
+    "SweetFinish": [
+      "甘い締めくくり",
+      "急がなかったおかげで、みんなにとっていい時間になった。その心地よさに、もう少し浸っていたい。"
+    ],
+    "TakingItEasy": [
+      "気楽にいこう",
+      "誰かに気づかれたときは緊張した。止めてひと息ついた今なら、気まずさもそのうち消えると思える。"
+    ],
+    "AMemoryToKeep": [
+      "大切にしたい思い出",
+      "あんなに近くにいたことを思い出して、もう何度か笑顔になっている。いつまでも覚えていたいひとときだ。"
+    ],
+    "BetterLuckNextTime": [
+      "次こそは",
+      "誰もオーガズムに達しないうちに終わってしまった。残念だけど、次はもう少し時間があればうまくいくかもしれない。"
+    ],
+    "FoundTheFit": [
+      "しっくりくる体勢",
+      "楽な体勢が見つかってからは、お互いに気持ちを向けられた。何がよかったか、次まで覚えておこう。"
+    ],
+    "ASecondWind": [
+      "元気が戻ってきた",
+      "一瞬ぐったりしたけれど、終わってみると前より元気が出てきた。これなら今日の残りも乗り切れそうだ。"
+    ],
+    "KeptMyComposure": [
+      "落ち着いていられた",
+      "誰かに見られたと気づいた瞬間は恥ずかしかった。それでも落ち着いていられたことで、少し自信がついた。"
+    ],
+    "SawEncounter": [
+      "思いがけない鉢合わせ",
+      "何が起きているのか気づくのが一瞬遅かった。もう少しそっとしておけばよかった。"
+    ]
+  }
+}

@@ -22,7 +22,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_DisplayTextId",
@@ -63,7 +63,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_DisplayTextId",
@@ -104,7 +104,7 @@
           "EmotionValue": 1,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Sad"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_DisplayTextId",
@@ -145,7 +145,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Cringing"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_DisplayTextId",
@@ -186,7 +186,7 @@
           "EmotionValue": 1,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Sad"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_DisplayTextId",
@@ -227,7 +227,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Angry"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_DisplayTextId",
@@ -268,7 +268,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Curious"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_DisplayTextId",
@@ -309,7 +309,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Cringing"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_DisplayTextId",
@@ -350,7 +350,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_DisplayTextId",
@@ -391,7 +391,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Angry"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_DisplayTextId",
@@ -432,7 +432,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Curious"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_DisplayTextId",
@@ -473,7 +473,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_DisplayTextId",
@@ -514,7 +514,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Curious"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_DisplayTextId",
@@ -555,7 +555,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Uneasy"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_DisplayTextId",
@@ -596,7 +596,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Uneasy"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_DisplayTextId",
@@ -637,7 +637,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Excited"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_DisplayTextId",
@@ -678,7 +678,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Funny"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_DisplayTextId",
@@ -719,7 +719,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Excited"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_DisplayTextId",
@@ -760,7 +760,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Angry"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_DisplayTextId",
@@ -801,7 +801,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Convinced"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_DisplayTextId",
@@ -842,7 +842,7 @@
           "EmotionValue": 1,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Sad"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_DisplayTextId",
@@ -883,7 +883,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_DisplayTextId",
@@ -924,7 +924,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Funny"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_DisplayTextId",
@@ -965,7 +965,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Cringing"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_DisplayTextId",
@@ -1006,7 +1006,7 @@
           "EmotionValue": 1,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Sad"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_DisplayTextId",
@@ -1047,7 +1047,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_DisplayTextId",
@@ -1088,7 +1088,7 @@
           "EmotionValue": 4,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_DisplayTextId",
@@ -1129,7 +1129,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Cringing"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_DisplayTextId",
@@ -1170,7 +1170,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Touched"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_DisplayTextId",
@@ -1211,7 +1211,7 @@
           "EmotionValue": 4,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Touched"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_DisplayTextId",
@@ -1252,7 +1252,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Sad"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_DisplayTextId",
@@ -1293,7 +1293,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Excited"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_DisplayTextId",
@@ -1334,7 +1334,7 @@
           "EmotionValue": 4,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Excited"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_DisplayTextId",
@@ -1375,7 +1375,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Excited"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_DisplayTextId",
@@ -1416,7 +1416,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Excited"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_DisplayTextId",
@@ -1457,7 +1457,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Uncomfortable"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_DisplayTextId",
@@ -1498,7 +1498,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Funny"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_DisplayTextId",
@@ -1539,7 +1539,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Angry"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_DisplayTextId",
@@ -1580,7 +1580,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_DisplayTextId",
@@ -1621,7 +1621,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_DisplayTextId",
@@ -1662,7 +1662,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_DisplayTextId",
@@ -1703,7 +1703,7 @@
           "EmotionValue": 4,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_DisplayTextId",
@@ -1744,7 +1744,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Funny"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_DisplayTextId",
@@ -1785,7 +1785,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Funny"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_DisplayTextId",
@@ -1826,7 +1826,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_DisplayTextId",
@@ -1867,7 +1867,7 @@
           "EmotionValue": 4,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_DisplayTextId",
@@ -1908,7 +1908,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Funny"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_DisplayTextId",
@@ -1949,7 +1949,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Sad"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_DisplayTextId",
@@ -1990,7 +1990,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_DisplayTextId",
@@ -2031,7 +2031,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Curious"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_DisplayTextId",
@@ -2072,7 +2072,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Curious"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_DisplayTextId",
@@ -2113,7 +2113,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Excited"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_DisplayTextId",
@@ -2154,7 +2154,7 @@
           "EmotionValue": 4,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Excited"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_DisplayTextId",
@@ -2195,7 +2195,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Enchanting"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_DisplayTextId",
@@ -2236,7 +2236,7 @@
           "EmotionValue": 4,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Enchanting"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_DisplayTextId",
@@ -2277,7 +2277,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Excited"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_DisplayTextId",
@@ -2318,7 +2318,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Excited"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_DisplayTextId",
@@ -2359,7 +2359,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_DisplayTextId",
@@ -2400,7 +2400,7 @@
           "EmotionValue": 4,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_DisplayTextId",
@@ -2441,7 +2441,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_DisplayTextId",
@@ -2482,7 +2482,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Touched"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_DisplayTextId",
@@ -2523,7 +2523,7 @@
           "EmotionValue": 4,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Touched"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_DisplayTextId",
@@ -2564,7 +2564,7 @@
           "EmotionValue": 1,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Sad"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_DisplayTextId",
@@ -2605,7 +2605,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Preoccupied"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_DisplayTextId",
@@ -2646,7 +2646,7 @@
           "EmotionValue": 4,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Preoccupied"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_DisplayTextId",
@@ -2687,7 +2687,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Excited"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_DisplayTextId",
@@ -2728,7 +2728,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Excited"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_DisplayTextId",
@@ -2769,7 +2769,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Convinced"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_DisplayTextId",
@@ -2810,7 +2810,7 @@
           "EmotionValue": 4,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_DisplayTextId",
@@ -2851,7 +2851,7 @@
           "EmotionValue": 3,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Joyful"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_DisplayTextId",
@@ -2892,7 +2892,7 @@
           "EmotionValue": 2,
           "EmotionReasonPriority": "Invalid",
           "Tags": [],
-          "TagIconId": "None"
+          "TagIconId": "Buff_Icon_Surprised"
         },
         "BuffDisplayInfo": {
           "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_DisplayTextId",

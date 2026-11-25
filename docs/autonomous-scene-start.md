@@ -30,7 +30,7 @@ local function matchesInOrder(first, second)
     return matches
 end
 
-local function makeEncounterArguments(actions, initiatorId, partnerId, furnitureId, furniturePairId, bothMale)
+local function makeEncounterArguments(actions, initiatorId, participantIds, furnitureId, furniturePairId, allowAnalIntercourse)
     local opening, intercourse, entry, excluded, intercourseOnly = {}, {}, {}, {}, {}
     for id, action in pairs(actions) do
         local activity = action.sexual_activity
@@ -38,7 +38,7 @@ local function makeEncounterArguments(actions, initiatorId, partnerId, furniture
             activity == "non_penetrative" or activity == "penetrative_non_coital"
         )
         local isIntercourse = (id == "vaginal_sex" and activity == "coital")
-            or (bothMale and id == "anal_sex" and activity == "penetrative_non_coital")
+            or (allowAnalIntercourse and id == "anal_sex" and activity == "penetrative_non_coital")
         if isOpening then opening[#opening + 1] = id end
         if isIntercourse then intercourse[#intercourse + 1] = id end
         if isOpening or isIntercourse then entry[#entry + 1] = id end
@@ -62,16 +62,17 @@ local function makeEncounterArguments(actions, initiatorId, partnerId, furniture
     local intercourseMatch = #intercourse > 0 and {any_actions = intercourse} or nil
     local openingFirst = matchesInOrder(openingMatch, intercourseMatch)
     local intercourseFirst = matchesInOrder(intercourseMatch, openingMatch)
+    local goals = {}
+    for _, id in ipairs(participantIds) do
+        goals[#goals + 1] = {participant_id = id, task_id = "excitement", completions = 1}
+    end
     return {
         initiator = initiatorId,
-        participants = {initiatorId, partnerId},
+        participants = participantIds,
         furniture_id = furnitureId,
         furniture_pair_id = furniturePairId,
         search = {any_actions = entry},
-        goals = {
-            {participant_id = initiatorId, task_id = "excitement", completions = 1},
-            {participant_id = partnerId, task_id = "excitement", completions = 1},
-        },
+        goals = goals,
         end_policy = {type = "goals"},
         stages = 4,
         stage_progress = "fastest",
@@ -90,14 +91,14 @@ local function makeEncounterArguments(actions, initiatorId, partnerId, furniture
 end
 ```
 
-Pass the participant IDs as decimal strings and derive `bothMale` from the selected pair. SceneZOI checks the authored roles and body requirements. For ground, omit both furniture IDs and send the anchor-role Zoi to the selected point. The current HZoi ground clips use the `male` role, so read that participant ID from the preflight's `bindings.male`. For furniture, use the selected ID and pass the slot-pair ID returned by `find_furniture` for sofas.
+Pass the full roster as decimal strings. For the iteration 1 invitation, set `allowAnalIntercourse` from the selected pair's male/male eligibility. SceneZOI checks the authored roles and body requirements. For ground, omit both furniture IDs and send the anchor-role Zoi to the selected point. The current HZoi ground clips use the `male` role, so read that participant ID from the preflight's `bindings.male`. For furniture, use the selected ID and pass the slot-pair ID returned by `find_furniture` for sofas.
 
-Before the invitation, call `validate_start` with a shallow copy of the arguments and `start_mode = "start_autonomous_scene"`. Stage 1 ranks a viable opening activity first and can select intercourse when that is the best available entry. Check `reply.ok`, `reply.result.valid`, and whether `route_uncertain` is true. An uncertain route needs further verification before treating the content as available. A proven route covers both goals across reachable clips. Asset loading and placement are checked again at startup.
+Before the invitation, call `validate_start` with a shallow copy of the arguments and `start_mode = "start_autonomous_scene"`. Stage 1 ranks a viable opening activity first and can select intercourse when that is the best available entry. Check `reply.ok`, `reply.result.valid`, and whether `route_uncertain` is true. An uncertain route needs further verification before treating the content as available. A proven route covers every goal across reachable clips. Asset loading and placement are checked again at startup.
 
 ```lua
 local arguments, reason = makeEncounterArguments(
-    definitionsReply.result.actions, initiatorId, partnerId,
-    furnitureId, furniturePairId, bothMale
+    definitionsReply.result.actions, initiatorId, {initiatorId, partnerId},
+    furnitureId, furniturePairId, allowAnalIntercourse
 )
 if not arguments then return nil, reason end
 
@@ -106,7 +107,7 @@ for key, value in pairs(arguments) do preflight[key] = value end
 client:request(owner, preflightRequestId, "validate_start", preflight)
 ```
 
-After the selected partner accepts the [two-Zoi invitation](encounter-design.md#content-check-and-invitation) and both Zois arrive, repeat `validate_start` with a new request ID. Pin the initial scene, roles, and slot pair from that successful response. Send `start_autonomous_scene` with a distinct request ID. Check `reply.ok` and `reply.result.accepted`, then wait for `session_started` or `session_start_failed`.
+After the iteration 1 partner accepts the [two-Zoi invitation](encounter-design.md#content-check-and-invitation) and both Zois arrive, repeat `validate_start` with a new request ID. Pin the initial scene, roles, and slot pair from that successful response. Run the [arrival sight check](encounter-design.md#arrival-privacy-check) before sending `start_autonomous_scene` with a distinct request ID. Check `reply.ok` and `reply.result.accepted`, then wait for `session_started` or `session_start_failed`.
 
 ```lua
 local ready = arrivalReply.result
@@ -116,7 +117,7 @@ arguments.furniture_pair_id = ready.furniture_pair_id or arguments.furniture_pai
 client:request(owner, startRequestId, "start_autonomous_scene", arguments)
 ```
 
-The leading participant's progress makes stages 2–4 due at 25%, 50%, and 75% and advances the speed presets from 0.5× to 2×. The current API ties the speed preset to the stage. Stages 1–2 favor opening activities and stages 3–4 favor intercourse. Within a tier, SceneZOI prefers an eligible clip whose activity group has yet to play. Each scene ID is its own group in this request. The planner can switch clips if progress stalls or keep the current clip if it is the best reachable choice. Both goals can be met before stage 4. The bundled HZoi intercourse clips support both roles reaching completion in the same loop.
+The leading participant's progress makes stages 2–4 due at 25%, 50%, and 75% and advances the speed presets from 0.5× to 2×. The current API ties the speed preset to the stage. Stages 1–2 favor opening activities and stages 3–4 favor intercourse. Within a tier, SceneZOI prefers an eligible clip whose activity group has yet to play. Each scene ID is its own group in this request. The planner can switch clips if progress stalls or keep the current clip if it is the best reachable choice. All goals can be met before stage 4. The bundled HZoi intercourse clips support both roles reaching completion in the same loop.
 
 | Venue | Current HZoi intercourse clips for a supported pair |
 | --- | --- |
@@ -124,6 +125,8 @@ The leading participant's progress makes stages 2–4 due at 25%, 50%, and 75% a
 | Sofa and ground | One position. |
 
 Use `session_ended` and its task counts to evaluate final outcomes. `task_completed` supports needs and urges during playback, including repeated completions.
+
+If more than half of the roster votes to stop after a witness sees the encounter, HZoi calls `request_stop` for the session. It sends `witness_sighting` or `caught_by_partner` as the machine-readable `reason`. With SceneZOI's `stop_session_display_reason` feature, HZoi also sends a short `display_reason` explaining why the session ended. SceneZOI displays it with the session result and dismisses the panel automatically after normal cleanup.
 
 ## Automatic action policy
 

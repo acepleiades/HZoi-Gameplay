@@ -1,0 +1,296 @@
+{
+  "messages": {
+    "Have sex here": "Have sex here",
+    "Toggle HZoi private room": "Toggle HZoi private room",
+    "Could not open the HZoi partner picker.": "Could not open the HZoi partner picker.",
+    "Your Zoi wants some private time with {partner}.": "Your Zoi wants some private time with {partner}.",
+    "Your Zoi fulfilled their urge with {partner}.": "Your Zoi fulfilled their urge with {partner}.",
+    "{first} and {second} decided to stop after someone walked in on them.": "{first} and {second} decided to stop after someone walked in on them.",
+    "The encounter ended after someone walked in.": "The encounter ended after someone walked in.",
+    "{first} and {second} decided to stop after one of their romantic partners caught them together.": "{first} and {second} decided to stop after one of their romantic partners caught them together.",
+    "The encounter ended after a romantic partner walked in on it.": "The encounter ended after a romantic partner walked in on it.",
+    "The partner picker could not open. Close any open picker and make sure your Zoi is out of their group.": "The partner picker could not open. Close any open picker and make sure your Zoi is out of their group.",
+    "Close the current Zoi picker before sending an invitation.": "Close the current Zoi picker before sending an invitation.",
+    "An HZoi invitation is already in progress.": "An HZoi invitation is already in progress.",
+    "Could not finish the invitation.": "Could not finish the invitation.",
+    "That bed is occupied or unavailable.": "That bed is occupied or unavailable.",
+    "The selected sofa seats are occupied or unavailable.": "The selected sofa seats are occupied or unavailable.",
+    "Both Zois need a clear path to the selected sofa seats.": "Both Zois need a clear path to the selected sofa seats.",
+    "Choose a walkable spot for the encounter.": "Choose a walkable spot for the encounter.",
+    "Could not read the selected ground spot. Open the ground menu and try again.": "Could not read the selected ground spot. Open the ground menu and try again.",
+    "Both Zois need a clear path and room to stand at the selected spot.": "Both Zois need a clear path and room to stand at the selected spot.",
+    "Marked this room private for HZoi in the current loaded game.": "Marked this room private for HZoi in the current loaded game.",
+    "Removed the HZoi private-room mark.": "Removed the HZoi private-room mark.",
+    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "Stand inside a room at your household's residence and choose a walkable spot on its floor.",
+    "This room already has a room purpose.": "This room already has a room purpose.",
+    "Select the Zoi who sent the invitation first.": "Select the Zoi who sent the invitation first.",
+    "No eligible partner was selected.": "No eligible partner was selected.",
+    "No scenes were found for these Zois at this spot.": "No scenes were found for these Zois at this spot.",
+    "No scenes at this spot can complete the goals for this pair.": "No scenes at this spot can complete the goals for this pair.",
+    "These Zois cannot use Set the Mood right now.": "These Zois cannot use Set the Mood right now.",
+    "One of the Zois is already in a SceneZOI session. Try again afterward.": "One of the Zois is already in a SceneZOI session. Try again afterward.",
+    "The invitation could not be added to the action queue.": "The invitation could not be added to the action queue.",
+    "An activity needed for this encounter is unavailable.": "An activity needed for this encounter is unavailable.",
+    "End the current SceneZOI session before starting another.": "End the current SceneZOI session before starting another.",
+    "The invitation took too long. Check the Zois' action queues and try again.": "The invitation took too long. Check the Zois' action queues and try again.",
+    "SceneZOI did not respond. Check that it is installed and enabled.": "SceneZOI did not respond. Check that it is installed and enabled.",
+    "SceneZOI could not find a supported bed or adjacent sofa seats here.": "SceneZOI could not find a supported bed or adjacent sofa seats here.",
+    "Update SceneZOI to use HZoi Gameplay.": "Update SceneZOI to use HZoi Gameplay.",
+    "Both Zois need a clear path to the selected bed.": "Both Zois need a clear path to the selected bed.",
+    "Could you knock next time?": "Could you knock next time?",
+    "I wanted a little privacy.": "I wanted a little privacy.",
+    "Can’t we have a little private time?": "Can’t we have a little private time?",
+    "They walked in at the worst moment.": "They walked in at the worst moment.",
+    "I thought this room was empty.": "I thought this room was empty.",
+    "Your Zoi wants some private time with their partner.": "Your Zoi wants some private time with their partner.",
+    "Your Zoi fulfilled their urge with their partner.": "Your Zoi fulfilled their urge with their partner.",
+    "I trusted you. How could you?": "I trusted you. How could you?",
+    "I can’t believe you’d do this to me.": "I can’t believe you’d do this to me.",
+    "I never thought I’d catch you in the act.": "I never thought I’d catch you in the act.",
+    "I thought what we had meant something.": "I thought what we had meant something.",
+    "Is this what you’ve been doing behind my back?": "Is this what you’ve been doing behind my back?",
+    "Oh! Sorry, I’ll give you some privacy.": "Oh! Sorry, I’ll give you some privacy.",
+    "I didn’t mean to walk in on this.": "I didn’t mean to walk in on this.",
+    "Oh! I saw more than I meant to.": "Oh! I saw more than I meant to.",
+    "Sorry. I’ve clearly come at a bad time.": "Sorry. I’ve clearly come at a bad time.",
+    "Oh! This looks private. I’ll come back later.": "Oh! This looks private. I’ll come back later.",
+    "Oh, hey! I’ll let you have your moment.": "Oh, hey! I’ll let you have your moment.",
+    "Of all the times to drop by! I’ll catch up with you later.": "Of all the times to drop by! I’ll catch up with you later.",
+    "Oh! No need to explain. I’ll give you some space.": "Oh! No need to explain. I’ll give you some space.",
+    "Ah, so that’s what you were up to. I’ll leave you to it.": "Ah, so that’s what you were up to. I’ll leave you to it.",
+    "Oh! I can take a hint. See you later.": "Oh! I can take a hint. See you later.",
+    "Oh! Getting pretty cozy in here.": "Oh! Getting pretty cozy in here.",
+    "Well, that’s a little more than flirting.": "Well, that’s a little more than flirting.",
+    "Oh! I see what kind of mood everyone’s in.": "Oh! I see what kind of mood everyone’s in.",
+    "Well! It’s getting warm in here.": "Well! It’s getting warm in here.",
+    "Oh! Here I thought you were just talking.": "Oh! Here I thought you were just talking.",
+    "They decided to wait for some privacy. Someone they don’t know well enough could see them.": "They decided to wait for some privacy. Someone they don’t know well enough could see them."
+  },
+  "moodlets": {
+    "InSync": [
+      "In Sync",
+      "You found a rhythm that felt right for everyone. Afterward, you wanted to stay close a little longer."
+    ],
+    "Satisfied": [
+      "Satisfied",
+      "You feel relaxed and satisfied. You wish everyone had had the same chance to finish."
+    ],
+    "OutOfSync": [
+      "Out of Sync",
+      "It was good to see someone finish, but you were still getting there when it ended. You wish you’d had a little more time."
+    ],
+    "AwkwardTiming": [
+      "Awkward Timing",
+      "Someone saw what was happening, and the encounter stopped. It’s hard to get back in the mood after that."
+    ],
+    "UnfinishedMoment": [
+      "Unfinished Moment",
+      "Things were only just getting good when you stopped. You’re left thinking about what might have happened with a little more time."
+    ],
+    "OutOfOrder": [
+      "Out of Order",
+      "You wanted everyone to enjoy it. Ending before everyone could finish made the whole thing feel a little uneven."
+    ],
+    "FoundABetterRhythm": [
+      "Found a Better Rhythm",
+      "Changing things up came naturally once you started paying attention to each other. You’re glad you tried something different."
+    ],
+    "NowhereToHide": [
+      "Nowhere to Hide",
+      "You thought you had some privacy. The second you realized someone could see you, you wished you could disappear."
+    ],
+    "PlayedItCool": [
+      "Played It Cool",
+      "Being seen was awkward for a second, but you kept your cool. It doesn’t feel like something you need to make a big deal of."
+    ],
+    "UnfinishedBusiness": [
+      "Unfinished Business",
+      "You were just getting into it when things stopped. The feeling that you left something unfinished is hard to shake."
+    ],
+    "PerfectImprovisation": [
+      "Perfect Improvisation",
+      "You stopped thinking about how it ought to go and followed each other’s lead. Now you’re curious what else might feel that natural."
+    ],
+    "AtMyOwnPace": [
+      "At My Own Pace",
+      "You gave yourself time to enjoy being close without worrying about how fast things were moving. That was exactly what you needed."
+    ],
+    "SomethingToThinkAbout": [
+      "Something to Think About",
+      "You keep thinking about what made that feel so good. It might be worth talking about what you liked next time."
+    ],
+    "AQuestionOfTiming": [
+      "A Question of Timing",
+      "Someone finished just when you were starting to get close. You’re still wondering how the timing got so out of step."
+    ],
+    "ExactlyWhatIWorriedAbout": [
+      "Exactly What I Worried About",
+      "You’d been wondering whether someone might see you, and then it actually happened. It’s going to take a while to stop worrying about it."
+    ],
+    "ThrillOfBeingCaught": [
+      "Thrill of Being Caught",
+      "Your partner caught you with someone else. You know the conversation won’t be easy, but the rush caught you by surprise."
+    ],
+    "WhatAnEntrance": [
+      "What an Entrance",
+      "The timing was so bad that it was almost funny. Once the surprise wore off, you had to fight the urge to laugh."
+    ],
+    "WorthTheRush": [
+      "Worth the Rush",
+      "Getting carried away together felt better than you expected. Your heart is still racing a little just thinking about it."
+    ],
+    "WhoLetThemIn": [
+      "Who Let Them In?",
+      "You expected a bit of privacy. Now you’re thinking about how easily someone saw you and how annoyed you are about it."
+    ],
+    "KeptItTogether": [
+      "Kept It Together",
+      "You were embarrassed at first, but you took a breath and kept your composure. It feels good to know you can handle an awkward moment."
+    ],
+    "MixedFeelings": [
+      "Mixed Feelings",
+      "You’re glad someone had a good time. You wish you’d had a little more time too."
+    ],
+    "TheWorldWentQuiet": [
+      "The World Went Quiet",
+      "For a little while you forgot about everything outside that moment. You’re still carrying that quiet feeling with you."
+    ],
+    "LetsLaughAboutIt": [
+      "Let’s Laugh About It",
+      "It was embarrassing to realize someone could see you, but the timing was hard to take seriously. You can already laugh about it."
+    ],
+    "TooManyEyes": [
+      "Too Many Eyes",
+      "The moment felt private until you noticed someone looking. You’d rather be somewhere quiet where you don’t have to face anyone for a bit."
+    ],
+    "ALittleLetDown": [
+      "A Little Letdown",
+      "You enjoyed the closeness. It’s still a little disappointing to stop when you were getting close."
+    ],
+    "ALittleLight": [
+      "A Little Light",
+      "Feeling wanted and close to someone gave you a break from the things weighing on you. You’re glad you had that time together."
+    ],
+    "ThatWasAwkward": [
+      "That Was Awkward",
+      "The second you noticed someone watching, you forgot where to look. Just remembering the awkward silence makes you cringe."
+    ],
+    "AChapterWorthKeeping": [
+      "A Chapter Worth Keeping",
+      "It’s the little details you’ll remember, like the look you shared afterward. You’re glad you got to spend that time together."
+    ],
+    "StayClose": [
+      "Stay Close",
+      "Someone finished while you were still getting there. You’d like a little reassurance and a moment to stay close."
+    ],
+    "FoundOurPace": [
+      "Found Our Pace",
+      "Once you found a pace that felt good to everyone, everything clicked. You still feel the rush now that you’ve caught your breath."
+    ],
+    "StillBuzzing": [
+      "Still Buzzing",
+      "Even though the encounter ended early for some, you came away with more energy than you expected. Sitting still doesn’t sound very appealing right now."
+    ],
+    "CouldUseAShower": [
+      "Could Use a Shower",
+      "You had a good time, but now everything feels a little sticky. A warm shower and a change of clothes sound wonderful."
+    ],
+    "CouldntKeepAStraightFace": [
+      "Couldn’t Keep a Straight Face",
+      "You knew you should probably look serious, but the surprise got the better of you. Thinking about it still makes you want to giggle."
+    ],
+    "MissingPiece": [
+      "Missing Piece",
+      "You can’t help replaying what happened. Someone finished, and you’re frustrated that you can’t work out what was missing for you."
+    ],
+    "GoodEnoughForMe": [
+      "Good Enough for Me",
+      "You got what you needed and now you’re happy to take it easy. A few quiet minutes to yourself sound pretty good."
+    ],
+    "ALittleLuxury": [
+      "A Little Luxury",
+      "Having somewhere comfortable made it so much easier to relax together. You could get used to taking your time like that."
+    ],
+    "IGotMine": [
+      "I Got Mine",
+      "You noticed some hadn’t finished when it ended. You’re still feeling pretty smug about how well things went for you."
+    ],
+    "ABreakWellSpent": [
+      "A Break Well Spent",
+      "You managed to put everything else aside and give each other your full attention. It was worth making room for that."
+    ],
+    "CoolUnderPressure": [
+      "Cool Under Pressure",
+      "You caught someone looking and felt more amused than embarrassed. A little awkwardness wasn’t enough to ruin the moment for you."
+    ],
+    "WhatHaveIDone": [
+      "What Have I Done?",
+      "Getting caught made it sink in how much you’d hurt your partner. You wish you could take back what just happened."
+    ],
+    "QuietAgain": [
+      "Quiet Again",
+      "Things got tense when you realized someone had seen you. Now that you’ve stopped, you’re glad to have a moment to breathe."
+    ],
+    "WellNowIKnow": [
+      "Well, Now I Know",
+      "Finishing made you think about how much your own preferences matter. You’d like to compare notes sometime."
+    ],
+    "WorthTheDetour": [
+      "Worth the Detour",
+      "Taking a little time out of the day turned into something you’ll be smiling about later. You’re glad you went for it."
+    ],
+    "AGoodImpression": [
+      "A Good Impression",
+      "Knowing everyone enjoyed it gave you butterflies. You’re still thinking about the looks you shared afterward."
+    ],
+    "APleasantBuzz": [
+      "A Pleasant Buzz",
+      "You thought you might feel sleepy afterward, but your body is still humming with energy. It’s a pleasant surprise."
+    ],
+    "SweetFinish": [
+      "Sweet Finish",
+      "You took your time and it paid off for everyone. You’re in no hurry to move on from how good that felt."
+    ],
+    "TakingItEasy": [
+      "Taking It Easy",
+      "It was tense when someone noticed what was happening. After stopping and taking a breath, you’re ready to let the awkwardness pass."
+    ],
+    "AMemoryToKeep": [
+      "A Memory to Keep",
+      "You’ve already caught yourself smiling at the memory of being that close. It’s one of those moments you’d like to hold on to."
+    ],
+    "BetterLuckNextTime": [
+      "Better Luck Next Time",
+      "Things ended before anyone could finish. You’re disappointed, but maybe you’ll have better luck when there’s more time."
+    ],
+    "FoundTheFit": [
+      "Found the Fit",
+      "Once you found a comfortable position, you could pay attention to each other. You’ll remember what worked next time."
+    ],
+    "ASecondWind": [
+      "A Second Wind",
+      "You felt worn out for a moment, then came away more energized than before. You could keep going with your day now."
+    ],
+    "KeptMyComposure": [
+      "Kept My Composure",
+      "You felt a flash of embarrassment when you realized someone could see you. Staying calm through it left you feeling sure of yourself."
+    ],
+    "SawEncounter": [
+      "Unexpected Company",
+      "You realized a second too late what was happening. You wish you’d given everyone a bit more privacy."
+    ]
+  },
+  "causes": {
+    "[From everyone reaching orgasm]": "[From everyone reaching orgasm]",
+    "[From reaching orgasm when some participants didn’t]": "[From reaching orgasm when some participants didn’t]",
+    "[From someone else reaching orgasm while you didn’t]": "[From someone else reaching orgasm while you didn’t]",
+    "[From being interrupted during sex]": "[From being interrupted during sex]",
+    "[From stopping early]": "[From stopping early]",
+    "[From the encounter ending before everyone reached orgasm]": "[From the encounter ending before everyone reached orgasm]",
+    "[From being seen having sex]": "[From being seen having sex]",
+    "[From reaching orgasm]": "[From reaching orgasm]",
+    "[From getting caught cheating]": "[From getting caught cheating]",
+    "[From feeling sweaty after sex]": "[From feeling sweaty after sex]",
+    "[From walking in on Zois having sex]": "[From walking in on Zois having sex]"
+  }
+}

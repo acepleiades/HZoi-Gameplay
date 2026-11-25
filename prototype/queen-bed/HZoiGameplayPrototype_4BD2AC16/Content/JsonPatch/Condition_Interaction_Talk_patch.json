@@ -33,26 +33,6 @@
               },
               {
                 "BaseObject": "Self",
-                "Command": "GrowthStep",
-                "CompareType": "GreaterOrEqual",
-                "UseHand": "Default",
-                "S1": "Youth",
-                "S2": "None",
-                "F1": 0,
-                "F2": 0
-              },
-              {
-                "BaseObject": "Target",
-                "Command": "GrowthStep",
-                "CompareType": "GreaterOrEqual",
-                "UseHand": "Default",
-                "S1": "Youth",
-                "S2": "None",
-                "F1": 0,
-                "F2": 0
-              },
-              {
-                "BaseObject": "Self",
                 "Command": "RelationshipStat",
                 "CompareType": "GreaterOrEqual",
                 "UseHand": "Default",
@@ -151,26 +131,6 @@
                 "CompareType": "Equal",
                 "UseHand": "Default",
                 "S1": "None",
-                "S2": "None",
-                "F1": 0,
-                "F2": 0
-              },
-              {
-                "BaseObject": "Self",
-                "Command": "GrowthStep",
-                "CompareType": "GreaterOrEqual",
-                "UseHand": "Default",
-                "S1": "Youth",
-                "S2": "None",
-                "F1": 0,
-                "F2": 0
-              },
-              {
-                "BaseObject": "Target",
-                "Command": "GrowthStep",
-                "CompareType": "GreaterOrEqual",
-                "UseHand": "Default",
-                "S1": "Youth",
                 "S2": "None",
                 "F1": 0,
                 "F2": 0
@@ -286,26 +246,6 @@
                 "CompareType": "Equal",
                 "UseHand": "Default",
                 "S1": "None",
-                "S2": "None",
-                "F1": 0,
-                "F2": 0
-              },
-              {
-                "BaseObject": "Self",
-                "Command": "GrowthStep",
-                "CompareType": "GreaterOrEqual",
-                "UseHand": "Default",
-                "S1": "Youth",
-                "S2": "None",
-                "F1": 0,
-                "F2": 0
-              },
-              {
-                "BaseObject": "Target",
-                "Command": "GrowthStep",
-                "CompareType": "GreaterOrEqual",
-                "UseHand": "Default",
-                "S1": "Youth",
                 "S2": "None",
                 "F1": 0,
                 "F2": 0
@@ -776,26 +716,6 @@
                 "CompareType": "NotEqual",
                 "UseHand": "Default",
                 "S1": "None",
-                "S2": "None",
-                "F1": 0,
-                "F2": 0
-              },
-              {
-                "BaseObject": "Self",
-                "Command": "GrowthStep",
-                "CompareType": "GreaterOrEqual",
-                "UseHand": "Default",
-                "S1": "Youth",
-                "S2": "None",
-                "F1": 0,
-                "F2": 0
-              },
-              {
-                "BaseObject": "Target",
-                "Command": "GrowthStep",
-                "CompareType": "GreaterOrEqual",
-                "UseHand": "Default",
-                "S1": "Youth",
                 "S2": "None",
                 "F1": 0,
                 "F2": 0

@@ -1,20 +1,20 @@
 local UI = require("Components.InvitationUI")
 local Json = require("SceneZOIAddon.Json")
+local LifeStage = require("LifeStageEligibility")
+local Localization = require("Localization")
 local M = {}
 local MOD = "HZoiGameplayPrototype_4BD2AC16"
 local MARKER = "_UIMod_" .. MOD .. "/partner-picker~hzoi_venue_invite"
-local groundCaptions = {
+local menuCaptions = {
+    [MARKER] = "Have sex here",
     HZoiGameplay_GroundInvite = "Have sex here",
     HZoiGameplay_MarkPrivateRoom = "Toggle HZoi private room",
 }
 local COLLAPSED = 1
-local queenBeds = {
-    Bed01 = true, Bed01_v01 = true, Bed01_v02 = true, Bed01_v03 = true, Bed01_v04 = true, Bed01_v05 = true,
-    Bed04 = true, Bed04_v01 = true, Bed04_v02 = true, Bed04_v03 = true, Bed04_v04 = true,
-    E01_Bed01 = true, E01_Bed01_v01 = true, E01_Bed01_v03 = true,
-}
+local furnitureCategories = {Bed = true, Sofa = true}
+local furnitureTags = {Bed = true, Object_Bed = true, Object_Sofa = true}
 local hidden = {}
-local sofaModels = {}
+local furnitureModels = {}
 local held, elapsed, initialized, lastError
 
 local function read()
@@ -38,24 +38,23 @@ end
 local function supported(object)
     if not object then return false end
     local model = tostring(object.ObjectDataTableId)
-    if queenBeds[model] then return true end
     local now = os.time()
-    local cached = sofaModels[model]
-    if cached and cached.untilTime > now then return cached.sofa end
-    -- Use native object metadata so sofas added by mods can use the same menu.
-    -- SceneZOI's furniture API checks whether a particular instance fits a scene.
+    local cached = furnitureModels[model]
+    if cached and cached.untilTime > now then return cached.supported end
+    -- Native categories include mod-added furniture. SceneZOI checks the
+    -- clicked instance and its scene compatibility before an invitation.
     local ok, label, raw = inzoi.cli.execute("data.table_get alias=Object row=" .. Json.encode(model))
     local decoded, row = pcall(Json.decode, raw or label or "")
     if not ok or not decoded or type(row) ~= "table" then
-        sofaModels[model] = {sofa = false, untilTime = now + 2}
+        furnitureModels[model] = {supported = false, untilTime = now + 2}
         return false
     end
-    local sofa = row.filterCategory == "Sofa" or row.objectCategory == "Sofa"
+    local match = furnitureCategories[row.filterCategory] or furnitureCategories[row.objectCategory] or false
     for _, tag in ipairs(row.objectTags or {}) do
-        if tag == "Object_Sofa" then sofa = true; break end
+        if furnitureTags[tag] then match = true; break end
     end
-    sofaModels[model] = {sofa = sofa, untilTime = now + 30}
-    return sofa
+    furnitureModels[model] = {supported = match, untilTime = now + 30}
+    return match
 end
 
 local function updateMenu(ctx, manager, canInvite)
@@ -64,10 +63,11 @@ local function updateMenu(ctx, manager, canInvite)
     for _, entry in ipairs(UE.UWidgetBlueprintLibrary.GetAllWidgetsOfClass(ctx, nil, class, false)) do
         local data = entry.Data
         local bag = data and tostring(data.InteractionBagId)
-        local title = groundCaptions[bag]
-        if title then
-            -- Native interaction text IDs resolve against the game's string table.
+        local captionKey = menuCaptions[bag]
+        if captionKey then
+            -- Covers both native ground rows and the UI-injected furniture entry.
             local caption = entry.BW_Text_Content
+            local title = Localization.text(captionKey)
             if caption and tostring(caption:GetText()) ~= title then caption:SetText(title) end
         end
         local own = bag == MARKER
@@ -100,10 +100,7 @@ local function tick()
     local controlled = controller:GetCharacterEntityId()
     local actor = manager.CharacterMap:Find(controlled)
     local appearance = actor and actor.AppearanceComponent
-    local stage = appearance and appearance:GetGrowthStep()
-    local stages = inzoi.EB1GrowthStep
-    local canInvite = stage ~= nil and
-        (stage == stages.Youth or stage == stages.Adult or stage == stages.Old or stage == stages.Elderly)
+    local canInvite = appearance ~= nil and LifeStage.allows(appearance:GetGrowthStep())
     updateMenu(ctx, manager, canInvite)
 
     local command = read()
@@ -146,7 +143,7 @@ end
 function M.on_end()
     release()
     UI.context = nil
-    sofaModels = {}
+    furnitureModels = {}
 end
 
 return M

@@ -1,28 +1,76 @@
 # HZoi Gameplay
 
-HZoi Gameplay brings sexual scenes and non-sexual affectionate scenes into inZOI's everyday gameplay. It integrates HZoi and other compatible content packs for [SceneZOI](https://github.com/acepleiades/SceneZOI). Depending on the installed packs, a scene might involve sex or something as simple as resting a Zoi's head on their partner's lap.
+HZoi Gameplay adds invitations and autonomous encounters to inZOI. Click a
+supported bed, a sofa or a clear spot on the ground and choose **Have sex here**.
+Pick one partner. The Zois use the game's **Set the Mood** rules, so the answer
+depends on their relationship and mood. If the partner accepts, both Zois walk
+to the chosen spot before the scene begins.
 
-## Iteration 1 development build
+**[OStim/SceneZOI Community Discord](https://discord.gg/RECvhVaRcU)** ·
+**[Encounter design](docs/encounter-design.md)**
 
-Click a supported queen bed, sofa, or walkable ground and choose **Have sex
-here**. Select one partner in the game's picker. The pair uses inZOI's
-**Set the Mood** rules to accept or refuse. After acceptance, both Zois walk
-to the selected place before SceneZOI starts.
+## Install
 
-The development build requires SceneZOI with the four-stage autonomous API,
-the native partner picker, and background sessions, plus HZoi. See the
-[invitation and testing guide](prototype/queen-bed/README.md) for supported
-venues, scene outcomes and diagnostics. The [encounter design](docs/encounter-design.md)
-records the remaining design choices.
+Download the Windows ZIP for HZoi Gameplay and install these dependencies.
 
-The [inZOI romance reference](docs/inzoi-romance.md) documents the vanilla relationship tiers, courtship, marriage, having children, and cheating detection. The [interaction catalog](docs/inzoi-romance-interactions.csv) lists the game's romance-related interactions and their conditions.
+- **SceneZOI 1.7.0 or later.** HZoi Gameplay 1.0.0 uses the native partner picker
+  with candidate filtering, four-stage Auto mode with per-Zoi goals, final
+  placement checks, background sessions and localized ending reasons.
+  [SceneZOI 1.7.0 download](https://github.com/acepleiades/SceneZOI/releases/tag/v1.7.0)
+- **HZoi 1.4.1.** Install the player animation pack. It supplies routes for
+  supported beds, sofas and standing scenes. Other compatible packs can add
+  choices. [HZoi downloads](https://www.patreon.com/skyrimaceanimations/posts/hzoi-public-174452155)
+- **Ace Animations Library (AAL) is optional.** Compatible AAL animations add
+  variety when enabled. HZoi's own scenes can play without it.
 
-## Gameplay direction
+Close inZOI and extract the three packages to `Documents\inZOI\Mods`. When
+updating, replace each old mod folder with the matching new one. Check that the
+gameplay package has this layout:
 
-The goal is to connect scenes to the systems Zois already use to express and develop relationships:
+```text
+Documents\inZOI\Mods\HZoiGameplayPrototype_4BD2AC16\mod_manifest.json
+```
 
-- **Interactions and autonomy.** A player can invite another Zoi into a scene, and Zois can initiate scenes through their own social behavior.
-- **Urges and moods.** A Zoi's current mood or urges can influence what they seek out or how they respond.
-- **Relationships and memories.** An encounter can affect the relationship or leave a memory that matters in later interactions.
+Enable **SceneZOI**, **HZoi** and **HZoi Gameplay** in the game's mod menu, then
+load your household. The game displays the mod as **HZoi Gameplay**.
 
-HZoi Gameplay will decide when to offer or request a scene and how the encounter affects gameplay. SceneZOI will handle playback through its public API. HZoi and other compatible packs supply the animations and scene data. [HZoi Reference](https://github.com/acepleiades/HZoi-Reference) provides public examples of how that content is authored.
+## Play
+
+- **Invite a partner.** Choose **Have sex here**, select a partner and click
+  **Invite**. A refusal ends the invitation. An acceptance sends both Zois to
+  the spot. The scene can still be called off if the spot becomes unavailable
+  or someone nearby can see the pair and they decide to wait for privacy.
+- **Let Zois initiate.** With autonomy enabled for both Zois, an NPC with a
+  relevant Urge can invite their chosen partner and look for a private venue.
+  You can mark a suitable room with **Toggle HZoi private room**. The mark lasts
+  for the current loaded game. [How to mark a room](prototype/queen-bed/private-room-marks.md)
+- **Control playback.** Auto mode progresses through the encounter. Turn Auto
+  off to choose from the available scenes. **Exit** restores both Zois to
+  normal gameplay. Their outcome can affect Romance, needs and moodlets.
+- **Getting caught.** Zois react to what they can see. Familiarity and
+  personality affect whether the participants stop. An official partner who
+  catches the encounter can trigger inZOI's cheating reactions.
+
+This version supports two-Zoi invitations. Which pairs and venues can play
+depends on the scenes and goals supplied by the installed packs.
+
+## Play in another language
+
+HZoi Gameplay supports all 15 inZOI languages. Menus and session-ending reasons
+follow the selected language. For translated overhead speech bubbles and
+moodlet tooltips, select your language's **modded** entry in Game Options.
+English works with the standard English entry.
+
+## Report a problem
+
+Include the versions of inZOI, HZoi Gameplay, SceneZOI and your animation packs.
+Say where you clicked, which two Zois you chose, and how far the invitation got.
+The `[HZoiGameplay]` entries in the inZOI Lua log and the SceneZOI runtime folder
+can help when playback fails. [SceneZOI logs and support](https://github.com/acepleiades/SceneZOI/blob/main/docs/playing.md#report-a-problem)
+
+## Develop
+
+[Build and verify a package](docs/release-build.md) ·
+[Invitation tests](prototype/queen-bed/README.md) ·
+[inZOI romance reference](docs/inzoi-romance.md) ·
+[HZoi content pack examples](https://github.com/acepleiades/HZoi-Reference)

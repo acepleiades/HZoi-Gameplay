@@ -100,6 +100,13 @@ assert(#ranked == 4 and ranked[1].kind == "bed.queen" and ranked[1].furniture_id
 assert(ranked[2].kind == "sofa.pair" and ranked[2].furniture_pair_id == "left")
 assert(ranked[3].furniture_pair_id == "right" and ranked[4].kind == "ground" and roomAt(ranked[4].point) == 4)
 assert(assigned[1] == 1 and assigned[2] == 2, "Check each Zoi's permissions and path")
+for _, row in ipairs(furniture) do
+    if row.furniture_id == "20" then row.profile.kind = "bed.single" end
+end
+assert(rank()[1].kind == "bed.single", "A compatible single bed must also rank ahead of ground.")
+for _, row in ipairs(furniture) do
+    if row.furniture_id == "20" then row.profile.kind = "bed.queen" end
+end
 
 assert(Venue.claim("first", ranked[1], initiator, partner))
 local claimed, reason = Venue.claim("second", ranked[1], secondInitiator, secondPartner)
@@ -112,8 +119,8 @@ assert(not claimed and reason == "room_claimed", "One autonomous pair claims a r
 assert(Venue.recheck("first", initiator, partner))
 assert(not Venue.recheck("first", partner, bystander), "Only the selected participants can recheck")
 bystanderLocation.X = 2100
-local vacant, reason = Venue.recheck("first", initiator, partner)
-assert(not vacant and reason == "room_occupied" and Venue.recheck("second", secondInitiator, secondPartner))
+assert(Venue.recheck("first", initiator, partner) and Venue.recheck("second", secondInitiator, secondPartner),
+    "A new observer is evaluated by sight on arrival, independently of other attempts")
 
 Venue.release("first")
 Venue.release("second")

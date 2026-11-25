@@ -1,8 +1,8 @@
-# Invitations at queen beds, sofas, and on the ground
+# Invitations at beds, sofas, and on the ground
 
-With a Zoi selected, click a supported queen bed, sofa, or a walkable spot on the ground and choose **Have sex here**.
-The same picker as SceneZOI debug start opens. Keep your controlled Zoi
-selected, choose one partner, then click **Invite**. The game uses the social
+With a Zoi selected, click a supported bed, sofa, or a walkable spot on the ground and choose **Have sex here**.
+The same picker as SceneZOI debug start opens. Choose one partner and click
+**Invite**. Your controlled Zoi is included automatically. The game uses the social
 conditions and odds from **Set the Mood Next to Bed**. If the pair can talk
 but has less than 30 Romance and isn't an official couple, the partner
 refuses through the native conversation. If the answer is yes, both Zois walk to the venue
@@ -37,8 +37,12 @@ and a queen bed with one side against a wall.
 3. On acceptance, verify both Zois reach separate points on the same floor
    beside the selected bed. At the wall-side bed, observe where each Zoi
    approaches. Exit SceneZOI and check that both can move again.
-4. Repeat both outcomes using the other bed. Check that a single bed and
-   ordinary furniture have no HZoi menu option.
+4. Repeat both outcomes on the other queen bed and a supported single bed.
+   An ordinary object should have no HZoi option. A bed without a compatible
+   SceneZOI route should report the problem before bringing anyone over.
+5. Try a same-sex pair with a pack that supports both goals and again without
+   it. On a supported bed, try with and without Ace Animations Library (AAL).
+   Without AAL, HZoi’s own bed scenes should still play.
 
 For sofas, use a three-seat sofa or a four-seat corner sofa.
 
@@ -64,7 +68,7 @@ while the first Zoi is already there.
 
 [HZoiGameplay] records the participants, chosen furniture and sofa pair, outcome and arrival
 points in the inZOI Lua log. Look for `refused` or `accepted`. On acceptance,
-`both_arrived` should precede `scene_started`. `scene_ended` records SceneZOI's
+`both_arrived` should precede `session_started`. `session_ended` records SceneZOI's
 cleanup result. Each verified Excitement completion is recorded once by
 session, Zoi and completion index. If a notification is missed, the add-on
 checks the original start request and reads SceneZOI's retained result.
@@ -75,9 +79,12 @@ preserve verified completions without applying a final moodlet.
 
 ## Implementation
 
-The menu action uses SceneZOI's built-in queen-bed model IDs and native sofa
-tags and categories. It calls SceneZOI's `open_partner_picker` operation. The sim checks the chosen entity against SceneZOI's live furniture
-list and validates the requested encounter before queuing the invitation. For
+The menu recognizes native bed and sofa tags and categories, including
+mod-added furniture. SceneZOI's live furniture list decides whether the
+clicked object has a supported profile. The native partner picker checks the
+same life-stage eligibility as invitations and Urges when a partner is chosen.
+Content and furniture checks run before the invitation. The placement distance
+check runs after both Zois arrive. For
 sofas, it queries availability again with the two chosen participants and
 passes the same `furniture_pair_id` to preflight, arrival validation, and
 playback. The ground option is appended to the game's Click selection set.
@@ -102,21 +109,42 @@ participate. The game uses its normal invitation rules, so an Urge still
 allows the partner to refuse. HZoi searches [private rooms](npc-venues.md)
 and checks that both Zois can reach the same venue without a bystander using
 the room. Each pair keeps its own room and SceneZOI request. If someone
-enters during the approach, the room is released and the Urge stays pending.
-The controlled Zoi carries the message to SceneZOI and can keep playing.
+enters during the approach, the arrival privacy check decides whether the
+pair can start. If the attempt is canceled, HZoi releases the room and keeps
+the Urge pending. A background encounter leaves the controlled Zoi available.
 
 ## Build
 
-Use the `HZoiGameplayPrototype_4BD2AC16` staging source. Copy
-`sdk/lua/SceneZOIAddon` from the SceneZOI checkout into `lua/B2/`, and copy its `Json.lua`
-into `lua/B1/SceneZOIAddon/` before running ModKit PackageUGC. The SceneZOI
-SDK keeps its GPLv3 license. Include that license with the packaged SDK. Install SceneZOI with the four-stage API and native
-partner-picker operation, plus HZoi, alongside the development package.
+Use the [release build instructions](../../docs/release-build.md) to stage the
+matching SceneZOI SDK, cook the ModKit package, and verify the resulting ZIP.
+See [installation](../../README.md#install) for the SceneZOI and HZoi
+dependencies.
+
+Run `python prepare-life-stage.py <staged-mod-directory>` before packaging.
+Edit `lua/B2/LifeStageEligibility.lua` to change which life stages are
+eligible. The preparation step copies that policy to the menu runtime and
+calculates the native interaction flags from it.
 
 Cook `Content/String/mod_ST_Buff_4bd2ac16.uasset` with the mod. The included
 `moodlet-text.csv` is the authoring source for the English moodlet names and
-descriptions. To change those strings, update the CSV and reimport it into
-the native StringTable asset before packaging.
+descriptions. Also cook `Content/String/mod_ST_SpeechBubble_4bd2ac16.uasset`
+for the trait reactions and privacy complaints. Its English source lines are
+in `speech-text.csv`. To change either set of strings, update its CSV and
+reimport it into the corresponding native StringTable asset before packaging.
+
+Translations live in [localization](localization/), one catalog per inZOI
+language. Update the English source and the other catalogs together. Keep
+placeholders such as `{partner}`, `{first}` and `{second}`; translators can put
+the names in the order that reads naturally. Run
+`python prepare-localization.py <staged-mod-directory>` before packaging and
+`python prepare-localization.py --check` to check the committed generated files.
+
+The encounter menus, notifications and ending reasons follow the selected
+game language. For native moodlet tooltips and speech bubbles, select the
+modded entry for your language in Game Options so inZOI loads the mod's native
+translations. English is present in the source StringTables. The PO files use
+only HZoi Gameplay’s own text keys. Base-game dialogue and the picker’s built-in
+controls keep the translations shipped with inZOI and SceneZOI.
 
 The Lua smoke test runs with that B2 source directory on Lua's module search
 path. It simulates both answers, an obstruction on one side, cancellation,
@@ -132,13 +160,18 @@ forwards the clicked furniture and opens a single picker request.
 ## Witnesses
 
 HZoi watches nearby Zois while a directed intimate action plays. A Zoi must
-have a clear line from their eyes to both participants. A closed wall or an
-unavailable trace leaves the encounter unwitnessed. Ordinary NPC bystanders gain the short Unexpected Company moodlet the first
-time they see an encounter. An idle bystander can also walk away when a
-nearby reachable spot is available.
+have a clear line from the viewpoint to both Zois in a directed intimate action. A closed wall or an
+unavailable trace leaves the encounter unwitnessed. An ordinary first-time witness can gain **Unexpected Company**. The highest
+Romance score from the witness toward any participant sets the speech pool
+and whether the witness prefers to leave. At 60 or higher, keep the witness's
+current action. Younger witnesses below the Teenager stage react without an
+overhead line. An idle NPC who prefers to leave can take a nearby reachable
+walk-away route.
 
-One vote out of two keeps the scene going. Two stop votes request SceneZOI
-Exit. An established partner's sighting is recorded with all three Zoi IDs
+More than half of the roster must vote to stop over the same sighting. In
+iteration 1, that requires both participants. For ordinary witnesses, Romance
+of at least 30 toward a participant suppresses that participant's stop vote
+and negative sighting reactions. HZoi requests SceneZOI Exit on a majority. An established partner's sighting is recorded with all three Zoi IDs
 even when the vote does not stop playback. Once SceneZOI restores the
 participants, HZoi passes the three recorded roles to inZOI's native affair
 reaction. The game controls the dialogue and relationship effects.
@@ -148,7 +181,10 @@ moodlet. If traits compete for the same slot, the more specific rule wins.
 Ties prefer core personality, then characteristics, then aptitudes.
 Charmer adds one point to a positive completion moodlet and keeps its title
 and duration. A Rulebreaker or a Flirt votes to continue if someone sees the
-encounter, including an established partner.
+encounter, including an established partner. On an eligible sighting, a Perfectionist can ask the witness to knock next
+time and a Recluse can ask for privacy. Both lines use the native overhead
+bubble. Check the [arrival and witness rules](../../docs/encounter-design.md#arrival-privacy-check)
+for the score thresholds and the full test matrix.
 
 ## Iteration 1 test evidence
 
@@ -159,5 +195,23 @@ At Normal speed, an NPC Urge selected Jaewoo and Xinyu while Seoyun carried on w
 The fresh development package showed both HZoi floor actions. Marking a room and removing its mark from a different point in the same room each showed the expected toast. The scheduler also found a standing venue after the queen bed was temporarily removed, chose separate floor points, and completed a background scene after both Zois arrived.
 
 In a ground invitation, an established partner saw both participants. HZoi stopped the scene, confirmed restoration, then passed the three identities to inZOI. The expected native confrontation actions played for all three Zois.
+
+**Native trait checks.** A test-only probe changed traits on a Zoi in a disposable
+save and passed controlled outcome facts through the gameplay code. All 48
+trait, characteristic, and aptitude cases produced the expected native moodlet
+and stop vote. The probe checks how the game applies those decisions. In a separate
+single-bed invitation, a late bystander triggered the Perfectionist dialogue
+command and two stop votes. The game applied Too Many Eyes and Kept It
+Together to the participants and Unexpected Company to the bystander.
+Both participants were restored. Neither reached their goal, so Romance
+stayed at its starting score in both directions.
+
+**Relationship checks.** An unmarried pair's native refusal completed before
+either Zoi walked to the bed. HZoi requested −5 Romance and inZOI applied
+about −5.3 in both directions. In a separate single-bed run both goals
+completed and HZoi requested +10 after cleanup. InZOI's own modifiers
+produced different gains in the two directions. That run also selected the
+optional AAL scene. Exiting a separate run after just one goal completed
+requested +5 after both Zois were restored.
 
 **Automated coverage.** The Lua fixtures exercise exact room and floor selection, marks resetting on unload, seat and room contention, door permissions, revalidation at arrival, overlap retry, duplicate completions, and recovery from missed SceneZOI notifications. The overlap regression recreates displacement after one Zoi already reached the bed.

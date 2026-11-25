@@ -1,8 +1,5 @@
+local FurnitureKind = require("VenueFurnitureKind")
 local M = {}
-
-local function furnitureKind(kind)
-    return kind == "bed.queen" or kind == "sofa.pair"
-end
 
 local function privateKind(kind)
     return kind == "bedroom" or kind == "private"
@@ -14,7 +11,7 @@ function M.candidates(furniture, anchors, inspect, sameRoom)
     local accepted = {}
     local supported = {}
     for _, option in ipairs(furniture) do
-        if furnitureKind(option.kind) and option.point then
+        if FurnitureKind.supported(option.kind) and option.point then
             supported[#supported + 1] = option
             if option.available == true and (option.kind ~= "sofa.pair" or option.furniture_pair_id) then
                 accepted[#accepted + 1] = option

@@ -8,7 +8,6 @@
       "Query": "InteractionBag",
       "Value": {
         "Id": "HZoiGameplay_Invite",
-        "AgingConditionFlags": 480,
         "bUniqueInQueue": true,
         "DisplayInfo": {
           "DisplayCategoryTextId": "",
@@ -231,8 +230,28 @@
               }
             ]
           }
-        ],
-        "AgingConditionFlags": 508
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessWalk",
+        "AgingConditionFlags": 508,
+        "InteractionSequence": [
+          {
+            "Probability": 1.0,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "ClickMove",
+                "Label": "A"
+              }
+            ]
+          }
+        ]
       },
       "Enabled": true
     },
@@ -252,8 +271,7 @@
               }
             ]
           }
-        ],
-        "AgingConditionFlags": 508
+        ]
       },
       "Enabled": true
     },
@@ -262,7 +280,6 @@
       "Query": "InteractionBag",
       "Enabled": true,
       "Value": {
-        "AgingConditionFlags": 480,
         "InteractionBagCategory": "Click",
         "PostureGroupId": "AllGroup",
         "bUniqueInQueue": true,
@@ -293,7 +310,6 @@
       "Query": "InteractionBag",
       "Enabled": true,
       "Value": {
-        "AgingConditionFlags": 480,
         "InteractionBagCategory": "Click",
         "PostureGroupId": "AllGroup",
         "bUniqueInQueue": true,

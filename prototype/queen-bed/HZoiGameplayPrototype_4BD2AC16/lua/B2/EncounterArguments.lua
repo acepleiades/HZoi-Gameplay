@@ -19,7 +19,7 @@ local function matchesInOrder(first, second)
     return matches
 end
 
-local function makeEncounterArguments(actions, initiatorId, partnerId, furnitureId, furniturePairId, bothMale)
+local function makeEncounterArguments(actions, initiatorId, participantIds, furnitureId, furniturePairId, allowAnalIntercourse)
     local opening, intercourse, entry, excluded, intercourseOnly = {}, {}, {}, {}, {}
     for id, action in pairs(actions) do
         local activity = action.sexual_activity
@@ -27,7 +27,7 @@ local function makeEncounterArguments(actions, initiatorId, partnerId, furniture
             activity == "non_penetrative" or activity == "penetrative_non_coital"
         )
         local isIntercourse = (id == "vaginal_sex" and activity == "coital")
-            or (bothMale and id == "anal_sex" and activity == "penetrative_non_coital")
+            or (allowAnalIntercourse and id == "anal_sex" and activity == "penetrative_non_coital")
         if isOpening then opening[#opening + 1] = id end
         if isIntercourse then intercourse[#intercourse + 1] = id end
         if isOpening or isIntercourse then entry[#entry + 1] = id end
@@ -51,16 +51,17 @@ local function makeEncounterArguments(actions, initiatorId, partnerId, furniture
     local intercourseMatch = #intercourse > 0 and {any_actions = intercourse} or nil
     local openingFirst = matchesInOrder(openingMatch, intercourseMatch)
     local intercourseFirst = matchesInOrder(intercourseMatch, openingMatch)
+    local goals = {}
+    for _, id in ipairs(participantIds) do
+        goals[#goals + 1] = {participant_id = id, task_id = "excitement", completions = 1}
+    end
     return {
         initiator = initiatorId,
-        participants = {initiatorId, partnerId},
+        participants = participantIds,
         furniture_id = furnitureId,
         furniture_pair_id = furniturePairId,
         search = {any_actions = entry},
-        goals = {
-            {participant_id = initiatorId, task_id = "excitement", completions = 1},
-            {participant_id = partnerId, task_id = "excitement", completions = 1},
-        },
+        goals = goals,
         end_policy = {type = "goals"},
         stages = 4,
         stage_progress = "fastest",

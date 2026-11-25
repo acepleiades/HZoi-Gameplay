@@ -1,12 +1,16 @@
 local Client = require("SceneZOIAddon.Client")
 local Json = require("SceneZOIAddon.Json")
 local makeArguments = require("EncounterArguments")
+local LifeStage = require("LifeStageEligibility")
+local FurnitureKind = require("VenueFurnitureKind")
 local Sofa = require("SofaArrival")
 local Ground = require("GroundArrival")
 local Witness = require("EncounterWitness")
 local WitnessNative = require("WitnessNative")
+local ArrivalPrivacy = require("ArrivalPrivacy")
 local Ledger = require("EncounterLedger")
 local Consequences = require("EncounterConsequences")
+local Relationship = require("EncounterRelationship")
 local NpcVenue = require("NpcVenue")
 local Urges = require("OwnedEncounterUrges")
 local Initiative = require("NpcInitiative")
@@ -27,11 +31,16 @@ local FEATURES = {
     "partner_picker", "autonomous_scenes", "autonomous_stages", "autonomous_stage_progress",
     "autonomous_stage_priorities", "autonomous_auto_restrictions", "autonomous_joint_goal_routes",
     "autonomous_post_completion_stay", "autonomous_manual_completion_exit", "session_results",
+    "preflight_start_distance", "partner_picker_candidate_filter",
 }
 local client, pollNpc
 local attempts, participants = {}, {}
 local OBSERVATION_INTERVAL = 8
-local PRIVACY_INTERVAL = 1
+local VENUE_CHECK_INTERVAL = 1
+local PICKER_TIMEOUT_SECONDS = 300
+local START_CANCEL_GRACE_SECONDS = 20
+local ARRIVAL_PRIVACY_RETRIES = 3
+local ARRIVAL_PRIVACY_REPLY_SECONDS = 2
 local subscriptions = {}
 local groundSerial, npcSerial = 0, 0
 local groundClick, beginAttempt, guarded
@@ -114,15 +123,51 @@ local function cancel(person, bag)
     end
 end
 
+local function cancelDialogue(who, target, bags)
+    local person = actor(who)
+    if not person then return end
+    local ok, problem = pcall(function()
+        local actions = interaction(person)
+        local matching = {}
+        for _, row in ipairs(actions.InteractionQueue or {}) do
+            if bags[tostring(row.InteractionBagId)] and id(row.PickedEntityId) == target then
+                matching[row.InteractionQueueId] = true
+            end
+        end
+        local current = actions:GetCurrentInteractionQueueId()
+        if current and current >= 0 and bags[tostring(actions:GetCurrentInteractionBagId())]
+            and id(actions:GetCurrentInteractionTargetEntityId()) == target then
+            matching[current] = true
+        end
+        for queueId in pairs(matching) do
+            actions:TryCancelInteraction(queueId, inzoi.EB1InteractionCancelReason.User,
+                "HZoi Gameplay invitation stopped")
+        end
+    end)
+    if not ok then log(nil, "dialogue_cleanup_failed", {participant = who, reason = tostring(problem)}) end
+end
+
 local function fail(attempt, reason, notice)
     if not attempt then return end
     local record = attempt.encounter
+    local incidents = record and record.witnessPolicy and record.witnessPolicy.incidents
     log(attempt, "failed", {phase = attempt.phase, reason = tostring(reason),
-        session = record and record.session_id, completions = record and record.completions})
+        session = record and record.session_id, completions = record and record.completions,
+        witness_incidents = incidents and #incidents > 0 and incidents or nil})
     -- Drop routing first. Native cancellation can publish another event immediately.
     release(attempt)
     if attempt.phase == "conversation" and attempt.invitationQueued then
         cancel(actor(attempt.initiator), INVITE)
+        if attempt.conversationStarted then
+            local requestBags, feedbackBags = {}, {}
+            for branch, bag in pairs(DIALOGUE) do
+                if not attempt.branch or attempt.branch == branch then
+                    requestBags[bag], feedbackBags[bag .. "_Feedback"] = true, true
+                end
+            end
+            cancelDialogue(attempt.initiator, attempt.partner, requestBags)
+            cancelDialogue(attempt.partner, attempt.initiator, feedbackBags)
+        end
     elseif attempt.phase == "walking" then
         for who, walk in pairs(attempt.walks) do
             if walk.bag and not walk.finished then cancel(actor(who), walk.bag) end
@@ -134,7 +179,12 @@ local function fail(attempt, reason, notice)
     elseif attempt.ground and notice == "walk_failed" then
         notice = "ground_walk_failed"
     end
-    if not attempt.npc then notify(attempt.initiator, notice or "failed") end
+    if not attempt.npc then
+        notify(attempt.initiator, notice or "failed")
+    elseif notice == "arrival_privacy_denied" then
+        local controlled = controlledId()
+        if controlled == attempt.initiator or controlled == attempt.partner then notify(controlled, notice) end
+    end
 end
 
 local function requestId(attempt, step)
@@ -145,25 +195,26 @@ local function request(attempt, step, operation, data)
     client:request(carrier(), requestId(attempt, step), operation, data)
 end
 
+local function cancelPendingStart(attempt, reason, notice)
+    attempt.startCancellation = {reason = reason, notice = notice}
+    attempt.deadline = os.time() + START_CANCEL_GRACE_SECONDS
+    attempt.nextObservation = os.time()
+    request(attempt, "cancel-start", "cancel_start", {start_request_id = attempt.encounter.request_id})
+end
+
 local function validation(attempt, step)
     local args = {start_mode = "start_autonomous_scene"}
     for key, value in pairs(attempt.args) do args[key] = value end
-    -- Before asking, the pair may still be far from the venue. The real start
-    -- uses SceneZOI's normal distance limit after both walk actions finish.
+    -- The two walks have not started yet. Keep the live furniture and joint
+    -- goal checks, and defer the proximity check until both walks finish.
     if step == "invitation" or step:match("^venue%-") then
-        args.placement = {max_start_distance_m = 100, exit = "restore"}
+        args.check_start_distance = false
     end
     request(attempt, step, "validate_start", args)
 end
 
-local function eligible(person)
-    local stage = person:GetGrowthStep()
-    local steps = inzoi.EB1GrowthStep
-    return stage == steps.Youth or stage == steps.Adult or stage == steps.Old or stage == steps.Elderly
-end
-
 local function idleForNpc(person)
-    if not person or not eligible(person) or person:IsAutonomyEnable() ~= true then return false end
+    if not LifeStage.allowsCharacter(person) or person:IsAutonomyEnable() ~= true then return false end
     local actions = interaction(person)
     return actions and actions:IsQueueEmpty() == true and actions:IsPlayingInteraction() == false
 end
@@ -176,7 +227,7 @@ local function confirmPair(attempt)
         assert(controlled == attempt.initiator, "Controlled Zoi changed")
     end
     local initiator, partner = actor(attempt.initiator), actor(attempt.partner)
-    assert(initiator and partner and eligible(initiator) and eligible(partner), "Selected pair is unavailable")
+    assert(LifeStage.allowsCharacter(initiator) and LifeStage.allowsCharacter(partner), "Selected pair is unavailable")
     if attempt.npc then
         assert(Initiative.canAct(initiator) and Initiative.canAct(partner), "The NPC pair no longer has autonomy enabled")
         local pending = Urges.pending(initiator)
@@ -230,10 +281,6 @@ local function roomReady(attempt, initiator, partner, points)
     local available, reason = NpcVenue.recheck(attempt.nonce, initiator, partner, points)
     if not available then
         fail(attempt, "Private venue became unavailable: " .. tostring(reason), reason)
-        if reason == "room_occupied" then
-            local ok, problem = pcall(WitnessNative.privacyComplaint, initiator, partner)
-            log(attempt, "privacy_feedback", {ok = ok, reason = not ok and tostring(problem) or nil})
-        end
     end
     return available
 end
@@ -336,7 +383,7 @@ local function retryWalk(attempt)
     end
     if attempt.npc then
         if not roomReady(attempt, initiator, partner, {first.point, second.point}) then return end
-    elseif attempt.kind == "bed.queen" then
+    elseif FurnitureKind.isBed(attempt.kind) then
         walk.point = alternativeBedPoint(walk.point, other.point, otherPerson:GetLocation(), furniture, floor)
     end
     if not floor:IsOnWalkableGrid(walk.point) then
@@ -418,6 +465,25 @@ local function consumeGroundClick(who)
         UE.FVector(point.X, point.Y, point.Z))
 end
 
+local function deliverRelationship(attempt, name, ...)
+    local ok, effect = pcall(Relationship[name], attempt, ...)
+    if not ok then
+        log(attempt, "relationship_effect_failed", {handler = name, reason = tostring(effect)})
+    elseif effect then
+        log(attempt, "relationship_effect", effect)
+    end
+end
+
+local function finishRefusal(attempt)
+    local first, second = attempt.initiator, attempt.partner
+    if attempt.branch ~= "refuse" or not attempt.conversationDispatched
+        or attempt.dialogue[first] ~= "finished" or attempt.dialogue[second] ~= "finished" then return end
+    -- Settle the completed native response before subsequent eligibility changes can cancel it.
+    deliverRelationship(attempt, "onRefusal", actor(first), actor(second))
+    log(attempt, "refused")
+    release(attempt)
+end
+
 local function onAttemptAction(attempt, kind, event, who, target, bag)
     local initiator, partner = attempt.initiator, attempt.partner
     if attempt.phase == "conversation" and who == initiator and target == partner and bag == INVITE then
@@ -426,7 +492,10 @@ local function onAttemptAction(attempt, kind, event, who, target, bag)
             log(attempt, "conversation_started")
         elseif kind == "finished" then
             -- RequestCoop finishes before either Zoi starts talking.
-            if attempt.conversationStarted then attempt.conversationDispatched = true end
+            if attempt.conversationStarted then
+                attempt.conversationDispatched = true
+                finishRefusal(attempt)
+            end
         else
             fail(attempt, "Invitation " .. kind .. ": " .. tostring(event.reason))
         end
@@ -450,6 +519,7 @@ local function onAttemptAction(attempt, kind, event, who, target, bag)
             if kind == "finished" then
                 attempt.dialogue[who] = "finished"
                 log(attempt, "dialogue_finished", {participant = who, branch = branch})
+                finishRefusal(attempt)
             else
                 fail(attempt, "Conversation " .. kind .. " for " .. who .. ": " .. tostring(event.reason))
             end
@@ -537,8 +607,21 @@ local function selectSofaSeats(attempt, rows)
 end
 
 local function openPicker(attempt)
-    attempt.phase = "picking"
-    request(attempt, "picker", "open_partner_picker")
+    local candidates = Json.array({})
+    local actors = manager()
+    for _, current in pairs(actors:GetAllEntities(inzoi.EB2EntityType.Character)) do
+        local nativeId = current:GetEntityId()
+        if id(nativeId) ~= attempt.initiator and current:IsSpawned() then
+            local candidate = actors:FindCharacter(nativeId)
+            if LifeStage.allowsCharacter(candidate) then candidates[#candidates + 1] = id(nativeId) end
+        end
+    end
+    if #candidates == 0 then
+        fail(attempt, "No eligible partners are loaded", "partner_ineligible")
+        return
+    end
+    attempt.phase, attempt.deadline = "picking", os.time() + PICKER_TIMEOUT_SECONDS
+    request(attempt, "picker", "open_partner_picker", {candidate_ids = candidates})
 end
 
 local function recoverDisplacedZoi(attempt, who, walk, other, initiator, partner)
@@ -621,20 +704,23 @@ local function observeWitnesses(attempt, callback, ...)
     end
 end
 
-local function onOrdinarySighting(attempt, who)
-    if who == controlledId() or participants[who] then return end
-    local witness = actor(who)
-    local buffs = witness and witness:GetComponent(inzoi.EB2ComponentType.Buff)
-    if buffs then
-        buffs:AddBuff("HZoiGameplay_SawEncounter")
+local function onOrdinarySighting(attempt, who, seenParticipant, shouldWalkAway)
+    local witness, nearbyParticipant = actor(who), actor(seenParticipant)
+    local ok, requested = pcall(WitnessNative.addMoodlet, witness, "HZoiGameplay_SawEncounter", nearbyParticipant)
+    if not ok then
+        log(attempt, "witness_moodlet_failed", {witness = who, reason = tostring(requested)})
+    elseif requested then
         log(attempt, "witness_surprised", {witness = who})
     end
-    local result = WitnessNative.walkAway(witness, actor(attempt.initiator))
+    if not shouldWalkAway or who == controlledId() or participants[who] then return end
+    local result = WitnessNative.walkAway(witness, nearbyParticipant)
     if result then log(attempt, "witness_walk", {witness = who, enqueue_result = tostring(result)}) end
 end
 
-local function stopForWitness(attempt, reason)
-    request(attempt, "witness-stop", "request_stop", {session_id = attempt.encounter.session_id, reason = reason})
+local function stopForWitness(attempt, reason, explanation)
+    local args = {session_id = attempt.encounter.session_id, reason = reason}
+    if attempt.stopDisplayReason then args.display_reason = explanation end
+    request(attempt, "witness-stop", "request_stop", args)
 end
 
 local function completed(attempt, record, who, task, index)
@@ -648,24 +734,27 @@ local function completed(attempt, record, who, task, index)
     end
 end
 
-local function observeScene(attempt, snapshot)
+local function observeSession(attempt, snapshot)
     local record = attempt.encounter
     local wasStarted = record.started
     local observed, countsComplete = Ledger.observe(record, snapshot, function(...) completed(attempt, ...) end)
     if not observed then return false end
     if record.started and not wasStarted then
-        log(attempt, "scene_started", {scene = snapshot.node_id, session = record.session_id})
+        log(attempt, "session_started", {scene = snapshot.node_id, session = record.session_id})
     end
     if snapshot.phase == "ended" or snapshot.name == "session_ended" then
         local result = Ledger.finish(record, snapshot, countsComplete)
-        log(attempt, "scene_ended", {session = record.session_id, outcome = result.plan and result.plan.outcome,
+        log(attempt, "session_ended", {session = record.session_id, outcome = result.plan and result.plan.outcome,
             reason = result.stop_reason, cleanup = result.cleanup_code, restored = result.cleanup_complete,
             completions = record.completions, task_counts_complete = countsComplete,
             outcome_eligible = result.apply_outcome})
         observeWitnesses(attempt, Witness.finish, record, result, function(who)
             if not participants[who] or participants[who] == attempt then return actor(who) end
         end, function(...) log(attempt, ...) end)
-        if result.apply_outcome then deliverConsequence(attempt, "onResult", record, result) end
+        if result.apply_outcome then
+            deliverRelationship(attempt, "onResult", record, result, actor(attempt.initiator), actor(attempt.partner))
+            deliverConsequence(attempt, "onResult", record, result)
+        end
         release(attempt)
     elseif snapshot.phase == "exiting" then
         attempt.phase = "exiting"
@@ -697,13 +786,15 @@ local function onObservation(attempt, reply)
             return
         end
         attempt.observationFailures = (attempt.observationFailures or 0) + 1
-        if attempt.observationFailures >= 2 then fail(attempt, "Scene outcome unavailable: " .. tostring(reply.code)) end
+        if attempt.observationFailures >= 2 then fail(attempt, "Session outcome unavailable: " .. tostring(reply.code)) end
         return
     end
     attempt.observationFailures = nil
     if operation == "get_request_status" then
         if result.phase == "failed" then
-            fail(attempt, result.code or "start_failed", result.code)
+            local cancellation = attempt.startCancellation
+            fail(attempt, cancellation and cancellation.reason or result.code or "start_failed",
+                cancellation and cancellation.notice or result.code)
         elseif type(result.session_id) == "string" then
             if result.phase == "ended" then
                 attempt.encounter.session_id = result.session_id
@@ -713,15 +804,17 @@ local function onObservation(attempt, reply)
             end
         end
     elseif operation == "get_session" then
-        if not result.session or not observeScene(attempt, result.session) then fail(attempt, "Could not match the current scene") end
-    elseif not result.result or not observeScene(attempt, result.result) then
+        if not result.session or not observeSession(attempt, result.session) then fail(attempt, "Could not match the current session") end
+    elseif not result.result or not observeSession(attempt, result.result) then
         fail(attempt, "No verified ended result for the selected encounter")
     end
 end
 
 local function prepareArguments(attempt, initiator, partner)
     local male = inzoi.EB1GenderType.Male
-    local args, reason = makeArguments(attempt.actionDefinitions, attempt.initiator, attempt.partner, attempt.furniture,
+    -- Iteration 1 uses the native two-Zoi invitation and approach.
+    local roster = {attempt.initiator, attempt.partner}
+    local args, reason = makeArguments(attempt.actionDefinitions, attempt.initiator, roster, attempt.furniture,
         attempt.seats and attempt.seats.id,
         initiator:GetGenderType() == male and partner:GetGenderType() == male)
     if not args then fail(attempt, reason, reason); return false end
@@ -776,7 +869,7 @@ local function ask(attempt, initiator, partner, result)
         -- Keep the preflight's scene and roles so the same Zoi anchors playback
         -- at the clicked or explicitly selected location.
         attempt.args.scene_id, attempt.args.bindings = result.scene_id, result.bindings
-        attempt.groundAnchor = result.bindings.male or attempt.initiator
+        attempt.groundAnchor = assert(result.anchor_participant_id, "SceneZOI did not identify the ground anchor")
     end
     attempt.phase, attempt.deadline = "conversation", os.time() + 90
     local queued, reason = queue(attempt, initiator, partner:GetEntityId(), partner:GetLocation(), INVITE)
@@ -802,7 +895,7 @@ local function considerNpcVenue(attempt, result)
         return
     end
     local candidate = attempt.candidate
-    local actualAnchor = attempt.ground and (result.bindings.male or attempt.initiator)
+    local actualAnchor = attempt.ground and assert(result.anchor_participant_id, "SceneZOI did not identify the ground anchor")
     if actualAnchor and actualAnchor ~= candidate.groundAnchor then
         local points = candidate.arrival_points
         points[1], points[2] = points[2], points[1]
@@ -818,10 +911,109 @@ local function considerNpcVenue(attempt, result)
     ask(attempt, initiator, partner, result)
 end
 
+local function arrivalReady(attempt)
+    local initiator, partner = confirmPair(attempt)
+    if not arrived(attempt) then
+        if attempts[attempt.nonce] == attempt then
+            fail(attempt, "Could not confirm both arrivals", "walk_failed")
+        end
+        return
+    end
+    local points = {attempt.walks[attempt.initiator].point, attempt.walks[attempt.partner].point}
+    if attempt.npc and not roomReady(attempt, initiator, partner, points) then return end
+    local floor = inzoi.getB2Subsystem("FB2PathFindSystem")
+    if not floor or not floor:IsOnWalkableGrid(points[1]) or not floor:IsOnWalkableGrid(points[2]) then
+        fail(attempt, "The arrival points became unavailable", "walk_failed")
+        return
+    end
+    if not furnitureStillThere(attempt) then
+        fail(attempt, "The selected furniture changed during arrival", "furniture_unavailable")
+        return
+    end
+    return initiator, partner
+end
+
+local function startAfterPrivacy(attempt, witnesses)
+    attempt.phase, attempt.deadline = "starting", os.time() + 60
+    attempt.encounter = Ledger.new(requestId(attempt, "start"), client.client_id, attempt, attempt.args.participants)
+    attempt.encounter.arrivalWitnesses = witnesses
+    attempt.observationSerial, attempt.nextObservation = 0, os.time() + OBSERVATION_INTERVAL
+    request(attempt, "start", "start_autonomous_scene", attempt.args)
+end
+
+local function retryPrivacy(attempt, reason, witness)
+    local privacy = attempt.arrivalPrivacy
+    privacy.pending = nil
+    log(attempt, "arrival_privacy_unresolved", {revision = privacy.revision, reason = reason, witness = witness})
+    if privacy.revision >= ARRIVAL_PRIVACY_RETRIES then
+        fail(attempt, "Could not confirm privacy at the venue: " .. reason)
+        return
+    end
+    privacy.next = os.time() + 1
+end
+
+local function requestPrivacy(attempt)
+    if not arrivalReady(attempt) then return end
+    local privacy = attempt.arrivalPrivacy
+    privacy.revision = privacy.revision + 1
+    local token = requestId(attempt, "arrival-privacy-" .. privacy.revision)
+    local owner = carrier()
+    privacy.pending = {token = token, carrier = id(owner:GetEntityId()), expires = os.time() + ARRIVAL_PRIVACY_REPLY_SECONDS}
+    local points = {}
+    for _, who in ipairs(attempt.args.participants) do
+        local point = attempt.walks[who].point
+        points[who] = {x = point.X, y = point.Y, z = point.Z}
+    end
+    local ok, problem = pcall(inzoi.message.send_to_client, owner:GetEntityId(), "HZoiGameplay.WitnessTrace",
+        Json.encode({kind = "arrival", token = token, revision = privacy.revision,
+            participants = attempt.args.participants, points = points}))
+    if not ok then retryPrivacy(attempt, tostring(problem)) end
+end
+
+local function onArrivalPrivacy(attempt, reply, who)
+    local privacy = attempt.arrivalPrivacy
+    local pending = privacy and privacy.pending
+    if not pending or pending.token ~= reply.token or pending.carrier ~= who
+        or reply.revision ~= privacy.revision or os.time() >= pending.expires then return end
+    if reply.diagnostic then
+        retryPrivacy(attempt, tostring(reply.diagnostic))
+        return
+    end
+    local meta = type(reply.observations) == "table" and getmetatable(reply.observations)
+    if not meta or meta.__jsonkind ~= "array" then
+        retryPrivacy(attempt, "observations_invalid")
+        return
+    end
+    local initiator, partner = arrivalReady(attempt)
+    if not initiator then return end
+    local ok, witnesses, reason, witness = pcall(ArrivalPrivacy.evaluate, attempt.args.participants,
+        reply.observations, actor, WitnessNative.relationshipScore)
+    if not ok or witnesses == nil then
+        retryPrivacy(attempt, ok and reason or tostring(witnesses), witness)
+        return
+    end
+    if witnesses == false then
+        log(attempt, "arrival_privacy_denied", {witness = witness})
+        fail(attempt, reason, "arrival_privacy_denied")
+        local firstOk, first = pcall(WitnessNative.privacyComplaint, initiator, partner)
+        local secondOk, second = pcall(WitnessNative.privacyComplaint, partner, initiator)
+        log(attempt, "privacy_feedback", {initiator_ok = firstOk, partner_ok = secondOk,
+            initiator_feedback = tostring(first), partner_feedback = tostring(second)})
+        return
+    end
+    log(attempt, "arrival_privacy_confirmed", {visible = #reply.observations})
+    attempt.arrivalPrivacy = nil
+    startAfterPrivacy(attempt, witnesses)
+end
+
 local function onResponse(attempt, reply)
     local prefix = "encounter." .. attempt.nonce .. "."
     if reply.request_id:sub(1, #prefix) ~= prefix then return end
     local step = reply.request_id:sub(#prefix + 1)
+    if step == "cancel-start" then
+        log(attempt, "start_cancel_reply", {ok = reply.ok, code = reply.code})
+        return
+    end
     if step == "witness-stop" then
         log(attempt, "witness_stop_reply", {ok = reply.ok, code = reply.code})
         return
@@ -844,6 +1036,7 @@ local function onResponse(attempt, reply)
         for _, key in ipairs(FEATURES) do
             if result.features[key] ~= 1 then fail(attempt, "Missing SceneZOI feature " .. key, "update_scenezoi"); return end
         end
+        attempt.stopDisplayReason = result.features.stop_session_display_reason == 1
         if attempt.npc then
             if result.features.background_sessions ~= 1 then
                 fail(attempt, "SceneZOI does not support background sessions", "update_scenezoi")
@@ -865,7 +1058,7 @@ local function onResponse(attempt, reply)
         local selected
         for _, furniture in ipairs(result.furniture) do
             if furniture.furniture_id == attempt.furniture
-                and (furniture.profile.kind == "bed.queen" or furniture.profile.kind == "sofa.pair") then
+                and FurnitureKind.supported(furniture.profile.kind) then
                 selected = furniture
                 break
             end
@@ -873,8 +1066,8 @@ local function onResponse(attempt, reply)
         if not selected then fail(attempt, "Selected object has no supported furniture profile", "unsupported_venue"); return end
         attempt.kind = selected.profile.kind
         -- A sofa pair can be usable if one of its occupants is chosen in the picker.
-        if attempt.kind == "bed.queen" and selected.status == "occupied" then
-            fail(attempt, "Selected queen bed is occupied", "furniture_unavailable")
+        if FurnitureKind.isBed(attempt.kind) and selected.status == "occupied" then
+            fail(attempt, "Selected bed is occupied", "furniture_unavailable")
             return
         end
         openPicker(attempt)
@@ -894,14 +1087,10 @@ local function onResponse(attempt, reply)
         local initiator, partner = confirmPair(attempt)
         ask(attempt, initiator, partner, result)
     elseif step == "arrival" then
-        if not validated(attempt, step, result) then return end
-        if attempt.npc then
-            local initiator, partner = confirmPair(attempt)
-            if not roomReady(attempt, initiator, partner) or not arrived(attempt) then return end
-        end
+        if attempt.phase ~= "arrival" or not validated(attempt, step, result) then return end
         if attempt.ground then
-            if not attempt.npc and not arrived(attempt) then return end
-            if result.scene_id ~= attempt.args.scene_id or not result.bindings then
+            if result.scene_id ~= attempt.args.scene_id or not result.bindings
+                or result.anchor_participant_id ~= attempt.groundAnchor then
                 fail(attempt, "SceneZOI could not confirm the selected ground scene", "no_matching_scenes")
                 return
             end
@@ -911,25 +1100,18 @@ local function onResponse(attempt, reply)
                     return
                 end
             end
-        else
-            confirmPair(attempt)
-        end
-        if not furnitureStillThere(attempt) then
-            fail(attempt, "The selected furniture changed during arrival", "furniture_unavailable")
-            return
         end
         attempt.args.scene_id, attempt.args.bindings = result.scene_id, result.bindings
-        attempt.phase, attempt.deadline = "starting", os.time() + 60
-        attempt.encounter = Ledger.new(requestId(attempt, "start"), client.client_id, attempt)
-        attempt.observationSerial, attempt.nextObservation = 0, os.time() + OBSERVATION_INTERVAL
-        request(attempt, "start", "start_autonomous_scene", attempt.args)
+        attempt.phase, attempt.deadline = "arrival_privacy", os.time() + 12
+        attempt.arrivalPrivacy = {revision = 0}
+        requestPrivacy(attempt)
     elseif step == "start" then
         assert(result.accepted, "SceneZOI did not accept the start")
         log(attempt, "start_accepted", {scene = result.scene_id, stages = result.stages})
     end
 end
 
-local function onSceneEvent(attempt, event)
+local function onSessionEvent(attempt, event)
     local prefix = "encounter." .. attempt.nonce
     if event.name == "partner_picker_finished" and event.request_id == prefix .. ".picker"
         and attempt.phase == "picking" then
@@ -952,18 +1134,20 @@ local function onSceneEvent(attempt, event)
                 request(attempt, "definitions", "get_definitions")
             end
         else
-            fail(attempt, "Partner picker finished: " .. tostring(event.code), "picker_unavailable")
+            local notice = event.code == "partner_ineligible" and event.code or "picker_unavailable"
+            fail(attempt, "Partner picker finished: " .. tostring(event.code), notice)
         end
         return
     end
     if not attempt.encounter or event.request_id ~= attempt.encounter.request_id
         or event.addon_id ~= "hzoi.gameplay" then return end
-    if event.name == "session_start_failed" and not attempt.encounter.session_id then
-        fail(attempt, event.code, event.code)
+    if event.name == "session_start_failed" and not attempt.encounter.started then
+        local cancellation = attempt.startCancellation
+        fail(attempt, cancellation and cancellation.reason or event.code, cancellation and cancellation.notice or event.code)
     elseif event.name == "session_preparing" or event.name == "session_started" or event.name == "task_completed"
         or event.name == "node_entered" or event.name == "node_preparing"
         or event.name == "game_clock_changed" or event.name == "session_ending" or event.name == "session_ended" then
-        observeScene(attempt, event)
+        observeSession(attempt, event)
     end
 end
 
@@ -980,7 +1164,7 @@ function M.on_begin()
     if client then return end
     client = Client.new("hzoi.gameplay", {
         response = function(reply) guarded(forRequest(reply.request_id), onResponse, reply) end,
-        event = function(event) guarded(forRequest(event.request_id), onSceneEvent, event) end,
+        event = function(event) guarded(forRequest(event.request_id), onSessionEvent, event) end,
         instance_changed = function()
             for _, active in pairs(attempts) do guarded(active, fail, "SceneZOI restarted", "update_scenezoi") end
         end,
@@ -1011,7 +1195,7 @@ beginAttempt = function(who, nonce, furniture, ground)
     attempt.furniture, attempt.ground = furniture, ground
     guarded(attempt, function(active)
         local owner = actor(active.initiator)
-        assert(owner and eligible(owner), "The initiator is unavailable")
+        assert(LifeStage.allowsCharacter(owner), "The initiator is unavailable")
         if ground then
             log(attempt, "ground_selected")
             if not Ground.walkable(inzoi.getB2Subsystem("FB2PathFindSystem"), ground) then
@@ -1049,9 +1233,11 @@ function M.on_lua_message(self, component, kind, content)
     if not client then return end
     local who = id(component:GetOwnerEntityId())
     if kind == "HZoiGameplay.WitnessResult" then
-        local decoded, reply = pcall(Json.decode, content, 8192)
+        local decoded, reply = pcall(Json.decode, content, 32768)
         local active = decoded and type(reply) == "table" and forRequest(reply.token)
-        if active and active.phase == "playing" and active.encounter then
+        if active and active.phase == "arrival_privacy" and reply.kind == "arrival" then
+            guarded(active, onArrivalPrivacy, reply, who)
+        elseif active and active.phase == "playing" and active.encounter and reply.kind == nil then
             observeWitnesses(active, Witness.reply, active.encounter, active.actionDefinitions, content,
                 actor, os.time(), function(...) onOrdinarySighting(active, ...) end,
                 function(...) stopForWitness(active, ...) end, function(...) log(active, ...) end)
@@ -1067,13 +1253,34 @@ function M.on_lua_message(self, component, kind, content)
 end
 
 local function tickAttempt(attempt)
+    local now = os.time()
+    local autonomyLost = false
+    if attempt.npc and (not attempt.encounter or attempt.phase == "starting")
+        and now >= (attempt.nextAutonomyCheck or 0) then
+        attempt.nextAutonomyCheck = now + VENUE_CHECK_INTERVAL
+        local first, second = actor(attempt.initiator), actor(attempt.partner)
+        autonomyLost = not (first and second and Initiative.canAct(first) and Initiative.canAct(second))
+        if autonomyLost and not attempt.encounter then
+            fail(attempt, "The NPC pair no longer has autonomy enabled")
+            return
+        end
+    end
     if attempt.encounter then
         if attempt.phase == "playing" then
             observeWitnesses(attempt, Witness.tick, attempt.encounter, attempt.actionDefinitions, carrier(), os.time())
         end
-        if attempt.phase == "starting" and os.time() >= attempt.deadline then
-            fail(attempt, "Scene start timed out", "timeout")
-            return
+        if attempt.phase == "starting" then
+            local cancellation = attempt.startCancellation
+            if cancellation and now >= attempt.deadline then
+                fail(attempt, cancellation.reason, cancellation.notice)
+                return
+            elseif not cancellation then
+                if autonomyLost then
+                    cancelPendingStart(attempt, "The NPC pair no longer has autonomy enabled")
+                elseif now >= attempt.deadline then
+                    cancelPendingStart(attempt, "Session start timed out", "timeout")
+                end
+            end
         end
         if attempt.observation or os.time() < attempt.nextObservation then return end
         local record = attempt.encounter
@@ -1088,26 +1295,29 @@ local function tickAttempt(attempt)
         fail(attempt, "Controlled Zoi changed")
         return
     end
-    if attempt.phase == "picking" then return end
-    if os.time() >= attempt.deadline then fail(attempt, "Timed out", "timeout"); return end
-    if attempt.npc and attempt.phase == "walking" and os.time() >= (attempt.nextPrivacyCheck or 0) then
-        attempt.nextPrivacyCheck = os.time() + PRIVACY_INTERVAL
+    if now >= attempt.deadline then fail(attempt, "Timed out", "timeout"); return end
+    if attempt.phase == "arrival_privacy" then
+        local privacy = attempt.arrivalPrivacy
+        if privacy.pending then
+            if os.time() >= privacy.pending.expires then retryPrivacy(attempt, "trace_reply_timeout") end
+        elseif os.time() >= privacy.next then
+            requestPrivacy(attempt)
+        end
+        return
+    end
+    if attempt.npc and attempt.phase == "walking" and os.time() >= (attempt.nextVenueCheck or 0) then
+        attempt.nextVenueCheck = os.time() + VENUE_CHECK_INTERVAL
         local initiator, partner = confirmPair(attempt)
         if not roomReady(attempt, initiator, partner) then return end
     end
     if attempt.phase == "conversation" then
         local first, second = attempt.initiator, attempt.partner
-        if not attempt.conversationDispatched or attempt.dialogue[first] ~= "finished"
+        if attempt.branch ~= "accept" or not attempt.conversationDispatched or attempt.dialogue[first] ~= "finished"
             or attempt.dialogue[second] ~= "finished" then return end
         local initiator, partner = confirmPair(attempt)
         if interaction(initiator):IsCurrentInteractionCoop() or interaction(partner):IsCurrentInteractionCoop() then return end
-        if attempt.branch == "refuse" then
-            log(attempt, "refused")
-            release(attempt)
-        else
-            log(attempt, "accepted")
-            beginWalking(attempt)
-        end
+        log(attempt, "accepted")
+        beginWalking(attempt)
         return
     end
     if attempt.phase ~= "walking" then return end
