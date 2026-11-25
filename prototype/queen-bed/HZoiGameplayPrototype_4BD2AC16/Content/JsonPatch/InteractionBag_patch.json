@@ -287,6 +287,37 @@
         ],
         "ID": "HZoiGameplay_GroundInvite"
       }
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Enabled": true,
+      "Value": {
+        "AgingConditionFlags": 480,
+        "InteractionBagCategory": "Click",
+        "PostureGroupId": "AllGroup",
+        "bUniqueInQueue": true,
+        "bAddSameInteractionToGroupMember": false,
+        "DisplayInfo": {
+          "DisplayTextId": "Toggle HZoi private room",
+          "DisplayCategoryTextId": "InteractionBag_DisplayInfo_ClickMove_Self_DisplayCategoryTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Talk_Mood.Action_Talk_Mood'",
+          "PanelIconId": "Conversation_Icon_Mood"
+        },
+        "InteractionSequence": [
+          {
+            "Probability": 1,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "HZoiGameplay_SelectGround",
+                "Label": "A"
+              }
+            ]
+          }
+        ],
+        "ID": "HZoiGameplay_MarkPrivateRoom"
+      }
     }
   ]
 }

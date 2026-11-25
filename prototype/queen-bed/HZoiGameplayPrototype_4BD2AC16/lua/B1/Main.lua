@@ -3,8 +3,10 @@ local Json = require("SceneZOIAddon.Json")
 local M = {}
 local MOD = "HZoiGameplayPrototype_4BD2AC16"
 local MARKER = "_UIMod_" .. MOD .. "/partner-picker~hzoi_venue_invite"
-local GROUND = "HZoiGameplay_GroundInvite"
-local GROUND_LABEL = "Have sex here"
+local groundCaptions = {
+    HZoiGameplay_GroundInvite = "Have sex here",
+    HZoiGameplay_MarkPrivateRoom = "Toggle HZoi private room",
+}
 local COLLAPSED = 1
 local queenBeds = {
     Bed01 = true, Bed01_v01 = true, Bed01_v02 = true, Bed01_v03 = true, Bed01_v04 = true, Bed01_v05 = true,
@@ -62,10 +64,11 @@ local function updateMenu(ctx, manager, canInvite)
     for _, entry in ipairs(UE.UWidgetBlueprintLibrary.GetAllWidgetsOfClass(ctx, nil, class, false)) do
         local data = entry.Data
         local bag = data and tostring(data.InteractionBagId)
-        if bag == GROUND then
+        local title = groundCaptions[bag]
+        if title then
             -- Native interaction text IDs resolve against the game's string table.
             local caption = entry.BW_Text_Content
-            if caption and tostring(caption:GetText()) ~= GROUND_LABEL then caption:SetText(GROUND_LABEL) end
+            if caption and tostring(caption:GetText()) ~= title then caption:SetText(title) end
         end
         local own = bag == MARKER
         -- UIMod injects on every object. Filter only this mod's rendered row.

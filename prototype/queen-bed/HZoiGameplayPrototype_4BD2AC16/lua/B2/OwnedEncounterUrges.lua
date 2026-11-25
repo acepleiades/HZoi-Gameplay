@@ -136,6 +136,7 @@ function M.request(owner, partner)
     local name = displayName(partner)
     rows[key] = {partner = partnerId, partnerName = name, expires = tick + LIFETIME, cooldown = tick + COOLDOWN}
     pcall(notify, owner, "selected", name)
+    print("[HZoiGameplay] urge_offered " .. Json.encode({participant = key, partner = partnerId}))
     return true
 end
 

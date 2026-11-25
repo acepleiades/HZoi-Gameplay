@@ -10,6 +10,14 @@
         "HZoiGameplay_GroundInvite"
       ],
       "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "ObjectSelectionSet[Id=Click].SelectionSets[StateGroupId=Normal].InteractionBagList",
+      "Value": [
+        "HZoiGameplay_MarkPrivateRoom"
+      ],
+      "Enabled": true
     }
   ]
 }

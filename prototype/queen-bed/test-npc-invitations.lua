@@ -9,9 +9,11 @@ local function roomAt(p) return math.floor(p.X / 1000) end
 local actors = {}
 for _, number in ipairs({1, 11, 12, 21, 22, 31}) do
     local location = point(300)
-    local busy = false
+    local busy, currentBag, currentReason = false, nil, nil
     local interaction = {
-        GetCurrentInteractionQueueId = function() return -1 end,
+        GetCurrentInteractionQueueId = function() return currentBag and 42 or -1 end,
+        GetCurrentInteractionBagId = function() return currentBag or "None" end,
+        GetCurrentInteractionPlayReason = function() return currentReason end,
         IsQueueEmpty = function() return not busy end,
         IsPlayingInteraction = function() return busy end,
         IsCurrentInteractionCoop = function() return false end,
@@ -33,6 +35,7 @@ for _, number in ipairs({1, 11, 12, 21, 22, 31}) do
         GetLocation = function() return location end,
         move = function(_, p) location = p end,
         busy = function(_, state) busy = state end,
+        setRunning = function(_, bag, reason) currentBag, currentReason = bag, reason end,
     }
 end
 
@@ -150,9 +153,9 @@ local function tick()
     end
     assert(tickCount == before + 1, "Tick the shared SDK once per frame")
 end
-local function event(name, who, target, bag)
+local function event(name, who, target, bag, reason)
     callbacks["interaction." .. name]({entity_id = entity(who), target_entity_id = entity(target),
-        interaction_bag_id = bag})
+        interaction_bag_id = bag, reason = reason})
 end
 
 local sofaprofile = {kind = "sofa.pair", sitting_spots = {
@@ -182,14 +185,14 @@ local function nativeConversation(first, second, refused)
     event("finished", first, second, branch)
     event("finished", second, first, branch .. "_Feedback")
 end
-local function walkFor(who)
+local function walkFor(who, bag)
     for i = #queued, 1, -1 do
         local walk = queued[i]
-        if walk.who == who and walk.bag == "HZoiGameplay_Walk" then return walk end
+        if walk.who == who and walk.bag == (bag or "HZoiGameplay_Walk") then return walk end
     end
 end
-local function arrived(who)
-    local walk = assert(walkFor(who))
+local function arrived(who, bag)
+    local walk = assert(walkFor(who, bag))
     assert(walk.reason == inzoi.EB1InteractionPlayReason.Autonomy)
     actors[who]:move(walk.point)
     event("finished", who, -1, walk.bag)
@@ -277,4 +280,114 @@ assert(#completed == 1 and completed[1].session == "session-b" and completed[1].
 assert(not invite.beginNpc(11, 21), "Ending the first session does not release the second roster")
 invite.shutdown()
 
-emit("NPC invitation checks passed: shared carrier, disjoint rosters, venue fallback, intrusion cancellation, two concurrent sessions, and isolated outcomes.")
+local WALK, RETRY = "HZoiGameplay_Walk", "HZoiGameplay_WalkRetry"
+local function prepareApproach()
+    for _, person in pairs(actors) do
+        person:move(point(300))
+        person:setRunning()
+    end
+    now = now + 1
+    queued = {}
+    local accepted, nonce = invite.beginNpc(11, 12)
+    assert(accepted, nonce)
+    preflight(nonce, 11, 12, rows)
+    reply(nonce, "venue-1", "validate_start", valid(11, 12))
+    nativeConversation(11, 12)
+    tick()
+    assert(#queued == 3)
+    return nonce, assert(walkFor(11)).point
+end
+
+local function pushAside(spot, height)
+    actors[11]:move(point(spot.X + 111, spot.Y, spot.Z + (height or 90)))
+end
+
+local function runPartnerRetry()
+    actors[12]:setRunning()
+    tick()
+    assert(#queued == 4 and queued[4].who == 12 and queued[4].bag == RETRY)
+    arrived(12, RETRY)
+end
+
+invite.on_begin()
+local nonce, destination = prepareApproach()
+event("canceled", 12, -1, WALK, "CharacterOverlap")
+actors[12]:setRunning("ClickMove_Self", "MoveOver")
+arrived(11)
+tick()
+pushAside(destination)
+tick()
+assert(#queued == 3, "Do not fail the first arrival while the partner's native overlap is still active")
+runPartnerRetry()
+actors[11]:setRunning("ClickMove_Self", "MoveOver")
+tick()
+assert(#queued == 4, "Wait for the first actor's native recovery before returning")
+actors[11]:setRunning()
+tick()
+assert(#queued == 5 and queued[5].who == 11 and queued[5].bag == RETRY)
+assert(queued[5].point == destination, "Return to the original verified destination")
+arrived(11, RETRY)
+tick()
+reply(nonce, "arrival", "validate_start", {valid = false, code = "furniture_unavailable"})
+
+nonce, destination = prepareApproach()
+arrived(11)
+tick()
+pushAside(destination)
+arrived(12)
+tick()
+assert(#queued == 3 and not wire["encounter." .. nonce .. ".arrival"], "No reapproach without a native overlap")
+
+nonce, destination = prepareApproach()
+event("canceled", 12, -1, WALK, "CharacterOverlap")
+arrived(11)
+tick()
+pushAside(destination)
+arrived(12, RETRY)
+event("started", 11, -1, "ClickMove_Self", "User")
+tick()
+assert(#queued == 4 and not wire["encounter." .. nonce .. ".arrival"], "A player action takes priority")
+
+nonce, destination = prepareApproach()
+event("canceled", 12, -1, WALK, "CharacterOverlap")
+arrived(11)
+tick()
+pushAside(destination)
+arrived(12, RETRY)
+actors[11]:setRunning("Eat", "Autonomy")
+tick()
+assert(#queued == 4 and not wire["encounter." .. nonce .. ".arrival"], "Preserve unrelated native activity")
+
+nonce, destination = prepareApproach()
+event("canceled", 12, -1, WALK, "CharacterOverlap")
+arrived(11)
+tick()
+pushAside(destination, 300)
+arrived(12, RETRY)
+tick()
+assert(#queued == 4 and not wire["encounter." .. nonce .. ".arrival"], "A different floor is never a displaced arrival")
+
+nonce, destination = prepareApproach()
+event("canceled", 12, -1, WALK, "CharacterOverlap")
+arrived(11)
+tick()
+pushAside(destination)
+arrived(12, RETRY)
+actors[31]:move(destination)
+tick()
+assert(#queued == 4 and not wire["encounter." .. nonce .. ".arrival"], "Recheck privacy before returning")
+
+nonce, destination = prepareApproach()
+event("canceled", 12, -1, WALK, "CharacterOverlap")
+arrived(11)
+tick()
+pushAside(destination)
+arrived(12, RETRY)
+tick()
+assert(#queued == 5)
+event("finished", 11, -1, RETRY)
+tick()
+assert(#queued == 5 and not wire["encounter." .. nonce .. ".arrival"], "Allow only one return")
+invite.shutdown()
+
+emit("NPC invitation checks passed: concurrent sessions, privacy, venue fallback, and one-time return after native overlap.")

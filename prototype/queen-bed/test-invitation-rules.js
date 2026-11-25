@@ -74,3 +74,10 @@ check({lovable: false}, []);
 check({belowYouth: 'Target'}, []);
 check({familyRelationship: 'Sibling'}, []);
 console.log('Native invitation rules passed');
+
+const groundOptions = JSON.parse(fs.readFileSync(path.join(patchFolder, 'ObjectSelectionSet_patch.json'), 'utf8'))
+    .PatchList.filter(({Query, Enabled}) => Enabled && Query === 'ObjectSelectionSet[Id=Click].SelectionSets[StateGroupId=Normal].InteractionBagList');
+assert.deepEqual(groundOptions.map(({Method, Value}) => [Method, Value]), [
+    ['Append', ['HZoiGameplay_GroundInvite']],
+    ['Append', ['HZoiGameplay_MarkPrivateRoom']],
+], 'The native Append operation takes one array member per patch entry');

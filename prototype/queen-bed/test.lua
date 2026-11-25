@@ -26,17 +26,18 @@ local function actor(i)
         GetGrowthStep = function() return 32 end,
         GetGenderType = function() return i == ownerId and 1 or 2 end,
         GetLocation = function() return pos end,
-        ClickGround = function(_, location, inQueue)
+        ClickGround = function(_, location, inQueue, bag)
             clickPosition = location
+            bag = bag or "HZoiGameplay_GroundInvite"
             -- The real start event arrived before the current bag and ID changed.
-            component.GetCurrentInteractionBagId = function() return inQueue and "None" or "HZoiGameplay_GroundInvite" end
+            component.GetCurrentInteractionBagId = function() return inQueue and "None" or bag end
             component.GetCurrentInteractionQueueId = function() return inQueue and -1 or 40 end
             component.InteractionQueue = {
                 {InteractionQueueId = 39, InteractionBagId = "Other", ImpactPoint = point(1, 2, 3)},
             }
             if inQueue then
                 component.InteractionQueue[2] = {InteractionQueueId = 40,
-                    InteractionBagId = "HZoiGameplay_GroundInvite", ImpactPoint = location}
+                    InteractionBagId = bag, ImpactPoint = location}
             end
             component.GetCurrentAction = function()
                 return {NonTargetLocation = clickPosition}
@@ -376,6 +377,33 @@ line("Sofa invitations passed: actual roster, exact pair across start checks, oc
 
 local clickedFloor = point(900, 650, 340)
 local standing = {valid = true, scene_id = "hzoi.standing", bindings = {male = tostring(ownerId), female = tostring(partnerId)}}
+
+local markBag = "HZoiGameplay_MarkPrivateRoom"
+local marks = require("PrivateRoomMarks")
+local originalToggle, markCount = marks.toggle, 0
+marks.toggle = function(person, position)
+    assert(person == owner and position == clickedFloor)
+    markCount = markCount + 1
+    return markCount == 1 and "private_room_marked" or "private_room_unmarked"
+end
+local markQueueCount = #queued
+owner:ClickGround(clickedFloor, true, markBag)
+fire("started", ownerId, markBag, -1)
+fire("finished", ownerId, markBag, -1)
+tick()
+assert(markCount == 1 and notices[#notices] == "private_room_marked")
+owner:ClickGround(clickedFloor, false, markBag)
+fire("started", ownerId, markBag, -1)
+assert(markCount == 2 and notices[#notices] == "private_room_unmarked")
+fire("started", partnerId, markBag, -1)
+owner:ClickGround(clickedFloor, false)
+fire("started", ownerId, markBag, -1)
+fire("finished", ownerId, "HZoiGameplay_GroundInvite", -1)
+clock = clock + 3
+tick()
+assert(markCount == 2 and notices[#notices] == "private_room_unavailable")
+assert(#pending == 0 and #queued == markQueueCount, "Toggling a room never starts a picker, walk, or scene.")
+marks.toggle = originalToggle
 
 local function selectGround(inQueue)
     queued = {}

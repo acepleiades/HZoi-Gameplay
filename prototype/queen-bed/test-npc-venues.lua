@@ -12,6 +12,7 @@ local firstPosition = point(200)
 local bedroom = "HZoiGameplay_PrivateBedroom"
 local study = "HZoiGameplay_PrivateStudy"
 local purposes = {[1] = study, [2] = bedroom, [3] = study, [4] = study, [7] = study, [8] = study}
+local nativeObjects, metadata = {}, {}
 local active, public, bedAccess, indoor, roomAccess = {}, false, true, true, true
 local function character(id, location)
     return {
@@ -35,11 +36,12 @@ local site = {
     IsFakeSite = function() return false end,
     IsIn = function(_, position) return position.X >= 0 and position.X < 9000 end,
     IsSameRoom = function(_, a, b) return roomAt(a) == roomAt(b) and a.Z == b.Z end,
+    GetObjects = function() return nativeObjects end,
     GetRoomPurposeIdByLocation = function(_, p) return purposes[roomAt(p)] or "None" end,
     GetOwnerHouseholdId = function() return {Value = 200} end,
     IsCharacterAllowedInRoom = function(_, who, purpose, household)
-        assert(who.Value > 0 and household.Value == 200 and (purpose == bedroom or purpose == study))
-        return purpose ~= bedroom or roomAccess
+        assert(who.Value > 0 and household.Value == 200 and (purpose == bedroom or purpose == study or purpose == "None"))
+        return purpose == study or roomAccess
     end,
     IsExistInternalPath = function(_, source, destination, params)
         assert(params.bIgnorePermission == false and params.EntityId.Value > 0)
@@ -53,7 +55,10 @@ local entities = {
     FindCharacter = function(_, id) return active[id.Value] end,
     FindGameObject = function(_, id)
         local location = objects[id.Value]
-        if location then return {GetLocation = function() return location end} end
+        if location then return {
+            GetLocation = function() return location end,
+            GetObjectTableRow = function() return metadata[id.Value] end,
+        } end
     end,
 }
 local sites = {
@@ -128,4 +133,47 @@ local none, reason = rank()
 assert(#none == 0 and reason == "site_unavailable")
 public, indoor = false, false
 assert(#rank() == 0, "No classified interior leaves no autonomous destination")
-print("NPC venue checks passed: ranking, vacancy, path permissions, exact sofa pairs, ground fallback, competing room claims, and intrusion.")
+
+local function contains(option, value)
+    for _, candidate in ipairs(rank()) do
+        if candidate[option] == value then return candidate end
+    end
+end
+
+indoor, roomAccess, purposes[2], purposes[4] = true, true, nil, nil
+metadata[20] = {FilterCategory = "Bed", ObjectTags = {"Seat", "Bed"}}
+metadata[21] = {FilterCategory = "Closet"}
+metadata[22] = {FilterCategory = "DiningRoom_Table", ObjectTags = {"Food_Table"}}
+objects[21], objects[22] = point(2300), point(2420, 0, 300)
+nativeObjects = {{Value = 20}, {Value = 21}, {Value = 22}}
+assert(contains("furniture_id", "20"), "A native bed classifies its exact unlabeled bedroom")
+assert(not contains("kind", "ground"), "Unclassified clear rooms never become a ground fallback")
+assert(not contains("furniture_id", "50"), "A selected furniture profile alone cannot establish an unlabeled bedroom")
+
+local inferred = contains("furniture_id", "20")
+assert(Venue.claim("inferred", inferred, initiator, partner))
+assert(Venue.recheck("inferred", initiator, partner))
+objects[22].Z = 0
+local valid, changedReason = Venue.recheck("inferred", initiator, partner)
+assert(not valid and changedReason == "room_unclassified", "A dining table entering the room invalidates an inferred bedroom")
+assert(not contains("furniture_id", "20"), "A mixed-use room cannot be inferred")
+objects[22].Z = 300
+metadata[21] = {FilterCategory = "SmallAppliances", ObjectFilterTags = {"Cook"}}
+assert(not contains("furniture_id", "20"), "Native cooking fixtures veto bedroom inference")
+metadata[21] = {FilterCategory = "Bath"}
+assert(not contains("furniture_id", "20"), "Native bathroom fixtures veto bedroom inference")
+metadata[21] = nil
+assert(not contains("furniture_id", "20"), "Unresolved room fixture metadata fails closed")
+metadata[21] = {FilterCategory = "Closet"}
+assert(Venue.recheck("inferred", initiator, partner))
+
+roomAccess = false
+valid, changedReason = Venue.recheck("inferred", initiator, partner)
+assert(not valid and changedReason == "room_access_denied", "Inferred bedrooms retain native permission checks")
+roomAccess, purposes[2] = true, "PublicPurpose"
+assert(not contains("furniture_id", "20"), "An explicit incompatible purpose takes priority over furniture")
+assert(not Venue.recheck("inferred", initiator, partner))
+purposes[2], metadata[20].ObjectTags = nil, {"Seat"}
+assert(not Venue.recheck("inferred", initiator, partner), "Removing the qualifying bed invalidates the claim")
+Venue.release("inferred")
+print("NPC venue checks passed: ranking, exact seats, private-room inference, permissions, ground fallback, competing claims, and intrusion.")

@@ -11,13 +11,8 @@ local function distanceSquared(first, second)
 end
 
 local function idle(person, autonomy)
-    if not person or person:IsSpawned() ~= true or person:IsDeath() ~= false
-        or person:IsInRabbitHole() ~= false or person:IsAutonomyEnable() ~= true then
-        return false
-    end
-    if autonomy:ResolveToggleOption(person, inzoi.EB1AutonomyOptionType.AutonomyEnable) ~= true then
-        return false
-    end
+    if person:IsAutonomyEnable() ~= true
+        or autonomy:ResolveToggleOption(person, inzoi.EB1AutonomyOptionType.AutonomyEnable) ~= true then return false end
     local interaction = person:GetComponent(inzoi.EB2ComponentType.Interaction)
     return interaction and interaction:IsQueueEmpty() == true
         and interaction:IsPlayingInteraction() == false
@@ -31,8 +26,9 @@ end
 
 function M.canAct(person)
     local autonomy = autonomyManager()
-    return autonomy and person:IsAutonomyEnable() == true
-        and autonomy:ResolveToggleOption(person, inzoi.EB1AutonomyOptionType.AutonomyEnable) == true
+    -- A running native action can temporarily suspend autonomy without
+    -- changing the player's actual autonomy preference.
+    return autonomy and autonomy:ResolveToggleOption(person, inzoi.EB1AutonomyOptionType.AutonomyEnable) == true
 end
 
 local function world()
@@ -62,8 +58,9 @@ local function candidates(current)
         if nativeId.Value > 0 and nativeId.Value ~= current.playerId and entity:IsSpawned() == true then
             local person = current.entities:FindCharacter(nativeId)
             local location = person and person:GetLocation()
-            if location and distanceSquared(location, current.center) <= NEAR_PLAYER_CM^2
-                and current.site:IsIn(location) == true and idle(person, current.autonomy) then
+            if location and person:IsDeath() == false and person:IsInRabbitHole() == false
+                and distanceSquared(location, current.center) <= NEAR_PLAYER_CM^2
+                and current.site:IsIn(location) == true then
                 local id = tostring(nativeId.Value)
                 local candidate = {id = id, person = person, location = location}
                 members[#members + 1], byId[id] = candidate, candidate
@@ -85,9 +82,7 @@ function M.new(beginNpc, groundAnchors, urges)
     local nextScan, lastScan, lastError = 0, nil, nil
     local retries = {}
 
-    local function scan(now)
-        local current = world()
-        if not current then return end
+    local function scan(now, current)
         if not urges.pending(current.player) then
             urges.requestEligible(current.player, function(key)
                 local target = inzoi.FB1EntityId()
@@ -111,7 +106,8 @@ function M.new(beginNpc, groundAnchors, urges)
                 return partner and partner.person
             end)
             local partner = urge and nearbyPartner(urge.partner)
-            if partner and urge.expires > now and urges.canInvite(owner.person, partner.person) then
+            if partner and urge.expires > now and idle(owner.person, current.autonomy)
+                and idle(partner.person, current.autonomy) and urges.canInvite(owner.person, partner.person) then
                 local key = pairKey(owner.id, partner.id)
                 if not retries[key] then
                     retries[key] = now + RETRY_DELAY
@@ -131,8 +127,12 @@ function M.new(beginNpc, groundAnchors, urges)
             retries, nextScan = {}, 0
         end
         if now < nextScan then return end
-        lastScan, nextScan = now, now + SCAN_INTERVAL
-        local ok, started, reason = pcall(scan, now)
+        local ok, started, reason = pcall(function()
+            local current = world()
+            if not current then return end
+            lastScan, nextScan = now, now + SCAN_INTERVAL
+            return scan(now, current)
+        end)
         if ok then
             lastError = nil
             return started, reason

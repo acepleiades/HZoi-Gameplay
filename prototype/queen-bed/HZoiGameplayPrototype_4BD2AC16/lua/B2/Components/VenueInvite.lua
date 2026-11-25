@@ -11,12 +11,14 @@ local NpcVenue = require("NpcVenue")
 local Urges = require("OwnedEncounterUrges")
 local Initiative = require("NpcInitiative")
 local Standing = require("NpcStandingAnchors")
+local PrivateRoomMarks = require("PrivateRoomMarks")
 
 local M = {}
 local INVITE = "HZoiGameplay_Invite"
 local WALK = "HZoiGameplay_Walk"
 local WALK_RETRY = "HZoiGameplay_WalkRetry"
 local GROUND = "HZoiGameplay_GroundInvite"
+local MARK_ROOM = "HZoiGameplay_MarkPrivateRoom"
 local DIALOGUE = {
     accept = "Coop_TalkLike_Before_MakeLove",
     refuse = "Coop_TalkLike_Before_MakeLove_Fail",
@@ -226,7 +228,13 @@ end
 
 local function roomReady(attempt, initiator, partner, points)
     local available, reason = NpcVenue.recheck(attempt.nonce, initiator, partner, points)
-    if not available then fail(attempt, "Private venue became unavailable: " .. tostring(reason), reason) end
+    if not available then
+        fail(attempt, "Private venue became unavailable: " .. tostring(reason), reason)
+        if reason == "room_occupied" then
+            local ok, problem = pcall(WitnessNative.privacyComplaint, initiator, partner)
+            log(attempt, "privacy_feedback", {ok = ok, reason = not ok and tostring(problem) or nil})
+        end
+    end
     return available
 end
 
@@ -371,14 +379,14 @@ local function beginWalking(attempt)
     end
 end
 
-local function readGroundPoint(person)
+local function readGroundPoint(person, bag)
     local actions = interaction(person)
-    local isCurrent = tostring(actions:GetCurrentInteractionBagId()) == GROUND
+    local isCurrent = tostring(actions:GetCurrentInteractionBagId()) == bag
     local currentId = isCurrent and actions:GetCurrentInteractionQueueId()
     -- interaction.started fires while the unique ground request is still in
     -- the queue. The game sets its current bag and queue ID after that event.
     for _, row in ipairs(actions.InteractionQueue or {}) do
-        if tostring(row.InteractionBagId) == GROUND and (not isCurrent or row.InteractionQueueId == currentId) then
+        if tostring(row.InteractionBagId) == bag and (not isCurrent or row.InteractionQueueId == currentId) then
             return row.ImpactPoint
         end
     end
@@ -394,10 +402,17 @@ local function consumeGroundClick(who)
         groundClick = nil
         return
     end
+    local bag = groundClick.bag
     local person = actor(who)
-    local point = person and readGroundPoint(person)
+    local point = person and readGroundPoint(person, bag)
     if not point then return end
     groundClick = nil
+    if bag == MARK_ROOM then
+        local ok, result = pcall(PrivateRoomMarks.toggle, person, point)
+        if not ok then log(nil, "private_room_mark_error", {initiator = who, reason = tostring(result)}) end
+        notify(who, ok and result or "private_room_unavailable")
+        return
+    end
     groundSerial = groundSerial + 1
     beginAttempt(who, ("ground-%d-%d"):format(os.time(), groundSerial), nil,
         UE.FVector(point.X, point.Y, point.Z))
@@ -441,7 +456,15 @@ local function onAttemptAction(attempt, kind, event, who, target, bag)
         end
     elseif attempt.phase == "walking" then
         local walk = attempt.walks[who]
-        if not walk or walk.finished then return end
+        if not walk then return end
+        if walk.finished then
+            local reason = event.play_reason or event.reason
+            if attempt.npc and kind == "started" and bag ~= walk.bag
+                and (tostring(reason) == "User" or (reason ~= nil and reason == inzoi.EB1InteractionPlayReason.User)) then
+                walk.userAction = true
+            end
+            return
+        end
         if walk.retryPending and kind == "canceled" and cancelReason(event.reason, "User") then
             fail(attempt, "Walk retry canceled by the player for " .. who, "walk_failed")
         elseif bag == walk.bag then
@@ -449,6 +472,7 @@ local function onAttemptAction(attempt, kind, event, who, target, bag)
                 walk.finished = true
             elseif bag == WALK and kind == "canceled" and cancelReason(event.reason, "CharacterOverlap") then
                 walk.bag, walk.retryPending = nil, true
+                walk.hadOverlap = true
                 log(attempt, "walk_retry_waiting", {participant = who, reason = "CharacterOverlap"})
             elseif kind ~= "started" then
                 fail(attempt, "Walk " .. kind .. " for " .. who .. ": " .. tostring(event.reason), "walk_failed")
@@ -460,11 +484,11 @@ end
 local function onNativeEvent(kind, event)
     local who, target = id(event.entity_id), id(event.target_entity_id)
     local bag = tostring(event.interaction_bag_id)
-    if bag == GROUND then
+    if bag == GROUND or bag == MARK_ROOM then
         if kind == "started" and who == controlledId() then
-            groundClick = {who = who, deadline = os.time() + 2}
+            groundClick = {who = who, bag = bag, deadline = os.time() + 2}
         end
-        if groundClick and groundClick.who == who then pcall(consumeGroundClick, who) end
+        if groundClick and groundClick.who == who and groundClick.bag == bag then pcall(consumeGroundClick, who) end
         return
     end
     local active = participants[who]
@@ -517,32 +541,71 @@ local function openPicker(attempt)
     request(attempt, "picker", "open_partner_picker")
 end
 
+local function recoverDisplacedZoi(attempt, who, walk, other, initiator, partner)
+    if not attempt.npc or attempt.phase ~= "walking" or attempt.reapproachUsed
+        or not walk.reported or walk.hadOverlap or not other.hadOverlap or walk.userAction then return false end
+    local person = actor(who)
+    local ready = queueReadyForRetry(person)
+    if ready == nil then return false end
+    if not ready then return true end
+    if not furnitureStillThere(attempt) then
+        fail(attempt, "The selected furniture changed before the Zoi could return", "furniture_unavailable")
+        return true
+    end
+    if not roomReady(attempt, initiator, partner,
+        {attempt.walks[attempt.initiator].point, attempt.walks[attempt.partner].point}) then return true end
+
+    attempt.reapproachUsed = true
+    walk.finished, walk.reported = nil, nil
+    log(attempt, "walk_return_after_overlap", {participant = who})
+    queueWalk(attempt, person, who, walk, WALK_RETRY)
+    return true
+end
+
 local function arrived(attempt)
-    confirmPair(attempt)
+    local initiator, partner = confirmPair(attempt)
+    local first, second = attempt.walks[attempt.initiator], attempt.walks[attempt.partner]
+    local bothFinished = first and second and first.finished and second.finished
     local floor = attempt.ground and inzoi.getB2Subsystem("FB2PathFindSystem")
+    local displaced
     for _, who in ipairs({attempt.initiator, attempt.partner}) do
         local walk = attempt.walks[who]
-        if not walk or not walk.finished then return false end
-        if attempt.ground and not Ground.walkable(floor, walk.point) then
-            fail(attempt, "A ground arrival point became unavailable for " .. who, "walk_failed")
-            return false
-        end
-        local position = assert(actor(who), "Participant unloaded during arrival"):GetLocation()
-        local horizontal = math.sqrt((position.X - walk.point.X)^2 + (position.Y - walk.point.Y)^2)
-        -- ClickMove takes a floor point, while GetLocation includes the Zoi's capsule height.
-        local height = math.abs(position.Z - walk.point.Z)
-        local limit = attempt.ground and 65 or 80
-        if horizontal > limit or height > 125 then
-            fail(attempt, string.format("Walk ended away from the target for %s (%.1f cm across, %.1f cm in height)",
-                who, horizontal, height), "walk_failed")
-            return false
-        end
-        if not walk.reported then
-            walk.reported = true
-            log(attempt, "walk_arrived", {participant = who, horizontal_cm = horizontal, height_cm = height})
+        if walk and walk.finished then
+            if attempt.ground and not Ground.walkable(floor, walk.point) then
+                fail(attempt, "A ground arrival point became unavailable for " .. who, "walk_failed")
+                return false
+            end
+            local person = who == attempt.initiator and initiator or partner
+            local position = person:GetLocation()
+            local horizontal = math.sqrt((position.X - walk.point.X)^2 + (position.Y - walk.point.Y)^2)
+            -- ClickMove takes a floor point; GetLocation includes the Zoi's capsule height.
+            local height = math.abs(position.Z - walk.point.Z)
+            local limit = attempt.ground and 65 or 80
+            if horizontal <= limit and height <= 125 then
+                if not walk.reported then
+                    walk.reported = true
+                    log(attempt, "walk_arrived", {participant = who, horizontal_cm = horizontal, height_cm = height})
+                end
+            elseif bothFinished then
+                local problem = string.format("Walk ended away from the target for %s (%.1f cm across, %.1f cm in height)",
+                    who, horizontal, height)
+                if displaced or height > 125 then
+                    fail(attempt, problem, "walk_failed")
+                    return false
+                end
+                displaced = {who = who, walk = walk, other = walk == first and second or first, problem = problem}
+            end
         end
     end
-    return true
+    -- A paired walk can push the first arrival away before the other walk or
+    -- its native recovery finishes. Only try to return to an already verified spot.
+    if displaced then
+        if not recoverDisplacedZoi(attempt, displaced.who, displaced.walk, displaced.other, initiator, partner) then
+            fail(attempt, displaced.problem, "walk_failed")
+        end
+        return false
+    end
+    return bothFinished == true
 end
 
 local function deliverConsequence(attempt, name, ...)
@@ -1060,9 +1123,10 @@ function M.on_tick(self, component, dt)
     if groundClick and who == groundClick.who then
         local ok, problem = pcall(consumeGroundClick, who)
         if groundClick and (not ok or os.time() >= groundClick.deadline) then
+            local mark = groundClick.bag == MARK_ROOM
             groundClick = nil
             log(nil, "ground_click_missing_location", {initiator = who, reason = tostring(problem or "Native action ended")})
-            notify(who, "ground_click_missing")
+            notify(who, mark and "private_room_unavailable" or "ground_click_missing")
         end
     end
     if not client or who ~= controlledId() then return end
@@ -1090,6 +1154,7 @@ function M.shutdown()
     subscriptions, client, groundClick, pollNpc = {}, nil, nil, nil
     attempts, participants = {}, {}
     Urges.reset()
+    PrivateRoomMarks.reset()
 end
 
 return M

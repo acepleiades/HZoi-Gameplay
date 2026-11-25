@@ -1,10 +1,68 @@
 local Planner = require("NpcVenuePlanner")
+local Marks = require("PrivateRoomMarks")
 local M = {}
 local claims = {}
 local privatePurposes = {
     HZoiGameplay_PrivateBedroom = "bedroom",
     HZoiGameplay_PrivateStudy = "private",
 }
+local sharedCategories = {DiningRoom_Table = true, Fridge = true, Bath = true, Shower = true, Toilet = true}
+local sharedTags = {Food_Table = true, DinningTable = true, Fridge = true, D_Sink = true, Bath = true, Toilet = true}
+
+local function hasTag(tags, wanted)
+    for _, tag in ipairs(tags or {}) do
+        if tag == wanted then return true end
+    end
+    return false
+end
+
+local function roomObjectKind(row)
+    local category = tostring(row.FilterCategory)
+    if category == "Bed" and hasTag(row.ObjectTags, "Bed") then return "bed" end
+    if sharedCategories[category] or category:match("^Kitchen_") or hasTag(row.ObjectFilterTags, "Cook") then
+        return "shared"
+    end
+    for _, tag in ipairs(row.ObjectTags or {}) do
+        if sharedTags[tag] then return "shared" end
+    end
+end
+
+local function roomObjects(world)
+    if world.roomObjects ~= nil then return world.roomObjects or nil end
+    world.roomObjects = false
+    local objects = world.site:GetObjects()
+    if not objects then return end
+    local markers = {}
+    for _, id in ipairs(objects) do
+        local object = world.manager:FindGameObject(id)
+        if not object then return end
+        local row = object:GetObjectTableRow()
+        local kind = row and roomObjectKind(row)
+        if not row then kind = "unknown" end
+        if kind then
+            local location = object:GetLocation()
+            if not location then return end
+            markers[#markers + 1] = {kind = kind, location = location}
+        end
+    end
+    world.roomObjects = markers
+    return markers
+end
+
+local function isBedroom(world, point)
+    local markers = roomObjects(world)
+    if not markers then return false end
+    local bed = false
+    for _, marker in ipairs(markers) do
+        local same = world.site:IsSameRoom(point, marker.location)
+        if type(same) ~= "boolean" then return false end
+        if same then
+            if marker.kind ~= "bed" then return false end
+            bed = true
+        end
+    end
+    return bed
+end
 
 local function distanceSquared(first, second)
     return (first.X - second.X)^2 + (first.Y - second.Y)^2 + (first.Z - second.Z)^2
@@ -44,15 +102,21 @@ end
 
 function M.roomClass(site, point)
     local purpose = site:GetRoomPurposeIdByLocation(point)
+    if purpose == "None" and Marks.isMarked(site, point) then return "private", purpose end
     return privatePurposes[purpose], purpose
 end
 
-local function privateRoom(world, point)
+local function privateRoom(world, point, allowInferredBedroom)
     if world.site:IsIn(point) ~= true or world.sites:IsIndoor(point) ~= true
         or world.site:IsSameRoom(point, point) ~= true then
         return
     end
     local room, purpose = M.roomClass(world.site, point)
+    -- Only furniture searches may infer a bedroom. A native designation is
+    -- authoritative, and an unlabeled empty room cannot establish privacy.
+    if purpose == "None" and allowInferredBedroom and isBedroom(world, point) then
+        room = "bedroom"
+    end
     if not room then return end
     local household = world.site:GetOwnerHouseholdId()
     for _, person in ipairs(world.participants) do
@@ -63,8 +127,8 @@ local function privateRoom(world, point)
     return room
 end
 
-local function availableRoom(world, point, claimId)
-    local room, reason = privateRoom(world, point)
+local function availableRoom(world, point, claimId, allowInferredBedroom)
+    local room, reason = privateRoom(world, point, allowInferredBedroom)
     if not room then return nil, reason or "room_unclassified" end
     for _, occupant in ipairs(world.occupants) do
         local inside = world.site:IsSameRoom(point, occupant)
@@ -130,7 +194,7 @@ function M.candidates(initiator, partner, rows, groundAnchors, arrivalPoints)
     end
 
     local ranked = Planner.candidates(furniture, groundAnchors, function(option)
-        local room = availableRoom(world, option.point)
+        local room = availableRoom(world, option.point, nil, option.kind ~= "ground")
         if not room then return end
         local points = arrivalPoints(option, roomFloor(world, option.point))
         if not eligiblePoints(world, option, points) then return end
@@ -144,7 +208,7 @@ function M.claim(key, candidate, initiator, partner)
     if claims[key] then return false, "room_claimed" end
     local world = scope(initiator, partner)
     if not world or world.site_id ~= candidate.site_id then return false, "site_unavailable" end
-    local room, reason = availableRoom(world, candidate.point)
+    local room, reason = availableRoom(world, candidate.point, nil, candidate.kind ~= "ground")
     if not room then return false, reason end
     local initiatorId, partnerId = initiator:GetEntityId().Value, partner:GetEntityId().Value
     for _, claim in pairs(claims) do
@@ -170,7 +234,7 @@ function M.recheck(key, initiator, partner, destinations)
     end
     local world = scope(initiator, partner)
     if not world or world.site_id ~= claim.site_id then return false, "site_unavailable" end
-    local room, reason = availableRoom(world, claim.point, key)
+    local room, reason = availableRoom(world, claim.point, key, claim.kind ~= "ground")
     if not room then return false, reason end
     if destinations and not eligiblePoints(world, claim, destinations) then return false, "walk_failed" end
     return true

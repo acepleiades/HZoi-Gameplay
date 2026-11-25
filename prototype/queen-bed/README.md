@@ -149,3 +149,13 @@ Ties prefer core personality, then characteristics, then aptitudes.
 Charmer adds one point to a positive completion moodlet and keeps its title
 and duration. A Rulebreaker or a Flirt votes to continue if someone sees the
 encounter, including an established partner.
+
+## Iteration 1 test evidence
+
+**In game.** The native picker reached acceptance and refusal on both freestanding and wall-side queen beds. On the ground, a Romance 0 pair finished the refusal and cleared both queues. Acceptance sent them to separate points and ran all four stages through cleanup. The three-seat sofa passed the adjacent-seat availability checks. In a separate wall-side bed run, a bystander stopped the encounter and both participants returned to normal gameplay.
+
+At Normal speed, an NPC Urge selected Jaewoo and Xinyu while Seoyun carried on with her own actions. A third Zoi entering the claimed room canceled the first approach. A later native invitation reached the queen bed and completed all four stages. The log recorded one Excitement completion per participant. The need changes included Hunger stopping at −34, no further Hygiene cost where it was already low, and Fun reaching 100. The Urge owner received the standard reward moodlet, 5 Meow Coins and 15 Admit before normal stat decay. The partner received no coins. Both Zois resumed native conversation after cleanup.
+
+The fresh development package showed both HZoi floor actions. Marking a room and removing its mark from a different point in the same room each showed the expected toast. The scheduler also found a standing venue after the queen bed was temporarily removed, chose separate floor points, and started a background scene after both Zois arrived.
+
+**Automated coverage.** The Lua fixtures exercise exact room and floor selection, marks resetting on unload, seat and room contention, door permissions, revalidation at arrival, overlap retry, duplicate completions, and recovery from missed SceneZOI notifications. The overlap regression recreates displacement after one Zoi already reached the bed.

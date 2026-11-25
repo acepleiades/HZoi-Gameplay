@@ -56,4 +56,14 @@ function M.walkAway(witness, near)
     end
 end
 
+-- Let the native localized line explain why the NPC dropped the approach.
+function M.privacyComplaint(initiator, partner)
+    local context = inzoi.FB2ScriptContext(initiator:GetEntityId(), partner:GetEntityId(), inzoi.EB1ScriptReason.Howling)
+    local command = inzoi.FB1Execute()
+    command.BaseObject = inzoi.EB1BaseObject.Self
+    command.Command = inzoi.EB1ExecuteType.AddSpeechBubble
+    command.S1, command.S2, command.Prob = "SpeechBubble_Hope_Solitude_HaveAloneTime", "None", 1
+    inzoi.FB2Script_SpeechBubble.Execute_AddSpeechBubble(context, command)
+end
+
 return M
