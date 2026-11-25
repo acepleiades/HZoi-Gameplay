@@ -69,7 +69,11 @@ The game stores Urges as `Hope` rows with owner and target conditions, a lifetim
 
 Store the urge owner, selected partner, and expiry. Subscribe to `task_completed`. Satisfy the active urge during the scene when the **owner** completes `excitement` and the **selected partner** is in that scene. Either Zoi can initiate. Acceptance, walking to the venue, or a completion by only the partner leaves the urge active. A later interruption leaves an earned completion intact.
 
-Prototype a custom `Hope` and target-bound mission completed by a SceneZOI event. Probe `RequestAddSpecificAvailableHopeSingle` for selection, then inspect `GetSelectedHopes`, the slot's `ReasonTargetEntityId`, and the mission's `TargetEntityId` before testing the `OnFinishMission` handoff with the real mission ID. Verify the native UI updates, rewards are granted once, and the cooldown applies. If the native completion hook cannot service the custom mission, keep the partner-specific state and fulfillment in HZoi. [Hope component](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/components/fb2hopecomponent/) · [Native mission state](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b1/structs/fb1missionstate/).
+The native `Hope` test loaded the custom row, but forced selection left its
+partner and mission target IDs unset. Iteration 1 uses
+[HZoi-owned Urges](../prototype/queen-bed/owned-urges.md) with the original
+reward. The offer and cooldown are scoped to the current loaded world.
+
 
 ## NPC privacy and venue selection
 
@@ -193,12 +197,12 @@ Each row proposes a moodlet or a stop preference using the same outcome data. Th
 
 ## Implementation priority
 
-The [invitation prototype](../prototype/queen-bed/README.md) completes step 1
-and covers queen beds and sofas in step 2. Acceptance and refusal passed in game
-on freestanding and wall-side queen beds. On a three-seat sofa, an invitation
-started with an available pair and showed an availability toast when both pairs
-were blocked. An unrelated Zoi used the spare seat with **Sit and Relax**.
-Walkable ground is the remaining part of step 2.
+The [invitation development build](../prototype/queen-bed/README.md)
+supports queen beds, sofas and walkable ground. Both invitation outcomes
+passed in game on freestanding and wall-side queen beds and on walkable
+ground. On a three-seat sofa, an available pair started and a blocked pair
+showed an availability message. Another Zoi used the spare seat with
+**Sit and Relax**.
 
 1. **Prove one queen-bed encounter.** Use one known pair and a temporary entry point. Test both answers through the in-game conversation. Acceptance hands off before the vanilla bed sequence, walks both Zois to separate arrival points, validates the start again, and runs the four-stage SceneZOI plan through Exit. Refusal ends at the conversation. If distance blocks preflight before the walk, use a content-only compatibility check there and keep full validation at arrival.
 2. **Build the picker and venue options.** Add **Have sex here** on supported beds, sofas and walkable ground. Check eligibility and content before the invitation. Distinguish unsupported content, occupied spots, and failed walks. Carry the selected sofa seat pair through to playback.

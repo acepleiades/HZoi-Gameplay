@@ -2,9 +2,18 @@
 
 HZoi Gameplay brings sexual scenes and non-sexual affectionate scenes into inZOI's everyday gameplay. It integrates HZoi and other compatible content packs for [SceneZOI](https://github.com/acepleiades/SceneZOI). Depending on the installed packs, a scene might involve sex or something as simple as resting a Zoi's head on their partner's lap.
 
-## Pre-production
+## Iteration 1 development build
 
-Development is in pre-production. Current work focuses on understanding inZOI's romance system and deciding how SceneZOI scenes can fit into it. Romance progression will be one of the main factors in which interactions become available. The research also looks at which relationship states the game tracks separately, when partners react to other romances, and how a partner could agree to a nonexclusive relationship.
+Click a supported queen bed, sofa, or walkable ground and choose **Have sex
+here**. Select one partner in the game's picker. The pair uses inZOI's
+**Set the Mood** rules to accept or refuse. After acceptance, both Zois walk
+to the selected place before SceneZOI starts.
+
+The development build requires SceneZOI with the four-stage autonomous API,
+the native partner picker, and background sessions, plus HZoi. See the
+[invitation and testing guide](prototype/queen-bed/README.md) for supported
+venues, scene outcomes and diagnostics. The [encounter design](docs/encounter-design.md)
+records the remaining design choices.
 
 The [inZOI romance reference](docs/inzoi-romance.md) documents the vanilla relationship tiers, courtship, marriage, having children, and cheating detection. The [interaction catalog](docs/inzoi-romance-interactions.csv) lists the game's romance-related interactions and their conditions.
 

@@ -1,0 +1,35 @@
+{
+  "Struct": "RoomPurpose",
+  "BaseVersion": "20261026.16562.W.MODKIT.EGS",
+  "SaveVersion": "20261026.16562.W.MODKIT.EGS",
+  "PatchList": [
+    {
+      "Method": "Append",
+      "Query": "RoomPurpose",
+      "Value": {
+        "Id": "HZoiGameplay_PrivateBedroom",
+        "DisplayTextId": "RoomPurpose_Residential_Bedroom_DisplayTextId",
+        "DescTextId": "RoomPurpose_Residential_Bedroom_DescTextId",
+        "ColorMappingId": "Map_Subway_Icon",
+        "SiteTypes": [
+          "Residence"
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "RoomPurpose",
+      "Value": {
+        "Id": "HZoiGameplay_PrivateStudy",
+        "DisplayTextId": "RoomPurpose_Residential_Study_DisplayTextId",
+        "DescTextId": "RoomPurpose_Residential_Study_DescTextId",
+        "ColorMappingId": "Ambition_Wikipedia",
+        "SiteTypes": [
+          "Residence"
+        ]
+      },
+      "Enabled": true
+    }
+  ]
+}

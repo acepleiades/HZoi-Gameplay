@@ -1,0 +1,80 @@
+local NativeWitness = require("WitnessNative")
+
+local M = {}
+local CHEATER = "Affair_Caught_Cheater"
+local OTHER = "Affair_Caught_Mistress"
+
+local function component(actor, name)
+    return actor:GetComponent(inzoi.EB2ComponentType[name])
+end
+
+local function context(self, target)
+    return inzoi.FB2ScriptContext(self:GetEntityId(), target:GetEntityId(), inzoi.EB1ScriptReason.Howling)
+end
+
+local function condition(name, first, second)
+    local param = inzoi.FB1Condition()
+    param.BaseObject = inzoi.EB1BaseObject.Self
+    param.Command = inzoi.EB1ConditionType[name]
+    param.CompareType = inzoi.EB1CompareType.Equal
+    param.UseHand = inzoi.EB1UseHandType.Default
+    param.S1, param.S2 = first or "None", second or "None"
+    return param
+end
+
+local function hasFlag(ctx, flag)
+    return inzoi.FB2Script_Relationship.Condition_HasRelationshipFlag(
+        ctx, condition("HasRelationshipFlag", flag, "Single")) == true
+end
+
+local function removeOtherFlag(ctx)
+    local param = inzoi.FB1Execute()
+    param.BaseObject = inzoi.EB1BaseObject.Self
+    param.Command = inzoi.EB1ExecuteType.RemoveRelationshipFlag
+    param.S1, param.S2 = OTHER, "None"
+    param.Prob = 1
+    inzoi.FB2Script_Relationship.Execute_RemoveRelationshipFlag(ctx, param)
+end
+
+function M.deliver(witness, cheater, other)
+    if not (witness and cheater and other) then return {code = "participant_unavailable"} end
+    local relationships = component(witness, "Relationship")
+    local howling = component(witness, "Howling")
+    if not (relationships and howling) then return {code = "native_components_unavailable"} end
+
+    local pair = context(witness, cheater)
+    if not NativeWitness.isOfficialPartner(witness, cheater) or witness:HasTag("Exclude_Cheat")
+        or not inzoi.FB2Script_Relationship.Condition_IsLovable(pair, condition("IsLovable")) then
+        return {code = "native_witness_ineligible"}
+    end
+    if relationships:GetRelationshipFlagTotalCount(CHEATER) ~= 0
+        or relationships:GetRelationshipFlagTotalCount(OTHER) ~= 0 then
+        return {code = "native_confrontation_pending"}
+    end
+
+    local companion = context(witness, other)
+    if hasFlag(pair, CHEATER) or hasFlag(companion, OTHER) then return {code = "native_confrontation_pending"} end
+    local gloating = inzoi.FB2Script_Trait.Condition_TraitGroup(
+        pair, condition("TraitGroup", "TraitGroup_Affair_Witness_Gloat"))
+
+    -- The native effect adds the cheater role. Its Coop uses a second flag to
+    -- recruit the recorded other Zoi when the original native activity is absent.
+    local ok, processed, primary = pcall(function()
+        if not gloating then
+            relationships:AddRelationshipFlag(other:GetEntityId(), OTHER)
+            assert(hasFlag(companion, OTHER), "Native other-participant binding unavailable")
+        end
+        local accepted = howling:OnReceiveHowling("Howling_Affair_Confirmed", cheater:GetEntityId())
+        return accepted == true, hasFlag(pair, CHEATER)
+    end)
+
+    if not gloating and (not ok or not primary) and hasFlag(companion, OTHER) then
+        removeOtherFlag(companion)
+        if hasFlag(companion, OTHER) then return {code = "native_role_rollback_failed"} end
+    end
+    if not ok then return {code = "native_delivery_failed", error = tostring(processed)} end
+    return {code = primary and "native_witness_processed" or "native_witness_declined",
+        receiver = processed, primary_flag = primary, other_flag = not gloating and primary}
+end
+
+return M

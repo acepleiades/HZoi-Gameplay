@@ -81,23 +81,34 @@ inzoi = {
     end},
     EB1ActionType = {Delay = 33},
     EB2ComponentType = {Interaction = 1}, EB1InteractionPlayReason = {User = 1},
-    EB1InteractionCancelReason = {User = 1}, EB1AddInteractionQueueResult = {Success = "Success", EnqueueConditionCheckFail = "EnqueueConditionCheckFail"},
+    EB1InteractionCancelReason = {User = 1, CharacterOverlap = 77}, EB1AddInteractionQueueResult = {Success = "Success", EnqueueConditionCheckFail = "EnqueueConditionCheckFail"},
     FB2ControllerSystem = {GetPossessEntityId = function() return entity(controlled) end},
     event = {
         on = function(key, func) callbacks[key] = func; return 1 end,
         off = function(key) callbacks[key] = nil end,
     },
 }
+local completions, outcomes = {}, {}
+package.loaded["EncounterConsequences"] = {
+    onCompletion = function(record, who, task, index)
+        completions[#completions + 1] = {session = record.session_id, who = who, task = task, index = index}
+    end,
+    onResult = function(record, result)
+        outcomes[#outcomes + 1] = {record = record, result = result}
+    end,
+}
 package.loaded["SceneZOIAddon.Client"] = {
     new = function(_, observers)
         clientCallbacks = observers
         return {
+            client_id = "client.test",
             refresh_owner = function() end,
             tick = function() end,
             request = function(_, _, key, op, args) pending[#pending + 1] = {key = key, op = op, args = args} end,
         }
     end,
 }
+package.loaded.NpcInitiative = {new = function() end}
 local module = require("Components.VenueInvite")
 local component = {GetOwnerEntityId = function() return entity(controlled) end}
 local state = {}
@@ -113,9 +124,25 @@ local function reply(op, value)
     clientCallbacks.response({request_id = call.key, ok = true, result = value})
     return call
 end
-local function fire(kind, player, bag, victim)
+local function snapshot(call, sessionId, phase, properties)
+    local value = {
+        addon_id = "hzoi.gameplay", addon_client_id = "client.test", request_id = call.key,
+        id = sessionId, phase = phase, participants = {{id = tostring(ownerId)}, {id = tostring(partnerId)}},
+    }
+    for key, item in pairs(properties or {}) do value[key] = item end
+    return value
+end
+local function taskCounts(first, second)
+    return {
+        {participant_id = tostring(ownerId), task_id = "excitement", completions = first},
+        {participant_id = tostring(partnerId), task_id = "excitement", completions = second},
+    }
+end
+local ordinaryEnd = {cleanup_complete = true, cleanup_code = "ok", stop_reason = "ok",
+    stop_origin = {source = "framework", reason = "ok"}, playing_seconds = 1}
+local function fire(kind, player, bag, victim, reason)
     callbacks["interaction." .. kind]({
-        entity_id = entity(player), target_entity_id = entity(victim), interaction_bag_id = bag,
+        entity_id = entity(player), target_entity_id = entity(victim), interaction_bag_id = bag, reason = reason,
     })
 end
 local function invite(nonce, partner, bed, bedStatus, rejection, cancelPicker)
@@ -200,10 +227,28 @@ assert(not arrival.args.placement.max_start_distance_m and arrival.args.furnitur
 local start = reply("start_autonomous_scene", {accepted = true, stages = 4})
 assert(start.args.scene_id == "hzoi.bed" and start.args.bindings.male == "20522")
 assert(logs[#logs]:find("start_accepted") and not logs[#logs]:find("scene_started"))
-clientCallbacks.event({name = "session_started", request_id = start.key, session_id = "test"})
-clientCallbacks.event({name = "session_ended", request_id = start.key, session_id = "test",
-    result_facts = {cleanup_complete = true, cleanup_code = "ok"}})
-assert(logs[#logs]:find("scene_ended"))
+clientCallbacks.event(snapshot(start, "unrelated", "playing", {name = "session_started",
+    addon_client_id = "different.client"}))
+clientCallbacks.event(snapshot(start, "unrelated", "playing", {name = "session_started",
+    participants = {{id = tostring(ownerId)}, {id = "999"}}}))
+assert(not logs[#logs]:find("scene_started"))
+clientCallbacks.event(snapshot(start, "test", "playing", {name = "session_started"}))
+assert(logs[#logs]:find("scene_started"))
+local completion = snapshot(start, "test", "playing", {name = "task_completed", participant_id = tostring(ownerId),
+    task = {id = "excitement", completion_index = 1}})
+clientCallbacks.event(completion)
+clientCallbacks.event(completion)
+clientCallbacks.event(snapshot(start, "other", "ended", {name = "session_ended", task_state = taskCounts(5, 5),
+    result_facts = ordinaryEnd}))
+assert(#completions == 1 and #outcomes == 0, "Ignore duplicate completions and foreign sessions")
+local ended = snapshot(start, "test", "ended", {name = "session_ended", task_state = taskCounts(2, 0),
+    result_facts = ordinaryEnd})
+clientCallbacks.event(ended)
+clientCallbacks.event(ended)
+assert(#completions == 2 and completions[2].index == 2 and #outcomes == 1)
+assert(outcomes[1].record.completions[tostring(partnerId)].excitement == 0)
+assert(outcomes[1].record.furniture == tostring(alternateBedId))
+assert(outcomes[1].result.task_counts_complete and logs[#logs]:find("scene_ended"))
 
 controlled, blockedSide, queued = ownerId, false, {}
 invite("canceled", partnerId, bedId)
@@ -316,10 +361,16 @@ local sofaStart = reply("start_autonomous_scene", {accepted = true, stages = 4})
 assert(sofaStart.args.furniture_id == tostring(sofaId) and sofaStart.args.furniture_pair_id == "side")
 assert(sofaStart.args.scene_id == "hzoi.sofa")
 assert(sofaStart.args.reservation == nil and sofaStart.args.sitting_spots == nil)
-clientCallbacks.event({name = "session_started", request_id = sofaStart.key, session_id = "sofa"})
-clientCallbacks.event({name = "session_ended", request_id = sofaStart.key, session_id = "sofa",
-    result_facts = {cleanup_complete = true, cleanup_code = "ok"}})
-assert(logs[#logs]:find("scene_ended"))
+-- Recover a missed SceneZOI start and end event through the original request.
+clock = clock + 9
+tick()
+local query = reply("get_request_status", {phase = "ended", session_id = "sofa"})
+assert(query.args.request_id == sofaStart.key)
+local recovered = reply("get_session_result", {result = snapshot(sofaStart, "sofa", "ended", {
+    result_facts = ordinaryEnd, task_state = taskCounts(1, 1), plan = {outcome = "goals_met"},
+})})
+assert(recovered.args.session_id == "sofa" and logs[#logs]:find("scene_ended"))
+assert(#completions == 4 and #outcomes == 2 and outcomes[2].record.furniture_pair == "side")
 line("Sofa invitations passed: actual roster, exact pair across start checks, occupied or moved sofa, refusal, rotated corner sofa approach and cleanup.")
 
 
@@ -416,8 +467,127 @@ assert(arrivalCheck.args.scene_id == standing.scene_id and arrivalCheck.args.bin
 local groundStart = reply("start_autonomous_scene", {accepted = true})
 assert(groundStart.args.scene_id == standing.scene_id and groundStart.args.bindings == standing.bindings)
 assert(not groundStart.args.furniture_id and not groundStart.args.furniture_pair_id)
-clientCallbacks.event({name = "session_started", request_id = groundStart.key, session_id = "ground"})
-clientCallbacks.event({name = "session_ended", request_id = groundStart.key, session_id = "ground",
-    result_facts = {cleanup_complete = true, cleanup_code = "ok"}})
-assert(logs[#logs]:find("scene_ended"))
+clientCallbacks.event(snapshot(groundStart, "ground", "playing", {name = "session_started"}))
+clock = clock + 9
+tick()
+local current = request("get_session")
+assert(current.args.session_id == "ground")
+clientCallbacks.response({request_id = current.key, ok = false, code = "session_not_found"})
+reply("get_session_result", {result = snapshot(groundStart, "ground", "ended", {
+    plan = {goals = {
+        {participant_id = tostring(ownerId), task_id = "excitement", completed = 1},
+        {participant_id = tostring(partnerId), task_id = "excitement", completed = 0},
+    }},
+    result_facts = {cleanup_complete = false, cleanup_code = "restore_timeout", stop_reason = "ok",
+        stop_origin = ordinaryEnd.stop_origin},
+})})
+assert(logs[#logs]:find("scene_ended") and #completions == 5 and #outcomes == 2)
 line("Ground invitations passed: native click handoff, both answers, separate destinations, blocked ground, wrong floor, departure and revalidation.")
+
+arriveAtGround(false)
+reply("validate_start", standing)
+local startFailed = reply("start_autonomous_scene", {accepted = true})
+clientCallbacks.event({name = "session_start_failed", request_id = startFailed.key, addon_id = "hzoi.gameplay",
+    code = "start_failed"})
+assert(notices[#notices] == "start_failed" and #completions == 5 and #outcomes == 2)
+
+arriveAtGround(false)
+reply("validate_start", standing)
+local interrupted = reply("start_autonomous_scene", {accepted = true})
+clientCallbacks.event(snapshot(interrupted, "interrupted", "playing", {name = "session_started"}))
+clientCallbacks.event(snapshot(interrupted, "interrupted", "ended", {name = "session_ended",
+    result_facts = {stop_reason = "runtime_error", cleanup_code = "runtime_error", cleanup_complete = true},
+    task_state = taskCounts(0, 1)}))
+assert(#completions == 6 and #outcomes == 2, "An interruption preserves confirmed completions")
+
+arriveAtGround(false)
+reply("validate_start", standing)
+local missing = reply("start_autonomous_scene", {accepted = true})
+clientCallbacks.event(snapshot(missing, "missing", "playing", {name = "session_started"}))
+clock = clock + 9
+tick()
+current = request("get_session")
+clientCallbacks.response({request_id = current.key, ok = false, code = "session_not_found"})
+reply("get_session_result", {result = require("SceneZOIAddon.Json").null})
+assert(logs[#logs]:find("No verified ended result") and #completions == 6 and #outcomes == 2)
+
+line("Encounter results passed: request and roster matching, deduplication, lost notifications, cleanup, and unknown outcomes.")
+
+local RETRY = "HZoiGameplay_WalkRetry"
+local function recoveryAction(who, bag, reason)
+    local actions = who:GetComponent()
+    actions.GetCurrentInteractionQueueId = function() return bag and 76 or -1 end
+    actions.GetCurrentInteractionBagId = function() return bag or "None" end
+    actions.GetCurrentInteractionPlayReason = function() return reason end
+    actions.InteractionQueue = {}
+end
+
+local function prepareOverlap(nonce)
+    controlled, queued = ownerId, {}
+    owner:MoveTo(point(0, 0, 0))
+    partner:MoveTo(point(0, 0, 0))
+    recoveryAction(owner)
+    recoveryAction(partner)
+    invite(nonce, partnerId, bedId)
+    conversation(false)
+    assert(#queued == 3 and #pending == 0)
+    return queued[2].destination, queued[3].destination
+end
+
+local function finishWalk(who, id, position, bag)
+    who:MoveTo(point(position.X, position.Y, position.Z + 90))
+    fire("finished", id, bag or WALK, -1)
+end
+
+local ownerSpot, overlapSpot = prepareOverlap("recover-overlap")
+fire("canceled", partnerId, WALK, -1, "CharacterOverlap")
+tick()
+assert(#queued == 3, "Retry waits for the other walk")
+recoveryAction(partner, "ClickMove_Self", "MoveOver")
+finishWalk(owner, ownerId, ownerSpot)
+tick()
+assert(#queued == 3, "Retry waits for native recovery movement")
+recoveryAction(partner)
+tick()
+local retry = assert(queued[4])
+assert(#pending == 0 and retry.id == partnerId and retry.bag == RETRY)
+assert(retry.destination.Z == overlapSpot.Z and retry.destination ~= overlapSpot)
+assert((retry.destination.X - ownerSpot.X)^2 + (retry.destination.Y - ownerSpot.Y)^2 >= 150^2)
+fire("finished", partnerId, WALK, -1)
+tick()
+assert(#pending == 0, "A late event from the original walk cannot confirm arrival")
+finishWalk(partner, partnerId, retry.destination, RETRY)
+tick()
+reply("validate_start", {valid = false, code = "furniture_unavailable"})
+assert(#pending == 0 and notices[#notices] == "furniture_unavailable", "Retried arrival still revalidates")
+
+ownerSpot = prepareOverlap("user-cancel-during-recovery")
+fire("canceled", partnerId, WALK, -1, 77)
+fire("canceled", partnerId, "ClickMove_Self", -1, "User")
+tick()
+assert(#queued == 3 and #pending == 0 and notices[#notices] == "walk_failed")
+
+ownerSpot = prepareOverlap("new-task-supersedes-recovery")
+fire("canceled", partnerId, WALK, -1, "CharacterOverlap")
+finishWalk(owner, ownerId, ownerSpot)
+recoveryAction(partner, "Eat", "User")
+tick()
+assert(#queued == 3 and #pending == 0 and notices[#notices] == "walk_failed")
+
+prepareOverlap("both-overlap")
+fire("canceled", ownerId, WALK, -1, "CharacterOverlap")
+fire("canceled", partnerId, WALK, -1, "CharacterOverlap")
+tick()
+assert(#queued == 4 and queued[4].id == ownerId and queued[4].bag == RETRY)
+finishWalk(owner, ownerId, queued[4].destination, RETRY)
+tick()
+assert(#queued == 5 and queued[5].id == partnerId and queued[5].bag == RETRY)
+fire("canceled", partnerId, RETRY, -1, "CharacterOverlap")
+tick()
+assert(#queued == 5 and #pending == 0 and notices[#notices] == "walk_failed", "Only one retry per participant")
+
+prepareOverlap("user-cancels-original")
+fire("canceled", partnerId, WALK, -1, 1)
+tick()
+assert(#queued == 3 and #pending == 0 and notices[#notices] == "walk_failed")
+line("Arrival overlap checks passed: serial retry, stale events, current native recovery, superseding actions, cancellation, and final revalidation.")

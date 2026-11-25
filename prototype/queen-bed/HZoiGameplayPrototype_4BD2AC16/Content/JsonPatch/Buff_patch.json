@@ -1,0 +1,2918 @@
+{
+  "Struct": "Buff",
+  "BaseVersion": "20261026.16562.W.MODKIT.EGS",
+  "SaveVersion": "20261026.16562.W.MODKIT.EGS",
+  "PatchList": [
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_InSync",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_Satisfied",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_OutOfSync",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Sad",
+          "EmotionValue": 1,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_AwkwardTiming",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Cringing",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_UnfinishedMoment",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Sad",
+          "EmotionValue": 1,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_OutOfOrder",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Irritated",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_FoundABetterRhythm",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Curious",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_NowhereToHide",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Cringing",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_PlayedItCool",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_UnfinishedBusiness",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Irritated",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_PerfectImprovisation",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Curious",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_AtMyOwnPace",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_SomethingToThinkAbout",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Curious",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_AQuestionOfTiming",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Uneasy",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_ExactlyWhatIWorriedAbout",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Uneasy",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_ThrillOfBeingCaught",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Excited",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_WhatAnEntrance",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Funny",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_WorthTheRush",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Excited",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_WhoLetThemIn",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Irritated",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_KeptItTogether",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Convinced",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_MixedFeelings",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Sad",
+          "EmotionValue": 1,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_TheWorldWentQuiet",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_LetsLaughAboutIt",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Funny",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_TooManyEyes",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Cringing",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_ALittleLetDown",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Sad",
+          "EmotionValue": 1,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_ALittleLight",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_ALittleLight_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 4,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_ThatWasAwkward",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Cringing",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_AChapterWorthKeeping",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Touched",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_AChapterWorthKeeping_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Touched",
+          "EmotionValue": 4,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_StayClose",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Sad",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_FoundOurPace",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Excited",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_FoundOurPace_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Excited",
+          "EmotionValue": 4,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_StillBuzzing",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Excited",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_StillBuzzing_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Excited",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_CouldUseAShower",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Uncomfortable",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_CouldntKeepAStraightFace",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Funny",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_MissingPiece",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Irritated",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_GoodEnoughForMe",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_GoodEnoughForMe_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_ALittleLuxury",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_ALittleLuxury_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 4,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_IGotMine",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Funny",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_IGotMine_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Funny",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_ABreakWellSpent",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_ABreakWellSpent_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 4,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_CoolUnderPressure",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Funny",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_WhatHaveIDone",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Sad",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_QuietAgain",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_WellNowIKnow",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Curious",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_WellNowIKnow_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Curious",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_WorthTheDetour",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Excited",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_WorthTheDetour_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Excited",
+          "EmotionValue": 4,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_AGoodImpression",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Enchanting",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_AGoodImpression_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Enchanting",
+          "EmotionValue": 4,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_APleasantBuzz",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Excited",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_APleasantBuzz_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Excited",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_SweetFinish",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_SweetFinish_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 4,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_TakingItEasy",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_AMemoryToKeep",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Touched",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_AMemoryToKeep_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Touched",
+          "EmotionValue": 4,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_BetterLuckNextTime",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Sad",
+          "EmotionValue": 1,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_FoundTheFit",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Preoccupied",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_FoundTheFit_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Preoccupied",
+          "EmotionValue": 4,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_ASecondWind",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Excited",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_ASecondWind_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Excited",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_KeptMyComposure",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 120,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Convinced",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_InSync_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 240,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 4,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_Satisfied_Romantic",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 180,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Calm",
+          "EmotionValue": 3,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "Buff",
+      "Value": {
+        "Id": "HZoiGameplay_SawEncounter",
+        "BuffBasicInfo": {
+          "IsEssential": false,
+          "Duration": 60,
+          "ExpireTime": {
+            "AfterDay": -1,
+            "TargetHour": -1,
+            "TargetMinute": -1
+          },
+          "TickInterval": 0,
+          "ScriptInterval": 0,
+          "EmotionId": "Surprised",
+          "EmotionValue": 2,
+          "EmotionReasonPriority": "Invalid",
+          "Tags": [],
+          "TagIconId": "None"
+        },
+        "BuffDisplayInfo": {
+          "DisplayTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_DisplayTextId",
+          "ReasonTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_ReasonTextId",
+          "IconId": "None",
+          "EmotionColorId1": "None",
+          "EmotionColorId2": "None",
+          "HiddenFromUI": false,
+          "AlarmIconMaterialId": "None",
+          "IsHighlight": false,
+          "EmotionReasonTitleTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_DisplayTextId",
+          "EmotionReasonDescTextId": "mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_EmotionReasonDescTextId"
+        },
+        "AddScriptIdList": [],
+        "CancelScriptIdList": [],
+        "FinishScriptIdList": [],
+        "TickScriptIdList": [],
+        "IntervalScriptIdList": []
+      },
+      "Enabled": true
+    }
+  ]
+}

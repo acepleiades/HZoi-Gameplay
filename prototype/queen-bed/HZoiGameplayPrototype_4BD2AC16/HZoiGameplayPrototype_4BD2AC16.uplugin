@@ -1,7 +1,7 @@
 {
   "FileVersion": 3,
-  "Version": 16,
-  "VersionName": "0.0.16",
+  "Version": 20,
+  "VersionName": "0.0.20",
   "FriendlyName": "HZoi Gameplay",
   "Description": "Invite a Zoi to join you at a queen bed, sofa, or a spot on the ground.",
   "Category": "Other",

@@ -239,6 +239,27 @@
     {
       "Method": "Append",
       "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_WalkRetry",
+        "InteractionSequence": [
+          {
+            "Probability": 1.0,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "ClickMove",
+                "Label": "A"
+              }
+            ]
+          }
+        ],
+        "AgingConditionFlags": 508
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
       "Enabled": true,
       "Value": {
         "AgingConditionFlags": 480,

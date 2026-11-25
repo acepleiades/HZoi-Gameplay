@@ -16,8 +16,11 @@ two selected spots for playback. Other seats can still be used.
 
 For the included standing scenes, the Zoi playing the male role walks to the
 clicked spot. The other Zoi walks to a separate spot on the same floor.
-If either walk fails or a spot becomes unavailable, the scene stops preparing
-and shows a message.
+If the game cancels a walk because two Zois overlap, HZoi waits for the other
+walk and the game's recovery movement, then retries once. On a player-selected
+queen bed it can choose another spot beside the same bed. The ground anchor
+and the selected sofa seats stay fixed. A player cancellation, another walk
+failure, or an unavailable spot ends the attempt.
 
 ## Test in game
 
@@ -62,7 +65,13 @@ while the first Zoi is already there.
 [HZoiGameplay] records the participants, chosen furniture and sofa pair, outcome and arrival
 points in the inZOI Lua log. Look for `refused` or `accepted`. On acceptance,
 `both_arrived` should precede `scene_started`. `scene_ended` records SceneZOI's
-cleanup result.
+cleanup result. Each verified Excitement completion is recorded once by
+session, Zoi and completion index. If a notification is missed, the add-on
+checks the original start request and reads SceneZOI's retained result.
+A missing result leaves unobserved completions unknown. A normal result can
+apply an outcome after confirmed cleanup and after the final completion
+counts are available for both Zois. Technical or lifecycle interruptions
+preserve verified completions without applying a final moodlet.
 
 ## Implementation
 
@@ -85,13 +94,29 @@ site-has-a-double-bed condition. The two Coop rows use the game's approach and
 dialogue. The game finishes the parent RequestCoop action before the dialogue
 ends, so the add-on waits for both conversation roles and the end of the Coop.
 
+## Autonomous invitations
+
+With inZOI autonomy enabled, HZoi periodically checks nearby idle NPCs for
+a partner-specific [Urge](owned-urges.md). Both Zois need to be free to
+participate. The game uses its normal invitation rules, so an Urge still
+allows the partner to refuse. HZoi searches [private rooms](npc-venues.md)
+and checks that both Zois can reach the same venue without a bystander using
+the room. Each pair keeps its own room and SceneZOI request. If someone
+enters during the approach, the room is released and the Urge stays pending.
+The controlled Zoi carries the message to SceneZOI and can keep playing.
+
 ## Build
 
 Use the `HZoiGameplayPrototype_4BD2AC16` staging source. Copy
 `sdk/lua/SceneZOIAddon` from the SceneZOI checkout into `lua/B2/`, and copy its `Json.lua`
 into `lua/B1/SceneZOIAddon/` before running ModKit PackageUGC. The SceneZOI
-SDK keeps its GPLv3 license. Install SceneZOI with the four-stage API and native
-partner-picker operation, plus HZoi, alongside the test package.
+SDK keeps its GPLv3 license. Include that license with the packaged SDK. Install SceneZOI with the four-stage API and native
+partner-picker operation, plus HZoi, alongside the development package.
+
+Cook `Content/String/mod_ST_Buff_4bd2ac16.uasset` with the mod. The included
+`moodlet-text.csv` is the authoring source for the English moodlet names and
+descriptions. To change those strings, update the CSV and reimport it into
+the native StringTable asset before packaging.
 
 The Lua smoke test runs with that B2 source directory on Lua's module search
 path. It simulates both answers, an obstruction on one side, cancellation,
@@ -103,3 +128,24 @@ their arrival point while SceneZOI validates the start.
 
 Run `node test-picker.js` from this directory to check that the menu
 forwards the clicked furniture and opens a single picker request.
+
+## Witnesses
+
+HZoi watches nearby Zois while a directed intimate action plays. A Zoi must
+have a clear line from their eyes to both participants. A closed wall or an
+unavailable trace leaves the encounter unwitnessed. Ordinary NPC bystanders gain the short Unexpected Company moodlet the first
+time they see an encounter. An idle bystander can also walk away when a
+nearby reachable spot is available.
+
+One vote out of two keeps the scene going. Two stop votes request SceneZOI
+Exit. An established partner's sighting is recorded with all three Zoi IDs
+even when the vote does not stop playback. Once SceneZOI restores the
+participants, HZoi passes the three recorded roles to inZOI's native affair
+reaction. The game controls the dialogue and relationship effects.
+
+Each participant can receive a completion moodlet and a separate sighting
+moodlet. If traits compete for the same slot, the more specific rule wins.
+Ties prefer core personality, then characteristics, then aptitudes.
+Charmer adds one point to a positive completion moodlet and keeps its title
+and duration. A Rulebreaker or a Flirt votes to continue if someone sees the
+encounter, including an established partner.

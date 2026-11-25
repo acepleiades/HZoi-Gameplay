@@ -1,3 +1,5 @@
+local WitnessTrace = require("WitnessTraceBridge")
+local Json = require("SceneZOIAddon.Json")
 local M = {context = nil}
 local notices = {
     picker_unavailable = "The partner picker could not open. Close any open picker and make sure your Zoi is out of their group.",
@@ -34,10 +36,33 @@ function M.on_tick(self, component)
     if not M.context then M.on_begin(self, component) end
 end
 
+local function showNotice(message)
+    inzoi.cli.execute("toast.show immediate=true message=" .. Json.encode(message))
+end
+
+local function showUrge(self, content)
+    if not self.actor then return end
+    local controller = UE.UGameplayStatics.GetPlayerController(self.actor, 0)
+    if not controller or controller:GetCharacterEntityId().Value ~= self.actor:GetEntityId().Value then return end
+    local ok, urge = pcall(Json.decode, content, 1024)
+    if not ok or type(urge) ~= "table" or type(urge.partner) ~= "string" or #urge.partner > 256 then return end
+    if urge.kind == "selected" then
+        showNotice("Your Zoi wants some private time with " .. urge.partner .. ".")
+    elseif urge.kind == "fulfilled" then
+        showNotice("Your Zoi fulfilled their urge with " .. urge.partner .. ".")
+    end
+end
+
 function M.on_lua_message(self, component, kind, content)
-    if kind ~= "HZoiGameplay.Notice" then return end
-    local message = notices[content] or notices.failed
-    inzoi.cli.execute('toast.show immediate=true message="' .. message .. '"')
+    if kind == "HZoiGameplay.WitnessTrace" then
+        if self.actor then WitnessTrace.reply(self.actor, content) end
+        return
+    end
+    if kind == "HZoiGameplay.Urge" then
+        showUrge(self, content)
+    elseif kind == "HZoiGameplay.Notice" then
+        showNotice(notices[content] or notices.failed)
+    end
 end
 
 function M.on_end(self)
