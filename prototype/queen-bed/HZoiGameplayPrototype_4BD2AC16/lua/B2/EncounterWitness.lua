@@ -71,7 +71,7 @@ local function sayReactions(record, watch, result, participants, actor, log)
                 local line = Traits.witnessDialogue(function(trait)
                     return Native.hasTrait(participant, trait)
                 end)
-                if not line and sighting.witness_id == result.ordinary_stop_witness and result.ordinary_stop_voters[id] then
+                if not line and sighting.stop_voters and sighting.stop_voters[id] then
                     line = "HZoiGameplay_WitnessStop"
                 end
                 if line then

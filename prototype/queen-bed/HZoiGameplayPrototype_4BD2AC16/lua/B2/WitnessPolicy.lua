@@ -107,7 +107,7 @@ function Watch:observe(snapshot, definitions, observations, hasTrait, referenceI
     for id in pairs(departed or {}) do self.approved[id] = nil end
     local actions = M.actionPairs(snapshot, definitions, self.roster)
     if #actions == 0 then return end
-    local firstSightings, hasOfficial, bestOrdinary, bestVoters = {}, false, nil, nil
+    local firstSightings, hasOfficial, bestOrdinary = {}, false, nil
     for _, witness in ipairs(observations) do
         local who, visible = witness.id, witness.visible
         if who and not self.roster[who] and witness.revision == snapshot.revision and type(visible) == "table" then
@@ -135,9 +135,9 @@ function Watch:observe(snapshot, definitions, observations, hasTrait, referenceI
                 elseif not self.approved[who] and not witness.romance_unavailable then
                     sighting = ordinarySighting(self, witness, seenActor)
                     local votes, _, voters = M.stopVotes(self.participantIds, false, hasTrait, sighting.unfamiliar)
-                    sighting.stop_votes = votes
+                    sighting.stop_votes, sighting.stop_voters = votes, voters
                     if not bestOrdinary or sighting.stop_votes > bestOrdinary.stop_votes then
-                        bestOrdinary, bestVoters = sighting, voters
+                        bestOrdinary = sighting
                     end
                 end
                 if sighting then
@@ -163,8 +163,6 @@ function Watch:observe(snapshot, definitions, observations, hasTrait, referenceI
         self.stopRequested = true
         if not hasOfficial then
             self.ordinary_stop_unfamiliar = bestOrdinary.unfamiliar
-            outcome.ordinary_stop_witness = bestOrdinary.witness_id
-            outcome.ordinary_stop_voters = bestVoters
         end
     end
     return outcome

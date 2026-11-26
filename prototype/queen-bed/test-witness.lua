@@ -59,6 +59,8 @@ local disjoint = familiar:observe(first, defs, {
     witness("4", 1, nil, {["1"] = 29, ["2"] = 60}),
 }, introverts)
 assert(disjoint.stop_votes == 1 and not disjoint.stop_reason, "Votes from different witnesses must not combine")
+assert(disjoint.sightings[1].stop_voters["2"] and not disjoint.sightings[1].stop_voters["1"])
+assert(disjoint.sightings[2].stop_voters["1"] and not disjoint.sightings[2].stop_voters["2"])
 assert(disjoint.sightings[1].pool == "Familiar" and disjoint.sightings[1].walk_away)
 assert(disjoint.sightings[2].pool == "Close" and not disjoint.sightings[2].walk_away)
 assert(familiar.ordinary_unfamiliar["1"] and familiar.ordinary_unfamiliar["2"])
@@ -315,9 +317,23 @@ scores["3"] = {[1] = 30, [2] = 0}
 stops, bubbles = nil, {}
 Bridge.tick(record, defs, carrier, 24)
 replyAt(24, witness("3", 1))
-assert(not stops and #bubbles == 1 and bubbles[1].source == 3,
-    "A tie stays in playback without fallback dialogue")
+assert(not stops and #bubbles == 2 and bubbles[1].source == 3)
+assert(bubbles[2].source == 2 and bubbles[2].target == 3 and bubbles[2].id == "HZoiGameplay_WitnessStop",
+    "The unfamiliar participant speaks after a tie; the familiar participant does not")
 
+reactionTraits["2"] = "Cooperator"
+record = {session_id = "one", request_id = "rulebreaker-tie.start", participants = {"1", "2"}, snapshot = first}
+scores["3"], stops, bubbles = nil, nil, {}
+Bridge.tick(record, defs, carrier, 25)
+replyAt(25, witness("3", 1))
+assert(not stops and #bubbles == 2 and bubbles[1].source == 3)
+assert(bubbles[2].source == 1 and bubbles[2].target == 3 and bubbles[2].id == "HZoiGameplay_WitnessStop",
+    "An Introvert reacts when the Rulebreaker prefers to continue")
+Bridge.tick(record, defs, carrier, 26)
+replyAt(26, witness("3", 1))
+assert(not stops and #bubbles == 2, "A tie must not repeat a participant's line")
+
+reactionTraits["2"] = "Introvert"
 reactionTraits["3"] = "Introvert"
 record = {session_id = "one", request_id = "mixed-group.start",
     participants = groupRoster, snapshot = groupSnapshot}
