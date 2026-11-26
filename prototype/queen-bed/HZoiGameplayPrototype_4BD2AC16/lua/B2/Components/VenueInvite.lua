@@ -3,6 +3,7 @@ local Json = require("SceneZOIAddon.Json")
 local makeArguments = require("EncounterArguments")
 local LifeStage = require("LifeStageEligibility")
 local FurnitureKind = require("VenueFurnitureKind")
+local Bed = require("BedArrival")
 local Sofa = require("SofaArrival")
 local Ground = require("GroundArrival")
 local Witness = require("EncounterWitness")
@@ -30,7 +31,7 @@ local FEATURES = {
     "partner_picker", "autonomous_scenes", "autonomous_stages", "autonomous_stage_progress",
     "autonomous_stage_priorities", "autonomous_auto_restrictions", "autonomous_joint_goal_routes",
     "autonomous_post_completion_stay", "autonomous_manual_completion_exit", "session_results",
-    "preflight_start_distance", "partner_picker_candidate_filter",
+    "preflight_start_distance", "partner_picker_candidate_filter", "autonomous_auto_speed_minimum",
 }
 local client, pollNpc
 local attempts, participants = {}, {}
@@ -150,7 +151,7 @@ local function cancelDialogue(who, target, bags)
     if not ok then log(nil, "dialogue_cleanup_failed", {participant = who, reason = tostring(problem)}) end
 end
 
-local function fail(attempt, reason, notice)
+local function fail(attempt, reason, notice, pickerMessage)
     if not attempt then return end
     local record = attempt.encounter
     local incidents = record and record.witnessPolicy and record.witnessPolicy.incidents
@@ -184,6 +185,8 @@ local function fail(attempt, reason, notice)
     end
     if notice == "arrival_privacy_denied" then
         if controlledId() == attempt.initiator then notify(attempt.initiator, notice) end
+    elseif notice == "game_paused" and type(pickerMessage) == "string" and not attempt.npc then
+        inzoi.message.send_to_client(entity(attempt.initiator), "HZoiGameplay.PickerPaused", pickerMessage)
     elseif not attempt.npc then
         notify(attempt.initiator, notice or "failed")
     end
@@ -241,23 +244,6 @@ local function distanceSquared(a, b)
     return (a.X - b.X)^2 + (a.Y - b.Y)^2 + (a.Z - b.Z)^2
 end
 
-local function bedArrivalPoints(bed, floor)
-    local center = bed:GetLocation()
-    local yaw = math.rad(bed:GetRotation().Yaw)
-    local points = {}
-    for _, radius in ipairs({150, 200, 250}) do
-        for orientation = 1, 8 do
-            local angle = yaw + orientation * math.pi / 4
-            local spot = UE.FVector(center.X + radius * math.cos(angle), center.Y + radius * math.sin(angle), center.Z)
-            if floor:IsOnWalkableGrid(spot) and (#points == 0 or distanceSquared(spot, points[1]) >= 150^2) then
-                points[#points + 1] = spot
-                if #points == 2 then return points end
-            end
-        end
-    end
-    return nil
-end
-
 local function arrivalPoints(venue, initiator, partner, floor)
     if venue.ground then
         local first = venue.groundAnchor == id(initiator:GetEntityId())
@@ -268,8 +254,8 @@ local function arrivalPoints(venue, initiator, partner, floor)
     end
     local furniture = manager():FindGameObject(entity(venue.furniture))
     if not furniture then return nil, nil, "furniture_unavailable" end
-    local points = venue.seats and Sofa.points(venue.seats, furniture, floor)
-    if not venue.seats then points = bedArrivalPoints(furniture, floor) end
+    if not venue.seats then return Bed.points(furniture, floor, initiator, partner), furniture end
+    local points = Sofa.points(venue.seats, furniture, floor)
     if points and distanceSquared(initiator:GetLocation(), points[1]) + distanceSquared(partner:GetLocation(), points[2]) >
         distanceSquared(initiator:GetLocation(), points[2]) + distanceSquared(partner:GetLocation(), points[1]) then
         points[1], points[2] = points[2], points[1]
@@ -1112,7 +1098,9 @@ local function onResponse(attempt, reply)
         return
     end
     if not reply.ok then
-        fail(attempt, step .. ": " .. tostring(reply.code) .. " " .. tostring(reply.message or ""), reply.code)
+        local pickerMessage = step == "picker" and reply.code == "game_paused" and reply.message
+        fail(attempt, step .. ": " .. tostring(reply.code) .. " " .. tostring(reply.message or ""),
+            reply.code, pickerMessage)
         return
     end
     local result = reply.result
@@ -1316,6 +1304,11 @@ end
 function M.on_lua_message(self, component, kind, content)
     if not client then return end
     local who = id(component:GetOwnerEntityId())
+    if kind == "HZoiGameplay.FurnitureInvite" then
+        local nonce, initiator, furniture = content:match("^(invite%-%d+%-%d+)|([1-9]%d*)|([1-9]%d*)$")
+        if nonce and initiator == who then beginAttempt(who, nonce, furniture) end
+        return
+    end
     if kind == "HZoiGameplay.WitnessResult" then
         local decoded, reply = pcall(Json.decode, content, 32768)
         local active = decoded and type(reply) == "table" and forRequest(reply.token)

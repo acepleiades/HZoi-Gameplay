@@ -72,7 +72,7 @@ local function makeEncounterArguments(actions, initiatorId, participantIds, furn
             {stage = 4, matches = intercourseFirst},
         },
         auto_restrictions = #excluded > 0 and {excluded_actions = excluded} or nil,
-        auto_speed = {start = 0.5, finish = 2},
+        auto_speed = {start = 0.5, finish = 2, minimum = 1},
         post_completion_stay_seconds = 6,
         skip_post_completion_stay_after_manual = true,
         placement = {exit = "restore"},

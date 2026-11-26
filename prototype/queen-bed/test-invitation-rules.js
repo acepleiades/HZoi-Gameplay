@@ -72,13 +72,20 @@ check({lovable: false}, []);
 check({familyRelationship: 'Sibling'}, []);
 const venue = 'HZoiGameplay_SelectVenue';
 const options = JSON.parse(fs.readFileSync(path.join(patchFolder, 'ObjectSelectionSet_patch.json'), 'utf8'));
-const menus = ['Click', 'Bed01', 'Bed02', 'Bed05', 'Bed06', 'Sofa', 'Sofa02', 'CinemaSeat02'];
 const menuPatches = options.PatchList.filter(({Enabled}) => Enabled);
-assert.deepEqual(menuPatches.map(({Method, Query, Value}) => [Method, Query, Value]), menus.map(id => [
+assert.deepEqual(menuPatches.map(({Method, Query, Value}) => [Method, Query, Value]), [[
     'Append',
-    `ObjectSelectionSet[Id=${id}].SelectionSets[StateGroupId=Normal].InteractionBagList`,
+    'ObjectSelectionSet[Id=Click].SelectionSets[StateGroupId=Normal].InteractionBagList',
     [venue],
-]), 'Ground and furniture add the same native invitation to their existing actions');
+]], 'Ground capture uses the native interaction. Furniture uses the SceneZOI profile filter.');
+const manifest = JSON.parse(fs.readFileSync(path.join(patchFolder, '..', '..', 'ui',
+    'venue-invitation', 'uimod_manifest.json'), 'utf8'));
+assert.deepEqual(manifest.triggers.filter(({type}) => type === 'interaction_menu'), [{
+    id: 'scenezoi_furniture', type: 'interaction_menu', target: 'object', label_key: 'Have Sex Here',
+    icon: '/Game/UI/Icon/Conversation/Conversation_Icon_Mood.Conversation_Icon_Mood',
+    filter: {objectCategory: ['Bed', 'Sofa']},
+}]);
+assert.equal(manifest.display.input_policy, 'passthrough');
 
 const venueBag = rows('InteractionBag').get(venue);
 assert.equal(venueBag.DisplayInfo.DisplayTextId, 'Have Sex Here');
@@ -93,4 +100,4 @@ assert.equal(action.NoneTargetPlayable, true, 'The same action can start from a 
 assert.equal(action.bCheckCanMoveToSlot, false, 'Opening the picker must not walk Zois to furniture');
 assert.equal(action.InteractionSlotUsage, 'None', 'Opening the picker must not reserve a seat');
 assert.deepEqual(action.ActionIdList, ['Delay_0.1']);
-console.log('Native relationship rules and shared ground, bed, and sofa menu registration passed.');
+console.log('Native relationship rules, ground action and generic furniture trigger passed.');

@@ -1,9 +1,9 @@
 # Build HZoi Gameplay
 
 Use a fresh isolated Windows ModKit project and the SceneZOI checkout used to
-build the framework package you will test with. HZoi Gameplay 1.0.0 requires
-SceneZOI 1.7.0 or later. Use the `v1.7.0` checkout to build and verify against
-the minimum supported version. [Installation instructions](../README.md#install)
+build the framework package you will test with. Use a build that reports
+`features.autonomous_auto_speed_minimum = 1` in `get_version`.
+[Installation instructions](../README.md#install)
 
 ## Stage and cook
 
@@ -40,8 +40,9 @@ The script copies the matching SceneZOI SDK into the staged mod and regenerates
 the invitation and localization files. It verifies the two native StringTables,
 14 non-English translation files, protected Lua, encoded UI and native patches
 against the prepared inventory. It preserves ModKit's asset hash and generated
-checksums, sets both package dependencies, includes the SceneZOI SDK's GPLv3
-license and prints the finished ZIP's SHA-256.
+checksums and sets both package dependencies. It includes HZoi Gameplay's
+GPLv3 license as `LICENSE.txt` and the SceneZOI SDK's separate license as
+`LICENSE-SceneZOI-SDK.txt`, then prints the finished ZIP's SHA-256.
 
 The English text for native moodlets and speech bubbles lives in
 `moodlet-text.csv` and `speech-text.csv`. Reimport changes to the corresponding
@@ -51,7 +52,7 @@ the menu strings, ending reasons and non-English native language files.
 
 ## Verify the release ZIP
 
-Install the exact ZIP with SceneZOI 1.7.0 and HZoi 1.4.1.
+Install the exact ZIP with the matching SceneZOI build and HZoi 1.4.1.
 Start a fresh inZOI process, load a disposable save at Normal speed, and use
 ordinary interactions for these checks.
 

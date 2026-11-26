@@ -13,10 +13,10 @@ to the chosen spot before the scene begins.
 
 Download the Windows ZIP for HZoi Gameplay and install these dependencies.
 
-- **SceneZOI 1.7.0 or later.** HZoi Gameplay 1.0.0 uses the native partner picker
-  with candidate filtering, four-stage Auto mode with per-Zoi goals, final
-  placement checks, background sessions and localized ending reasons.
-  [SceneZOI 1.7.0 download](https://github.com/acepleiades/SceneZOI/releases/tag/v1.7.0)
+- **The matching SceneZOI development build.** HZoi Gameplay uses the native
+  partner picker and four-stage Auto-mode with per-Zoi goals and a 1.0×
+  minimum speed. Check for `features.autonomous_auto_speed_minimum` when
+  testing against a different SceneZOI build.
 - **HZoi 1.4.1.** Install the player animation pack. It supplies routes for
   supported beds, sofas and standing scenes. Other compatible packs can add
   choices. [HZoi downloads](https://www.patreon.com/skyrimaceanimations/posts/hzoi-public-174452155)
@@ -75,3 +75,9 @@ can help when playback fails. [SceneZOI logs and support](https://github.com/ace
 [Invitation tests](prototype/queen-bed/README.md) ·
 [inZOI romance reference](docs/inzoi-romance.md) ·
 [HZoi content pack examples](https://github.com/acepleiades/HZoi-Reference)
+
+## License
+
+HZoi Gameplay is licensed under [GPL-3.0-only](LICENSE). The player package
+includes a separate license notice for the bundled SceneZOI SDK. The inZOI
+game, ModKit and HZoi animation pack retain their own terms.

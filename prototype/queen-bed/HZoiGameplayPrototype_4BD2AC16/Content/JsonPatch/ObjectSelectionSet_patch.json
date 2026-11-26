@@ -10,62 +10,6 @@
         "HZoiGameplay_SelectVenue"
       ],
       "Enabled": true
-    },
-    {
-      "Method": "Append",
-      "Query": "ObjectSelectionSet[Id=Bed01].SelectionSets[StateGroupId=Normal].InteractionBagList",
-      "Value": [
-        "HZoiGameplay_SelectVenue"
-      ],
-      "Enabled": true
-    },
-    {
-      "Method": "Append",
-      "Query": "ObjectSelectionSet[Id=Bed02].SelectionSets[StateGroupId=Normal].InteractionBagList",
-      "Value": [
-        "HZoiGameplay_SelectVenue"
-      ],
-      "Enabled": true
-    },
-    {
-      "Method": "Append",
-      "Query": "ObjectSelectionSet[Id=Bed05].SelectionSets[StateGroupId=Normal].InteractionBagList",
-      "Value": [
-        "HZoiGameplay_SelectVenue"
-      ],
-      "Enabled": true
-    },
-    {
-      "Method": "Append",
-      "Query": "ObjectSelectionSet[Id=Bed06].SelectionSets[StateGroupId=Normal].InteractionBagList",
-      "Value": [
-        "HZoiGameplay_SelectVenue"
-      ],
-      "Enabled": true
-    },
-    {
-      "Method": "Append",
-      "Query": "ObjectSelectionSet[Id=Sofa].SelectionSets[StateGroupId=Normal].InteractionBagList",
-      "Value": [
-        "HZoiGameplay_SelectVenue"
-      ],
-      "Enabled": true
-    },
-    {
-      "Method": "Append",
-      "Query": "ObjectSelectionSet[Id=Sofa02].SelectionSets[StateGroupId=Normal].InteractionBagList",
-      "Value": [
-        "HZoiGameplay_SelectVenue"
-      ],
-      "Enabled": true
-    },
-    {
-      "Method": "Append",
-      "Query": "ObjectSelectionSet[Id=CinemaSeat02].SelectionSets[StateGroupId=Normal].InteractionBagList",
-      "Value": [
-        "HZoiGameplay_SelectVenue"
-      ],
-      "Enabled": true
     }
   ]
 }

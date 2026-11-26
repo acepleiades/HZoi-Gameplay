@@ -2,11 +2,14 @@ local callbacks, clientCallbacks, pending, queued, logs = {}, nil, {}, {}, {}
 local clock, ownerId, partnerId, bedId, alternateBedId = 100, 20522, 20524, 21166, 21167
 local sofaId, sofaLocation = 21168, {X = 900, Y = 500, Z = 0}
 local controlled, blockedSide, queueResult = ownerId, false, "Success"
-local notices, privacyQueries, speech = {}, {}, {}
+local notices, privacyQueries, speech, pickerNotices = {}, {}, {}, {}
 local observerId = 20526
 local scores = {}
 local partnerStage, partnerGender, ownerGender = 32, 2, 1
 local walkable = function() return true end
+local bedPath = function() return true end
+local bedRoom = function() return true end
+local bedSlots
 local SELECT_VENUE = "HZoiGameplay_SelectVenue"
 local pendingCoops, currentCoops = {}, {}
 local nativeSchedulers = {}
@@ -23,6 +26,8 @@ local function actor(i)
         IsPlayingInteraction = function() return currentCoops[i] == true or nativeInteractions[i] == true end,
         GetCurrentInteractionPlayReason = function() return nativePlayReasons[i] or 0 end,
         GetCurrentInteractionBagId = function() return "None" end,
+        GetCurrentInteractionQueueId = function() return -1 end,
+        InteractionQueue = {},
         AddInteractionQueueByParam = function(_, target, destination, bag)
             if queueResult ~= "Success" then return queueResult end
             queued[#queued + 1] = {id = i, target = target.Value, destination = destination, bag = bag}
@@ -63,6 +68,15 @@ local owner, partner, observer = actor(ownerId), actor(partnerId), actor(observe
 local bed = {
     GetLocation = function() return point(300, 300, 0) end,
     GetRotation = function() return {Yaw = 90} end,
+    GetComponent = function() return bedSlots end,
+}
+local site = {
+    IsIn = function() return true end,
+    IsSameRoom = function(_, _, destination) return bedRoom(destination) end,
+    IsExistInternalPath = function(_, _, destination, params)
+        assert(params.bIgnorePermission == false)
+        return bedPath(destination, params.EntityId.Value)
+    end,
 }
 local manager = {
     GetAllEntities = function(_, kind)
@@ -89,7 +103,11 @@ print = function(text) logs[#logs + 1] = text end
 os.time = function() return clock end
 UE = {FVector = point}
 inzoi = {
-    FB1EntityId = entity, getB2Manager = function() return manager end,
+    FB1EntityId = entity, getB2Manager = function(name)
+        if name == "FB2SiteManager" then return {FindClosestSite = function() return site end} end
+        return manager
+    end,
+    FB1NavigationQueryParams = function() return {} end,
     getB2Subsystem = function()
         return {IsOnWalkableGrid = function(_, p) return (not blockedSide or p.X >= 600) and walkable(p) end}
     end,
@@ -99,13 +117,15 @@ inzoi = {
             local query = require("SceneZOIAddon.Json").decode(value)
             query.testCarrier = target.Value
             if query.kind == "arrival" then privacyQueries[#privacyQueries + 1] = query end
+        elseif kind == "HZoiGameplay.PickerPaused" then
+            pickerNotices[#pickerNotices + 1] = {who = target.Value, message = value}
         else
             assert(kind == "HZoiGameplay.Notice")
             notices[#notices + 1] = value
         end
     end},
     EB1ActionType = {Delay = 33},
-    EB2ComponentType = {Interaction = 1}, EB1InteractionPlayReason = {User = 1},
+    EB2ComponentType = {Interaction = 1, Slot = 2}, EB1InteractionPlayReason = {User = 1},
     EB1InteractionCancelReason = {User = 1, CharacterOverlap = 77, FailedMoveOver = 78, CoopCanceled = 79},
     EB1AddInteractionQueueResult = {Success = "Success", EnqueueConditionCheckFail = "EnqueueConditionCheckFail"},
     FB2ControllerSystem = {GetPossessEntityId = function() return entity(controlled) end},
@@ -206,18 +226,18 @@ local function fire(kind, player, bag, victim, reason, nativeReason)
         reason = reason, Reason = nativeReason,
     })
 end
-local function features(hasStopExplanation)
+local function features(hasStopExplanation, lacksSpeedFloor)
     return setmetatable({stop_session_display_reason = hasStopExplanation}, {__index = function(_, feature)
+        if feature == "autonomous_auto_speed_minimum" and lacksSpeedFloor then return end
         if feature ~= "stop_session_display_reason" then return 1 end
     end})
 end
 
-local function selectFurniture(furniture, eventTarget)
-    local selector = controlled == ownerId and owner or partner
-    selector:ClickVenue(furniture, point(99, 99, 99), true)
-    fire("started", controlled, SELECT_VENUE, eventTarget or -1)
-    selector:GetComponent().InteractionQueue = {}
-    fire("finished", controlled, SELECT_VENUE, eventTarget or -1)
+local furnitureClicks = 0
+local function selectFurniture(furniture)
+    furnitureClicks = furnitureClicks + 1
+    module.on_lua_message(state, component, "HZoiGameplay.FurnitureInvite",
+        ("invite-1234567890000-%d|%d|%d"):format(furnitureClicks, controlled, furniture))
 end
 
 local function invite(partner, bed, bedStatus, rejection, cancelPicker, preflightResult)
@@ -591,6 +611,24 @@ assert(#queued == 0 and notices[#notices] == "furniture_unavailable")
 invite(partnerId, bedId, nil, "EnqueueConditionCheckFail")
 assert(#queued == 0 and notices[#notices] == "not_eligible")
 
+local ordinaryNotices = #notices
+selectFurniture(bedId)
+reply("get_version", {features = features(1)})
+reply("find_furniture", {furniture = {{furniture_id = tostring(bedId), profile = {kind = "bed.queen"}}}})
+local pausedPicker = request("open_partner_picker")
+clientCallbacks.response({request_id = pausedPicker.key, ok = false, code = "game_paused", message = "Game paused"})
+assert(#pending == 0 and #queued == 0 and #notices == ordinaryNotices and #pickerNotices == 1
+    and pickerNotices[1].who == controlled and pickerNotices[1].message == "Game paused",
+    "A paused invitation shows the host's message exactly once and does not start gameplay")
+invite(partnerId, bedId, nil, nil, true)
+
+local noticeCountBeforeOldHost = #notices
+selectFurniture(bedId)
+reply("get_version", {features = features(1, true)})
+assert(#pending == 0 and #queued == 0 and #notices == noticeCountBeforeOldHost + 1
+    and notices[#notices] == "update_scenezoi", "A host without the Auto-mode speed floor needs an update")
+invite(partnerId, bedId, nil, nil, true)
+
 local bedActions = owner:GetComponent()
 bedActions.InteractionQueue = {}
 fire("started", controlled, SELECT_VENUE, bedId)
@@ -627,8 +665,7 @@ local function sofaRow(isSide, available, furniture)
 end
 local function sofaInvite(available)
     queued = {}
-    -- A resolved action target may differ from the originally picked object.
-    selectFurniture(sofaId, bedId)
+    selectFurniture(sofaId)
     reply("get_version", {features = setmetatable({}, {__index = function() return 1 end})})
     reply("find_furniture", {furniture = {sofaRow(false, false), sofaRow(true, false)}})
     local picker = reply("open_partner_picker", {opened = true})
@@ -994,6 +1031,48 @@ fire("canceled", partnerId, WALK, -1, 1)
 tick()
 assert(#queued == 3 and #pending == 0 and notices[#notices] == "walk_failed")
 line("Arrival overlap checks passed: serial retry, stale events, current native recovery, superseding actions, cancellation, and final revalidation.")
+
+bedSlots = {
+    SlotStateInfos = {point(390, 300, 45), point(210, 300, 45)},
+    GetSlotLocationBySlotStateInfo = function(_, slot) return true, slot end,
+}
+local function aisle(p)
+    return p.X == 390 and (p.Y == 300 or p.Y == 455) and p.Z == 0
+end
+local function otherRoom(p)
+    return math.abs(p.X - 300) < .01 and math.abs(p.Y - 450) < .01
+end
+bedRoom = function(p) return not otherRoom(p) end
+-- The old points look walkable, but one is beyond a wall and the routes to
+-- the others are unusable. Only the close approach and its staggered spot
+-- work for these two paths.
+walkable = function(p)
+    return aisle(p) or math.abs(p.X - 300) < .01
+        or (p.X == 210 and (p.Y == 300 or p.Y == 455))
+end
+bedPath = function(p, who)
+    assert(not otherRoom(p), "Do not route to a sample on the other side of the wall")
+    return aisle(p) and ((who == ownerId and p.Y == 455) or (who == partnerId and p.Y == 300))
+end
+local closeFirst, closeSecond = prepareOverlap()
+assert(aisle(closeFirst) and closeFirst.Y == 455 and aisle(closeSecond) and closeSecond.Y == 300,
+    "Both Zois use separate reachable spots along the same narrow side")
+finishWalk(owner, ownerId, closeFirst)
+finishWalk(partner, partnerId, closeSecond)
+tick()
+reply("validate_start", {valid = false, code = "furniture_unavailable"})
+assert(#pending == 0 and notices[#notices] == "furniture_unavailable",
+    "A narrow-aisle arrival still revalidates the original bed")
+
+bedPath = function() return false end
+queued = {}
+invite(partnerId, bedId)
+conversation(false)
+assert(#queued == 1 and #pending == 0 and notices[#notices] == "walk_failed",
+    "A bed with no reachable pair queues neither walk")
+bedPath, bedRoom, walkable = function() return true end, function() return true end, function() return true end
+bedSlots = nil
+line("Bed arrival checks passed: room boundary, route permissions for each Zoi, narrow aisle, and unavailable paths.")
 
 -- The same policy gates picker candidates and NPC/Urge eligibility in B2.
 local life = require("LifeStageEligibility")

@@ -9,6 +9,11 @@ refuses through the native conversation. If the answer is yes, both Zois walk to
 you clicked. SceneZOI starts once both arrive and the selected spot is still
 available.
 
+On beds, both Zois use native walks to separate standing spots. HZoi checks
+each Zoi's route inside the venue and uses nearby native bed slots as
+landmarks when the usual spots are blocked. The two Zois can approach along
+one open side, including the aisle between single beds.
+
 On a sofa, the invitation uses an available adjacent seat pair with room for
 both Zois to approach. If someone takes those seats while they are walking,
 the attempt ends with a sofa availability message. SceneZOI reserves the
@@ -38,6 +43,8 @@ and a queen bed with one side against a wall.
    beside the selected bed. At the wall-side bed, observe where each Zoi
    approaches. Exit SceneZOI and check that both can move again.
 4. Repeat both outcomes on the other queen bed and a supported single bed.
+   Try a pair of single beds with one narrow aisle between them. Both Zois
+   should reach the selected bed when two spots along the aisle are reachable.
    An ordinary object should have no HZoi option. A bed without a compatible
    SceneZOI route should report the problem before bringing anyone over.
 5. Try a same-sex pair with a pack that supports both goals and again without
@@ -79,20 +86,21 @@ preserve verified completions without applying a final moodlet.
 
 ## Implementation
 
-Ground, bed and sofa menus use the same native `HZoiGameplay_SelectVenue`
-interaction. inZOI supplies the burning heart and its ModKit marker.
-Furniture that uses a supported bed or sofa menu template inherits the option,
-including mod-added furniture. A pack that defines its own menu template can
-append `HZoiGameplay_SelectVenue` to its normal `ObjectSelectionSet`.
-SceneZOI's live furniture list checks whether the clicked object has a
-supported profile. The native partner picker checks the
+The ground menu uses the native `HZoiGameplay_SelectVenue` interaction to
+capture the exact clicked world point. The furniture menu uses SceneZOI's
+shared `scenezoi_furniture` trigger filter. Any sofa SceneZOI recognizes from
+its seating slots and any bed covered by a SceneZOI furniture profile can
+offer **Have Sex Here**, including furniture from other mods. Both menus
+show the burning heart and the game's ModKit marker.
+
+The furniture trigger forwards the exact object ID to the same invitation
+flow as the ground menu. The native partner picker checks the
 same life-stage eligibility as invitations and Urges when a partner is chosen.
 Content and furniture checks run before the invitation. The placement distance
 check runs after both Zois arrive. For
 sofas, it queries availability again with the two chosen participants and
 passes the same `furniture_pair_id` to preflight, arrival validation, and
-playback. The invitation reads the clicked object or world point from the
-native queue entry. The menu action neither moves a Zoi nor takes a furniture
+playback. The menu action neither moves a Zoi nor takes a furniture
 slot. After acceptance, both walks are checked against the scene
 and role bindings selected before the invitation.
 

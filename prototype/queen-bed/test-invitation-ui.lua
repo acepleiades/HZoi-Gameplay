@@ -34,4 +34,11 @@ controlled = nil
 deliver("arrival_privacy_denied")
 assert(#toasts == 1, "A transition without an active character must suppress the privacy toast")
 
-print("Privacy toast follows the initiating Zoi at receipt time.")
+controlled = initiator
+UI.on_lua_message(state, nil, "HZoiGameplay.PickerPaused", "Jeu en pause")
+assert(#toasts == 2 and toasts[2]:match("Jeu en pause"), "Use SceneZOI's localized picker pause message")
+controlled = bystander
+UI.on_lua_message(state, nil, "HZoiGameplay.PickerPaused", "Jeu en pause")
+assert(#toasts == 2, "Do not show a delayed picker notice for another Zoi")
+
+print("Privacy and picker toasts follow the initiating Zoi at receipt time.")

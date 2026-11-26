@@ -121,6 +121,8 @@ assert(not Relationship.onResult({}, {participants = {"1", "2", "3"}, completion
 local roster = {"1", "2", "3"}
 local route = require("EncounterArguments")({handjob = {sexual_activity = "non_penetrative"}}, "1", roster)
 assert(#route.participants == 3 and #route.goals == 3 and route.goals[3].participant_id == "3")
+assert(route.auto_speed.start == 0.5 and route.auto_speed.finish == 2 and route.auto_speed.minimum == 1,
+    "Every HZoi Gameplay route sets the Auto-mode speed floor to 1x")
 local group = Ledger.new("group", "test.client", {initiator = "1", partner = "2"}, route.participants)
 roster[3] = "4"
 assert(group.participants[3] == "3", "The ledger owns the roster it validated")

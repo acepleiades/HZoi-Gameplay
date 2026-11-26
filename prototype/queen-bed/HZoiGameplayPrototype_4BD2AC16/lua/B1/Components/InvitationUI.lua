@@ -71,6 +71,10 @@ function M.on_lua_message(self, component, kind, content)
     end
     if kind == "HZoiGameplay.Urge" then
         showUrge(self, content)
+    elseif kind == "HZoiGameplay.PickerPaused" then
+        if isControlled(self.actor) then
+            inzoi.cli.execute("toast.show immediate=true message=" .. Json.encode(content))
+        end
     elseif kind == "HZoiGameplay.Notice" then
         -- The player can switch Zois while the notification is in transit.
         if content == "arrival_privacy_denied" and not isControlled(self.actor) then return end

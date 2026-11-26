@@ -4,7 +4,7 @@ This document describes how HZoi Gameplay starts an autonomous encounter through
 
 ## Start request
 
-Call `get_version` with empty arguments and require value `1` in `reply.result.features` for `autonomous_scenes`, `autonomous_stages`, `autonomous_stage_progress`, `autonomous_stage_priorities`, `autonomous_auto_restrictions`, `autonomous_joint_goal_routes`, `autonomous_post_completion_stay`, and `autonomous_manual_completion_exit`. Call `get_definitions` with empty arguments and use `reply.result.actions`, a map keyed by registered action ID. Use successful replies for both operations.
+Call `get_version` with empty arguments and require value `1` in `reply.result.features` for `autonomous_scenes`, `autonomous_stages`, `autonomous_stage_progress`, `autonomous_stage_priorities`, `autonomous_auto_restrictions`, `autonomous_joint_goal_routes`, `autonomous_post_completion_stay`, `autonomous_manual_completion_exit`, and `autonomous_auto_speed_minimum`. Call `get_definitions` with empty arguments and use `reply.result.actions`, a map keyed by registered action ID. Use successful replies for both operations.
 
 SceneZOI's `sexual_activity` categories are `non_penetrative` (external stimulation), `penetrative_non_coital` (penetration other than vaginal intercourse), and `coital` (vaginal intercourse). The optional field is independent of `content_rating`. Verify that the host returns `handjob`, `fellatio`, and `vaginal_sex` in those respective categories before testing the bundled HZoi clips. HZoi uses the first two categories for initial sexual activity. Anal intercourse belongs to the intercourse tier and is eligible only for a male/male pair. The scene queries take the resulting action IDs.
 
@@ -83,7 +83,7 @@ local function makeEncounterArguments(actions, initiatorId, participantIds, furn
             {stage = 4, matches = intercourseFirst},
         },
         auto_restrictions = #excluded > 0 and {excluded_actions = excluded} or nil,
-        auto_speed = {start = 0.5, finish = 2},
+        auto_speed = {start = 0.5, finish = 2, minimum = 1},
         post_completion_stay_seconds = 6,
         skip_post_completion_stay_after_manual = true,
         placement = {exit = "restore"},
@@ -117,7 +117,7 @@ arguments.furniture_pair_id = ready.furniture_pair_id or arguments.furniture_pai
 client:request(owner, startRequestId, "start_autonomous_scene", arguments)
 ```
 
-The leading participant's progress makes stages 2–4 due at 25%, 50%, and 75% and advances the speed presets from 0.5× to 2×. The current API ties the speed preset to the stage. Stages 1–2 favor opening activities and stages 3–4 favor intercourse. Within a tier, SceneZOI prefers an eligible clip whose activity group has yet to play. Each scene ID is its own group in this request. The planner can switch clips if progress stalls or keep the current clip if it is the best reachable choice. All goals can be met before stage 4. The bundled HZoi intercourse clips support both roles reaching completion in the same loop.
+The leading participant's progress makes stages 2–4 due at 25%, 50%, and 75%. Auto selects a speed preset at each stage, with a 1× minimum and a 2× final preset. Stages 1–2 favor opening activities and stages 3–4 favor intercourse. Within a tier, SceneZOI prefers an eligible clip whose activity group has yet to play. Each scene ID is its own group in this request. The planner can switch clips if progress stalls or keep the current clip if it is the best reachable choice. All goals can be met before stage 4. The bundled HZoi intercourse clips support both roles reaching completion in the same loop.
 
 | Venue | Current HZoi intercourse clips for a supported pair |
 | --- | --- |
