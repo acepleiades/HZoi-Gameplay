@@ -146,16 +146,4 @@ function M.sayAsWitness(witness, participant, pool)
     end
 end
 
-local privacyBubbles = {
-    "HZoiGameplay_PrivacyPrivateTime",
-    "HZoiGameplay_PrivacyWorstMoment",
-    "HZoiGameplay_PrivacyEmptyRoom",
-}
-
-function M.privacyComplaint(initiator, partner)
-    local bubble = privacyBubbles[math.random(#privacyBubbles)]
-    M.say(initiator, partner, bubble)
-    return bubble
-end
-
 return M

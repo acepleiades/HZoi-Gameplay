@@ -47,66 +47,6 @@
       "Method": "Append",
       "Query": "SpeechBubble",
       "Value": {
-        "Id": "HZoiGameplay_PrivacyPrivateTime",
-        "SpeechBubbleData": [
-          {
-            "ListKey": "1",
-            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyPrivateTime_MessageTextId",
-            "Icon": "None",
-            "SpeechBubbleOption": "Basic",
-            "IntervalSec": 0.2,
-            "LifeTime": 5,
-            "bOverride": true,
-            "Probability": 1
-          }
-        ]
-      },
-      "Enabled": true
-    },
-    {
-      "Method": "Append",
-      "Query": "SpeechBubble",
-      "Value": {
-        "Id": "HZoiGameplay_PrivacyWorstMoment",
-        "SpeechBubbleData": [
-          {
-            "ListKey": "1",
-            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyWorstMoment_MessageTextId",
-            "Icon": "None",
-            "SpeechBubbleOption": "Basic",
-            "IntervalSec": 0.2,
-            "LifeTime": 5,
-            "bOverride": true,
-            "Probability": 1
-          }
-        ]
-      },
-      "Enabled": true
-    },
-    {
-      "Method": "Append",
-      "Query": "SpeechBubble",
-      "Value": {
-        "Id": "HZoiGameplay_PrivacyEmptyRoom",
-        "SpeechBubbleData": [
-          {
-            "ListKey": "1",
-            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyEmptyRoom_MessageTextId",
-            "Icon": "None",
-            "SpeechBubbleOption": "Basic",
-            "IntervalSec": 0.2,
-            "LifeTime": 5,
-            "bOverride": true,
-            "Probability": 1
-          }
-        ]
-      },
-      "Enabled": true
-    },
-    {
-      "Method": "Append",
-      "Query": "SpeechBubble",
-      "Value": {
         "Id": "HZoiGameplay_WitnessBetrayed1",
         "SpeechBubbleData": [
           {

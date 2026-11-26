@@ -2,7 +2,7 @@ local now = 100
 local controlled = 1
 local callbacks, wire, queued, canceled, completed, terminal = {}, {}, {}, {}, {}, {}
 local observers, tickCount
-local privacyQueries, complaints = {}, {}
+local privacyQueries, speech = {}, {}
 local Json = require("SceneZOIAddon.Json")
 local function entity(value) return {Value = value or -1} end
 local function point(x, y, z) return {X = x, Y = y or 0, Z = z or 0} end
@@ -153,7 +153,7 @@ package.loaded.WitnessNative = {
         assert(observer == actors[31], "Read the observer's side")
         return 0
     end,
-    privacyComplaint = function(speaker) complaints[#complaints + 1] = speaker end,
+    say = function(...) speech[#speech + 1] = {...} end,
 }
 local invite = require("Components.VenueInvite")
 invite.on_begin()
@@ -281,8 +281,8 @@ arrived(22)
 tick()
 reply(b, "arrival", "validate_start", valid(21, 22, "center"))
 confirmPrivacy(b, {{id = "31"}})
-assert(not wire["encounter." .. b .. ".start"] and #complaints == 2 and #canceled == 0,
-    "A visible unqualified observer prevents playback after both arrivals")
+assert(not wire["encounter." .. b .. ".start"] and #speech == 0 and #canceled == 0,
+    "A visible unqualified observer ends the invitation without dialogue or playback")
 
 actors[31]:move(point(300))
 actors[21]:move(point(300))

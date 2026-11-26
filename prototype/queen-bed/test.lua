@@ -2,7 +2,7 @@ local callbacks, clientCallbacks, pending, queued, logs = {}, nil, {}, {}, {}
 local clock, ownerId, partnerId, bedId, alternateBedId = 100, 20522, 20524, 21166, 21167
 local sofaId, sofaLocation = 21168, {X = 900, Y = 500, Z = 0}
 local controlled, blockedSide, queueResult = ownerId, false, "Success"
-local notices, privacyQueries, complaints = {}, {}, {}
+local notices, privacyQueries, speech = {}, {}, {}
 local observerId = 20526
 local scores = {}
 local partnerStage, partnerGender, ownerGender = 32, 2, 1
@@ -149,9 +149,7 @@ package.loaded["SceneZOIAddon.Client"] = {
 }
 package.loaded.NpcInitiative = {new = function() end}
 package.loaded.WitnessNative = {
-    privacyComplaint = function(speaker, target)
-        complaints[#complaints + 1] = {speaker:GetEntityId().Value, target:GetEntityId().Value}
-    end,
+    say = function(...) speech[#speech + 1] = {...} end,
     relationshipScore = function(witness, target, stat)
         assert(witness == observer, "Read the score from the observer's side")
         return scores[target:GetEntityId().Value][stat]
@@ -266,11 +264,13 @@ local function cancelNativeApproach(origin, coopId, targetId, withDialogue)
     fire("finished", ownerId, INVITE, partnerId)
     if withDialogue then fire("started", ownerId, "Coop_TalkLike_Before_MakeLove", partnerId) end
 
-    nativeSchedulers = {{
+    local coop = {
         CoopId = coopId, OriginInteractionBagId = origin,
         HostId = entity(ownerId), MainTargetId = entity(targetId),
         GetEntityId = function() return entity(schedulerId) end,
-    }}
+        bSuppressNextCancelToast = false,
+    }
+    nativeSchedulers = {coop}
     -- In retail, started is emitted while the action is still in the queue.
     for _, who in ipairs({partnerId, ownerId}) do
         local person = who == ownerId and owner or partner
@@ -279,6 +279,9 @@ local function cancelNativeApproach(origin, coopId, targetId, withDialogue)
         fire("started", who, COOP_WALK, -1)
         actions.InteractionQueue = {}
     end
+    local ownedApproach = origin == INVITE and targetId == partnerId and not withDialogue
+    assert(coop.bSuppressNextCancelToast == ownedApproach,
+        "Only the owned invitation approach may suppress the native cancel toast")
 
     fire("canceled", partnerId, COOP_WALK, -1, nil, inzoi.EB1InteractionCancelReason.FailedMoveOver)
     fire("canceled", ownerId, COOP_WALK, -1, "CoopCanceled")
@@ -805,10 +808,11 @@ arriveAtGround(false)
 reply("validate_start", standing)
 scores[ownerId].Romance = 29
 local refusalBefore, outcomeBefore = #refusalEffects, #resultEffects
+local noticesBefore = #notices
 privacyReply(assert(table.remove(privacyQueries, 1)), {{id = tostring(observerId)}})
-assert(#pending == 0 and notices[#notices] == "arrival_privacy_denied")
-assert(#complaints == 2 and complaints[1][1] == complaints[2][2]
-    and complaints[1][2] == complaints[2][1], "Both participants react to the privacy denial")
+assert(#pending == 0 and #notices == noticesBefore + 1 and notices[#notices] == "arrival_privacy_denied",
+    "One privacy toast ends the attempt before SceneZOI starts")
+assert(#speech == 0, "Save walk-in dialogue for an active encounter")
 assert(#refusalEffects == refusalBefore and #resultEffects == outcomeBefore, "Keep relationships unchanged")
 
 arriveAtGround(false)
@@ -822,8 +826,8 @@ for revision = 1, 3 do
     assert(#pending == 0, "An expired sight reply cannot start the encounter")
     if revision < 3 then clock = clock + 1; tick() end
 end
-assert(#privacyQueries == 0 and #complaints == 2 and notices[#notices] == "failed",
-    "Unresolved sight proof fails as technical, without the social reaction")
+assert(#privacyQueries == 0 and #speech == 0 and notices[#notices] == "failed",
+    "Unresolved sight proof uses the technical failure toast")
 
 arriveAtGround(false)
 reply("validate_start", standing)

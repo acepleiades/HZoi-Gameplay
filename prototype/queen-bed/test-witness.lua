@@ -294,15 +294,6 @@ assert(bubbles[4].source == 4 and bubbles[4].target == 1)
 assert(bubbles[4].id:match("^HZoiGameplay_WitnessBetrayed[1-5]$"))
 
 local native = require("WitnessNative")
-local random = math.random
-local complaints = {"HZoiGameplay_PrivacyPrivateTime", "HZoiGameplay_PrivacyWorstMoment", "HZoiGameplay_PrivacyEmptyRoom"}
-for index, bubble in ipairs(complaints) do
-    math.random = function(size) assert(size == #complaints); return index end
-    assert(native.privacyComplaint(participants["1"], participants["2"]) == bubble)
-    local submitted = bubbles[#bubbles]
-    assert(submitted.source == 1 and submitted.target == 2 and submitted.id == bubble)
-end
-math.random = random
 local removals = {}
 inzoi.FB1EntityId = function() return {} end
 inzoi.EB1ExecuteType.RemoveSpeechBubble = "RemoveSpeechBubble"
@@ -317,30 +308,31 @@ removals = {}
 local realTime, now = os.time, 100
 os.time = function() return now end
 local one, two = participants["1"], participants["2"]
-local complaint = "HZoiGameplay_PrivacyWorstMoment"
-native.say(one, two, complaint)
-native.say(two, one, complaint)
+local line = "HZoiGameplay_WitnessPerfectionist"
+local otherLine = "HZoiGameplay_WitnessRecluse"
+native.say(one, two, line)
+native.say(two, one, line)
 now = 103
-native.say(two, one, complaint) -- Replaying the same speech extends only this Zoi's deadline.
-native.say(one, two, "HZoiGameplay_PrivacyEmptyRoom", 1)
+native.say(two, one, line) -- Replaying the same speech extends only this Zoi's deadline.
+native.say(one, two, otherLine, 1)
 native.tickSpeech()
 assert(#removals == 0)
 now = 104
 native.tickSpeech()
-assert(#removals == 1 and removals[1].speaker == 1 and removals[1].id == "HZoiGameplay_PrivacyEmptyRoom")
+assert(#removals == 1 and removals[1].speaker == 1 and removals[1].id == otherLine)
 now = 105
 native.tickSpeech()
 native.tickSpeech()
-assert(#removals == 2 and removals[2].speaker == 1 and removals[2].id == complaint)
+assert(#removals == 2 and removals[2].speaker == 1 and removals[2].id == line)
 now = 107
 native.tickSpeech()
 assert(#removals == 2)
 now = 108
 native.tickSpeech()
-assert(#removals == 3 and removals[3].speaker == 2 and removals[3].id == complaint)
-native.say(two, one, complaint)
+assert(#removals == 3 and removals[3].speaker == 2 and removals[3].id == line)
+native.say(two, one, line)
 native.clearSpeech()
 native.clearSpeech()
-assert(#removals == 4 and removals[4].speaker == 2 and removals[4].id == complaint)
+assert(#removals == 4 and removals[4].speaker == 2 and removals[4].id == line)
 os.time = realTime
 print("Witness roles, restoration, all trait votes, and native speech dispatch passed")

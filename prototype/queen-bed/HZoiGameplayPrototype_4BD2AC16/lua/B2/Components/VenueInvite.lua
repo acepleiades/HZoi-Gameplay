@@ -511,6 +511,9 @@ local function recordConversationWalk(attempt, who)
     for _, coop in pairs(manager():GetAllEntities(inzoi.EB2EntityType.CoopScheduler) or {}) do
         if id(coop:GetEntityId()) == id(scheduler) and tostring(coop.OriginInteractionBagId) == INVITE
             and id(coop.HostId) == attempt.initiator and id(coop.MainTargetId) == attempt.partner then
+            -- HZoi reports terminal invitation failures itself. A blocked
+            -- approach can recover, so the native cancel toast is premature.
+            if not attempt.npc then coop.bSuppressNextCancelToast = true end
             attempt.conversationWalks = attempt.conversationWalks or {}
             attempt.conversationWalks[who] = true
             return
@@ -1069,8 +1072,7 @@ local function onArrivalPrivacy(attempt, reply, who)
         retryPrivacy(attempt, "observations_invalid")
         return
     end
-    local initiator, partner = arrivalReady(attempt)
-    if not initiator then return end
+    if not arrivalReady(attempt) then return end
     local ok, witnesses, reason, witness = pcall(ArrivalPrivacy.evaluate, attempt.args.participants,
         reply.observations, actor, WitnessNative.relationshipScore)
     if not ok or witnesses == nil then
@@ -1080,10 +1082,6 @@ local function onArrivalPrivacy(attempt, reply, who)
     if witnesses == false then
         log(attempt, "arrival_privacy_denied", {witness = witness})
         fail(attempt, reason, "arrival_privacy_denied")
-        local firstOk, first = pcall(WitnessNative.privacyComplaint, initiator, partner)
-        local secondOk, second = pcall(WitnessNative.privacyComplaint, partner, initiator)
-        log(attempt, "privacy_feedback", {initiator_ok = firstOk, partner_ok = secondOk,
-            initiator_feedback = tostring(first), partner_feedback = tostring(second)})
         return
     end
     log(attempt, "arrival_privacy_confirmed", {visible = #reply.observations})

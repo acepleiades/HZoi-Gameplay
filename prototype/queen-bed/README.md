@@ -136,7 +136,7 @@ the same policy.
 Cook `Content/String/mod_ST_Buff_4bd2ac16.uasset` with the mod. The included
 `moodlet-text.csv` is the authoring source for the English moodlet names and
 descriptions. Also cook `Content/String/mod_ST_SpeechBubble_4bd2ac16.uasset`
-for the trait reactions and privacy complaints. Its English source lines are
+for the walk-in reactions. Its English source lines are
 in `speech-text.csv`. To change either set of strings, update its CSV and
 reimport it into the corresponding native StringTable asset before packaging.
 Native speech rows use `LifeTime` in game time. HZoi also clears its own

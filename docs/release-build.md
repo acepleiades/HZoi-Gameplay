@@ -89,7 +89,9 @@ ordinary interactions for these checks.
    queue. Only the Teenager should display a speech bubble. For the arrival
    score check, supply a visible observer with Friendship 50 toward the
    same-sex participant and Romance 0 toward both. The observer should fail
-   the check.
+   the check. For a player invitation on visible living-room floor, expect
+   just the localized privacy toast. Verify both queues clear and no playback
+   starts. Overhead walk-in reactions belong to sightings during playback.
 
 Use the [iteration 1 acceptance matrix](encounter-design.md#acceptance-checks)
 and the [full invitation test notes](../prototype/queen-bed/README.md#test-in-game)

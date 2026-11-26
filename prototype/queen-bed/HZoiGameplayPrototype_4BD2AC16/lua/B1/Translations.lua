@@ -30,7 +30,7 @@ return {
         ["Both Zois need a clear path to the selected bed."] = "Both Zois need a clear path to the selected bed.",
         ["Your Zoi wants some private time with their partner."] = "Your Zoi wants some private time with their partner.",
         ["Your Zoi fulfilled their urge with their partner."] = "Your Zoi fulfilled their urge with their partner.",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "They decided to wait for some privacy. Someone they don’t know well enough could see them.",
+        ["They need more privacy."] = "They need more privacy.",
     },
     ["ko-kr"] = {
         ["Have Sex Here"] = "여기서 성관계하기",
@@ -62,7 +62,7 @@ return {
         ["Both Zois need a clear path to the selected bed."] = "두 Zoi 모두 선택한 침대까지 걸어갈 수 있어야 합니다.",
         ["Your Zoi wants some private time with their partner."] = "내 Zoi가 상대와 둘만의 시간을 보내고 싶어 합니다.",
         ["Your Zoi fulfilled their urge with their partner."] = "내 Zoi가 상대와 함께 욕구를 충족했습니다.",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "사생활이 보장될 때까지 기다리기로 했어요. 아직 충분히 친하지 않은 누군가가 볼 수 있는 곳이었어요.",
+        ["They need more privacy."] = "좀 더 사적인 공간이 필요해요.",
     },
     ["ja-jp"] = {
         ["Have Sex Here"] = "ここでセックスする",
@@ -94,7 +94,7 @@ return {
         ["Both Zois need a clear path to the selected bed."] = "両方の Zoi が選択したベッドまで歩いて行ける必要があります。",
         ["Your Zoi wants some private time with their partner."] = "あなたの Zoi は相手と二人きりで過ごしたがっています。",
         ["Your Zoi fulfilled their urge with their partner."] = "あなたの Zoi は相手と過ごして欲求を満たしました。",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "人目がなくなるまで待つことにしました。よく知らない Zoi から見える場所でした。",
+        ["They need more privacy."] = "もう少し人目を避ける必要があります。",
     },
     ["zh-cn"] = {
         ["Have Sex Here"] = "在这里做爱",
@@ -126,7 +126,7 @@ return {
         ["Both Zois need a clear path to the selected bed."] = "两位 Zoi 都需要能走到选中的床。",
         ["Your Zoi wants some private time with their partner."] = "你的 Zoi 想和伴侣单独相处一会儿。",
         ["Your Zoi fulfilled their urge with their partner."] = "你的 Zoi 和伴侣一起满足了这个心愿。",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "大家决定等有点私人空间再继续。这里有个大家不太熟的人能看到发生了什么。",
+        ["They need more privacy."] = "他们需要更私密的空间。",
     },
     ["zh-tw"] = {
         ["Have Sex Here"] = "在這裡做愛",
@@ -158,7 +158,7 @@ return {
         ["Both Zois need a clear path to the selected bed."] = "兩位 Zoi 都必須走得到選取的床。",
         ["Your Zoi wants some private time with their partner."] = "你的 Zoi 想和伴侶單獨相處一下。",
         ["Your Zoi fulfilled their urge with their partner."] = "你的 Zoi 和伴侶一起實現了這個心願。",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "大家決定等有點私人空間再繼續。這裡有個大家不太熟的人能看到發生了什麼。",
+        ["They need more privacy."] = "他們需要更隱密的空間。",
     },
     ["de-de"] = {
         ["Have Sex Here"] = "Hier Sex haben",
@@ -190,7 +190,7 @@ return {
         ["Both Zois need a clear path to the selected bed."] = "Beide Zois brauchen einen freien Weg zum ausgewählten Bett.",
         ["Your Zoi wants some private time with their partner."] = "Dein Zoi möchte mit seiner Partnerperson etwas Zeit zu zweit verbringen.",
         ["Your Zoi fulfilled their urge with their partner."] = "Dein Zoi hat sich seinen Wunsch mit seiner Partnerperson erfüllt.",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "Sie wollten auf mehr Privatsphäre warten. Jemand, den sie noch nicht gut genug kennen, konnte sie sehen.",
+        ["They need more privacy."] = "Sie brauchen mehr Privatsphäre.",
     },
     ["es-es"] = {
         ["Have Sex Here"] = "Tener sexo aquí",
@@ -222,7 +222,7 @@ return {
         ["SceneZOI could not find a supported bed or adjacent sofa seats here."] = "SceneZOI no encontró una cama compatible ni plazas contiguas de sofá en este lugar.",
         ["Update SceneZOI to use HZoi Gameplay."] = "Actualiza SceneZOI para usar HZoi Gameplay.",
         ["Both Zois need a clear path to the selected bed."] = "Los dos Zois necesitan un camino despejado hasta la cama elegida.",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "Han decidido esperar a tener un poco de intimidad. Alguien a quien no conocen lo suficiente podía verlos.",
+        ["They need more privacy."] = "Necesitan más intimidad.",
     },
     ["fr-fr"] = {
         ["Have Sex Here"] = "Faire l’amour ici",
@@ -254,7 +254,7 @@ return {
         ["SceneZOI could not find a supported bed or adjacent sofa seats here."] = "SceneZOI n’a trouvé ni lit compatible ni places côte à côte sur un canapé à cet endroit.",
         ["Update SceneZOI to use HZoi Gameplay."] = "Mettez SceneZOI à jour pour utiliser HZoi Gameplay.",
         ["Both Zois need a clear path to the selected bed."] = "Les deux Zois doivent pouvoir accéder au lit choisi sans obstacle.",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "Les Zois ont décidé d’attendre d’avoir un peu d’intimité. Quelqu’un qu’ils ne connaissent pas assez bien pouvait les voir.",
+        ["They need more privacy."] = "Il leur faut plus d’intimité.",
     },
     ["it-it"] = {
         ["Have Sex Here"] = "Fai sesso qui",
@@ -286,7 +286,7 @@ return {
         ["SceneZOI could not find a supported bed or adjacent sofa seats here."] = "SceneZOI non ha trovato un letto compatibile o posti adiacenti su un divano in questo punto.",
         ["Update SceneZOI to use HZoi Gameplay."] = "Aggiorna SceneZOI per usare HZoi Gameplay.",
         ["Both Zois need a clear path to the selected bed."] = "A entrambi gli Zoi serve un percorso libero verso il letto scelto.",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "Hanno deciso di aspettare di avere un po’ di privacy. Poteva vederli una persona che non conoscono abbastanza.",
+        ["They need more privacy."] = "Serve più privacy.",
     },
     ["nl-nl"] = {
         ["Have Sex Here"] = "Hier seks hebben",
@@ -318,7 +318,7 @@ return {
         ["Both Zois need a clear path to the selected bed."] = "Beide Zois moeten het gekozen bed via een vrije route kunnen bereiken.",
         ["Your Zoi wants some private time with their partner."] = "Je Zoi wil even alleen zijn met diens partner.",
         ["Your Zoi fulfilled their urge with their partner."] = "Je Zoi heeft die wens samen met diens partner vervuld.",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "Ze besloten te wachten op wat meer privacy. Iemand die ze niet goed genoeg kennen, kon hen zien.",
+        ["They need more privacy."] = "Ze hebben meer privacy nodig.",
     },
     ["pl-pl"] = {
         ["Have Sex Here"] = "Uprawiaj seks tutaj",
@@ -350,7 +350,7 @@ return {
         ["Both Zois need a clear path to the selected bed."] = "Obie osoby muszą mieć swobodne dojście do wybranego łóżka.",
         ["Your Zoi wants some private time with their partner."] = "Twój Zoi chce spędzić chwilę na osobności z bliską osobą.",
         ["Your Zoi fulfilled their urge with their partner."] = "Twój Zoi spełnił swoje pragnienie z bliską osobą.",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "Postanowiono poczekać na trochę prywatności. Ktoś, kogo nie znają dość dobrze, mógł ich zobaczyć.",
+        ["They need more privacy."] = "Potrzebują więcej prywatności.",
     },
     ["pt-br"] = {
         ["Have Sex Here"] = "Transar aqui",
@@ -382,7 +382,7 @@ return {
         ["Both Zois need a clear path to the selected bed."] = "Os dois Zois precisam de um caminho livre até a cama escolhida.",
         ["Your Zoi wants some private time with their partner."] = "Seu Zoi quer um tempo a sós com seu par.",
         ["Your Zoi fulfilled their urge with their partner."] = "Seu Zoi realizou o desejo com seu par.",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "Resolveram esperar até ter um pouco de privacidade. Tinha alguém que não conhecem bem o bastante e que podia ver o que estava acontecendo.",
+        ["They need more privacy."] = "Eles precisam de mais privacidade.",
     },
     ["pt-pt"] = {
         ["Have Sex Here"] = "Fazer sexo aqui",
@@ -414,7 +414,7 @@ return {
         ["SceneZOI could not find a supported bed or adjacent sofa seats here."] = "O SceneZOI não encontrou uma cama compatível nem lugares contíguos num sofá neste local.",
         ["Update SceneZOI to use HZoi Gameplay."] = "Atualiza o SceneZOI para usares o HZoi Gameplay.",
         ["Both Zois need a clear path to the selected bed."] = "Os dois Zois precisam de um caminho desimpedido até à cama escolhida.",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "Decidiram esperar até terem um pouco de privacidade. Alguém que não conhecem suficientemente bem podia vê-los.",
+        ["They need more privacy."] = "Precisam de mais privacidade.",
     },
     ["ru-ru"] = {
         ["Have Sex Here"] = "Заняться сексом здесь",
@@ -446,7 +446,7 @@ return {
         ["Both Zois need a clear path to the selected bed."] = "У обоих Зои должен быть свободный путь к выбранной кровати.",
         ["Your Zoi wants some private time with their partner."] = "Ваш Зои хочет немного побыть наедине с близким человеком.",
         ["Your Zoi fulfilled their urge with their partner."] = "Ваш Зои исполнил своё желание вместе с близким человеком.",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "Зои решили подождать, пока появится возможность уединиться. Их мог увидеть кто-то, с кем они недостаточно хорошо знакомы.",
+        ["They need more privacy."] = "Им нужно больше уединения.",
     },
     ["tr-tr"] = {
         ["Have Sex Here"] = "Burada seks yap",
@@ -478,6 +478,6 @@ return {
         ["Both Zois need a clear path to the selected bed."] = "İki Zoi’nin de seçilen yatağa gidebileceği açık bir yol olmalı.",
         ["Your Zoi wants some private time with their partner."] = "Zoi’n partneriyle biraz baş başa kalmak istiyor.",
         ["Your Zoi fulfilled their urge with their partner."] = "Zoi’n arzusunu partneriyle gerçekleştirdi.",
-        ["They decided to wait for some privacy. Someone they don’t know well enough could see them."] = "Biraz mahremiyet olana kadar beklemeye karar verdiler. Yeterince tanımadıkları biri onları görebiliyordu.",
+        ["They need more privacy."] = "Biraz daha mahremiyete ihtiyaçları var.",
     },
 }
