@@ -1,7 +1,7 @@
 # HZoi Gameplay
 
 HZoi Gameplay adds invitations and autonomous encounters to inZOI. Click a
-supported bed, a sofa or a clear spot on the ground and choose **Have sex here**.
+supported bed, a sofa or a clear spot on the ground and choose **Have Sex Here**.
 Pick one partner. The Zois use the game's **Set the Mood** rules, so the answer
 depends on their relationship and mood. If the partner accepts, both Zois walk
 to the chosen spot before the scene begins.
@@ -36,14 +36,15 @@ load your household. The game displays the mod as **HZoi Gameplay**.
 
 ## Play
 
-- **Invite a partner.** Choose **Have sex here**, select a partner and click
+- **Invite a partner.** Choose **Have Sex Here**, select a partner and click
   **Invite**. A refusal ends the invitation. An acceptance sends both Zois to
   the spot. The scene can still be called off if the spot becomes unavailable
   or someone nearby can see the pair and they decide to wait for privacy.
 - **Let Zois initiate.** With autonomy enabled for both Zois, an NPC with a
-  relevant Urge can invite their chosen partner and look for a private venue.
-  You can mark a suitable room with **Toggle HZoi private room**. The mark lasts
-  for the current loaded game. [How to mark a room](prototype/queen-bed/private-room-marks.md)
+  relevant Urge can invite their chosen partner. They look for a reachable
+  spot indoors, starting with rooms that have no other Zois. If they need to
+  use an occupied room, the usual arrival privacy check still applies.
+  [How Zois choose a venue](prototype/queen-bed/npc-venues.md)
 - **Control playback.** Auto mode progresses through the encounter. Turn Auto
   off to choose from the available scenes. **Exit** restores both Zois to
   normal gameplay. Their outcome can affect Romance, needs and moodlets.

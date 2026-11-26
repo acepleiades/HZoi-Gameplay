@@ -227,9 +227,7 @@
     "[From walking in on Zois having sex]": "[Après avoir surpris des Zois en train de faire l’amour]"
   },
   "messages": {
-    "Have sex here": "Faire l’amour ici",
-    "Toggle HZoi private room": "Marquer ou démarquer la pièce comme privée pour HZoi",
-    "Could not open the HZoi partner picker.": "Impossible d’ouvrir la sélection de partenaire de HZoi.",
+    "Have Sex Here": "Faire l’amour ici",
     "Your Zoi wants some private time with {partner}.": "Votre Zoi aimerait passer un moment en tête-à-tête avec {partner}.",
     "Your Zoi wants some private time with their partner.": "Votre Zoi veut passer un moment en tête-à-tête avec son partenaire.",
     "Your Zoi fulfilled their urge with {partner}.": "Votre Zoi a réalisé son envie de passer un moment intime avec {partner}.",
@@ -248,10 +246,6 @@
     "Choose a walkable spot for the encounter.": "Choisissez un endroit où les Zois peuvent se rendre.",
     "Could not read the selected ground spot. Open the ground menu and try again.": "Impossible de lire l’emplacement sélectionné. Rouvrez le menu du sol et réessayez.",
     "Both Zois need a clear path and room to stand at the selected spot.": "Les deux Zois ont besoin d’un chemin dégagé et d’assez de place pour se tenir debout à cet endroit.",
-    "Marked this room private for HZoi in the current loaded game.": "Cette pièce a été marquée comme privée pour HZoi dans la partie en cours.",
-    "Removed the HZoi private-room mark.": "La pièce n’est plus marquée comme privée pour HZoi.",
-    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "Placez-vous dans une pièce de la résidence de votre foyer et choisissez un point accessible sur le sol.",
-    "This room already has a room purpose.": "Cette pièce a déjà une fonction attribuée.",
     "Select the Zoi who sent the invitation first.": "Sélectionnez d’abord le Zoi à l’origine de l’invitation.",
     "No eligible partner was selected.": "Aucun partenaire admissible n’a été sélectionné.",
     "No scenes were found for these Zois at this spot.": "Aucune scène n’a été trouvée pour ces Zois à cet endroit.",

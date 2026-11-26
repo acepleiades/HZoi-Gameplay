@@ -15,14 +15,13 @@ local NpcVenue = require("NpcVenue")
 local Urges = require("OwnedEncounterUrges")
 local Initiative = require("NpcInitiative")
 local Standing = require("NpcStandingAnchors")
-local PrivateRoomMarks = require("PrivateRoomMarks")
 
 local M = {}
 local INVITE = "HZoiGameplay_Invite"
+local CONVERSATION_WALK = "ClickMove_Self"
 local WALK = "HZoiGameplay_Walk"
 local WALK_RETRY = "HZoiGameplay_WalkRetry"
-local GROUND = "HZoiGameplay_GroundInvite"
-local MARK_ROOM = "HZoiGameplay_MarkPrivateRoom"
+local SELECT_VENUE = "HZoiGameplay_SelectVenue"
 local DIALOGUE = {
     accept = "Coop_TalkLike_Before_MakeLove",
     refuse = "Coop_TalkLike_Before_MakeLove_Fail",
@@ -38,12 +37,16 @@ local attempts, participants = {}, {}
 local OBSERVATION_INTERVAL = 8
 local VENUE_CHECK_INTERVAL = 1
 local PICKER_TIMEOUT_SECONDS = 300
+local CONVERSATION_RETRY_DELAY_SECONDS = 2
+local CONVERSATION_RETRY_WINDOW_SECONDS = 12
+local CONVERSATION_START_GRACE_SECONDS = 10
+local CONVERSATION_CLEAR_GRACE_SECONDS = 2
 local START_CANCEL_GRACE_SECONDS = 20
 local ARRIVAL_PRIVACY_RETRIES = 3
 local ARRIVAL_PRIVACY_REPLY_SECONDS = 2
 local subscriptions = {}
-local groundSerial, npcSerial = 0, 0
-local groundClick, beginAttempt, guarded
+local venueSerial, npcSerial = 0, 0
+local venueClick, beginAttempt, guarded
 
 local function log(attempt, phase, details)
     details = details or {}
@@ -426,43 +429,53 @@ local function beginWalking(attempt)
     end
 end
 
-local function readGroundPoint(person, bag)
+local function positiveId(value)
+    local candidate = id(value)
+    return candidate and candidate:match("^[1-9]%d*$")
+end
+
+local function readVenueClick(person, eventTarget)
     local actions = interaction(person)
-    local isCurrent = tostring(actions:GetCurrentInteractionBagId()) == bag
+    local isCurrent = tostring(actions:GetCurrentInteractionBagId()) == SELECT_VENUE
     local currentId = isCurrent and actions:GetCurrentInteractionQueueId()
-    -- interaction.started fires while the unique ground request is still in
-    -- the queue. The game sets its current bag and queue ID after that event.
+    local eventFurniture = positiveId(eventTarget)
+    if eventFurniture and not manager():FindGameObject(entity(eventFurniture)) then eventFurniture = nil end
+    -- interaction.started fires before the game assigns the current bag and
+    -- queue ID. The unique queued request still holds the original selection.
     for _, row in ipairs(actions.InteractionQueue or {}) do
-        if tostring(row.InteractionBagId) == bag and (not isCurrent or row.InteractionQueueId == currentId) then
-            return row.ImpactPoint
+        if tostring(row.InteractionBagId) == SELECT_VENUE and (not isCurrent or row.InteractionQueueId == currentId) then
+            local picked = id(row.PickedEntityId)
+            local furniture = positiveId(picked) or eventFurniture
+            if furniture then return furniture end
+            if tonumber(picked) and row.ImpactPoint then return nil, row.ImpactPoint end
+            break
         end
     end
+    if eventFurniture then return eventFurniture end
     if isCurrent then
+        local picked = id(actions:GetCurrentInteractionPickedEntityId())
+        local furniture = positiveId(picked)
+        if furniture then return furniture end
+        if not tonumber(picked) then return end
         local ok, action = pcall(actions.GetCurrentAction, actions, inzoi.EB1ActionType.Delay)
-        if ok and action then return action.NonTargetLocation end
+        if ok and action then return nil, action.NonTargetLocation end
     end
 end
 
-local function consumeGroundClick(who)
-    if not groundClick or groundClick.who ~= who then return end
+local function consumeVenueClick(who)
+    if not venueClick or venueClick.who ~= who then return end
     if who ~= controlledId() then
-        groundClick = nil
+        venueClick = nil
         return
     end
-    local bag = groundClick.bag
     local person = actor(who)
-    local point = person and readGroundPoint(person, bag)
-    if not point then return end
-    groundClick = nil
-    if bag == MARK_ROOM then
-        local ok, result = pcall(PrivateRoomMarks.toggle, person, point)
-        if not ok then log(nil, "private_room_mark_error", {initiator = who, reason = tostring(result)}) end
-        notify(who, ok and result or "private_room_unavailable")
-        return
-    end
-    groundSerial = groundSerial + 1
-    beginAttempt(who, ("ground-%d-%d"):format(os.time(), groundSerial), nil,
-        UE.FVector(point.X, point.Y, point.Z))
+    if not person then return end
+    local furniture, point = readVenueClick(person, venueClick.target)
+    if not furniture and not point then return end
+    venueClick = nil
+    venueSerial = venueSerial + 1
+    local nonce = ("venue-%d-%d"):format(os.time(), venueSerial)
+    beginAttempt(who, nonce, furniture, point and UE.FVector(point.X, point.Y, point.Z))
 end
 
 local function deliverRelationship(attempt, name, ...)
@@ -484,8 +497,54 @@ local function finishRefusal(attempt)
     release(attempt)
 end
 
+local function startingQueueEntry(actions, bag)
+    local row = (actions.InteractionQueue or {})[1]
+    return row and tostring(row.InteractionBagId) == bag and row or nil
+end
+
+local function recordConversationWalk(attempt, who)
+    local actions = interaction(actor(who))
+    -- "started" arrives before the game moves the action from the queue to current.
+    local row = startingQueueEntry(actions, CONVERSATION_WALK)
+    local scheduler = row and row.CoopSchedulerId or actions:GetCurrentCoopSchedulerId()
+    if not positiveId(id(scheduler)) then return end
+    for _, coop in pairs(manager():GetAllEntities(inzoi.EB2EntityType.CoopScheduler) or {}) do
+        if id(coop:GetEntityId()) == id(scheduler) and tostring(coop.OriginInteractionBagId) == INVITE
+            and id(coop.HostId) == attempt.initiator and id(coop.MainTargetId) == attempt.partner then
+            attempt.conversationWalks = attempt.conversationWalks or {}
+            attempt.conversationWalks[who] = true
+            return
+        end
+    end
+end
+
+local function onConversationWalk(attempt, kind, who, reason)
+    if kind == "started" then
+        -- The same move bag is used by unrelated native conversations.
+        if not attempt.branch then recordConversationWalk(attempt, who) end
+        return
+    end
+    local walks = attempt.conversationWalks
+    if not walks or not walks[who] then return end
+    walks[who] = nil
+    if kind == "finished" then return end
+    log(attempt, "conversation_walk_failed", {participant = who, reason = tostring(reason)})
+    if cancelReason(reason, "FailedMoveOver") and not attempt.branch then
+        if attempt.npc or attempt.conversationRetried then
+            fail(attempt, "Could not reach the native conversation spot: FailedMoveOver")
+            return
+        end
+        local now = os.time()
+        attempt.conversationRetry = {earliest = now + CONVERSATION_RETRY_DELAY_SECONDS,
+            expires = now + CONVERSATION_RETRY_WINDOW_SECONDS}
+    elseif cancelReason(reason, "User") then
+        fail(attempt, "The player canceled the conversation approach")
+    end
+end
+
 local function onAttemptAction(attempt, kind, event, who, target, bag)
     local initiator, partner = attempt.initiator, attempt.partner
+    local reason = event.Reason or event.reason
     if attempt.phase == "conversation" and who == initiator and target == partner and bag == INVITE then
         if kind == "started" then
             attempt.conversationStarted = true
@@ -493,13 +552,26 @@ local function onAttemptAction(attempt, kind, event, who, target, bag)
         elseif kind == "finished" then
             -- RequestCoop finishes before either Zoi starts talking.
             if attempt.conversationStarted then
-                attempt.conversationDispatched = true
+                attempt.conversationDispatched = os.time()
                 finishRefusal(attempt)
             end
         else
-            fail(attempt, "Invitation " .. kind .. ": " .. tostring(event.reason))
+            fail(attempt, "Invitation " .. kind .. ": " .. tostring(reason))
         end
     elseif attempt.phase == "conversation" and attempt.conversationStarted then
+        if bag == CONVERSATION_WALK then
+            onConversationWalk(attempt, kind, who, reason)
+            return
+        end
+        if attempt.conversationRetry and kind == "started" then
+            local actions = interaction(actor(who))
+            local row = startingQueueEntry(actions, bag)
+            local playReason = event.play_reason or (row and row.PlayReason) or actions:GetCurrentInteractionPlayReason()
+            if tostring(playReason) == "User" or playReason == inzoi.EB1InteractionPlayReason.User then
+                fail(attempt, "A new player action superseded the invitation retry")
+                return
+            end
+        end
         local branch
         for answer, dialogue in pairs(DIALOGUE) do
             if (who == initiator and target == partner and bag == dialogue)
@@ -514,6 +586,7 @@ local function onAttemptAction(attempt, kind, event, who, target, bag)
                 fail(attempt, "The two Zoi conversation roles selected different responses")
                 return
             end
+            attempt.conversationRetry = nil
             attempt.branch, attempt.dialogue[who] = branch, "started"
         elseif attempt.branch == branch and attempt.dialogue[who] == "started" then
             if kind == "finished" then
@@ -521,7 +594,7 @@ local function onAttemptAction(attempt, kind, event, who, target, bag)
                 log(attempt, "dialogue_finished", {participant = who, branch = branch})
                 finishRefusal(attempt)
             else
-                fail(attempt, "Conversation " .. kind .. " for " .. who .. ": " .. tostring(event.reason))
+                fail(attempt, "Conversation " .. kind .. " for " .. who .. ": " .. tostring(reason))
             end
         end
     elseif attempt.phase == "walking" then
@@ -554,11 +627,17 @@ end
 local function onNativeEvent(kind, event)
     local who, target = id(event.entity_id), id(event.target_entity_id)
     local bag = tostring(event.interaction_bag_id)
-    if bag == GROUND or bag == MARK_ROOM then
+    if bag == SELECT_VENUE then
         if kind == "started" and who == controlledId() then
-            groundClick = {who = who, bag = bag, deadline = os.time() + 2}
+            venueClick = {who = who, target = target, deadline = os.time() + 2}
+        elseif kind == "failed" or kind == "canceled" then
+            if venueClick and venueClick.who == who then venueClick = nil end
+            return
         end
-        if groundClick and groundClick.who == who and groundClick.bag == bag then pcall(consumeGroundClick, who) end
+        if venueClick and venueClick.who == who then
+            if not positiveId(venueClick.target) then venueClick.target = target end
+            pcall(consumeVenueClick, who)
+        end
         return
     end
     local active = participants[who]
@@ -827,7 +906,7 @@ local function nextNpcVenue(attempt)
     attempt.candidateIndex = (attempt.candidateIndex or 0) + 1
     local candidate = attempt.candidates[attempt.candidateIndex]
     if not candidate then
-        fail(attempt, "No compatible reachable private venue", "no_matching_scenes")
+        fail(attempt, "No compatible reachable venue", "no_matching_scenes")
         return
     end
     attempt.candidate = candidate
@@ -858,10 +937,21 @@ local function collectNpcVenues(attempt, rows)
     attempt.candidates = candidates
     log(attempt, "npc_venues_ranked", {count = #candidates, reason = reason})
     if #candidates == 0 then
-        fail(attempt, reason or "No reachable vacant private venue", reason)
+        fail(attempt, reason or "No reachable venue", reason)
         return
     end
     request(attempt, "definitions", "get_definitions")
+end
+
+local function queueInvitation(attempt, initiator, partner)
+    local queued, reason = queue(attempt, initiator, partner:GetEntityId(), partner:GetLocation(), INVITE)
+    if not queued then
+        local denied = reason == inzoi.EB1AddInteractionQueueResult.EnqueueConditionCheckFail
+        fail(attempt, "Invitation enqueue failed: " .. tostring(reason), denied and "not_eligible" or "queue_failed")
+        return
+    end
+    attempt.invitationQueued = true
+    log(attempt, attempt.conversationRetried and "invitation_requeued" or "invitation_queued")
 end
 
 local function ask(attempt, initiator, partner, result)
@@ -872,14 +962,7 @@ local function ask(attempt, initiator, partner, result)
         attempt.groundAnchor = assert(result.anchor_participant_id, "SceneZOI did not identify the ground anchor")
     end
     attempt.phase, attempt.deadline = "conversation", os.time() + 90
-    local queued, reason = queue(attempt, initiator, partner:GetEntityId(), partner:GetLocation(), INVITE)
-    if not queued then
-        local denied = reason == inzoi.EB1AddInteractionQueueResult.EnqueueConditionCheckFail
-        fail(attempt, "Invitation enqueue failed: " .. tostring(reason), denied and "not_eligible" or "queue_failed")
-        return
-    end
-    attempt.invitationQueued = true
-    log(attempt, "invitation_queued")
+    queueInvitation(attempt, initiator, partner)
 end
 
 local function considerNpcVenue(attempt, result)
@@ -907,7 +990,9 @@ local function considerNpcVenue(attempt, result)
         nextNpcVenue(attempt)
         return
     end
-    log(attempt, "npc_venue_claimed", {site = candidate.site_id, room = candidate.room_class})
+    log(attempt, "npc_venue_claimed", {site = candidate.site_id, room = candidate.room_purpose,
+        kind = candidate.kind, furniture_id = candidate.furniture_id, assigned_bed = candidate.assigned,
+        occupied_room_fallback = candidate.occupied})
     ask(attempt, initiator, partner, result)
 end
 
@@ -1173,9 +1258,7 @@ function M.on_begin()
         local name = "interaction." .. kind
         subscriptions[name] = inzoi.event.on(name, function(info) onNativeEvent(kind, info) end)
     end
-    pollNpc = Initiative.new(M.beginNpc, function(site, initiator, partner)
-        return Standing.find(site, initiator, partner, NpcVenue.roomClass)
-    end, Urges)
+    pollNpc = Initiative.new(M.beginNpc, Standing.find, Urges)
     log(nil, "simulation_ready")
 end
 
@@ -1202,6 +1285,8 @@ beginAttempt = function(who, nonce, furniture, ground)
                 fail(attempt, "The selected ground is not walkable", "ground_unavailable")
                 return
             end
+        else
+            log(attempt, "furniture_selected")
         end
         request(attempt, "features", "get_version")
     end)
@@ -1244,12 +1329,29 @@ function M.on_lua_message(self, component, kind, content)
         end
         return
     end
-    if kind ~= "HZoiGameplay.Invite" then
-        client:on_message(kind, content)
+    client:on_message(kind, content)
+end
+
+local function conversationBusy(actions)
+    return actions:IsCurrentInteractionCoop() or actions:IsPendingCoop()
+end
+
+local function retryConversation(attempt, retry, now)
+    if now >= retry.expires then
+        fail(attempt, "The native conversation approach failed and the Zois did not become free to retry")
         return
     end
-    local nonce, initiator, furniture = content:match("^([a-z0-9_%-]+)|(%d+)|(%d+)$")
-    if nonce and #nonce <= 48 and who == initiator then beginAttempt(who, nonce, furniture) end
+    if now < retry.earliest or now == retry.lastCheck then return end
+    retry.lastCheck = now
+    local initiator, partner = confirmPair(attempt)
+    local first, second = interaction(initiator), interaction(partner)
+    if conversationBusy(first) or conversationBusy(second) or first:IsPlayingInteraction()
+        or second:IsPlayingInteraction() or not first:IsQueueEmpty() or not second:IsQueueEmpty() then return end
+    attempt.conversationStarted, attempt.conversationDispatched, attempt.conversationWalks = nil, nil, nil
+    attempt.coopClearedAt, attempt.lastCoopCheck, attempt.conversationRetry = nil, nil, nil
+    attempt.invitationQueued, attempt.conversationRetried = nil, true
+    -- The native queue still applies the same acceptance and refusal rules.
+    queueInvitation(attempt, initiator, partner)
 end
 
 local function tickAttempt(attempt)
@@ -1311,13 +1413,33 @@ local function tickAttempt(attempt)
         if not roomReady(attempt, initiator, partner) then return end
     end
     if attempt.phase == "conversation" then
+        local retry = attempt.conversationRetry
+        if retry then
+            retryConversation(attempt, retry, now)
+            return
+        end
         local first, second = attempt.initiator, attempt.partner
-        if attempt.branch ~= "accept" or not attempt.conversationDispatched or attempt.dialogue[first] ~= "finished"
-            or attempt.dialogue[second] ~= "finished" then return end
+        local dispatched = attempt.conversationDispatched
+        if not dispatched then return end
+        local answered = attempt.branch == "accept" and attempt.dialogue[first] == "finished"
+            and attempt.dialogue[second] == "finished"
+        if not answered then
+            if now < dispatched + CONVERSATION_START_GRACE_SECONDS or now == attempt.lastCoopCheck then return end
+            attempt.lastCoopCheck = now
+        end
         local initiator, partner = confirmPair(attempt)
-        if interaction(initiator):IsCurrentInteractionCoop() or interaction(partner):IsCurrentInteractionCoop() then return end
-        log(attempt, "accepted")
-        beginWalking(attempt)
+        local initiatorActions, partnerActions = interaction(initiator), interaction(partner)
+        if conversationBusy(initiatorActions) or conversationBusy(partnerActions) then
+            attempt.coopClearedAt = nil
+        elseif answered then
+            log(attempt, "accepted")
+            beginWalking(attempt)
+        elseif not attempt.coopClearedAt then
+            -- Coop state can clear before its final events are delivered.
+            attempt.coopClearedAt = now
+        elseif now >= attempt.coopClearedAt + CONVERSATION_CLEAR_GRACE_SECONDS then
+            fail(attempt, "Native invitation ended before both Zois answered")
+        end
         return
     end
     if attempt.phase ~= "walking" then return end
@@ -1330,13 +1452,12 @@ end
 
 function M.on_tick(self, component, dt)
     local who = id(component:GetOwnerEntityId())
-    if groundClick and who == groundClick.who then
-        local ok, problem = pcall(consumeGroundClick, who)
-        if groundClick and (not ok or os.time() >= groundClick.deadline) then
-            local mark = groundClick.bag == MARK_ROOM
-            groundClick = nil
-            log(nil, "ground_click_missing_location", {initiator = who, reason = tostring(problem or "Native action ended")})
-            notify(who, mark and "private_room_unavailable" or "ground_click_missing")
+    if venueClick and who == venueClick.who then
+        local ok, problem = pcall(consumeVenueClick, who)
+        if venueClick and (not ok or os.time() >= venueClick.deadline) then
+            venueClick = nil
+            log(nil, "venue_click_unresolved", {initiator = who, reason = tostring(problem or "Native action ended")})
+            notify(who, "ground_click_missing")
         end
     end
     if not client or who ~= controlledId() then return end
@@ -1361,10 +1482,9 @@ function M.shutdown()
     for name, handle in pairs(subscriptions) do
         if handle and handle ~= 0 then inzoi.event.off(name, handle) end
     end
-    subscriptions, client, groundClick, pollNpc = {}, nil, nil, nil
+    subscriptions, client, venueClick, pollNpc = {}, nil, nil, nil
     attempts, participants = {}, {}
     Urges.reset()
-    PrivateRoomMarks.reset()
 end
 
 return M

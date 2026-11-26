@@ -227,9 +227,7 @@
     "[From walking in on Zois having sex]": "[Por surpreender Zois enquanto transavam]"
   },
   "messages": {
-    "Have sex here": "Transar aqui",
-    "Toggle HZoi private room": "Alternar a marca de cômodo privado do HZoi",
-    "Could not open the HZoi partner picker.": "Não foi possível abrir o seletor de pares do HZoi.",
+    "Have Sex Here": "Transar aqui",
     "Your Zoi wants some private time with {partner}.": "Seu Zoi quer um tempo a sós com {partner}.",
     "Your Zoi fulfilled their urge with {partner}.": "Seu Zoi realizou o desejo com {partner}.",
     "{first} and {second} decided to stop after someone walked in on them.": "{first} e {second} decidiram parar quando alguém entrou e pegou os dois de surpresa.",
@@ -246,10 +244,6 @@
     "Choose a walkable spot for the encounter.": "Escolha um ponto acessível para o encontro.",
     "Could not read the selected ground spot. Open the ground menu and try again.": "Não foi possível identificar o ponto escolhido. Abra o menu do chão e tente de novo.",
     "Both Zois need a clear path and room to stand at the selected spot.": "Os dois Zois precisam de um caminho livre e de espaço para ficar de pé no ponto escolhido.",
-    "Marked this room private for HZoi in the current loaded game.": "Este cômodo foi marcado como privado para o HZoi enquanto a partida atual estiver carregada.",
-    "Removed the HZoi private-room mark.": "A marca de cômodo privado do HZoi foi removida.",
-    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "Fique dentro de um cômodo da residência da sua família e escolha um ponto acessível no chão.",
-    "This room already has a room purpose.": "Este cômodo já tem uma finalidade definida.",
     "Select the Zoi who sent the invitation first.": "Primeiro, selecione o Zoi que enviou o convite.",
     "No eligible partner was selected.": "Nenhum par elegível foi selecionado.",
     "No scenes were found for these Zois at this spot.": "Nenhuma cena foi encontrada para esses Zois neste local.",

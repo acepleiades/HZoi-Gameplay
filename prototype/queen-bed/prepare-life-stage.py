@@ -28,8 +28,7 @@ native_file = args.mod / "Content/JsonPatch/InteractionBag_patch.json"
 native_source = native_file.read_text(encoding="utf-8")
 native_rows = json.loads(native_source)
 generated_bags = {
-    "HZoiGameplay_Invite", "HZoiGameplay_GroundInvite", "HZoiGameplay_Walk", "HZoiGameplay_WalkRetry",
-    "HZoiGameplay_MarkPrivateRoom",
+    "HZoiGameplay_Invite", "HZoiGameplay_SelectVenue", "HZoiGameplay_Walk", "HZoiGameplay_WalkRetry",
 }
 changed = set()
 for patch in native_rows["PatchList"]:
@@ -42,4 +41,3 @@ for patch in native_rows["PatchList"]:
 if changed != generated_bags:
     raise ValueError(f"Missing native HZoi bags: {generated_bags - changed}")
 native_file.write_text(json.dumps(native_rows, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-(args.mod / "lua/B1/LifeStageEligibility.lua").write_bytes(policy_file.read_bytes())

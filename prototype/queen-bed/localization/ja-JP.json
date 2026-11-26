@@ -1,8 +1,6 @@
 {
   "messages": {
-    "Have sex here": "ここでセックスする",
-    "Toggle HZoi private room": "HZoi のプライベートルーム指定を切り替える",
-    "Could not open the HZoi partner picker.": "HZoi の相手選択画面を開けませんでした。",
+    "Have Sex Here": "ここでセックスする",
     "Your Zoi wants some private time with {partner}.": "あなたの Zoi は {partner} と二人きりで過ごしたがっています。",
     "Your Zoi fulfilled their urge with {partner}.": "あなたの Zoi は {partner} と過ごして欲求を満たしました。",
     "{first} and {second} decided to stop after someone walked in on them.": "{first} と {second} は、誰かが入ってきたため、やめることにしました。",
@@ -19,10 +17,6 @@
     "Choose a walkable spot for the encounter.": "二人が歩いて行ける場所を選んでください。",
     "Could not read the selected ground spot. Open the ground menu and try again.": "選択した床の位置を取得できませんでした。床のメニューを開き直して、もう一度お試しください。",
     "Both Zois need a clear path and room to stand at the selected spot.": "両方の Zoi が選択した場所まで歩いて行けることと、二人が立てるスペースが必要です。",
-    "Marked this room private for HZoi in the current loaded game.": "現在ロード中のゲームで、この部屋を HZoi のプライベートルームに指定しました。",
-    "Removed the HZoi private-room mark.": "HZoi のプライベートルーム指定を解除しました。",
-    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "世帯の住居にある部屋に入り、その部屋の歩ける床を選んでください。",
-    "This room already has a room purpose.": "この部屋にはすでに用途が設定されています。",
     "Select the Zoi who sent the invitation first.": "先に招待を送った Zoi を選んでください。",
     "No eligible partner was selected.": "招待できる相手が選択されていません。",
     "No scenes were found for these Zois at this spot.": "この場所で、この二人の Zoi に合うシーンが見つかりませんでした。",

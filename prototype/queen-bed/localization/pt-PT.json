@@ -227,9 +227,7 @@
     "[From walking in on Zois having sex]": "[Por teres apanhado Zois a fazer sexo]"
   },
   "messages": {
-    "Have sex here": "Fazer sexo aqui",
-    "Toggle HZoi private room": "Marcar ou desmarcar a divisão como privada para o HZoi",
-    "Could not open the HZoi partner picker.": "Não foi possível abrir a seleção de parceiro do HZoi.",
+    "Have Sex Here": "Fazer sexo aqui",
     "Your Zoi wants some private time with {partner}.": "O teu Zoi quer passar algum tempo a sós com {partner}.",
     "Your Zoi wants some private time with their partner.": "O teu Zoi quer passar algum tempo a sós com a pessoa com quem tem uma relação.",
     "Your Zoi fulfilled their urge with {partner}.": "O teu Zoi satisfez o desejo de passar um momento íntimo com {partner}.",
@@ -248,10 +246,6 @@
     "Choose a walkable spot for the encounter.": "Escolhe um local acessível para o encontro.",
     "Could not read the selected ground spot. Open the ground menu and try again.": "Não foi possível ler o local escolhido. Abre o menu do chão e tenta novamente.",
     "Both Zois need a clear path and room to stand at the selected spot.": "Os dois Zois precisam de um caminho desimpedido e de espaço para ficarem de pé no local escolhido.",
-    "Marked this room private for HZoi in the current loaded game.": "Esta divisão foi marcada como privada para o HZoi no jogo atual.",
-    "Removed the HZoi private-room mark.": "A divisão deixou de estar marcada como privada para o HZoi.",
-    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "Entra numa divisão da residência do teu agregado e escolhe um ponto acessível no chão.",
-    "This room already has a room purpose.": "Esta divisão já tem uma função atribuída.",
     "Select the Zoi who sent the invitation first.": "Seleciona primeiro o Zoi que enviou o convite.",
     "No eligible partner was selected.": "Não foi selecionado um parceiro elegível.",
     "No scenes were found for these Zois at this spot.": "Não foram encontradas cenas para estes Zois neste local.",

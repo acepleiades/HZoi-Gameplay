@@ -56,18 +56,31 @@ Start a fresh inZOI process, load a disposable save at Normal speed, and use
 ordinary interactions for these checks.
 
 1. Confirm all three mods appear enabled. A compatible pair should see
-   **Have sex here** and get the native one-partner picker.
+   **Have Sex Here** with a burning heart on beds, sofas and walkable ground. Confirm the
+   action has no gold **MOD** badge and other mod actions keep their badges.
+   Confirm each opens the native one-partner picker.
 2. Run one refusal and one acceptance. Make sure both queues clear after
    refusal. After acceptance, watch both Zois walk to the venue and verify
    **Exit** restores normal movement. Repeat on a bed, sofa and walkable ground.
-3. With autonomy enabled, verify a marked private room and one NPC encounter.
-   The controlled Zoi should stay available during background playback.
+3. With autonomy enabled, run the [NPC venue checks](../prototype/queen-bed/npc-venues.md#test-the-venue-search).
+   Verify a native bed assignment, the fallback without an assignment, both
+   search passes, and independent claims. The controlled Zoi should stay
+   available during background playback.
 4. Switch to a non-English modded language and repeat after a fresh launch.
    Check the menu and picker, one moodlet, an overhead line and the
    session-ending reason.
 5. Check one ordinary witness exit and an interruption. The normal gameplay
    ending should count down to auto-dismiss. A technical ending should remain
    available to read.
+   Check an observer within range across a solid wall and through a closed
+   doorway. Before playback, an obstruction should let the pair start even
+   when the observer's relationship scores are too low. During playback, the
+   observer reacts once both Zois are visible. Repeat with the camera cutting
+   away the wall.
+   Run the doorway check again while a permitted Zoi walks through it and the
+   door swings open. A sightline through the gap should count. Move the
+   observer to an angle where the leaf or a wall farther back crosses the
+   sightline and verify that the geometry blocks it again.
 6. Let a married pair finish both goals. Verify the game receives one +10
    Family request after cleanup and no Romance reward. Check Family in both
    directions and account for inZOI's relationship limits.

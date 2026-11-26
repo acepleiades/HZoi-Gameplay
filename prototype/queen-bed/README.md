@@ -1,6 +1,6 @@
 # Invitations at beds, sofas, and on the ground
 
-With a Zoi selected, click a supported bed, sofa, or a walkable spot on the ground and choose **Have sex here**.
+With a Zoi selected, click a supported bed, sofa, or a walkable spot on the ground and choose **Have Sex Here**.
 The same picker as SceneZOI debug start opens. Choose one partner and click
 **Invite**. Your controlled Zoi is included automatically. The game uses the social
 conditions and odds from **Set the Mood Next to Bed**. If the pair can talk
@@ -79,18 +79,21 @@ preserve verified completions without applying a final moodlet.
 
 ## Implementation
 
-The menu recognizes native bed and sofa tags and categories, including
-mod-added furniture. SceneZOI's live furniture list decides whether the
-clicked object has a supported profile. The native partner picker checks the
+Ground, bed and sofa menus use the same native `HZoiGameplay_SelectVenue`
+interaction. inZOI supplies the burning heart and its ModKit marker.
+Furniture that uses a supported bed or sofa menu template inherits the option,
+including mod-added furniture. A pack that defines its own menu template can
+append `HZoiGameplay_SelectVenue` to its normal `ObjectSelectionSet`.
+SceneZOI's live furniture list checks whether the clicked object has a
+supported profile. The native partner picker checks the
 same life-stage eligibility as invitations and Urges when a partner is chosen.
 Content and furniture checks run before the invitation. The placement distance
 check runs after both Zois arrive. For
 sofas, it queries availability again with the two chosen participants and
 passes the same `furniture_pair_id` to preflight, arrival validation, and
-playback. The ground option is appended to the game's Click selection set.
-The invitation reads the clicked world point from its native queue entry
-before the game makes that entry current. The menu action itself has no
-movement target. After acceptance, both walks are checked against the scene
+playback. The invitation reads the clicked object or world point from the
+native queue entry. The menu action neither moves a Zoi nor takes a furniture
+slot. After acceptance, both walks are checked against the scene
 and role bindings selected before the invitation.
 
 The new interaction rows use the game’s lover and spouse conditions, branch
@@ -100,18 +103,23 @@ venue check replaces the generic vanilla
 site-has-a-double-bed condition. The two Coop rows use the game's approach and
 dialogue. The game finishes the parent RequestCoop action before the dialogue
 ends, so the add-on waits for both conversation roles and the end of the Coop.
+If the game cancels a player's approach to the conversation spot because a Zoi
+couldn't move out of the way, HZoi retries the native invitation once both
+queues are clear. A second failure, an expired retry, or a new player action
+ends the attempt. The log records the native cancellation and any retry.
 
 ## Autonomous invitations
 
 With inZOI autonomy enabled, HZoi periodically checks nearby idle NPCs for
 a partner-specific [Urge](owned-urges.md). Both Zois need to be free to
 participate. The game uses its normal invitation rules, so an Urge still
-allows the partner to refuse. HZoi searches [private rooms](npc-venues.md)
-and checks that both Zois can reach the same venue without a bystander using
-the room. Each pair keeps its own room and SceneZOI request. If someone
-enters during the approach, the arrival privacy check decides whether the
-pair can start. If the attempt is canceled, HZoi releases the room and keeps
-the Urge pending. A background encounter leaves the controlled Zoi available.
+allows the partner to refuse. HZoi searches [indoor venues](npc-venues.md)
+with a walking route for both Zois. It checks vacant rooms first, then
+considers occupied rooms if none qualifies. Each pair keeps its own room
+claim and SceneZOI request. The arrival privacy check still decides whether
+the pair can start. If the attempt is canceled, HZoi releases the room and
+keeps the Urge pending. A background encounter leaves the controlled Zoi
+available.
 
 ## Build
 
@@ -122,8 +130,8 @@ dependencies.
 
 Run `python prepare-life-stage.py <staged-mod-directory>` before packaging.
 Edit `lua/B2/LifeStageEligibility.lua` to change which life stages are
-eligible. The preparation step copies that policy to the menu runtime and
-calculates the native interaction flags from it.
+eligible. The preparation step calculates the native interaction flags from
+the same policy.
 
 Cook `Content/String/mod_ST_Buff_4bd2ac16.uasset` with the mod. The included
 `moodlet-text.csv` is the authoring source for the English moodlet names and
@@ -131,6 +139,9 @@ descriptions. Also cook `Content/String/mod_ST_SpeechBubble_4bd2ac16.uasset`
 for the trait reactions and privacy complaints. Its English source lines are
 in `speech-text.csv`. To change either set of strings, update its CSV and
 reimport it into the corresponding native StringTable asset before packaging.
+Native speech rows use `LifeTime` in game time. HZoi also clears its own
+lines after about five seconds of real time while the simulation is ticking,
+which keeps reactions short even with longer in-game days.
 
 Translations live in [localization](localization/), one catalog per inZOI
 language. Update the English source and the other catalogs together. Keep
@@ -154,17 +165,21 @@ walk, a sofa moved before arrival, and the approach to a rotated corner sofa.
 The ground cases cover blocked floor, a missing second spot, and a Zoi leaving
 their arrival point while SceneZOI validates the start.
 
-Run `node test-picker.js` from this directory to check that the menu
-forwards the clicked furniture and opens a single picker request.
+Run `node test-invitation-rules.js` to check the native menu registration.
+The Lua invitation test checks that menu clicks pass the original furniture
+or ground point through to one picker request.
 
 ## Witnesses
 
-HZoi watches nearby Zois while a directed intimate action plays. A Zoi must
-have a clear line from the viewpoint to both Zois in a directed intimate action. A closed wall or an
-unavailable trace leaves the encounter unwitnessed. An ordinary first-time witness can gain **Unexpected Company**. The highest
-Romance score from the witness toward any participant sets the speech pool
-and whether the witness prefers to leave. At 60 or higher, keep the witness's
-current action. Younger witnesses below the Teenager stage react without an
+HZoi watches nearby Zois while a directed intimate action plays. A witness must
+have a clear sightline to both participants. A wall hit on either of the two
+game collision channels blocks the sightline. A closed door or a leaf that
+crosses the sightline also blocks it. Zois can see through an open gap even if
+inZOI leaves an invisible door access blocker there. An unavailable trace
+cannot confirm a sighting. An ordinary first-time witness can gain **Unexpected
+Company**. The highest Romance score from the witness toward any participant
+sets the speech pool and whether the witness prefers to leave. At 60 or higher,
+keep the witness's current action. Younger witnesses below the Teenager stage react without an
 overhead line. An idle NPC who prefers to leave can take a nearby reachable
 walk-away route.
 
@@ -192,8 +207,6 @@ for the score thresholds and the full test matrix.
 
 At Normal speed, an NPC Urge selected Jaewoo and Xinyu while Seoyun carried on with her own actions. A third Zoi entering the claimed room canceled the first approach. A later native invitation reached the queen bed and completed all four stages. The log recorded one Excitement completion per participant. The need changes included Hunger stopping at −34, no further Hygiene cost where it was already low, and Fun reaching 100. The Urge owner received the standard reward moodlet, 5 Meow Coins and 15 Admit before normal stat decay. The partner received no coins. Both Zois resumed native conversation after cleanup.
 
-The fresh development package showed both HZoi floor actions. Marking a room and removing its mark from a different point in the same room each showed the expected toast. The scheduler also found a standing venue after the queen bed was temporarily removed, chose separate floor points, and completed a background scene after both Zois arrived.
-
 In a ground invitation, an established partner saw both participants. HZoi stopped the scene, confirmed restoration, then passed the three identities to inZOI. The expected native confrontation actions played for all three Zois.
 
 **Native trait checks.** A test-only probe changed traits on a Zoi in a disposable
@@ -214,4 +227,4 @@ produced different gains in the two directions. That run also selected the
 optional AAL scene. Exiting a separate run after just one goal completed
 requested +5 after both Zois were restored.
 
-**Automated coverage.** The Lua fixtures exercise exact room and floor selection, marks resetting on unload, seat and room contention, door permissions, revalidation at arrival, overlap retry, duplicate completions, and recovery from missed SceneZOI notifications. The overlap regression recreates displacement after one Zoi already reached the bed.
+**Automated coverage.** The Lua fixtures exercise automatic room classification, exact room and floor selection, seat and room contention, door permissions, revalidation at arrival, overlap retry, duplicate completions, and recovery from missed SceneZOI notifications. The overlap regression recreates displacement after one Zoi already reached the bed.

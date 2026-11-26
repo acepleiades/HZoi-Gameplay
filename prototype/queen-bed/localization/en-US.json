@@ -1,8 +1,6 @@
 {
   "messages": {
-    "Have sex here": "Have sex here",
-    "Toggle HZoi private room": "Toggle HZoi private room",
-    "Could not open the HZoi partner picker.": "Could not open the HZoi partner picker.",
+    "Have Sex Here": "Have Sex Here",
     "Your Zoi wants some private time with {partner}.": "Your Zoi wants some private time with {partner}.",
     "Your Zoi fulfilled their urge with {partner}.": "Your Zoi fulfilled their urge with {partner}.",
     "{first} and {second} decided to stop after someone walked in on them.": "{first} and {second} decided to stop after someone walked in on them.",
@@ -19,10 +17,6 @@
     "Choose a walkable spot for the encounter.": "Choose a walkable spot for the encounter.",
     "Could not read the selected ground spot. Open the ground menu and try again.": "Could not read the selected ground spot. Open the ground menu and try again.",
     "Both Zois need a clear path and room to stand at the selected spot.": "Both Zois need a clear path and room to stand at the selected spot.",
-    "Marked this room private for HZoi in the current loaded game.": "Marked this room private for HZoi in the current loaded game.",
-    "Removed the HZoi private-room mark.": "Removed the HZoi private-room mark.",
-    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "Stand inside a room at your household's residence and choose a walkable spot on its floor.",
-    "This room already has a room purpose.": "This room already has a room purpose.",
     "Select the Zoi who sent the invitation first.": "Select the Zoi who sent the invitation first.",
     "No eligible partner was selected.": "No eligible partner was selected.",
     "No scenes were found for these Zois at this spot.": "No scenes were found for these Zois at this spot.",

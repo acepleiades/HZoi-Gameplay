@@ -20,6 +20,7 @@ for _, number in ipairs({1, 11, 12, 21, 22, 31}) do
         IsQueueEmpty = function() return not busy end,
         IsPlayingInteraction = function() return busy end,
         IsCurrentInteractionCoop = function() return false end,
+        IsPendingCoop = function() return false end,
         AddInteractionQueueByParam = function(_, target, destination, bag, reason)
             queued[#queued + 1] = {who = number, target = target.Value, point = destination, bag = bag, reason = reason}
             return 1
@@ -71,7 +72,8 @@ local site = {
     end,
 }
 local function furniture(x)
-    return {GetLocation = function() return point(x) end, GetRotation = function() return {Yaw = 0} end}
+    return {GetLocation = function() return point(x) end, GetRotation = function() return {Yaw = 0} end,
+        GetComponent = function() end}
 end
 local objects = {[411] = furniture(1425), [421] = furniture(2425)}
 local manager = {
@@ -288,7 +290,7 @@ actors[22]:move(point(300))
 local success, retry = invite.beginNpc(21, 22, {point(3320)})
 assert(success, "A confirmed privacy denial releases the participants and room and preserves the urge")
 preflight(retry, 21, 22, rows)
--- The occupied first room is filtered. Fall back after the second room fails content preflight.
+-- The active encounter claims the first room. Try standing after the sofa fails preflight.
 local sofa = reply(retry, "venue-1", "validate_start", {valid = false, code = "no_matching_scenes"})
 assert(sofa.furniture_id == "421")
 local ground = reply(retry, "venue-2", "validate_start", valid(21, 22))

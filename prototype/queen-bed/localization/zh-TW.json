@@ -1,8 +1,6 @@
 {
   "messages": {
-    "Have sex here": "在這裡做愛",
-    "Toggle HZoi private room": "切換 HZoi 私密房間標記",
-    "Could not open the HZoi partner picker.": "無法開啟 HZoi 的伴侶選擇畫面。",
+    "Have Sex Here": "在這裡做愛",
     "Your Zoi wants some private time with {partner}.": "你的 Zoi 想和 {partner} 單獨相處一下。",
     "Your Zoi fulfilled their urge with {partner}.": "你的 Zoi 和 {partner} 一起實現了這個心願。",
     "{first} and {second} decided to stop after someone walked in on them.": "有人撞見了 {first} 和 {second}，兩人決定停下來。",
@@ -19,10 +17,6 @@
     "Choose a walkable spot for the encounter.": "請選擇兩人都能走到的地方。",
     "Could not read the selected ground spot. Open the ground menu and try again.": "無法讀取選取的地面位置。請重新開啟地面選單後再試一次。",
     "Both Zois need a clear path and room to stand at the selected spot.": "兩位 Zoi 都必須能走到選取的位置，而且現場要有足夠的空間讓兩人站立。",
-    "Marked this room private for HZoi in the current loaded game.": "已在目前載入的遊戲中將這個房間標記為 HZoi 私密房間。",
-    "Removed the HZoi private-room mark.": "已移除這個房間的 HZoi 私密房間標記。",
-    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "請先站在自家住宅的房間內，再選擇房內可通行的地面。",
-    "This room already has a room purpose.": "這個房間已經設定了用途。",
     "Select the Zoi who sent the invitation first.": "請先選擇送出邀請的 Zoi。",
     "No eligible partner was selected.": "未選擇符合條件的伴侶。",
     "No scenes were found for these Zois at this spot.": "在這個位置找不到適合這兩位 Zoi 的場景。",

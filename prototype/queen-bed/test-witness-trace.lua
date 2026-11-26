@@ -27,10 +27,47 @@ local characters = {
     [4] = actor("4", 2020), [5] = actor("5", 3000),
 }
 local traced, replies, participantCount, replySize = {}, {}, 3, 0
+local staticObstruction = {}
+local doorTargets = {}
+local door
+local fartherWall = setmetatable({}, {
+    __index = function() error("The wall does not expose door components") end,
+})
+local function primitive(name, blocks, queryEnabled)
+    return {
+        GetName = function() return name end,
+        K2_IsQueryCollisionEnabled = function() return queryEnabled ~= false end,
+        GetCollisionResponseToChannel = function(_, channel) assert(channel == 7); return 2 end,
+        K2_LineTraceComponent = function(_, _, target, complex, draw, persistent)
+            assert(complex and not draw and not persistent)
+            return blocks[target.X] == true
+        end,
+    }
+end
+local proxy = primitive("InvisiblePlayerBlockingWall", {[101] = true, [102] = true, [103] = true,
+    [104] = true, [105] = true, [106] = true, [107] = true})
+local firstLeaf = primitive("DoorMesh", {[101] = true, [105] = true})
+local secondLeaf = primitive("SecondDoorMesh", {[102] = true})
+local frame = primitive("DoorFrame", {[107] = true})
+local trigger = primitive("DoorAccessCheckBox", {[103] = true}, false)
+door = {
+    InvisibleBlockingWallComponent = proxy,
+    DoorMeshComponent = firstLeaf,
+    SecondDoorMeshComponent = secondLeaf,
+    K2_GetComponentsByClass = function(_, class)
+        assert(class == "primitive")
+        return {proxy, firstLeaf, secondLeaf, frame, trigger}
+    end,
+}
 UE = {
     FVector = vec, FHitResult = function() return {} end,
     USkeletalMeshComponent = {StaticClass = function() return true end},
-    ECollisionChannel = {ECC_Visibility = 7},
+    UPrimitiveComponent = {StaticClass = function() return "primitive" end},
+    ECollisionChannel = {ECC_Visibility = 7, ECC_WorldStatic = 0},
+    ECollisionResponse = {ECR_Block = 2},
+    UGameplayStatics = {BreakHitResult = function(hit)
+        return true, false, 0, 0, nil, nil, nil, nil, nil, hit.actor, hit.component
+    end},
 }
 inzoi = {
     EB1ManagerType = {Entity = "entity"},
@@ -39,10 +76,26 @@ inzoi = {
             return {CharacterMap = {ToTable = function() return characters end}}
         end}}
     end},
-    UB1FunctionLibrary = {B1LineTraceSingle = function(_, witness, _, target, _, ignored, channel)
-        assert(witness == ignored[1] and #ignored == participantCount + 1 and channel == 7)
-        traced[#traced + 1] = witness.id
-        return target.X == 30
+    UB1FunctionLibrary = {B1LineTraceSingle = function(hit, witness, _, target, _, ignored, channel)
+        assert(witness == ignored[1])
+        local skippingDoor = ignored[participantCount + 2] == door
+        assert(#ignored == participantCount + (skippingDoor and 2 or 1))
+        assert(channel == 7 or channel == 0)
+        assert(not skippingDoor or channel == 7, "WorldStatic must retain the original ignore list")
+        traced[#traced + 1] = {id = witness.id, channel = channel, x = target.X, skippedDoor = skippingDoor}
+        if channel == 7 and doorTargets[target.X] then
+            if not skippingDoor then
+                hit.actor, hit.component = door, proxy
+                return true
+            end
+            if doorTargets[target.X] == "wall_behind_door" then
+                hit.actor, hit.component = fartherWall, {}
+                return true
+            end
+            return false
+        end
+        if channel == 7 then return target.X == 30 end
+        return staticObstruction[target.X] == true
     end},
     message = {send_to_sim = function(id, kind, content)
         assert(id == "owner" and kind == "HZoiGameplay.WitnessResult")
@@ -58,8 +111,11 @@ local function request(ids, extra)
 end
 
 request({"1", "2", "3"})
-assert(#replies == 1 and #traced == 3, "Only the witness near the third participant should be traced")
-for _, id in ipairs(traced) do assert(id == "4") end
+assert(#replies == 1 and #traced == 5, "Only the witness near the third participant should be traced")
+for _, ray in ipairs(traced) do
+    assert(ray.id == "4")
+    if ray.x == 30 then assert(ray.channel == 7, "Skip the second ray when Visibility is blocked") end
+end
 local reply = replies[1]
 assert(reply.token == "session.1" and reply.revision == 2 and reply.language == "fr-fr")
 assert(#reply.observations == 1)
@@ -127,4 +183,48 @@ request({"1", "2"}, {baseline = {"32", "33", "34"}})
 baselineAbsent = replies[9].baseline_absent
 assert(#baselineAbsent == 2 and baselineAbsent[1] == "32" and baselineAbsent[2] == "34")
 
-print(("Witness trace bridge: bounded rosters, nearest participant, blocked trace, correlation, pairs and %d-byte full response passed."):format(fullReplySize))
+characters = {[1] = actor("1", 20, true), [2] = actor("2", 30, true), [4] = actor("4", 50)}
+staticObstruction[20] = true
+request({"1", "2"})
+assert(#replies[10].observations == 0, "A wall that only blocks WorldStatic cannot create a walk-in")
+local nearWall = {["1"] = {x = 20, y = 0, z = 0}, ["2"] = {x = 30, y = 10, z = 0}}
+request({"1", "2"}, {kind = "arrival", points = nearWall})
+assert(#replies[11].observations == 0, "A wall that only blocks WorldStatic cannot deny arrival")
+staticObstruction[20] = nil
+request({"1", "2"}, {kind = "arrival", points = nearWall})
+assert(#replies[12].observations == 1, "One arrival spot visible through a clear opening is sufficient")
+request({"1", "2"})
+assert(replies[13].observations[1].visible["1"], "A clear sightline can still produce a walk-in")
+
+for x = 101, 107 do doorTargets[x] = "door" end
+doorTargets[104] = "wall_behind_door"
+staticObstruction[106] = true
+local function doorReply(first, second, arrival)
+    characters = {[1] = actor("1", first, true), [2] = actor("2", second, true), [4] = actor("4", 50)}
+    local index, ray = #replies + 1, #traced + 1
+    request({"1", "2"}, arrival and {kind = "arrival", points = {
+        ["1"] = {x = first, y = 0, z = 0}, ["2"] = {x = second, y = 0, z = 0},
+    }} or nil)
+    local current = replies[index]
+    assert(current and not current.diagnostic, current and current.diagnostic or "Missing door trace reply")
+    return current.observations, ray
+end
+
+assert(#doorReply(101, 30) == 0, "A closed door leaf must block the ray through the permission box")
+assert(#doorReply(102, 30, true) == 0, "A partial opening can leave the second door leaf in the ray")
+local open, firstRay = doorReply(103, 105)
+assert(#open == 1 and open[1].visible["1"] and not open[1].visible["2"],
+    "An open gap is visible while the swung leaf still blocks another ray")
+local retriedOpenRay, checkedOtherLeaf = false, false
+for index = firstRay, #traced do
+    local ray = traced[index]
+    retriedOpenRay = retriedOpenRay or (ray.x == 103 and ray.channel == 7 and ray.skippedDoor)
+    checkedOtherLeaf = checkedOtherLeaf or (ray.x == 105 and ray.channel == 7 and not ray.skippedDoor)
+end
+assert(retriedOpenRay and checkedOtherLeaf, "Skipping the permission box must be specific to one ray")
+assert(#doorReply(103, 30, true) == 1, "An open doorway can expose an arrival point")
+assert(#doorReply(104, 30) == 0, "A separate Visibility occluder behind the open door still blocks the ray")
+assert(#doorReply(106, 30) == 0, "A solid WorldStatic obstruction behind the open door still blocks the ray")
+assert(#doorReply(107, 30) == 0, "The door frame still blocks sight when the leaves are out of the ray")
+
+print(("Witness trace bridge: door leaves, two-channel occlusion, bounded rosters, correlation and %d-byte full response passed."):format(fullReplySize))

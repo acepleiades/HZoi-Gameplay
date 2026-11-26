@@ -5,7 +5,7 @@ const path = require('node:path');
 const patchFolder = path.join(__dirname, 'HZoiGameplayPrototype_4BD2AC16', 'Content', 'JsonPatch');
 function rows(table) {
     const patch = fs.readFileSync(path.join(patchFolder, table + '_patch.json'), 'utf8');
-    return new Map(JSON.parse(patch).PatchList.map(({Value}) => [Value.Id, Value]));
+    return new Map(JSON.parse(patch).PatchList.map(({Value}) => [Value.Id ?? Value.ID, Value]));
 }
 
 const enqueue = rows('Condition_Enqueue').get('HZoiGameplay_EligibleForMood');
@@ -70,11 +70,27 @@ check({remote: 'Target'}, []);
 check({remote: 'Self'}, []);
 check({lovable: false}, []);
 check({familyRelationship: 'Sibling'}, []);
-console.log('Native invitation rules passed');
+const venue = 'HZoiGameplay_SelectVenue';
+const options = JSON.parse(fs.readFileSync(path.join(patchFolder, 'ObjectSelectionSet_patch.json'), 'utf8'));
+const menus = ['Click', 'Bed01', 'Bed02', 'Bed05', 'Bed06', 'Sofa', 'Sofa02', 'CinemaSeat02'];
+const menuPatches = options.PatchList.filter(({Enabled}) => Enabled);
+assert.deepEqual(menuPatches.map(({Method, Query, Value}) => [Method, Query, Value]), menus.map(id => [
+    'Append',
+    `ObjectSelectionSet[Id=${id}].SelectionSets[StateGroupId=Normal].InteractionBagList`,
+    [venue],
+]), 'Ground and furniture add the same native invitation to their existing actions');
 
-const groundOptions = JSON.parse(fs.readFileSync(path.join(patchFolder, 'ObjectSelectionSet_patch.json'), 'utf8'))
-    .PatchList.filter(({Query, Enabled}) => Enabled && Query === 'ObjectSelectionSet[Id=Click].SelectionSets[StateGroupId=Normal].InteractionBagList');
-assert.deepEqual(groundOptions.map(({Method, Value}) => [Method, Value]), [
-    ['Append', ['HZoiGameplay_GroundInvite']],
-    ['Append', ['HZoiGameplay_MarkPrivateRoom']],
-], 'The native Append operation takes one array member per patch entry');
+const venueBag = rows('InteractionBag').get(venue);
+assert.equal(venueBag.DisplayInfo.DisplayTextId, 'Have Sex Here');
+assert.equal(venueBag.DisplayInfo.PanelIconId, 'Conversation_Icon_Mood');
+assert.equal(venueBag.bUniqueInQueue, true);
+assert.equal(venueBag.bAddSameInteractionToGroupMember, false);
+assert.deepEqual(venueBag.InteractionSequence.flatMap(({InteractionInfos}) =>
+    InteractionInfos.map(({InteractionId}) => InteractionId)), [venue]);
+
+const action = rows('Interaction').get(venue);
+assert.equal(action.NoneTargetPlayable, true, 'The same action can start from a targetless ground click');
+assert.equal(action.bCheckCanMoveToSlot, false, 'Opening the picker must not walk Zois to furniture');
+assert.equal(action.InteractionSlotUsage, 'None', 'Opening the picker must not reserve a seat');
+assert.deepEqual(action.ActionIdList, ['Delay_0.1']);
+console.log('Native relationship rules and shared ground, bed, and sofa menu registration passed.');

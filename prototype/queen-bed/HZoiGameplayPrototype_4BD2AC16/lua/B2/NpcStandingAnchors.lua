@@ -57,10 +57,9 @@ local function roomHasSpace(site, points, position)
     return true
 end
 
--- The caller provides the same explicit RoomPurpose policy as NpcVenue.
--- This function only finds possible anchor points. Use NpcVenue to check
--- vacancy, door permissions, availability and both exact arrival paths.
-function M.find(site, initiator, partner, roomClass)
+-- Find possible anchors inside actual rooms. NpcVenue checks vacancy,
+-- access, and the separate arrival paths for both Zois.
+function M.find(site, initiator, partner)
     local floor = inzoi.getB2Subsystem("FB2PathFindSystem")
     local sites = inzoi.getB2Manager("FB2SiteManager")
     if not floor or not sites or type(sites.GetSiteNearGridLocation) ~= "function" then
@@ -87,15 +86,13 @@ function M.find(site, initiator, partner, roomClass)
         tested[index] = true
         seeds = seeds + 1
 
-        if site:IsIn(seed) ~= true then return end
-        local class = roomClass(site, seed)
-        if class ~= "bedroom" and class ~= "private" then return end
+        if site:IsIn(seed) ~= true or sites:IsIndoor(seed) ~= true or site:IsSameRoom(seed, seed) ~= true then return end
         if not roomHasSpace(site, points, seed) then return end
 
         projections = projections + 1
         local point = projectedPoint(sites, siteId, seed)
         if not point or site:IsIn(point) ~= true or site:IsSameRoom(seed, point) ~= true
-            or roomClass(site, point) ~= class or floor:IsOnWalkableGrid(point) ~= true then return end
+            or sites:IsIndoor(point) ~= true or floor:IsOnWalkableGrid(point) ~= true then return end
         local spot = key(point, 50)
         if not accepted[spot] then
             accepted[spot] = true

@@ -7,13 +7,22 @@ local observerId = 20526
 local scores = {}
 local partnerStage, partnerGender, ownerGender = 32, 2, 1
 local walkable = function() return true end
+local SELECT_VENUE = "HZoiGameplay_SelectVenue"
+local pendingCoops, currentCoops = {}, {}
+local nativeSchedulers = {}
+local nativeQueues, nativeInteractions, nativePlayReasons = {}, {}, {}
 local function entity(i) return {Value = i or -1} end
 local function point(x, y, z) return {X = x, Y = y, Z = z} end
 local function actor(i)
     local pos = point(0, 0, 0)
-    local clickPosition
     local component = {
-        IsCurrentInteractionCoop = function() return false end,
+        IsCurrentInteractionCoop = function() return currentCoops[i] == true end,
+        IsPendingCoop = function() return pendingCoops[i] == true end,
+        GetCurrentCoopSchedulerId = function() return entity() end,
+        IsQueueEmpty = function() return not nativeQueues[i] end,
+        IsPlayingInteraction = function() return currentCoops[i] == true or nativeInteractions[i] == true end,
+        GetCurrentInteractionPlayReason = function() return nativePlayReasons[i] or 0 end,
+        GetCurrentInteractionBagId = function() return "None" end,
         AddInteractionQueueByParam = function(_, target, destination, bag)
             if queueResult ~= "Success" then return queueResult end
             queued[#queued + 1] = {id = i, target = target.Value, destination = destination, bag = bag}
@@ -30,21 +39,21 @@ local function actor(i)
         IsSpawned = function() return true end,
         GetGenderType = function() return i == ownerId and ownerGender or partnerGender end,
         GetLocation = function() return pos end,
-        ClickGround = function(_, location, inQueue, bag)
-            clickPosition = location
-            bag = bag or "HZoiGameplay_GroundInvite"
+        ClickVenue = function(_, target, location, inQueue)
             -- The real start event arrived before the current bag and ID changed.
-            component.GetCurrentInteractionBagId = function() return inQueue and "None" or bag end
+            component.GetCurrentInteractionBagId = function() return inQueue and "None" or SELECT_VENUE end
             component.GetCurrentInteractionQueueId = function() return inQueue and -1 or 40 end
+            component.GetCurrentInteractionPickedEntityId = function() return entity(target) end
             component.InteractionQueue = {
-                {InteractionQueueId = 39, InteractionBagId = "Other", ImpactPoint = point(1, 2, 3)},
+                {InteractionQueueId = 39, InteractionBagId = "Other", PickedEntityId = entity(22222),
+                    ImpactPoint = point(1, 2, 3)},
             }
             if inQueue then
                 component.InteractionQueue[2] = {InteractionQueueId = 40,
-                    InteractionBagId = bag, ImpactPoint = location}
+                    InteractionBagId = SELECT_VENUE, PickedEntityId = entity(target), ImpactPoint = location}
             end
             component.GetCurrentAction = function()
-                return {NonTargetLocation = clickPosition}
+                return {NonTargetLocation = location}
             end
         end,
         MoveTo = function(_, p) pos = p end,
@@ -56,7 +65,10 @@ local bed = {
     GetRotation = function() return {Yaw = 90} end,
 }
 local manager = {
-    GetAllEntities = function() return {owner, partner} end,
+    GetAllEntities = function(_, kind)
+        if kind == inzoi.EB2EntityType.CoopScheduler then return nativeSchedulers end
+        return {owner, partner}
+    end,
     FindCharacter = function(_, i)
         if i.Value == ownerId then return owner end
         if i.Value == partnerId then return partner end
@@ -81,7 +93,7 @@ inzoi = {
     getB2Subsystem = function()
         return {IsOnWalkableGrid = function(_, p) return (not blockedSide or p.X >= 600) and walkable(p) end}
     end,
-    EB2EntityType = {Character = 3}, EB1GenderType = {Male = 1, Female = 2},
+    EB2EntityType = {Character = 3, CoopScheduler = 4}, EB1GenderType = {Male = 1, Female = 2},
     message = {send_to_client = function(_, kind, value)
         if kind == "HZoiGameplay.WitnessTrace" then
             local query = require("SceneZOIAddon.Json").decode(value)
@@ -93,7 +105,8 @@ inzoi = {
     end},
     EB1ActionType = {Delay = 33},
     EB2ComponentType = {Interaction = 1}, EB1InteractionPlayReason = {User = 1},
-    EB1InteractionCancelReason = {User = 1, CharacterOverlap = 77}, EB1AddInteractionQueueResult = {Success = "Success", EnqueueConditionCheckFail = "EnqueueConditionCheckFail"},
+    EB1InteractionCancelReason = {User = 1, CharacterOverlap = 77, FailedMoveOver = 78, CoopCanceled = 79},
+    EB1AddInteractionQueueResult = {Success = "Success", EnqueueConditionCheckFail = "EnqueueConditionCheckFail"},
     FB2ControllerSystem = {GetPossessEntityId = function() return entity(controlled) end},
     event = {
         on = function(key, func) callbacks[key] = func; return 1 end,
@@ -185,9 +198,10 @@ local function taskCounts(first, second)
 end
 local ordinaryEnd = {cleanup_complete = true, cleanup_code = "ok", stop_reason = "ok",
     stop_origin = {source = "framework", reason = "ok"}, playing_seconds = 1}
-local function fire(kind, player, bag, victim, reason)
+local function fire(kind, player, bag, victim, reason, nativeReason)
     callbacks["interaction." .. kind]({
-        entity_id = entity(player), target_entity_id = entity(victim), interaction_bag_id = bag, reason = reason,
+        entity_id = entity(player), target_entity_id = entity(victim), interaction_bag_id = bag,
+        reason = reason, Reason = nativeReason,
     })
 end
 local function features(hasStopExplanation)
@@ -196,9 +210,17 @@ local function features(hasStopExplanation)
     end})
 end
 
-local function invite(nonce, partner, bed, bedStatus, rejection, cancelPicker, preflightResult)
+local function selectFurniture(furniture, eventTarget)
+    local selector = controlled == ownerId and owner or partner
+    selector:ClickVenue(furniture, point(99, 99, 99), true)
+    fire("started", controlled, SELECT_VENUE, eventTarget or -1)
+    selector:GetComponent().InteractionQueue = {}
+    fire("finished", controlled, SELECT_VENUE, eventTarget or -1)
+end
+
+local function invite(partner, bed, bedStatus, rejection, cancelPicker, preflightResult)
     local before = #queued
-    module.on_lua_message(state, component, "HZoiGameplay.Invite", table.concat({nonce, controlled, bed}, "|"))
+    selectFurniture(bed)
     reply("get_version", {features = features(1)})
     local venues = reply("find_furniture", {furniture = {
         {furniture_id = tostring(bedId), profile = {kind = "bed.queen"}, status = bedStatus or "available"},
@@ -236,6 +258,32 @@ local function invite(nonce, partner, bed, bedStatus, rejection, cancelPicker, p
     assert(#preflight.args.goals == 2 and preflight.args.start_mode == "start_autonomous_scene")
 end
 local INVITE, WALK = "HZoiGameplay_Invite", "HZoiGameplay_Walk"
+local COOP_WALK = "ClickMove_Self"
+
+local function cancelNativeApproach(origin, coopId, targetId, withDialogue)
+    local schedulerId = 25000
+    fire("started", ownerId, INVITE, partnerId)
+    fire("finished", ownerId, INVITE, partnerId)
+    if withDialogue then fire("started", ownerId, "Coop_TalkLike_Before_MakeLove", partnerId) end
+
+    nativeSchedulers = {{
+        CoopId = coopId, OriginInteractionBagId = origin,
+        HostId = entity(ownerId), MainTargetId = entity(targetId),
+        GetEntityId = function() return entity(schedulerId) end,
+    }}
+    -- In retail, started is emitted while the action is still in the queue.
+    for _, who in ipairs({partnerId, ownerId}) do
+        local person = who == ownerId and owner or partner
+        local actions = person:GetComponent()
+        actions.InteractionQueue = {{InteractionBagId = COOP_WALK, CoopSchedulerId = entity(schedulerId)}}
+        fire("started", who, COOP_WALK, -1)
+        actions.InteractionQueue = {}
+    end
+
+    fire("canceled", partnerId, COOP_WALK, -1, nil, inzoi.EB1InteractionCancelReason.FailedMoveOver)
+    fire("canceled", ownerId, COOP_WALK, -1, "CoopCanceled")
+    nativeSchedulers = {}
+end
 
 local function conversation(refusal, switchAfterRefusal)
     local first, second = controlled, controlled == ownerId and partnerId or ownerId
@@ -263,9 +311,12 @@ local function conversation(refusal, switchAfterRefusal)
 end
 
 
-invite("picker-cancelled", partnerId, bedId, nil, nil, true)
+fire("finished", controlled, SELECT_VENUE, bedId)
+fire("started", partnerId, SELECT_VENUE, bedId)
+assert(#pending == 0, "Only a native start from the controlled Zoi opens the picker")
+invite(partnerId, bedId, nil, nil, true)
 assert(#queued == 0 and #pending == 0 and logs[#logs]:find("picker_cancelled"))
-invite("refused", partnerId, bedId)
+invite(partnerId, bedId)
 assert(queued[1].bag == INVITE and queued[1].target == partnerId)
 conversation(true, true)
 assert(logs[#logs]:find("refused") and #queued == 1 and #pending == 0)
@@ -274,7 +325,7 @@ assert(logs[#logs]:find("refused") and #queued == 1 and #pending == 0)
 controlled = partnerId
 blockedSide = true
 queued = {}
-invite("wall", ownerId, alternateBedId)
+invite(ownerId, alternateBedId)
 assert(queued[1].id == partnerId and queued[1].target == ownerId)
 conversation(false)
 assert(queued[2].bag == WALK and queued[3].bag == WALK and #pending == 0)
@@ -352,18 +403,160 @@ assert(outcomes[1].result.task_counts_complete and logs[#logs]:find("session_end
 assert(#resultEffects == 1 and resultEffects[1] == "test", "Apply the relationship result once after cleanup")
 
 controlled, blockedSide, queued = ownerId, false, {}
-invite("canceled", partnerId, bedId)
+invite(partnerId, bedId)
 fire("canceled", ownerId, INVITE, partnerId)
 tick()
 assert(#pending == 0 and #queued == 1 and logs[#logs - 1]:find("failed"))
-invite("failed-walk", partnerId, bedId)
+
+queued = {}
+invite(partnerId, bedId)
+local noticeCount = #notices
+fire("started", ownerId, INVITE, partnerId)
+fire("finished", ownerId, INVITE, partnerId)
+clock = clock + 9
+tick()
+assert(#notices == noticeCount, "Allow time for the conversation to enter the native queue")
+pendingCoops[partnerId] = true
+clock = clock + 15
+tick()
+assert(#notices == noticeCount, "Wait while the partner's native conversation is pending")
+pendingCoops[partnerId], currentCoops[ownerId] = nil, true
+clock = clock + 15
+tick()
+assert(#notices == noticeCount, "Wait while the initiator is in the native conversation")
+currentCoops[ownerId] = nil
+tick()
+clock = clock + 1
+tick()
+clock = clock + 1
+tick()
+assert(#notices == noticeCount, "Deferral allows the end events to be delivered after both Coops clear")
+clock = clock + 1
+tick()
+assert(#notices == noticeCount + 1 and notices[#notices] == "failed" and #queued == 1 and #pending == 0,
+    "An abandoned conversation should end promptly and never start walks or SceneZOI")
+
+queued = {}
+invite(partnerId, bedId)
+noticeCount = #notices
+local dialogue = "Coop_TalkLike_Before_MakeLove"
+fire("started", ownerId, INVITE, partnerId)
+fire("finished", ownerId, INVITE, partnerId)
+fire("started", ownerId, dialogue, partnerId)
+fire("started", partnerId, dialogue .. "_Feedback", ownerId)
+currentCoops[ownerId], currentCoops[partnerId] = true, true
+clock = clock + 15
+tick()
+assert(#notices == noticeCount and #queued == 1, "Keep waiting while the expected dialogue is playing")
+currentCoops[ownerId], currentCoops[partnerId] = nil, nil
+clock = clock + 1
+tick()
+clock = clock + 1
+tick()
+fire("finished", ownerId, dialogue, partnerId)
+fire("finished", partnerId, dialogue .. "_Feedback", ownerId)
+tick()
+tick()
+assert(#notices == noticeCount and #queued == 3 and queued[2].bag == WALK and queued[3].bag == WALK,
+    "Both late dialogue endings should advance to walking once")
+fire("failed", partnerId, WALK, -1)
+
+queued = {}
+invite(partnerId, bedId)
+fire("started", ownerId, INVITE, partnerId)
+fire("failed", ownerId, INVITE, partnerId, nil, "CannotFindSpace")
+assert(logs[#logs - 1]:find("CannotFindSpace", 1, true), "Keep the native event's failure reason in diagnostics")
+
+local acceptCoop = "HZoiGameplay_Coop_Accept"
+queued = {}
+invite(partnerId, bedId)
+noticeCount = #notices
+cancelNativeApproach(INVITE, acceptCoop, partnerId)
+tick()
+assert(#queued == 1, "Do not requeue in the frame of a canceled approach")
+nativeQueues[partnerId] = true
+clock = clock + 2
+tick()
+assert(#queued == 1, "Wait for the partner's native queue to empty")
+nativeQueues[partnerId], nativeInteractions[partnerId] = nil, true
+clock = clock + 1
+tick()
+assert(#queued == 1, "Wait for the partner's native overlap recovery action")
+nativeInteractions[partnerId] = nil
+clock = clock + 1
+tick()
+assert(#queued == 2 and queued[2].bag == INVITE and queued[2].id == ownerId and queued[2].target == partnerId
+    and #pending == 0 and #notices == noticeCount, "Retry the same native invitation once both Zois are idle")
+conversation(false)
+assert(#queued == 4 and queued[3].bag == WALK and queued[4].bag == WALK,
+    "Retry must await both native dialogue endings before walking")
+fire("failed", partnerId, WALK, -1)
+
+queued = {}
+invite(partnerId, bedId)
+cancelNativeApproach(INVITE, acceptCoop, partnerId)
+clock = clock + 2
+tick()
+assert(#queued == 2 and queued[2].bag == INVITE)
+cancelNativeApproach(INVITE, acceptCoop, partnerId)
+clock = clock + 2
+tick()
+assert(#queued == 2 and #pending == 0, "A second native approach failure must never requeue again")
+clock = clock + 91
+tick()
+
+queued = {}
+invite(partnerId, bedId)
+noticeCount = #notices
+cancelNativeApproach(INVITE, acceptCoop, partnerId)
+nativeInteractions[partnerId] = true
+clock = clock + 12
+tick()
+nativeInteractions[partnerId] = nil
+clock = clock + 1
+tick()
+assert(#queued == 1 and #pending == 0 and #notices == noticeCount + 1,
+    "A retry must expire if either Zoi stays busy")
+
+queued = {}
+invite(partnerId, bedId)
+noticeCount = #notices
+cancelNativeApproach(INVITE, acceptCoop, partnerId)
+nativePlayReasons[ownerId] = inzoi.EB1InteractionPlayReason.User
+fire("started", ownerId, "OtherInteraction", -1)
+nativePlayReasons[ownerId] = nil
+clock = clock + 3
+tick()
+assert(#queued == 1 and #pending == 0 and #notices == noticeCount + 1,
+    "A new player action must supersede the invitation retry")
+
+for _, unrelated in ipairs({{origin = "OtherInvite", target = partnerId}, {origin = INVITE, target = observerId}}) do
+    queued = {}
+    invite(partnerId, bedId)
+    cancelNativeApproach(unrelated.origin, acceptCoop, unrelated.target)
+    clock = clock + 2
+    tick()
+    assert(#queued == 1 and #pending == 0, "An unrelated native cooperative walk must never requeue the invitation")
+    fire("canceled", ownerId, INVITE, partnerId)
+end
+
+queued = {}
+invite(partnerId, bedId)
+cancelNativeApproach(INVITE, acceptCoop, partnerId, true)
+clock = clock + 2
+tick()
+assert(#queued == 1 and #pending == 0, "Never retry after either Zoi starts the native dialogue")
+fire("canceled", ownerId, INVITE, partnerId)
+
+queued = {}
+invite(partnerId, bedId)
 conversation(false)
 fire("failed", partnerId, WALK, -1)
 tick()
-assert(#pending == 0 and #queued == 4 and notices[#notices] == "walk_failed")
+assert(#pending == 0 and #queued == 3 and notices[#notices] == "walk_failed")
 
 queued = {}
-invite("wrong-floor", partnerId, bedId)
+invite(partnerId, bedId)
 conversation(false)
 local first, second = queued[2].destination, queued[3].destination
 owner:MoveTo(point(first.X, first.Y, first.Z + 300))
@@ -374,18 +567,20 @@ tick()
 assert(#pending == 0 and notices[#notices] == "walk_failed", "Reject another floor")
 
 queued = {}
-invite("occupied", partnerId, bedId, "occupied")
+invite(partnerId, bedId, "occupied")
 assert(#queued == 0 and notices[#notices] == "furniture_unavailable")
-invite("ineligible", partnerId, bedId, nil, "EnqueueConditionCheckFail")
+invite(partnerId, bedId, nil, "EnqueueConditionCheckFail")
 assert(#queued == 0 and notices[#notices] == "not_eligible")
 
-module.on_lua_message(state, component, "HZoiGameplay.Invite", ("lost-picker|%d|%d"):format(controlled, bedId))
+local bedActions = owner:GetComponent()
+bedActions.InteractionQueue = {}
+fire("started", controlled, SELECT_VENUE, bedId)
 reply("get_version", {features = features(1)})
 reply("find_furniture", {furniture = {{furniture_id = tostring(bedId), profile = {kind = "bed.queen"}}}})
 local lostPicker = reply("open_partner_picker", {opened = true})
 clock = clock + 60
 tick()
-module.on_lua_message(state, component, "HZoiGameplay.Invite", ("picker-still-active|%d|%d"):format(controlled, bedId))
+selectFurniture(bedId)
 assert(#pending == 0 and notices[#notices] == "busy", "Allow time for the player to choose a partner")
 clock = clock + 241
 tick()
@@ -393,7 +588,7 @@ assert(notices[#notices] == "timeout", "Recover a picker without a completion ev
 clientCallbacks.event({name = "partner_picker_finished", request_id = lostPicker.key,
     code = "selected", partner_id = tostring(partnerId)})
 assert(#pending == 0, "Ignore a selection for an expired invitation")
-invite("picker-retried", partnerId, bedId, nil, nil, true)
+invite(partnerId, bedId, nil, nil, true)
 
 line("Invitation checks passed: dynamic pair and venue, refusal, wall side, both arrivals, cleanup, cancellation, wrong floor, occupied bed and native enqueue refusal.")
 
@@ -411,9 +606,10 @@ local function sofaRow(isSide, available, furniture)
         sitting_spots = isSide and {"c", "d"} or {"a", "b"}, profile = profile, available = available,
         status = available and "available" or "occupied"}
 end
-local function sofaInvite(nonce, available)
+local function sofaInvite(available)
     queued = {}
-    module.on_lua_message(state, component, "HZoiGameplay.Invite", table.concat({nonce, ownerId, sofaId}, "|"))
+    -- A resolved action target may differ from the originally picked object.
+    selectFurniture(sofaId, bedId)
     reply("get_version", {features = setmetatable({}, {__index = function() return 1 end})})
     reply("find_furniture", {furniture = {sofaRow(false, false), sofaRow(true, false)}})
     local picker = reply("open_partner_picker", {opened = true})
@@ -449,27 +645,27 @@ local function arriveAtSofa()
     tick()
 end
 
-sofaInvite("sofa-occupied", false)
+sofaInvite(false)
 assert(#pending == 0 and #queued == 0 and notices[#notices] == "sofa_unavailable")
-sofaInvite("sofa-refused", true)
+sofaInvite(true)
 conversation(true)
 assert(#pending == 0 and #queued == 1 and logs[#logs]:find("refused"))
-sofaInvite("sofa-taken-during-walk", true)
+sofaInvite(true)
 arriveAtSofa()
 local blocked = reply("validate_start", {valid = false, code = "furniture_unavailable"})
 assert(blocked.args.furniture_pair_id == "side" and blocked.args.check_start_distance == nil)
 assert(#pending == 0 and notices[#notices] == "sofa_unavailable", "An alternate pair must never replace the chosen pair on arrival")
-sofaInvite("sofa-changed-pair", true)
+sofaInvite(true)
 arriveAtSofa()
 reply("validate_start", {valid = true, furniture_pair_id = "front"})
 assert(#pending == 0 and notices[#notices] == "sofa_unavailable")
-sofaInvite("sofa-moved", true)
+sofaInvite(true)
 arriveAtSofa()
 sofaLocation = point(900, 520, 0)
 reply("validate_start", {valid = true, furniture_pair_id = "side"})
 assert(#pending == 0 and notices[#notices] == "sofa_unavailable")
 sofaLocation = point(900, 500, 0)
-sofaInvite("sofa-ready", true)
+sofaInvite(true)
 arriveAtSofa()
 local sofaArrival = reply("validate_start", {valid = true, furniture_pair_id = "side", scene_id = "hzoi.sofa",
     bindings = {male = tostring(ownerId), female = tostring(partnerId)}})
@@ -496,38 +692,11 @@ local clickedFloor = point(900, 650, 340)
 local standing = {valid = true, scene_id = "hzoi.standing", anchor_participant_id = tostring(ownerId),
     bindings = {lead = tostring(ownerId), second = tostring(partnerId)}}
 
-local markBag = "HZoiGameplay_MarkPrivateRoom"
-local marks = require("PrivateRoomMarks")
-local originalToggle, markCount = marks.toggle, 0
-marks.toggle = function(person, position)
-    assert(person == owner and position == clickedFloor)
-    markCount = markCount + 1
-    return markCount == 1 and "private_room_marked" or "private_room_unmarked"
-end
-local markQueueCount = #queued
-owner:ClickGround(clickedFloor, true, markBag)
-fire("started", ownerId, markBag, -1)
-fire("finished", ownerId, markBag, -1)
-tick()
-assert(markCount == 1 and notices[#notices] == "private_room_marked")
-owner:ClickGround(clickedFloor, false, markBag)
-fire("started", ownerId, markBag, -1)
-assert(markCount == 2 and notices[#notices] == "private_room_unmarked")
-fire("started", partnerId, markBag, -1)
-owner:ClickGround(clickedFloor, false)
-fire("started", ownerId, markBag, -1)
-fire("finished", ownerId, "HZoiGameplay_GroundInvite", -1)
-clock = clock + 3
-tick()
-assert(markCount == 2 and notices[#notices] == "private_room_unavailable")
-assert(#pending == 0 and #queued == markQueueCount, "Toggling a room never starts a picker, walk, or scene.")
-marks.toggle = originalToggle
-
 local function selectGround(inQueue)
     queued = {}
     local selector = controlled == ownerId and owner or partner
-    selector:ClickGround(clickedFloor, inQueue)
-    fire("started", controlled, "HZoiGameplay_GroundInvite", -1)
+    selector:ClickVenue(-1, clickedFloor, inQueue)
+    fire("started", controlled, SELECT_VENUE, -1)
 end
 
 local function groundInvite()
@@ -579,7 +748,7 @@ assert(#pending == 0 and #queued == 0 and notices[#notices] == "ground_unavailab
 -- when neither the ground queue row nor the active ground action exists.
 local clickComponent = owner:GetComponent()
 clickComponent.InteractionQueue = {}
-fire("started", ownerId, "HZoiGameplay_GroundInvite", -1)
+fire("started", ownerId, SELECT_VENUE, -1)
 clock = clock + 3
 tick()
 assert(#pending == 0 and #queued == 0 and notices[#notices] == "ground_click_missing")
@@ -724,13 +893,13 @@ local function recoveryAction(who, bag, reason)
     actions.InteractionQueue = {}
 end
 
-local function prepareOverlap(nonce)
+local function prepareOverlap()
     controlled, queued = ownerId, {}
     owner:MoveTo(point(0, 0, 0))
     partner:MoveTo(point(0, 0, 0))
     recoveryAction(owner)
     recoveryAction(partner)
-    invite(nonce, partnerId, bedId)
+    invite(partnerId, bedId)
     conversation(false)
     assert(#queued == 3 and #pending == 0)
     return queued[2].destination, queued[3].destination
@@ -741,7 +910,7 @@ local function finishWalk(who, id, position, bag)
     fire("finished", id, bag or WALK, -1)
 end
 
-local ownerSpot, overlapSpot = prepareOverlap("recover-overlap")
+local ownerSpot, overlapSpot = prepareOverlap()
 fire("canceled", partnerId, WALK, -1, "CharacterOverlap")
 tick()
 assert(#queued == 3, "Retry waits for the other walk")
@@ -763,20 +932,20 @@ tick()
 reply("validate_start", {valid = false, code = "furniture_unavailable"})
 assert(#pending == 0 and notices[#notices] == "furniture_unavailable", "Retried arrival still revalidates")
 
-ownerSpot = prepareOverlap("user-cancel-during-recovery")
+ownerSpot = prepareOverlap()
 fire("canceled", partnerId, WALK, -1, 77)
 fire("canceled", partnerId, "ClickMove_Self", -1, "User")
 tick()
 assert(#queued == 3 and #pending == 0 and notices[#notices] == "walk_failed")
 
-ownerSpot = prepareOverlap("new-task-supersedes-recovery")
+ownerSpot = prepareOverlap()
 fire("canceled", partnerId, WALK, -1, "CharacterOverlap")
 finishWalk(owner, ownerId, ownerSpot)
 recoveryAction(partner, "Eat", "User")
 tick()
 assert(#queued == 3 and #pending == 0 and notices[#notices] == "walk_failed")
 
-prepareOverlap("both-overlap")
+prepareOverlap()
 fire("canceled", ownerId, WALK, -1, "CharacterOverlap")
 fire("canceled", partnerId, WALK, -1, "CharacterOverlap")
 tick()
@@ -788,7 +957,7 @@ fire("canceled", partnerId, RETRY, -1, "CharacterOverlap")
 tick()
 assert(#queued == 5 and #pending == 0 and notices[#notices] == "walk_failed", "Only one retry per participant")
 
-prepareOverlap("user-cancels-original")
+prepareOverlap()
 fire("canceled", partnerId, WALK, -1, 1)
 tick()
 assert(#queued == 3 and #pending == 0 and notices[#notices] == "walk_failed")
@@ -800,17 +969,17 @@ assert(life.allows(32) and life.allows(64) and life.allows(128) and life.allows(
 assert(not life.allows(nil) and not life.allows(16) and not life.allows(1024))
 local beforeCompatibility = #queued
 partnerStage = 1024
-invite("unknown-stage", partnerId, alternateBedId)
+invite(partnerId, alternateBedId)
 assert(#queued == beforeCompatibility)
 partnerStage, partnerGender = 32, 1
-invite("same-sex-unsupported", partnerId, alternateBedId, nil, nil, false,
+invite(partnerId, alternateBedId, nil, nil, false,
     {valid = false, code = "no_matching_scenes"})
 assert(#queued == beforeCompatibility and notices[#notices] == "no_matching_scenes")
-invite("same-sex-with-content", partnerId, alternateBedId, nil, "EnqueueConditionCheckFail", false,
+invite(partnerId, alternateBedId, nil, "EnqueueConditionCheckFail", false,
     {valid = true, scene_id = "custom.male_pair"})
 assert(notices[#notices] == "not_eligible", "Same-sex content proceeds to the native invitation check")
 ownerGender, partnerGender = 2, 2
-invite("same-sex-female-with-content", partnerId, alternateBedId, nil, "EnqueueConditionCheckFail", false,
+invite(partnerId, alternateBedId, nil, "EnqueueConditionCheckFail", false,
     {valid = true, scene_id = "custom.female_pair"})
 assert(notices[#notices] == "not_eligible", "Female/female content uses the same native invitation check")
 ownerGender = 1

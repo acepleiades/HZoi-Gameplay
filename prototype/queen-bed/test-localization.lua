@@ -11,7 +11,7 @@ inzoi = {cli = {execute = function(command)
 end}}
 local Localization = require("Localization")
 assert(Localization.culture() == "ko-kr")
-assert(Localization.text("Have sex here") == "여기서 성관계하기")
+assert(Localization.text("Have Sex Here") == "여기서 성관계하기")
 assert(reads == 1, "Menu text uses a cached language read")
 time, setting = 4, "pt-BR"
 assert(Localization.text("Your Zoi wants some private time with {partner}.", {partner = "Ana%Do"})
@@ -19,5 +19,5 @@ assert(Localization.text("Your Zoi wants some private time with {partner}.", {pa
 time, setting = 7, false
 assert(Localization.culture() == "pt-br", "A transient settings error preserves the last language")
 time, setting = 10, "unknown"
-assert(Localization.text("Have sex here") == "Have sex here")
+assert(Localization.text("Have Sex Here") == "Have Sex Here")
 print("Retail language selection, native language-pack aliases, toast formatting and fallback passed.")

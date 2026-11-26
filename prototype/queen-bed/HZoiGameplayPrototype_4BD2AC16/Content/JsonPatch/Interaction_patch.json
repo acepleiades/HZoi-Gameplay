@@ -12,7 +12,7 @@
         "ActionIdList": [
           "Delay_0.1"
         ],
-        "ID": "HZoiGameplay_SelectGround",
+        "ID": "HZoiGameplay_SelectVenue",
         "InteractionSlotUsage": "None"
       },
       "Enabled": true

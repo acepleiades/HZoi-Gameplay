@@ -227,9 +227,7 @@
     "[From walking in on Zois having sex]": "[Per aver sorpreso dei Zoi mentre facevano sesso]"
   },
   "messages": {
-    "Have sex here": "Fai sesso qui",
-    "Toggle HZoi private room": "Contrassegna o rimuovi la stanza privata di HZoi",
-    "Could not open the HZoi partner picker.": "Impossibile aprire la selezione del partner di HZoi.",
+    "Have Sex Here": "Fai sesso qui",
     "Your Zoi wants some private time with {partner}.": "Il tuo Zoi vuole passare un po’ di tempo in privato con {partner}.",
     "Your Zoi wants some private time with their partner.": "Il tuo Zoi vuole passare un po’ di tempo in privato con il proprio partner.",
     "Your Zoi fulfilled their urge with {partner}.": "Il tuo Zoi ha soddisfatto il suo desiderio di passare un momento intimo con {partner}.",
@@ -248,10 +246,6 @@
     "Choose a walkable spot for the encounter.": "Scegli un punto raggiungibile a piedi per l’incontro.",
     "Could not read the selected ground spot. Open the ground menu and try again.": "Impossibile leggere il punto scelto. Apri il menu del terreno e riprova.",
     "Both Zois need a clear path and room to stand at the selected spot.": "A entrambi gli Zoi servono un percorso libero e spazio per stare in piedi nel punto scelto.",
-    "Marked this room private for HZoi in the current loaded game.": "La stanza è stata contrassegnata come privata per HZoi nella partita in corso.",
-    "Removed the HZoi private-room mark.": "La stanza non è più contrassegnata come privata per HZoi.",
-    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "Entra in una stanza dell’abitazione della tua famiglia e scegli un punto raggiungibile sul pavimento.",
-    "This room already has a room purpose.": "La stanza ha già una funzione assegnata.",
     "Select the Zoi who sent the invitation first.": "Seleziona prima lo Zoi che ha inviato l’invito.",
     "No eligible partner was selected.": "Non è stato selezionato un partner idoneo.",
     "No scenes were found for these Zois at this spot.": "Non ci sono scene per questi Zoi nel punto scelto.",

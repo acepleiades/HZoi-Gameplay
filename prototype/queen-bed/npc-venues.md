@@ -1,45 +1,39 @@
-# Private rooms for NPC invitations
+# How NPCs choose a venue
 
-For an autonomous invitation, HZoi first looks for an enclosed room in a
-private residence. It recognizes a bedroom from the game's bed category and
-tags, including compatible mod-added beds. An unlabelled room containing
-cooking, dining or bathroom fixtures stays out of that search. The game
-still checks access and a walking route for each Zoi. Player invitations
-are available on supported furniture and walkable ground as before.
+For an autonomous invitation, HZoi looks for an indoor room at the residence
+where both Zois are located. The room can have any purpose or no assigned
+purpose. The search first looks for rooms with no other Zois. If every
+vacant option fails, it considers occupied rooms.
 
-[Mark a private room](private-room-marks.md) for sofa or standing encounters in rooms without a native purpose.
+In each pass, HZoi looks for the initiator's assigned bed first, then a double
+bed, a single bed, a sofa with two free adjacent seats, or two walkable
+standing spots in the same room. Within each tier, it uses the nearest
+eligible venue. A standing scene can use clear floor space in a room whose
+furniture is unavailable. Both Zois must be able to reach their spots and
+have permission to enter the room. The venue must support their scene and
+be free to reserve.
 
-The search prefers a free bed or sofa with a compatible scene. A sofa must
-have a free pair of adjacent seats. Within that group, bedrooms take priority
-and the nearest reachable venue wins. A room without supported furniture can
-offer a standing scene if there are two clear arrival points. A room with
-occupied furniture stays out of the floor fallback.
+The pair claims the room until the attempt is canceled or the session ends.
+When they arrive, HZoi rechecks furniture availability and applies the
+[arrival privacy rules](../../docs/encounter-design.md#arrival-privacy-check)
+to anyone who can see either arrival point. An observer who fails the check
+causes both Zois to call off the encounter.
 
-Each NPC pair needs permission to enter the room and a path for both Zois.
-Choose a vacant room and keep the claim through approach. If a bystander
-arrives while the pair is walking, check whether that Zoi can see the pair
-and qualifies under the [arrival privacy rules](../../docs/encounter-design.md#arrival-privacy-check).
-Both participants give a localized frustration line if a visible observer
-fails the check. Release the room on cancellation or session cleanup.
+## Test the venue search
 
-## Test the venue prototype
+Use a disposable household with several indoor rooms at the same residence.
+Include free compatible single and double beds, a sofa and clear floor space.
+Leave at least one room without an assigned purpose.
 
-Choose two enclosed rooms in a residence. Place a supported queen bed in one.
-Leave a clear walkable area in the other and mark it as private from its
-floor menu. Leave the common areas as they are.
+| Setup | Expected result |
+| --- | --- |
+| Assign a free, compatible single bed to the initiator through the game's bed assignment. Offer a nearer double bed in the same search pass. | The initiator's assigned bed wins. |
+| Clear the initiator's assignment. Repeat with a free double and single bed. Then make each superior option unavailable in order. | The search falls back to double bed, single bed, sofa pair and standing. Put two usable beds in one tier to verify nearest wins. |
+| Put another Zoi in the room with the free bed. Leave an unassigned room with two reachable standing spots vacant. | The vacant standing venue wins in the first pass. |
+| Leave no vacant venue. Keep the free furniture in an occupied room, or offer enough clear floor space there when the furniture is unavailable. | The occupied room can qualify in the second pass. A blocked sightline or qualifying observer allows the start. A visible observer who fails the check cancels it and releases the claim. |
+| Take one seat of an adjacent sofa pair, occupy a bed, or block a path. Then free the seat or clear the route and try again. | Only free furniture and paths both Zois can use qualify. Standing requires two separate reachable spots inside one room. Repeat by occupying the chosen furniture during the walk to check arrival revalidation. |
+| Invite two disjoint pairs in separate rooms and try competing starts with a shared room or participant. | Separate sessions can overlap. A conflicting start leaves the existing claim and session intact. |
 
-1. Ask for a venue with both Zois elsewhere in the same residence. The bed
-   should rank first if both Zois can reach it and the room is empty.
-2. Have a third Zoi occupy the bedroom and repeat. The bedroom should be
-   excluded. If the other marked room has no supported furniture and both
-   destinations are walkable, a ground candidate can be selected there.
-3. Have an unfamiliar bystander enter while a pair is walking. A clear
-   sightline at arrival should cancel the attempt and release the room claim.
-   Repeat with the bystander out of sight and with an observer who qualifies.
-4. Try a second pair in a separate private room. The claims should coexist.
-   In the same room, only the first pair should get a claim.
-5. Try a locked door or a room without a supported purpose. The venue check
-   should exclude it. A player-directed invitation should use its usual rules.
-
-The Lua fixture in the invitation prototype directory covers ranking, access,
-occupancy, competing rooms, and the floor fallback. Verify the bedroom, floor menu and native path queries in game.
+Check that each canceled attempt leaves the Urge pending. Confirm that both
+walk routes respect locked doors and floor boundaries, and that outdoor
+spots and nonresidential sites stay outside the NPC search.

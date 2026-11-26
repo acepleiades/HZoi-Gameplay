@@ -227,9 +227,7 @@
     "[From walking in on Zois having sex]": "[Por sorprender a unos Zois mientras tenían sexo]"
   },
   "messages": {
-    "Have sex here": "Tener sexo aquí",
-    "Toggle HZoi private room": "Marcar o desmarcar esta habitación como privada para HZoi",
-    "Could not open the HZoi partner picker.": "No se pudo abrir el selector de pareja de HZoi.",
+    "Have Sex Here": "Tener sexo aquí",
     "Your Zoi wants some private time with {partner}.": "Tu Zoi quiere pasar un rato a solas con {partner}.",
     "Your Zoi wants some private time with their partner.": "Tu Zoi quiere pasar un rato a solas con su pareja.",
     "Your Zoi fulfilled their urge with {partner}.": "Tu Zoi satisfizo su deseo de pasar un rato íntimo con {partner}.",
@@ -248,10 +246,6 @@
     "Choose a walkable spot for the encounter.": "Elige un lugar accesible para el encuentro.",
     "Could not read the selected ground spot. Open the ground menu and try again.": "No se pudo leer el punto seleccionado. Abre el menú del suelo e inténtalo de nuevo.",
     "Both Zois need a clear path and room to stand at the selected spot.": "Los dos Zois necesitan un camino despejado y espacio para estar de pie en el punto elegido.",
-    "Marked this room private for HZoi in the current loaded game.": "Esta habitación se ha marcado como privada para HZoi en la partida actual.",
-    "Removed the HZoi private-room mark.": "La habitación ya no está marcada como privada para HZoi.",
-    "Stand inside a room at your household's residence and choose a walkable spot on its floor.": "Entra en una habitación de la vivienda de tu unidad doméstica y elige un punto accesible del suelo.",
-    "This room already has a room purpose.": "Esta habitación ya tiene un uso asignado.",
     "Select the Zoi who sent the invitation first.": "Selecciona primero al Zoi que envió la invitación.",
     "No eligible partner was selected.": "No se seleccionó una pareja que cumpliera los requisitos.",
     "No scenes were found for these Zois at this spot.": "No se encontraron escenas para estos Zois en este lugar.",

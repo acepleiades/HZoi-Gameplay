@@ -49,7 +49,7 @@ def stage(args):
 
 def non_assets(prepared):
     expected = {}
-    for area in ("lua", "ui", "l10n", "Content/JsonPatch"):
+    for area in ("lua", "l10n", "Content/JsonPatch"):
         target = "non_ufs/JsonPatch" if area == "Content/JsonPatch" else area
         expected.update({f"{target}/{key}": path for key, path in files(prepared / area).items()})
     return expected
@@ -71,7 +71,7 @@ def verify_export(prepared, exported):
     require(len(cooked) == 3 and {actual[key].suffix for key in cooked} == {".pak", ".ucas", ".utoc"}, "Expected the three cooked ModKit containers.")
     require(set(actual) == set(expected) | cooked | {"mod_manifest.json", "mod_assethash.json", DESCRIPTOR}, "Unexpected or missing exported file.")
     checksums = dict(item.rsplit("|", 1) for item in manifest["FileChecksums"])
-    expected_checksums = (set(expected) | cooked) - {"ui/partner-picker/uimod_manifest.json"}
+    expected_checksums = set(expected) | cooked
     require(
         len(checksums) == len(manifest["FileChecksums"]) and set(checksums) == expected_checksums,
         "Native checksum inventory differs from the prepared payload.",
@@ -84,10 +84,6 @@ def verify_export(prepared, exported):
         blob = actual[key].read_bytes()
         if key.endswith(".lua"):
             require(blob != source.read_bytes(), f"Lua was exported without protection: {key}.")
-        elif key.startswith("ui/") and key.endswith((".js", ".css", ".html")):
-            require(blob.startswith(b"IZUI") and int.from_bytes(blob[6:10], "little") == source.stat().st_size, f"Invalid encoded UI: {key}.")
-        elif key == "ui/partner-picker/uimod_manifest.json":
-            require(load(actual[key]) == dict(load(source), encoded=True), "Invalid encoded UI manifest.")
         else:
             require(blob == source.read_bytes(), f"Unprotected file differs from source: {key}.")
     return actual, manifest

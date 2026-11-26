@@ -1,5 +1,6 @@
 local M = {}
 local MAX_ARRIVAL_WITNESSES = 128
+local MAX_DOORS_PER_TRACE = 8
 
 local function headPoint(actor)
     local mesh = actor and actor.Mesh
@@ -24,14 +25,65 @@ local function distanceSquared(a, b)
     return (a.X - b.X)^2 + (a.Y - b.Y)^2 + (a.Z - b.Z)^2
 end
 
-local function clearTrace(witness, start, target, participants)
+local function lineTrace(witness, start, target, ignore, channel)
     local hit = UE.FHitResult()
+    local blocked, result = inzoi.UB1FunctionLibrary.B1LineTraceSingle(
+        hit, witness, start, target, true, ignore, UE.ECollisionChannel[channel])
+    assert(type(blocked) == "boolean", "Sight trace did not return a result for " .. channel)
+    return blocked, result or hit
+end
+
+local function clearDoorGeometry(hit, start, target)
+    local _, _, _, _, _, _, _, _, _, actor, blocker = UE.UGameplayStatics.BreakHitResult(hit)
+    if not actor or not blocker then return end
+    local readable, proxy, leaf, otherLeaf = pcall(function()
+        return actor.InvisibleBlockingWallComponent, actor.DoorMeshComponent, actor.SecondDoorMeshComponent
+    end)
+    if not readable or not proxy or not leaf then return end
+    local proxyName = blocker:GetName()
+    if proxyName ~= proxy:GetName() then return end
+
+    -- The door's movement blocker stays in the doorway even as the leaf swings.
+    -- Keep all real geometry on the door in the sight test before skipping it.
+    local firstLeaf = leaf:GetName()
+    local secondLeaf = otherLeaf and otherLeaf:GetName()
+    local foundFirst, foundSecond = false, not secondLeaf
+    for _, component in ipairs(actor:K2_GetComponentsByClass(UE.UPrimitiveComponent:StaticClass())) do
+        local name = component:GetName()
+        local isLeaf = name == firstLeaf or name == secondLeaf
+        if name ~= proxyName and (isLeaf or (component:K2_IsQueryCollisionEnabled()
+            and component:GetCollisionResponseToChannel(UE.ECollisionChannel.ECC_Visibility)
+                == UE.ECollisionResponse.ECR_Block)) then
+            local blocked = component:K2_LineTraceComponent(start, target, true, false, false,
+                UE.FVector(), UE.FVector(), "", UE.FHitResult())
+            if blocked ~= false then return end
+            foundFirst = foundFirst or name == firstLeaf
+            foundSecond = foundSecond or name == secondLeaf
+        end
+    end
+    if foundFirst and foundSecond then return actor end
+end
+
+local function clearTrace(witness, start, target, participants)
     local ignore = {witness}
     for _, actor in ipairs(participants) do ignore[#ignore + 1] = actor end
-    local blocked = inzoi.UB1FunctionLibrary.B1LineTraceSingle(
-        hit, witness, start, target, true, ignore, UE.ECollisionChannel.ECC_Visibility)
-    assert(type(blocked) == "boolean", "Sight trace did not return a result")
-    return not blocked
+    local visibilityIgnore = ignore
+    for attempt = 0, MAX_DOORS_PER_TRACE do
+        local blocked, hit = lineTrace(witness, start, target, visibilityIgnore, "ECC_Visibility")
+        if not blocked then
+            -- Camera cutaways can leave walls that only block WorldStatic.
+            local wallBlocked = lineTrace(witness, start, target, ignore, "ECC_WorldStatic")
+            return not wallBlocked
+        end
+        if attempt == MAX_DOORS_PER_TRACE then return false end
+        local clearDoor = clearDoorGeometry(hit, start, target)
+        if not clearDoor then return false end
+        if visibilityIgnore == ignore then
+            visibilityIgnore = {table.unpack(ignore)}
+        end
+        visibilityIgnore[#visibilityIgnore + 1] = clearDoor
+    end
+    return false
 end
 
 -- Run in B1. The caller must correlate this response with the requesting

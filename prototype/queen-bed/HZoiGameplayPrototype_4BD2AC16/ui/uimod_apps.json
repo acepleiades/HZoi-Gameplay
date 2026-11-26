@@ -1,9 +1,0 @@
-{
-  "apps": [
-    {
-      "name": "partner-picker",
-      "default": false,
-      "enabled": true
-    }
-  ]
-}
