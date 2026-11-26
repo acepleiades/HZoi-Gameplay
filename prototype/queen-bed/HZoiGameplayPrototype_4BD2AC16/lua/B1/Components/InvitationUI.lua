@@ -43,10 +43,15 @@ local function showNotice(message, values)
     inzoi.cli.execute("toast.show immediate=true message=" .. Json.encode(Localization.text(message, values)))
 end
 
+local function isControlled(actor)
+    if not actor then return false end
+    local controller = UE.UGameplayStatics.GetPlayerController(actor, 0)
+    local controlledId = controller and controller:GetCharacterEntityId()
+    return controlledId and controlledId.Value == actor:GetEntityId().Value
+end
+
 local function showUrge(self, content)
-    if not self.actor then return end
-    local controller = UE.UGameplayStatics.GetPlayerController(self.actor, 0)
-    if not controller or controller:GetCharacterEntityId().Value ~= self.actor:GetEntityId().Value then return end
+    if not isControlled(self.actor) then return end
     local ok, urge = pcall(Json.decode, content, 1024)
     if not ok or type(urge) ~= "table" then return end
     local partner = type(urge.partner) == "string" and #urge.partner <= 256 and urge.partner:match("%S") and urge.partner
@@ -67,6 +72,8 @@ function M.on_lua_message(self, component, kind, content)
     if kind == "HZoiGameplay.Urge" then
         showUrge(self, content)
     elseif kind == "HZoiGameplay.Notice" then
+        -- The player can switch Zois while the notification is in transit.
+        if content == "arrival_privacy_denied" and not isControlled(self.actor) then return end
         showNotice(notices[content] or notices.failed)
     end
 end

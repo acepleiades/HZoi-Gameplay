@@ -67,7 +67,7 @@ local site = {
     IsCharacterAllowedInRoom = function(_, person) return person.Value ~= 1 end,
     IsSameRoom = function(_, first, second) return roomAt(first) == roomAt(second) and first.Z == second.Z end,
     IsExistInternalPath = function(_, _, _, params)
-        assert(params.bIgnorePermission == false and params.EntityId.Value ~= controlled)
+        assert(params.bIgnorePermission == false and actors[params.EntityId.Value] and params.EntityId.Value ~= 1)
         return true
     end,
 }
@@ -260,12 +260,14 @@ local selected = reply(b, "venue-2", "validate_start", valid(21, 22, "center"))
 assert(selected.background and selected.furniture_id == "421" and selected.furniture_pair_id == "center")
 reply(a, "venue-1", "validate_start", valid(11, 12))
 assert(queued[1].who == 21 and queued[2].who == 11 and queued[1].reason == inzoi.EB1InteractionPlayReason.Autonomy)
+controlled = 11
 nativeConversation(11, 12)
 nativeConversation(21, 22)
 tick()
 arrived(11)
 arrived(12)
 arrived(21)
+controlled = 1
 tick()
 reply(a, "arrival", "validate_start", valid(11, 12))
 confirmPrivacy(a)
@@ -278,11 +280,13 @@ now = now + 1
 tick()
 assert(#canceled == 0, "Room occupancy alone cannot cancel a still-pending walk")
 arrived(22)
+controlled = 22
 tick()
 reply(b, "arrival", "validate_start", valid(21, 22, "center"))
 confirmPrivacy(b, {{id = "31"}})
 assert(not wire["encounter." .. b .. ".start"] and #speech == 0 and #canceled == 0,
-    "A visible unqualified observer ends the invitation without dialogue or playback")
+    "A visible unqualified observer ends the invitation quietly while the invited partner is controlled")
+controlled = 1
 
 actors[31]:move(point(300))
 actors[21]:move(point(300))

@@ -22,7 +22,7 @@ flowchart TD
     A -->|Yes| W["Walk to the venue"]
     W --> R["Recheck the pair, arrival points, and venue"]
     R --> V{"Can the pair start with these observers?"}
-    V -->|No| F["Show the privacy toast and cancel the invitation"]
+    V -->|No| F["Cancel the invitation and notify the controlled initiator"]
     V -->|Yes| S["Start playback"]
     S --> O["Track witnesses and outcomes"]
 ```
@@ -34,6 +34,10 @@ Resolve the actual roster, role bindings, and selected venue before the invitati
 The picker chooses whom to ask. The initiator then walks up to the selected partner and asks through an interaction modeled on inZOI’s **Set the Mood Next to Bed**. Use the native approach dialogue and match the social eligibility, branch order, and acceptance/refusal weights from `Co_TryTo_Mood_Lover` and `Co_TryTo_Mood_Spouse`. HZoi’s venue and adult-eligibility checks supply the equivalent context for ground and supported furniture. [Vanilla romance reference](inzoi-romance.md) · [Interaction branches](inzoi-romance-interactions.csv).
 
 - **If the partner accepts**, have both Zois walk to separate arrival points at the selected venue. Once both arrive, recheck eligibility, arrival, and furniture availability, then apply the [arrival privacy check](#arrival-privacy-check) before requesting SceneZOI playback. Acceptance alone gives no Romance bonus.
+
+Once the pair is selected, the invitation stays with those Zois. Switching control
+during their conversation or walk lets them finish on their own. A valid encounter
+can start while the player controls a different Zoi.
 - **If the partner refuses**, play the refusal branch, apply the [Romance loss](#romance-changes) when the refusal happens, and end the invitation there. For two Zois who can otherwise use the interaction and have no established romantic relationship, a Romance score below 30 always takes this branch.
 
 ### Group invitations
@@ -134,7 +138,7 @@ Every visible observer must qualify independently. An observer who qualifies wit
 
 With no visible observers, the encounter can start. Apply the same check to player and NPC invitations. A player can choose a supported public venue and start if everyone who can see qualifies. NPCs search indoor residential rooms and prefer to keep other Zois out of the room by selecting a vacant venue first.
 
-If an observer fails the check, cancel before SceneZOI starts. For a player-directed attempt or one involving the controlled Zoi, show just the localized toast **They need more privacy.** Save overhead reactions for sightings during playback. Clear the pending actions and release any reservation. Romance stays as it was, and an NPC's Urge remains pending.
+If an observer fails the check, cancel before SceneZOI starts. Show the localized toast **They need more privacy.** only while the player controls the Zoi who sent the invitation. Save overhead reactions for sightings during playback. Clear the pending actions and release any reservation. Romance stays as it was, and an NPC's Urge remains pending.
 
 A non-partner who qualified at arrival and stays in view does not immediately count as a walk-in. This matters for someone admitted on Friendship alone. If they leave and come back into view, apply the walk-in rules to that new sighting. An official partner can qualify at arrival under the same score check. If they then see an intimate action during playback, the existing cheating rules apply. An attempt canceled before playback creates no cheating incident.
 
@@ -219,7 +223,7 @@ The encounter outcome determines each Zoi’s default moodlet. Their traits can 
 | Nobody completes and an ordinary sighting stops the session | **Awkward Timing**, Flustered, for a participant whose Romance familiarity did not suppress the reaction to the stopping witness. | [From being interrupted during sex]<br>Someone saw what was happening, and the encounter stopped. It’s hard to get back in the mood after that. |
 | Nobody completes and a participant ends it | **Unfinished Moment**, mild Sad. | [From stopping early]<br>Things were only just getting good when you stopped. You’re left thinking about what might have happened with a little more time. |
 | Official partner catches the encounter | Native cheating moodlets and consequences. A trait can contribute an HZoi reaction. | — |
-| An observer fails the arrival privacy check | Cancel the attempt before playback, release the venue, and leave Romance and any pending Urge alone. Show the localized toast when the player is involved. | — |
+| An observer fails the arrival privacy check | Cancel the attempt before playback, release the venue, and leave Romance and any pending Urge alone. Show the localized toast only for the currently controlled initiator. | — |
 | SceneZOI fails to start or ends for a technical reason, including a mid-scene timeout | Use technical feedback and diagnostics and let SceneZOI run cleanup. The failure adds no moodlet, relationship, need, or urge effect. Verified completions and sightings still count. | — |
 | Game lifecycle ends the session, such as saving, opening Create a Zoi, or unloading the mod | End neutrally. Preserve any verified completions and sightings. Teardown may leave the final result unavailable. | — |
 

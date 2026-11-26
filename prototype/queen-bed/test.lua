@@ -94,9 +94,10 @@ inzoi = {
         return {IsOnWalkableGrid = function(_, p) return (not blockedSide or p.X >= 600) and walkable(p) end}
     end,
     EB2EntityType = {Character = 3, CoopScheduler = 4}, EB1GenderType = {Male = 1, Female = 2},
-    message = {send_to_client = function(_, kind, value)
+    message = {send_to_client = function(target, kind, value)
         if kind == "HZoiGameplay.WitnessTrace" then
             local query = require("SceneZOIAddon.Json").decode(value)
+            query.testCarrier = target.Value
             if query.kind == "arrival" then privacyQueries[#privacyQueries + 1] = query end
         else
             assert(kind == "HZoiGameplay.Notice")
@@ -143,7 +144,9 @@ package.loaded["SceneZOIAddon.Client"] = {
             client_id = "client.test",
             refresh_owner = function() end,
             tick = function() end,
-            request = function(_, _, key, op, args) pending[#pending + 1] = {key = key, op = op, args = args} end,
+            request = function(_, carrier, key, op, args)
+                pending[#pending + 1] = {key = key, op = op, args = args, carrier = carrier:GetEntityId().Value}
+            end,
         }
     end,
 }
@@ -172,7 +175,8 @@ local function reply(op, value)
 end
 local json = require("SceneZOIAddon.Json")
 local function privacyReply(query, seen, diagnostic)
-    module.on_lua_message(state, component, "HZoiGameplay.WitnessResult", json.encode({
+    local receiver = {GetOwnerEntityId = function() return entity(query.testCarrier) end}
+    module.on_lua_message(state, receiver, "HZoiGameplay.WitnessResult", json.encode({
         kind = "arrival", token = query.token, revision = query.revision,
         observations = seen and json.array(seen) or nil, diagnostic = diagnostic,
     }))
@@ -288,7 +292,7 @@ local function cancelNativeApproach(origin, coopId, targetId, withDialogue)
     nativeSchedulers = {}
 end
 
-local function conversation(refusal, switchAfterRefusal)
+local function conversation(refusal, switchAfterRefusal, switchDuringDialogue)
     local first, second = controlled, controlled == ownerId and partnerId or ownerId
     local bag = INVITE
     local action = "Coop_TalkLike_Before_MakeLove" .. (refusal and "_Fail" or "")
@@ -299,6 +303,7 @@ local function conversation(refusal, switchAfterRefusal)
     assert(#queued == count and #pending == 0 and #refusalEffects == effects, "RequestCoop alone is not an answer")
     fire("started", first, action, second)
     fire("started", second, action .. "_Feedback", first)
+    if switchDuringDialogue then controlled = switchDuringDialogue end
     fire("finished", first, action, second)
     tick()
     assert(#queued == count and #pending == 0 and #refusalEffects == effects, "Wait for the selected partner's response")
@@ -330,35 +335,46 @@ blockedSide = true
 queued = {}
 invite(ownerId, alternateBedId)
 assert(queued[1].id == partnerId and queued[1].target == ownerId)
-conversation(false)
-assert(queued[2].bag == WALK and queued[3].bag == WALK and #pending == 0)
+local noticesAfterInvite = #notices
+conversation(false, false, observerId)
+assert(queued[2].bag == WALK and queued[2].id == partnerId
+    and queued[3].bag == WALK and queued[3].id == ownerId and #pending == 0,
+    "Switching to a bystander during dialogue keeps the original pair and walks")
 local p1, p2 = queued[2].destination, queued[3].destination
 assert(p1.X >= 600 and p2.X >= 600, "The wall-side points must be rejected")
 assert((p1.X - p2.X)^2 + (p1.Y - p2.Y)^2 >= 150^2)
 partner:MoveTo(point(p1.X, p1.Y, p1.Z + 90))
 fire("finished", partnerId, WALK, -1)
+controlled = ownerId
 tick()
-assert(#pending == 0, "Start must wait for the second Zoi")
+assert(#pending == 0 and #notices == noticesAfterInvite,
+    "Switching to the invited partner during the walk still waits for both arrivals")
 owner:MoveTo(point(p2.X, p2.Y, p2.Z + 90))
 fire("finished", ownerId, WALK, -1)
+controlled = observerId
 tick()
 local arrival = reply("validate_start", {valid = true, scene_id = "hzoi.bed", bindings = {male = "20522", female = "20524"}})
-assert(arrival.args.check_start_distance == nil and arrival.args.furniture_id == tostring(alternateBedId))
+assert(arrival.args.check_start_distance == nil and arrival.args.furniture_id == tostring(alternateBedId)
+    and arrival.args.initiator == tostring(partnerId) and arrival.carrier == observerId)
 assert(#pending == 0 and #privacyQueries == 1, "Wait for sight proof before starting")
 local query = table.remove(privacyQueries, 1)
 assert(query.points[tostring(partnerId)].x == p1.X and query.points[tostring(ownerId)].x == p2.X)
 privacyReply(query, nil, "observer_view_unavailable")
 assert(#pending == 0 and #privacyQueries == 0)
+controlled = ownerId
 clock = clock + 1
 tick()
 local retryQuery = assert(table.remove(privacyQueries, 1))
 assert(retryQuery.token ~= query.token and retryQuery.revision == query.revision + 1)
+controlled = observerId
 privacyReply(query, {})
 assert(#pending == 0, "An obsolete sight reply cannot start the encounter")
 scores = {[ownerId] = {Romance = 30}, [partnerId] = {Romance = 0, Friendship = 30}}
 privacyReply(retryQuery, {{id = tostring(observerId)}})
 local start = reply("start_autonomous_scene", {accepted = true, stages = 4})
 assert(start.args.scene_id == "hzoi.bed" and start.args.bindings.male == "20522")
+assert(start.args.initiator == tostring(partnerId) and start.carrier == observerId and #notices == noticesAfterInvite,
+    "Accept the outstanding privacy result and dispatch playback without changing the original initiator")
 assert(logs[#logs]:find("start_accepted") and not logs[#logs]:find("session_started"))
 clientCallbacks.event(snapshot(start, "unrelated", "playing", {name = "session_started",
     addon_client_id = "different.client"}))
@@ -814,6 +830,18 @@ assert(#pending == 0 and #notices == noticesBefore + 1 and notices[#notices] == 
     "One privacy toast ends the attempt before SceneZOI starts")
 assert(#speech == 0, "Save walk-in dialogue for an active encounter")
 assert(#refusalEffects == refusalBefore and #resultEffects == outcomeBefore, "Keep relationships unchanged")
+
+for _, other in ipairs({ownerId, observerId}) do
+    arriveAtGround(false)
+    reply("validate_start", standing)
+    local query = assert(table.remove(privacyQueries, 1))
+    assert(query.testCarrier == partnerId, "The initiator is controlled when the trace is requested")
+    controlled = other
+    local noticesBefore = #notices
+    privacyReply(query, {{id = tostring(observerId)}})
+    assert(logs[#logs - 1]:find("arrival_privacy_denied", 1, true) and #pending == 0 and #notices == noticesBefore,
+        "A privacy denial still cancels silently while the invited partner or a bystander is controlled")
+end
 
 arriveAtGround(false)
 reply("validate_start", standing)

@@ -182,11 +182,10 @@ local function fail(attempt, reason, notice)
     elseif attempt.ground and notice == "walk_failed" then
         notice = "ground_walk_failed"
     end
-    if not attempt.npc then
+    if notice == "arrival_privacy_denied" then
+        if controlledId() == attempt.initiator then notify(attempt.initiator, notice) end
+    elseif not attempt.npc then
         notify(attempt.initiator, notice or "failed")
-    elseif notice == "arrival_privacy_denied" then
-        local controlled = controlledId()
-        if controlled == attempt.initiator or controlled == attempt.partner then notify(controlled, notice) end
     end
 end
 
@@ -223,11 +222,9 @@ local function idleForNpc(person)
 end
 
 local function confirmPair(attempt)
-    local controlled = controlledId()
-    if attempt.npc then
+    if attempt.npc and attempt.phase == "preflight" then
+        local controlled = controlledId()
         assert(controlled ~= attempt.initiator and controlled ~= attempt.partner, "A player took control of an NPC")
-    else
-        assert(controlled == attempt.initiator, "Controlled Zoi changed")
     end
     local initiator, partner = actor(attempt.initiator), actor(attempt.partner)
     assert(LifeStage.allowsCharacter(initiator) and LifeStage.allowsCharacter(partner), "Selected pair is unavailable")
@@ -689,6 +686,10 @@ local function selectSofaSeats(attempt, rows)
 end
 
 local function openPicker(attempt)
+    if controlledId() ~= attempt.initiator then
+        release(attempt)
+        return
+    end
     local candidates = Json.array({})
     local actors = manager()
     for _, current in pairs(actors:GetAllEntities(inzoi.EB2EntityType.Character)) do
@@ -1391,8 +1392,10 @@ local function tickAttempt(attempt)
         end
         return
     end
-    if not attempt.npc and controlledId() ~= attempt.initiator then
-        fail(attempt, "Controlled Zoi changed")
+    -- The picker belongs to the initiating player. After selection, the
+    -- invitation and walks belong to the two Zois even if possession changes.
+    if not attempt.npc and not attempt.partner and controlledId() ~= attempt.initiator then
+        release(attempt)
         return
     end
     if now >= attempt.deadline then fail(attempt, "Timed out", "timeout"); return end
