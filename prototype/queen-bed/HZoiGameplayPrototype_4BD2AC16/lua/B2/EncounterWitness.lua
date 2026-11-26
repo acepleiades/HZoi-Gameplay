@@ -55,10 +55,10 @@ function M.tick(record, definitions, owner, time)
     }))
 end
 
-local function sayReactions(record, watch, sightings, participants, actor, log)
+local function sayReactions(record, watch, result, participants, actor, log)
     local spoken = watch.participantDialogue or {}
     watch.participantDialogue = spoken
-    for _, sighting in ipairs(sightings) do
+    for _, sighting in ipairs(result.sightings) do
         local witness = actor(sighting.witness_id)
         local ok, bubble = pcall(Native.sayAsWitness, witness, participants[sighting.seen_actor], sighting.pool)
         if not ok or bubble then
@@ -71,10 +71,13 @@ local function sayReactions(record, watch, sightings, participants, actor, log)
                 local line = Traits.witnessDialogue(function(trait)
                     return Native.hasTrait(participant, trait)
                 end)
+                if not line and sighting.witness_id == result.ordinary_stop_witness and result.ordinary_stop_voters[id] then
+                    line = "HZoiGameplay_WitnessStop"
+                end
                 if line then
                     spoken[id] = true
                     local said, why = pcall(Native.say, participant, witness, line)
-                    log("witness_trait_dialogue", {session = record.session_id, participant = id,
+                    log("witness_participant_dialogue", {session = record.session_id, participant = id,
                         bubble = line, ok = said, reason = not said and tostring(why) or nil})
                 end
             end
@@ -150,7 +153,7 @@ function M.reply(record, definitions, raw, actor, time, onSight, onStop, log)
     log("witness_sighting", {session = record.session_id, sightings = result.sightings,
         incident_count = #watch.incidents, stop_votes = result.stop_votes, reason = result.stop_reason})
 
-    sayReactions(record, watch, result.sightings, participants, actor, log)
+    sayReactions(record, watch, result, participants, actor, log)
 
     for _, sighting in ipairs(result.sightings) do
         if not sighting.official then

@@ -7,7 +7,7 @@ local prefersStop = {
 }
 
 function M.stopVotes(participantIds, official, hasTrait, unfamiliar)
-    local roster, stops, total = {}, 0, 0
+    local roster, voters, stops, total = {}, {}, 0, 0
     for _, id in ipairs(participantIds) do
         if not roster[id] then
             roster[id] = true
@@ -20,11 +20,14 @@ function M.stopVotes(participantIds, official, hasTrait, unfamiliar)
                         if hasTrait(id, trait) then stop = true; break end
                     end
                 end
-                if stop then stops = stops + 1 end
+                if stop then
+                    voters[id] = true
+                    stops = stops + 1
+                end
             end
         end
     end
-    return stops, total
+    return stops, total, voters
 end
 
 function M.actionPairs(snapshot, definitions, roster)
@@ -104,7 +107,7 @@ function Watch:observe(snapshot, definitions, observations, hasTrait, referenceI
     for id in pairs(departed or {}) do self.approved[id] = nil end
     local actions = M.actionPairs(snapshot, definitions, self.roster)
     if #actions == 0 then return end
-    local firstSightings, hasOfficial, bestOrdinary = {}, false, nil
+    local firstSightings, hasOfficial, bestOrdinary, bestVoters = {}, false, nil, nil
     for _, witness in ipairs(observations) do
         local who, visible = witness.id, witness.visible
         if who and not self.roster[who] and witness.revision == snapshot.revision and type(visible) == "table" then
@@ -131,9 +134,10 @@ function Watch:observe(snapshot, definitions, observations, hasTrait, referenceI
                     sighting = {witness_id = who, official = true, seen_actor = betrayedActor, pool = "Betrayed"}
                 elseif not self.approved[who] and not witness.romance_unavailable then
                     sighting = ordinarySighting(self, witness, seenActor)
-                    sighting.stop_votes = M.stopVotes(self.participantIds, false, hasTrait, sighting.unfamiliar)
+                    local votes, _, voters = M.stopVotes(self.participantIds, false, hasTrait, sighting.unfamiliar)
+                    sighting.stop_votes = votes
                     if not bestOrdinary or sighting.stop_votes > bestOrdinary.stop_votes then
-                        bestOrdinary = sighting
+                        bestOrdinary, bestVoters = sighting, voters
                     end
                 end
                 if sighting then
@@ -157,7 +161,11 @@ function Watch:observe(snapshot, definitions, observations, hasTrait, referenceI
     if not self.stopRequested and stops * 2 > total then
         outcome.stop_reason = hasOfficial and "caught_by_partner" or "witness_sighting"
         self.stopRequested = true
-        if not hasOfficial then self.ordinary_stop_unfamiliar = bestOrdinary.unfamiliar end
+        if not hasOfficial then
+            self.ordinary_stop_unfamiliar = bestOrdinary.unfamiliar
+            outcome.ordinary_stop_witness = bestOrdinary.witness_id
+            outcome.ordinary_stop_voters = bestVoters
+        end
     end
     return outcome
 end

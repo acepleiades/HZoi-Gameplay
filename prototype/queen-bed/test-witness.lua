@@ -195,12 +195,13 @@ inzoi.FB2Script_SpeechBubble = {Execute_AddSpeechBubble = function(context, comm
     bubbles[#bubbles + 1] = {source = context.source, target = context.target, id = command.S1}
 end}
 inzoi.EB1GrowthStep = {LowTeen = 8, HighTeen = 16, Youth = 32, Adult = 64, Old = 128, Elderly = 256}
-for id, activeTrait in pairs({["1"] = "Perfectionist", ["2"] = "Helper"}) do
+local reactionTraits = {["1"] = "Perfectionist", ["2"] = "Helper"}
+for _, id in ipairs({"1", "2", "3"}) do
     local participant = participants[id]
     local fallback = participant.GetComponent
     participant.GetComponent = function(self, kind)
         if kind == "Trait" then
-            return {HasTrait = function(_, trait) return trait == activeTrait end}
+            return {HasTrait = function(_, trait) return trait == reactionTraits[id] end}
         end
         return fallback(self, kind)
     end
@@ -292,6 +293,50 @@ replyAt(21, witness("4", 1))
 assert(stops == "caught_by_partner" and #record.witnessPolicy.incidents == 1)
 assert(bubbles[4].source == 4 and bubbles[4].target == 1)
 assert(bubbles[4].id:match("^HZoiGameplay_WitnessBetrayed[1-5]$"))
+
+-- Two Introverts interrupted by an unfamiliar witness each get the fallback
+-- even though neither has a trait-specific line.
+reactionTraits["1"], reactionTraits["2"] = "Introvert", "Introvert"
+record = {session_id = "one", request_id = "introvert.start", participants = {"1", "2"}, snapshot = first}
+stages["3"], scores["3"] = inzoi.EB1GrowthStep.Adult, nil
+stops, bubbles = nil, {}
+Bridge.tick(record, defs, carrier, 22)
+replyAt(22, witness("3", 1))
+assert(stops == "witness_sighting" and #bubbles == 3)
+assert(bubbles[1].source == 3 and bubbles[1].id:match("^HZoiGameplay_WitnessUnfamiliar[1-5]$"))
+assert(bubbles[2].source == 1 and bubbles[2].target == 3 and bubbles[2].id == "HZoiGameplay_WitnessStop")
+assert(bubbles[3].source == 2 and bubbles[3].target == 3 and bubbles[3].id == "HZoiGameplay_WitnessStop")
+Bridge.tick(record, defs, carrier, 23)
+replyAt(23, witness("3", 1))
+assert(#bubbles == 3, "The same walk-in must not repeat the fallback lines")
+
+record = {session_id = "one", request_id = "tie.start", participants = {"1", "2"}, snapshot = first}
+scores["3"] = {[1] = 30, [2] = 0}
+stops, bubbles = nil, {}
+Bridge.tick(record, defs, carrier, 24)
+replyAt(24, witness("3", 1))
+assert(not stops and #bubbles == 1 and bubbles[1].source == 3,
+    "A tie stays in playback without fallback dialogue")
+
+reactionTraits["3"] = "Introvert"
+record = {session_id = "one", request_id = "mixed-group.start",
+    participants = groupRoster, snapshot = groupSnapshot}
+scores["4"] = {[1] = 30, [2] = 0, [3] = 0}
+stops, bubbles = nil, {}
+Bridge.tick(record, defs, carrier, 25)
+replyAt(25, sight)
+assert(stops == "witness_sighting" and #bubbles == 3)
+assert(bubbles[1].source == 4 and bubbles[1].id:match("^HZoiGameplay_WitnessFamiliar[1-5]$"))
+assert(bubbles[2].source == 2 and bubbles[2].id == "HZoiGameplay_WitnessStop")
+assert(bubbles[3].source == 3 and bubbles[3].id == "HZoiGameplay_WitnessStop",
+    "Only participants who voted for a stop can say the fallback line")
+
+record = {session_id = "one", request_id = "introvert-affair.start", participants = {"1", "2"}, snapshot = first}
+stops, bubbles = nil, {}
+Bridge.tick(record, defs, carrier, 26)
+replyAt(26, witness("4", 1))
+assert(stops == "caught_by_partner" and #bubbles == 1 and bubbles[1].source == 4,
+    "The ordinary fallback must not override native cheating reactions")
 
 local native = require("WitnessNative")
 local removals = {}
