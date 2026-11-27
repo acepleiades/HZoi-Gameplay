@@ -1,0 +1,16 @@
+{
+  "Struct": "Text",
+  "BaseVersion": "20261026.16562.W.MODKIT.EGS",
+  "SaveVersion": "20261026.16562.W.MODKIT.EGS",
+  "PatchList": [
+    {
+      "Method": "Append",
+      "Query": "Text_UI",
+      "Value": {
+        "Id": "SceneZOI_Declaration_hzoi-gameplay__interaction_menu__invitations",
+        "Text": "{\"schema_version\":1,\"kind\":\"interaction_menu\",\"owner\":\"hzoi-gameplay\",\"data\":{\"entries\":[{\"id\":\"_UIMod_HZoiGameplayPrototype_4BD2AC16/venue-invitation~scenezoi_furniture\",\"menu\":\"object\",\"label\":\"Have Sex Here\",\"translations\":{\"en-us\":\"Have Sex Here\",\"ko-kr\":\"여기서 성관계하기\",\"ja-jp\":\"ここでセックスする\",\"zh-cn\":\"在这里做爱\",\"zh-tw\":\"在這裡做愛\",\"de-de\":\"Hier Sex haben\",\"es-es\":\"Tener sexo aquí\",\"fr-fr\":\"Faire l’amour ici\",\"it-it\":\"Fai sesso qui\",\"nl-nl\":\"Hier seks hebben\",\"pl-pl\":\"Uprawiaj seks tutaj\",\"pt-br\":\"Transar aqui\",\"pt-pt\":\"Fazer sexo aqui\",\"ru-ru\":\"Заняться сексом здесь\",\"tr-tr\":\"Burada seks yap\"},\"icon\":\"/Game/UI/Icon/Conversation/Conversation_Icon_Mood.Conversation_Icon_Mood\",\"mood_locks\":[\"Sad\",\"Uneasy\",\"Cringing\",\"Irritated\",\"Worried\"]},{\"id\":\"HZoiGameplay_SelectVenue\",\"menu\":\"object\",\"label\":\"Have Sex Here\",\"translations\":{\"en-us\":\"Have Sex Here\",\"ko-kr\":\"여기서 성관계하기\",\"ja-jp\":\"ここでセックスする\",\"zh-cn\":\"在这里做爱\",\"zh-tw\":\"在這裡做愛\",\"de-de\":\"Hier Sex haben\",\"es-es\":\"Tener sexo aquí\",\"fr-fr\":\"Faire l’amour ici\",\"it-it\":\"Fai sesso qui\",\"nl-nl\":\"Hier seks hebben\",\"pl-pl\":\"Uprawiaj seks tutaj\",\"pt-br\":\"Transar aqui\",\"pt-pt\":\"Fazer sexo aqui\",\"ru-ru\":\"Заняться сексом здесь\",\"tr-tr\":\"Burada seks yap\"},\"mood_locks\":[\"Sad\",\"Uneasy\",\"Cringing\",\"Irritated\",\"Worried\"]},{\"id\":\"HZoiGameplay_FindVenue\",\"menu\":\"talk\",\"label\":\"Have Sex\",\"translations\":{\"en-us\":\"Have Sex\",\"ko-kr\":\"성관계하기\",\"ja-jp\":\"セックスする\",\"zh-cn\":\"做爱\",\"zh-tw\":\"做愛\",\"de-de\":\"Sex haben\",\"es-es\":\"Tener sexo\",\"fr-fr\":\"Faire l’amour\",\"it-it\":\"Fai sesso\",\"nl-nl\":\"Seks hebben\",\"pl-pl\":\"Uprawiaj seks\",\"pt-br\":\"Transar\",\"pt-pt\":\"Fazer sexo\",\"ru-ru\":\"Заняться сексом\",\"tr-tr\":\"Seks yap\"}}],\"mood_tooltip\":{\"label\":\"Your Zoi cannot ask in this mood.\",\"translations\":{\"en-us\":\"Your Zoi cannot ask in this mood.\",\"ko-kr\":\"현재 기분으로는 상대에게 제안할 수 없습니다.\",\"ja-jp\":\"今の気分では、お誘いできません。\",\"zh-cn\":\"你的 Zoi 现在的心情不适合提出邀请。\",\"zh-tw\":\"你的 Zoi 目前的心情不適合提出邀請。\",\"de-de\":\"Dein Zoi kann in dieser Stimmung nicht fragen.\",\"es-es\":\"Tu Zoi no puede hacer la propuesta con este estado de ánimo.\",\"fr-fr\":\"L’humeur actuelle de votre Zoi ne lui permet pas de faire cette proposition.\",\"it-it\":\"Il tuo Zoi non può fare la proposta con questo stato d’animo.\",\"nl-nl\":\"Je Zoi kan dit met deze stemming niet vragen.\",\"pl-pl\":\"Twój Zoi nie może złożyć tej propozycji w obecnym nastroju.\",\"pt-br\":\"Seu Zoi não pode fazer esse convite nesse estado de espírito.\",\"pt-pt\":\"O teu Zoi não pode fazer este convite com este estado de espírito.\",\"ru-ru\":\"Ваш Зои не может сделать предложение в таком настроении.\",\"tr-tr\":\"Zoi’niz bu ruh hâlindeyken teklifte bulunamaz.\"}}}}"
+      },
+      "Enabled": true
+    }
+  ]
+}

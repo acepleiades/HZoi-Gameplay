@@ -232,9 +232,9 @@ local function fire(kind, player, bag, victim, reason, nativeReason)
         reason = reason, Reason = nativeReason,
     })
 end
-local function features(hasStopExplanation, lacksSpeedFloor)
+local function features(hasStopExplanation, missingFeature)
     return setmetatable({stop_session_display_reason = hasStopExplanation}, {__index = function(_, feature)
-        if feature == "autonomous_auto_speed_minimum" and lacksSpeedFloor then return end
+        if feature == missingFeature then return end
         if feature ~= "stop_session_display_reason" then return 1 end
     end})
 end
@@ -628,11 +628,13 @@ assert(#pending == 0 and #queued == 0 and #notices == ordinaryNotices and #picke
     "A paused invitation shows the host's message exactly once and does not start gameplay")
 invite(partnerId, bedId, nil, nil, true)
 
-local noticeCountBeforeOldHost = #notices
-selectFurniture(bedId)
-reply("get_version", {features = features(1, true)})
-assert(#pending == 0 and #queued == 0 and #notices == noticeCountBeforeOldHost + 1
-    and notices[#notices] == "update_scenezoi", "A host without the Auto-mode speed floor needs an update")
+for _, missing in ipairs({"autonomous_auto_speed_minimum", "shared_interaction_menu"}) do
+    local noticeCountBeforeOldHost = #notices
+    selectFurniture(bedId)
+    reply("get_version", {features = features(1, missing)})
+    assert(#pending == 0 and #queued == 0 and #notices == noticeCountBeforeOldHost + 1
+        and notices[#notices] == "update_scenezoi", "A host missing " .. missing .. " needs an update")
+end
 invite(partnerId, bedId, nil, nil, true)
 
 local bedActions = owner:GetComponent()

@@ -3,9 +3,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const patchFolder = path.join(__dirname, 'HZoiGameplayPrototype_4BD2AC16', 'Content', 'JsonPatch');
+function readJson(file) {
+    return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
 function rows(table) {
-    const patch = fs.readFileSync(path.join(patchFolder, table + '_patch.json'), 'utf8');
-    return new Map(JSON.parse(patch).PatchList.map(({Value}) => [Value.Id ?? Value.ID, Value]));
+    const patch = readJson(path.join(patchFolder, table + '_patch.json'));
+    return new Map(patch.PatchList.map(({Value}) => [Value.Id ?? Value.ID, Value]));
 }
 
 const enqueue = rows('Condition_Enqueue').get('HZoiGameplay_EligibleForMood');
@@ -17,6 +20,38 @@ const romanceVisibility = talkRules.get('HZoiGameplay_CanFindVenue');
 assert.deepEqual(romance.InteractionBagTags, ['Sad', 'Uneasy', 'Cringing', 'Irritated', 'Worried']
     .map(emotion => `Lock_Emotion_${emotion}_Lv3`));
 assert.deepEqual(romance.InteractionEnableConditionIds, ['HZoiGameplay_CanFindVenue', 'Not_FromRemoteCity_SelfTarget']);
+
+const menuRowId = 'SceneZOI_Declaration_hzoi-gameplay__interaction_menu__invitations';
+const menu = JSON.parse(rows('Text_UI').get(menuRowId).Text);
+assert.equal(menu.schema_version, 1);
+assert.equal(menu.owner, 'hzoi-gameplay');
+assert.equal(menu.kind, 'interaction_menu');
+const [furnitureMenu, groundMenu, romanceMenu] = menu.data.entries;
+const trigger = readJson(path.join(patchFolder, '../../ui/venue-invitation/uimod_manifest.json'))
+    .triggers.find(({type}) => type === 'interaction_menu');
+assert.equal(furnitureMenu.id, '_UIMod_HZoiGameplayPrototype_4BD2AC16/venue-invitation~' + trigger.id);
+assert.deepEqual(trigger.filter.objectCategory, ['Bed', 'Sofa']);
+assert.equal(furnitureMenu.icon, trigger.icon);
+assert.equal(furnitureMenu.label, trigger.label_key);
+assert.equal(groundMenu.label, bags.get(groundMenu.id).DisplayInfo.DisplayTextId);
+assert.equal(romanceMenu.id, romance.Id);
+assert.equal(romanceMenu.label, romance.DisplayInfo.DisplayTextId);
+assert.deepEqual(menu.data.entries.map(({menu}) => menu), ['object', 'object', 'talk']);
+assert.deepEqual(groundMenu.mood_locks.map(mood => `Lock_Emotion_${mood}_Lv3`),
+    bags.get(groundMenu.id).InteractionBagTags);
+assert.deepEqual(furnitureMenu.mood_locks, groundMenu.mood_locks);
+assert.equal(romanceMenu.mood_locks, undefined, 'The native Romance row already handles mood restrictions');
+const catalogDir = path.join(__dirname, 'localization');
+const locales = fs.readdirSync(catalogDir).filter(file => file.endsWith('.json'));
+assert.equal(locales.length, 15);
+for (const rule of [...menu.data.entries, menu.data.mood_tooltip]) {
+    assert.equal(Object.keys(rule.translations).length, locales.length);
+    for (const file of locales) {
+        assert.equal(rule.translations[path.basename(file, '.json').toLowerCase()],
+            readJson(path.join(catalogDir, file)).messages[rule.label]);
+    }
+}
+
 // The native table treats zero as no eligible stage. Include every EB1GrowthStep bit.
 const allLifeStages = 1 | 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256;
 for (const bag of ['Invite', 'FindVenue', 'SelectVenue', 'Walk', 'WalkRetry']) {

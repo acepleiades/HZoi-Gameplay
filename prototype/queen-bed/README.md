@@ -93,6 +93,11 @@ its seating slots and any bed covered by a SceneZOI furniture profile can
 offer **Have Sex Here**, including furniture from other mods. Both menus
 show the burning heart and the game's ModKit marker.
 
+SceneZOI applies the localization and styling for both **Have Sex Here**
+entries and **Have Sex** in the Romance menu. The declaration is generated from
+the localization catalogs. HZoi Gameplay handles clicks and checks invitation
+eligibility, including the initiator's mood.
+
 The furniture trigger forwards the exact object ID to the same invitation
 flow as the ground menu. The initiator's native mood restriction applies
 before the picker opens. The action checks for eligible partners using the

@@ -13,8 +13,8 @@ the **Romance** menu to let the pair find a venue. The Zois use the game's
 
 Download the Windows ZIP for HZoi Gameplay and install these dependencies.
 
-- **SceneZOI 1.7.1.** Install the framework for the partner picker, playback,
-  and Auto-mode. [SceneZOI 1.7.1](https://github.com/acepleiades/SceneZOI/releases/tag/v1.7.1)
+- **The matching SceneZOI build with shared interaction menus** is required
+  for the invitation menus, partner picker, playback, and Auto-mode.
 - **HZoi 1.4.1.** Install the player animation pack. It supplies routes for
   supported beds, sofas and standing scenes. Other compatible packs can add
   choices. [HZoi downloads](https://www.patreon.com/skyrimaceanimations/posts/hzoi-public-174452155)

@@ -32,6 +32,7 @@ local FEATURES = {
     "autonomous_stage_priorities", "autonomous_auto_restrictions", "autonomous_joint_goal_routes",
     "autonomous_post_completion_stay", "autonomous_manual_completion_exit", "session_results",
     "preflight_start_distance", "partner_picker_candidate_filter", "autonomous_auto_speed_minimum",
+    "shared_interaction_menu",
 }
 local client, pollNpc
 local attempts, participants, romancePicks = {}, {}, {}

@@ -2,6 +2,7 @@
 
 Use a fresh isolated Windows ModKit project and the SceneZOI checkout used to
 build the framework package you will test with. Use a build that reports
+`features.shared_interaction_menu = 1` and
 `features.autonomous_auto_speed_minimum = 1` in `get_version`.
 [Installation instructions](../README.md#install)
 
@@ -48,7 +49,8 @@ The English text for native moodlets and speech bubbles lives in
 `moodlet-text.csv` and `speech-text.csv`. Reimport changes to the corresponding
 StringTable and verify its keys and source strings in the editor before cooking.
 The 15 [translation catalogs](../prototype/queen-bed/localization/) generate
-the menu strings, ending reasons and non-English native language files.
+the shared interaction menu declaration, ending reasons and non-English
+native language files.
 
 ## Verify the release ZIP
 

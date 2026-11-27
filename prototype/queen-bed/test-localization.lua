@@ -11,13 +11,13 @@ inzoi = {cli = {execute = function(command)
 end}}
 local Localization = require("Localization")
 assert(Localization.culture() == "ko-kr")
-assert(Localization.text("Have Sex Here") == "여기서 성관계하기")
-assert(reads == 1, "Menu text uses a cached language read")
+assert(Localization.text("Your Zoi cannot ask in this mood.") == "현재 기분으로는 상대에게 제안할 수 없습니다.")
+assert(reads == 1, "Toast text uses a cached language read")
 time, setting = 4, "pt-BR"
 assert(Localization.text("Your Zoi wants some private time with {partner}.", {partner = "Ana%Do"})
     == "Seu Zoi quer um tempo a sós com Ana%Do.")
 time, setting = 7, false
 assert(Localization.culture() == "pt-br", "A transient settings error preserves the last language")
 time, setting = 10, "unknown"
-assert(Localization.text("Have Sex Here") == "Have Sex Here")
+assert(Localization.text("Your Zoi cannot ask in this mood.") == "Your Zoi cannot ask in this mood.")
 print("Retail language selection, native language-pack aliases, toast formatting and fallback passed.")
