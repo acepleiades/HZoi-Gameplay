@@ -866,6 +866,7 @@ local function observeSession(attempt, snapshot)
     local observed, countsComplete = Ledger.observe(record, snapshot, function(...) completed(attempt, ...) end)
     if not observed then return false end
     if record.started and not wasStarted then
+        if snapshot.phase == "playing" then record.arrivalPlaybackRevision = snapshot.revision end
         log(attempt, "session_started", {scene = snapshot.node_id, session = record.session_id})
         local onPlaybackStarted = attempt.onPlaybackStarted
         attempt.onPlaybackStarted = nil
@@ -1099,6 +1100,12 @@ local function startAfterPrivacy(attempt, witnesses)
     attempt.phase, attempt.deadline = "starting", os.time() + 60
     attempt.encounter = Ledger.new(requestId(attempt, "start"), client.client_id, attempt, attempt.args.participants)
     attempt.encounter.arrivalWitnesses = witnesses
+    local locations = {}
+    for witnessId in pairs(witnesses) do
+        local witness = actor(witnessId)
+        if witness then locations[witnessId] = witness:GetLocation() end
+    end
+    attempt.encounter.arrivalWitnessLocations = locations
     attempt.observationSerial, attempt.nextObservation = 0, os.time() + OBSERVATION_INTERVAL
     request(attempt, "start", "start_autonomous_scene", attempt.args)
 end

@@ -41,8 +41,8 @@ The script copies the matching SceneZOI SDK into the staged mod and regenerates
 the invitation and localization files. It verifies the two native StringTables,
 14 non-English translation files, protected Lua, encoded UI and native patches
 against the prepared inventory. It preserves ModKit's asset hash and generated
-checksums and sets both package dependencies. It includes HZoi Gameplay's
-GPLv3 license as `LICENSE.txt` and the SceneZOI SDK's separate license as
+checksums and declares SceneZOI as the package dependency. It includes the
+HZoi Gameplay GPLv3 license as `LICENSE.txt` and the SceneZOI SDK's separate license as
 `LICENSE-SceneZOI-SDK.txt`, then prints the finished ZIP's SHA-256.
 
 The English text for native moodlets and speech bubbles lives in
@@ -54,11 +54,14 @@ native language files.
 
 ## Verify the release ZIP
 
-Install the exact ZIP with the matching SceneZOI build and HZoi 1.4.1.
+Install the exact ZIP with the matching SceneZOI build and the recommended HZoi
+1.4.1 pack for the venue and gameplay checks. Also check a compatible third-party
+pack with HZoi removed and a roster with no matching content.
 Start a fresh inZOI process, load a disposable save at Normal speed, and use
 ordinary interactions for these checks.
 
-1. Confirm all three mods appear enabled. A compatible pair should see
+1. Confirm SceneZOI, HZoi Gameplay and the animation pack appear enabled.
+   A compatible pair should see
    **Have Sex Here** with a burning heart on beds, sofas and walkable ground. Confirm the
    action has no gold **MOD** badge and other mod actions keep their badges.
    Confirm each opens the native one-partner picker when someone qualifies

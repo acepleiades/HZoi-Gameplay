@@ -789,3 +789,83 @@ msgstr "Nou! Het wordt warm hier."
 msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessClose5_MessageTextId"
 msgid "Oh! Here I thought you were just talking."
 msgstr "O! En ik dacht dat jullie alleen maar aan het praten waren."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise1_MessageTextId"
+msgid "Oh. I wasn’t expecting that."
+msgstr "O. Dat had ik niet verwacht."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise2_MessageTextId"
+msgid "Well, that caught me off guard."
+msgstr "Nou, dat overvalt me wel even."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise3_MessageTextId"
+msgid "Huh. I didn’t see that coming."
+msgstr "Huh. Dat zag ik niet aankomen."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise4_MessageTextId"
+msgid "Oh! Things changed quickly."
+msgstr "O! Dat ging ineens snel."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise5_MessageTextId"
+msgid "Oh. That took me a second."
+msgstr "O. Dat moest even tot me doordringen."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker1_MessageTextId"
+msgid "I picked quite a moment to look up."
+msgstr "Nou, ik kies ook wel een moment om op te kijken."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker2_MessageTextId"
+msgid "Well, this just got interesting."
+msgstr "Nou, nu wordt het interessant."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker3_MessageTextId"
+msgid "Oh! And here I was having a quiet day."
+msgstr "O! En ik dacht nog dat het een rustige dag zou worden."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker4_MessageTextId"
+msgid "Well, that’s one way to liven up the room."
+msgstr "Nou, zo komt er ook leven in de brouwerij."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker5_MessageTextId"
+msgid "Oh. I’ll save my questions for later."
+msgstr "O. Mijn vragen bewaar ik voor later."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer1_MessageTextId"
+msgid "Oh! I guess the flirting went well."
+msgstr "O! Dat geflirt heeft blijkbaar gewerkt."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer2_MessageTextId"
+msgid "Well, somebody’s having a lovely day."
+msgstr "Nou, hier heeft iemand een heerlijke dag."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer3_MessageTextId"
+msgid "Oh! There’s clearly some chemistry here."
+msgstr "O! Hier springen de vonken over."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer4_MessageTextId"
+msgid "Oh! Good for you. I wasn’t expecting that."
+msgstr "O! Wat leuk. Dat had ik niet verwacht."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer5_MessageTextId"
+msgid "Well, someone certainly knows how to set the mood."
+msgstr "Nou, hier weet iemand wel hoe je de stemming erin krijgt."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse1_MessageTextId"
+msgid "Oh. I’ll just mind my own business."
+msgstr "O. Ik bemoei me er maar niet mee."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse2_MessageTextId"
+msgid "Oh. I think I’ll look somewhere else."
+msgstr "O. Ik kijk wel even de andere kant op."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse3_MessageTextId"
+msgid "Oh. I have no idea what to say."
+msgstr "O. Ik weet even niet wat ik moet zeggen."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse4_MessageTextId"
+msgid "Oh. I’ll pretend I didn’t notice."
+msgstr "O. Ik doe wel alsof ik niks heb gemerkt."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse5_MessageTextId"
+msgid "Oh. I’ll just be quiet over here."
+msgstr "O. Ik hou me hier wel stil."

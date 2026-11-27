@@ -789,3 +789,83 @@ msgstr "おや、なんだかここは暑くなってきたね。"
 msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessClose5_MessageTextId"
 msgid "Oh! Here I thought you were just talking."
 msgstr "おっと、ただ話してるだけだと思ってたよ。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise1_MessageTextId"
+msgid "Oh. I wasn’t expecting that."
+msgstr "あっ。こんなことになるとはね。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise2_MessageTextId"
+msgid "Well, that caught me off guard."
+msgstr "いやあ、びっくりした。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise3_MessageTextId"
+msgid "Huh. I didn’t see that coming."
+msgstr "へえ、これは予想外だったな。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise4_MessageTextId"
+msgid "Oh! Things changed quickly."
+msgstr "あっ！ 急に雰囲気が変わったね。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise5_MessageTextId"
+msgid "Oh. That took me a second."
+msgstr "あっ……一瞬、何かと思った。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker1_MessageTextId"
+msgid "I picked quite a moment to look up."
+msgstr "顔を上げたのが、よりによって今か。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker2_MessageTextId"
+msgid "Well, this just got interesting."
+msgstr "おっ、面白くなってきたね。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker3_MessageTextId"
+msgid "Oh! And here I was having a quiet day."
+msgstr "おっと、今日は静かに過ごせると思ったのに。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker4_MessageTextId"
+msgid "Well, that’s one way to liven up the room."
+msgstr "へえ、こういう盛り上げ方もあるんだね。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker5_MessageTextId"
+msgid "Oh. I’ll save my questions for later."
+msgstr "おっと、聞きたいことはあとにしよう。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer1_MessageTextId"
+msgid "Oh! I guess the flirting went well."
+msgstr "おっ、アプローチはうまくいったみたいだね。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer2_MessageTextId"
+msgid "Well, somebody’s having a lovely day."
+msgstr "へえ、誰かさんはいい日になったみたいだね。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer3_MessageTextId"
+msgid "Oh! There’s clearly some chemistry here."
+msgstr "おっ、相性がよさそうだね。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer4_MessageTextId"
+msgid "Oh! Good for you. I wasn’t expecting that."
+msgstr "おっ、いいね。予想外だったよ。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer5_MessageTextId"
+msgid "Well, someone certainly knows how to set the mood."
+msgstr "いやあ、誰かさんは雰囲気作りが上手だね。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse1_MessageTextId"
+msgid "Oh. I’ll just mind my own business."
+msgstr "あっ。そっとしておこう。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse2_MessageTextId"
+msgid "Oh. I think I’ll look somewhere else."
+msgstr "あっ。目をそらしておこうかな。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse3_MessageTextId"
+msgid "Oh. I have no idea what to say."
+msgstr "あっ。なんて言えばいいかわからない。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse4_MessageTextId"
+msgid "Oh. I’ll pretend I didn’t notice."
+msgstr "あっ。気づかなかったふりをしよう。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse5_MessageTextId"
+msgid "Oh. I’ll just be quiet over here."
+msgstr "あっ。ここで静かにしていよう。"

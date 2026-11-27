@@ -13,7 +13,10 @@ In each pass, HZoi looks for the initiator's assigned bed first, then a double
 bed, a single bed, a sofa with two free adjacent seats, or two walkable
 standing spots in the same room. Within each tier, it uses the nearest
 eligible venue. A standing scene can use clear floor space in a room whose
-furniture is unavailable. Both Zois must be able to reach their spots and
+furniture is unavailable. Within that room, the standing search favors
+walkable spots near the center with more room around them. It tries alternate
+spots if furniture or a blocked path makes the preferred spot unusable.
+Both Zois must be able to reach their spots and
 have permission to enter the room. The venue must support their scene and
 be free to reserve.
 
@@ -35,6 +38,7 @@ Leave at least one room without an assigned purpose.
 | Assign a free, compatible single bed to the initiator through the game's bed assignment. Offer a nearer double bed in the same search pass. | The initiator's assigned bed wins. |
 | Clear the initiator's assignment. Repeat with a free double and single bed. Then make each superior option unavailable in order. | The search falls back to double bed, single bed, sofa pair and standing. Put two usable beds in one tier to verify nearest wins. |
 | Put another Zoi in the room with the free bed. Leave an unassigned room with two reachable standing spots vacant. | The vacant standing venue wins in the first pass. |
+| Start the pair near an empty room's doorway. Repeat with furniture blocking the center or an L-shaped floor plan. | The pair walks farther into the room to a clear area. Both reach separate walkable spots before playback. |
 | Leave no vacant venue. Keep the free furniture in an occupied room, or offer enough clear floor space there when the furniture is unavailable. | The occupied room can qualify in the second pass. A blocked sightline or qualifying observer allows the start. A visible observer who fails the check cancels it and releases the claim. |
 | Take one seat of an adjacent sofa pair, occupy a bed, or block a path. Then free the seat or clear the route and try again. | Only free furniture and paths both Zois can use qualify. Standing requires two separate reachable spots inside one room. Repeat by occupying the chosen furniture during the walk to check arrival revalidation. |
 | Invite two disjoint pairs in separate rooms and try competing starts with a shared room or participant. | Separate sessions can overlap. A conflicting start leaves the existing claim and session intact. |

@@ -88,7 +88,7 @@ end
 
 -- Run in B1. The caller must correlate this response with the requesting
 -- session and node revision before attaching B2 relationship information.
-function M.sample(characters, participantIds, revision, arrivalPoints, baseline)
+function M.sample(characters, participantIds, revision, arrivalPoints, baseline, checkArrivalReactions)
     local roster, targets, actors = {}, {}, {}
     for _, id in ipairs(participantIds) do
         local actor = characters[id]
@@ -122,6 +122,7 @@ function M.sample(characters, participantIds, revision, arrivalPoints, baseline)
     end)
 
     local observations, baselineAbsent = {}, {}
+    local baselineVisible = checkArrivalReactions and {} or nil
     for i, row in ipairs(nearby) do
         local trackBaseline = baseline and baseline[row.id]
         if arrivalPoints or i <= 24 or trackBaseline then
@@ -131,14 +132,18 @@ function M.sample(characters, participantIds, revision, arrivalPoints, baseline)
                 if not eye then return {}, "observer_view_unavailable" end
             end
             if eye then
-                local visible = {}
+                local visible, firstVisible = {}, nil
                 for id, target in pairs(targets) do
                     if clearTrace(row.actor, eye, target, actors) then
                         visible[id] = true
+                        firstVisible = firstVisible or id
                         if arrivalPoints then break end
                     end
                 end
-                if next(visible) then
+                if firstVisible then
+                    -- Baseline observers are already traced even beyond the
+                    -- ordinary playback cap. Report just one visible target.
+                    if trackBaseline and baselineVisible then baselineVisible[row.id] = firstVisible end
                     if arrivalPoints then
                         if #observations == MAX_ARRIVAL_WITNESSES then return {}, "observer_limit" end
                         observations[#observations + 1] = {id = row.id}
@@ -159,7 +164,7 @@ function M.sample(characters, participantIds, revision, arrivalPoints, baseline)
         end
         table.sort(baselineAbsent)
     end
-    return observations, nil, baselineAbsent
+    return observations, nil, baselineAbsent, baselineVisible
 end
 
 return M

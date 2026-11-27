@@ -122,6 +122,28 @@ assert(ranked[2].kind == "bed.single" and ranked[2].furniture_id == "50")
 assert(ranked[3].furniture_pair_id == "left" and ranked[4].furniture_pair_id == "right")
 assert(ranked[5].kind == "ground" and roomAt(ranked[5].point) == 4 and not ranked[5].occupied)
 assert(assigned[1] == 1 and assigned[2] == 2, "Check each Zoi's permissions and path")
+
+local Planner = require("NpcVenuePlanner")
+local nearDoor, nearCenter, farCenter = point(210), point(520), point(430)
+local placementOrder = {
+    [nearCenter] = {room = nearDoor, order = 1},
+    [nearDoor] = {room = nearDoor, order = 2},
+    [farCenter] = {room = farCenter, order = 1},
+}
+local allowCenter = true
+local function standingOrder()
+    return Planner.candidates({}, {nearDoor, nearCenter, farCenter}, function(option)
+        if option.point ~= nearCenter or allowCenter then
+            return false, option.point.X, arrivalPoints(option)
+        end
+    end, placementOrder)
+end
+local standingRanked = standingOrder()
+assert(standingRanked[1].point == nearCenter and standingRanked[2].point == nearDoor
+    and standingRanked[3].point == farCenter, "Choose the room, then favor its interior over the doorway")
+allowCenter = false
+assert(standingOrder()[1].point == nearDoor, "Keep a reachable alternative if the center cannot be used")
+
 ownership[50] = {ToTable = function() return {[{Value = 1}] = "BedSlot_Single"} end}
 assert(rank()[1].furniture_id == "50" and rank()[1].priority == 1, "An assigned single bed outranks a double")
 ownership[50] = {[{Value = 2}] = "BedSlot_Single"}

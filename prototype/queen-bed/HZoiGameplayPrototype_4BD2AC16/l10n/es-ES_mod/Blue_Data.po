@@ -789,3 +789,83 @@ msgstr "¡Vaya! Cómo sube la temperatura aquí."
 msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessClose5_MessageTextId"
 msgid "Oh! Here I thought you were just talking."
 msgstr "¡Anda! Y yo que pensaba que solo estabais hablando."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise1_MessageTextId"
+msgid "Oh. I wasn’t expecting that."
+msgstr "Anda. Eso no me lo esperaba."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise2_MessageTextId"
+msgid "Well, that caught me off guard."
+msgstr "Vaya, eso sí que me ha pillado por sorpresa."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise3_MessageTextId"
+msgid "Huh. I didn’t see that coming."
+msgstr "Caray. No lo vi venir."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise4_MessageTextId"
+msgid "Oh! Things changed quickly."
+msgstr "¡Anda! Qué rápido ha cambiado todo."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise5_MessageTextId"
+msgid "Oh. That took me a second."
+msgstr "Ah. Me ha costado un segundo entenderlo."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker1_MessageTextId"
+msgid "I picked quite a moment to look up."
+msgstr "Menudo momento para levantar la vista."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker2_MessageTextId"
+msgid "Well, this just got interesting."
+msgstr "Vaya, esto se pone interesante."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker3_MessageTextId"
+msgid "Oh! And here I was having a quiet day."
+msgstr "¡Anda! Y yo que pensaba que iba a ser un día tranquilo."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker4_MessageTextId"
+msgid "Well, that’s one way to liven up the room."
+msgstr "Bueno, esa es una forma de animar el ambiente."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker5_MessageTextId"
+msgid "Oh. I’ll save my questions for later."
+msgstr "Ah. Ya haré las preguntas luego."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer1_MessageTextId"
+msgid "Oh! I guess the flirting went well."
+msgstr "¡Anda! Parece que el coqueteo ha dado resultado."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer2_MessageTextId"
+msgid "Well, somebody’s having a lovely day."
+msgstr "Vaya, qué buen día está teniendo alguien."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer3_MessageTextId"
+msgid "Oh! There’s clearly some chemistry here."
+msgstr "¡Anda! Aquí hay química, está claro."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer4_MessageTextId"
+msgid "Oh! Good for you. I wasn’t expecting that."
+msgstr "¡Anda, me alegro! Eso no me lo esperaba."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer5_MessageTextId"
+msgid "Well, someone certainly knows how to set the mood."
+msgstr "Bueno, hay quien sí sabe crear ambiente."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse1_MessageTextId"
+msgid "Oh. I’ll just mind my own business."
+msgstr "Ah. Yo a lo mío."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse2_MessageTextId"
+msgid "Oh. I think I’ll look somewhere else."
+msgstr "Ah. Creo que voy a mirar hacia otro lado."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse3_MessageTextId"
+msgid "Oh. I have no idea what to say."
+msgstr "Ah. No sé ni qué decir."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse4_MessageTextId"
+msgid "Oh. I’ll pretend I didn’t notice."
+msgstr "Ah. Haré como si no me hubiera dado cuenta."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse5_MessageTextId"
+msgid "Oh. I’ll just be quiet over here."
+msgstr "Ah. Mejor me quedo aquí en silencio."

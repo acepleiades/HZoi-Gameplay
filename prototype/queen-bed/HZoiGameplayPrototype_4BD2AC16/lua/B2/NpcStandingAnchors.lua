@@ -8,6 +8,8 @@ local MAX_POINTS = 12
 local MAX_POINTS_PER_ROOM = 3
 local HORIZONTAL_TOLERANCE = 65
 local VERTICAL_TOLERANCE = 35
+local ROOM_PROBE_STEP = 80
+local directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
 
 local function finite(number)
     return type(number) == "number" and math.abs(number) < math.huge
@@ -46,20 +48,43 @@ local function key(point, scale)
     }, ":")
 end
 
-local function roomHasSpace(site, points, position)
-    local count = 0
-    for _, point in ipairs(points) do
-        if site:IsSameRoom(point, position) == true then
-            count = count + 1
-            if count >= MAX_POINTS_PER_ROOM then return false end
+local function interiorScore(site, room, point)
+    local score = 0
+    for _, direction in ipairs(directions) do
+        for step = 1, 2 do
+            local probe = UE.FVector(point.X + direction[1] * step * ROOM_PROBE_STEP,
+                point.Y + direction[2] * step * ROOM_PROBE_STEP, point.Z)
+            if site:IsSameRoom(room, probe) ~= true then break end
+            score = score + 1
         end
     end
-    return true
+    return score
 end
 
--- Find possible anchors inside actual rooms. NpcVenue checks vacancy,
--- access, and the separate arrival paths for both Zois.
-function M.find(site, initiator, partner, isAllowedRoom)
+local function orderRoomSeeds(site, room)
+    local x, y = 0, 0
+    for _, point in ipairs(room.seeds) do x, y = x + point.X, y + point.Y end
+    x, y = x / #room.seeds, y / #room.seeds
+    local center = UE.FVector(x, y, room.reference.Z)
+    if site:IsSameRoom(room.reference, center) == true then
+        room.seeds[#room.seeds + 1] = center
+    end
+    local options = {}
+    for index, point in ipairs(room.seeds) do
+        options[index] = {point = point, interior = interiorScore(site, room.reference, point),
+            distance = (point.X - x)^2 + (point.Y - y)^2, index = index}
+    end
+    table.sort(options, function(a, b)
+        if a.interior ~= b.interior then return a.interior > b.interior end
+        if a.distance ~= b.distance then return a.distance < b.distance end
+        return a.index < b.index
+    end)
+    return options
+end
+
+-- Discover rooms before projecting their best interior spots. NpcVenue
+-- checks vacancy, access, and the separate arrival paths for both Zois.
+function M.find(site, initiator, partner, isAllowedRoom, canUse)
     local floor = inzoi.getB2Subsystem("FB2PathFindSystem")
     local sites = inzoi.getB2Manager("FB2SiteManager")
     if not floor or not sites or type(sites.GetSiteNearGridLocation) ~= "function" then
@@ -69,13 +94,14 @@ function M.find(site, initiator, partner, isAllowedRoom)
         return {}, "site_unavailable"
     end
 
-    local points, tested, accepted = {}, {}, {}
+    local rooms, tested = {}, {}
     local first, second = floorOrigin(initiator), floorOrigin(partner)
     if not first or not second then return {}, "floor_origin_unavailable" end
     local siteId = site:GetEntityId()
     local origins = {first, second}
-    local seeds, projections = 0, 0
+    local seeds = 0
     local function sample(origin, dx, dy)
+        if seeds >= MAX_SEEDS then return end
         local seed = UE.FVector(origin.X + dx * GRID_STEP, origin.Y + dy * GRID_STEP, origin.Z)
         local index = key(seed, GRID_STEP / 2)
         if tested[index] then return end
@@ -84,17 +110,13 @@ function M.find(site, initiator, partner, isAllowedRoom)
 
         if site:IsIn(seed) ~= true or sites:IsIndoor(seed) ~= true or site:IsSameRoom(seed, seed) ~= true then return end
         if isAllowedRoom and not isAllowedRoom(seed) then return end
-        if not roomHasSpace(site, points, seed) then return end
-
-        projections = projections + 1
-        local point = projectedPoint(sites, siteId, seed)
-        if not point or site:IsIn(point) ~= true or site:IsSameRoom(seed, point) ~= true
-            or sites:IsIndoor(point) ~= true or floor:IsOnWalkableGrid(point) ~= true then return end
-        local spot = key(point, 50)
-        if not accepted[spot] then
-            accepted[spot] = true
-            points[#points + 1] = point
+        for _, room in ipairs(rooms) do
+            if site:IsSameRoom(room.reference, seed) == true then
+                room.seeds[#room.seeds + 1] = seed
+                return
+            end
         end
+        rooms[#rooms + 1] = {reference = seed, seeds = {seed}, accepted = 0}
     end
 
     for ring = 0, GRID_RINGS do
@@ -103,15 +125,43 @@ function M.find(site, initiator, partner, isAllowedRoom)
                 if math.max(math.abs(dx), math.abs(dy)) == ring then
                     for _, origin in ipairs(origins) do
                         sample(origin, dx, dy)
-                        if seeds >= MAX_SEEDS or projections >= MAX_PROJECTIONS or #points >= MAX_POINTS then
-                            return points
-                        end
                     end
                 end
             end
         end
     end
-    return points
+    for _, room in ipairs(rooms) do room.options = orderRoomSeeds(site, room) end
+
+    local points, accepted, preferences = {}, {}, {}
+    local projections, index = 0, 1
+    -- Give each discovered room a projection before spending the budget on
+    -- alternatives in a single room with blocked floor space.
+    while projections < MAX_PROJECTIONS and #points < MAX_POINTS do
+        local pending = false
+        for _, room in ipairs(rooms) do
+            local option = room.options[index]
+            if option and room.accepted < MAX_POINTS_PER_ROOM then
+                pending = true
+                local seed = option.point
+                projections = projections + 1
+                local point = projectedPoint(sites, siteId, seed)
+                if point and site:IsIn(point) == true and site:IsSameRoom(room.reference, point) == true
+                    and sites:IsIndoor(point) == true and floor:IsOnWalkableGrid(point) == true then
+                    local spot = key(point, 50)
+                    if not accepted[spot] and (not canUse or canUse(point)) then
+                        accepted[spot] = true
+                        room.accepted = room.accepted + 1
+                        points[#points + 1] = point
+                        preferences[point] = {room = room.reference, order = room.accepted}
+                    end
+                end
+                if projections >= MAX_PROJECTIONS or #points >= MAX_POINTS then break end
+            end
+        end
+        if not pending then break end
+        index = index + 1
+    end
+    return points, nil, preferences
 end
 
 return M

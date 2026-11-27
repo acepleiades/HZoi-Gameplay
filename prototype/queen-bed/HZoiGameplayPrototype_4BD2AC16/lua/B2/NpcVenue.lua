@@ -159,8 +159,8 @@ local function eligiblePoints(world, site, option, arrivalPoints, routes)
     return true
 end
 
-local function standingPoints(world)
-    local points, visited = {}, {}
+local function standingPoints(world, canUse)
+    local points, preferences, visited = {}, {}, {}
     -- Check the party's two locations and the nearest neighboring sites.
     -- Each ground search independently bounds its samples around the pair.
     for _, person in ipairs(world.participants) do
@@ -182,13 +182,16 @@ local function standingPoints(world)
                         return checked[purpose]
                     end
                 end
-                for _, point in ipairs(Standing.find(site, world.participants[1], world.participants[2], allowed)) do
+                local found, _, roomPreferences = Standing.find(
+                    site, world.participants[1], world.participants[2], allowed, canUse)
+                for _, point in ipairs(found) do
                     points[#points + 1] = point
+                    preferences[point] = roomPreferences and roomPreferences[point]
                 end
             end
         end
     end
-    return points
+    return points, preferences
 end
 
 -- The adapters are intentionally read-only. Confirm playback compatibility
@@ -220,7 +223,7 @@ function M.candidates(initiator, partner, rows, groundAnchors, arrivalPoints)
     local function reject(reason)
         rejected[reason] = (rejected[reason] or 0) + 1
     end
-    local ranked = Planner.candidates(furniture, groundAnchors or standingPoints(world), function(option)
+    local function evaluate(option)
         local site = siteByPoint[option.point]
         if not site then
             site = siteAt(world, option.point)
@@ -240,7 +243,29 @@ function M.candidates(initiator, partner, rows, groundAnchors, arrivalPoints)
         option.site_id = id
         option.room_purpose = purpose
         return occupied, distanceSquared(initiator:GetLocation(), option.point), points
-    end)
+    end
+
+    local preferences, checkedStanding = nil, {}
+    if not groundAnchors then
+        groundAnchors, preferences = standingPoints(world, function(point)
+            local option = {kind = "ground", point = point}
+            local occupied, distance, points = evaluate(option)
+            if not points then return false end
+            -- A walkable anchor only counts toward the room cap if
+            -- both Zois have separate destinations and can reach them.
+            checkedStanding[point] = {occupied = occupied, distance = distance,
+                points = points, site = option.site_id, purpose = option.room_purpose,
+                anchor = option.groundAnchor}
+            return true
+        end)
+    end
+    local ranked = Planner.candidates(furniture, groundAnchors, function(option)
+        local checked = checkedStanding[option.point]
+        if not checked then return evaluate(option) end
+        option.site_id, option.room_purpose = checked.site, checked.purpose
+        option.ground, option.groundAnchor = option.point, checked.anchor
+        return checked.occupied, checked.distance, checked.points
+    end, preferences)
     return ranked, nil, #ranked == 0 and rejected or nil
 end
 

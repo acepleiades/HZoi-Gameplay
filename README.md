@@ -11,17 +11,23 @@ the **Romance** menu to let the pair find a venue. The Zois use the game's
 
 ## Install
 
-Download the Windows ZIP for HZoi Gameplay and install these dependencies.
+Download the Windows ZIP for HZoi Gameplay. Install SceneZOI and a compatible
+animation pack.
 
 - **The matching SceneZOI build with shared interaction menus** is required
   for the invitation menus, partner picker, playback, and Auto-mode.
-- **HZoi 1.4.1.** Install the player animation pack. It supplies routes for
-  supported beds, sofas and standing scenes. Other compatible packs can add
-  choices. [HZoi downloads](https://www.patreon.com/skyrimaceanimations/posts/hzoi-public-174452155)
-- **Ace Animations Library (AAL) is optional.** Compatible AAL animations add
-  variety when enabled. HZoi's own scenes can play without it.
+- **HZoi 1.4.1** is the recommended animation pack. It supplies standing,
+  bed and sofa scenes. [HZoi downloads](https://www.patreon.com/skyrimaceanimations/posts/hzoi-public-174452155)
+- **Ace Animations Library (AAL) is optional.** It adds more choices to HZoi
+  where compatible tracks are available.
 
-Close inZOI and extract the three packages to `Documents\inZOI\Mods`. When
+You can use any SceneZOI pack that supplies a route for the selected Zois and
+venue. The route needs an action HZoi Gameplay can choose in Auto and must
+let every participant complete an Excitement task. Auto aims for four
+different scenes, and a single compatible loop can carry the whole encounter.
+[Supported actions and playback rules](docs/autonomous-scene-start.md)
+
+Close inZOI and extract the packages to `Documents\inZOI\Mods`. When
 updating, replace each old mod folder with the matching new one. Check that the
 gameplay package has this layout:
 
@@ -29,8 +35,9 @@ gameplay package has this layout:
 Documents\inZOI\Mods\HZoiGameplayPrototype_4BD2AC16\mod_manifest.json
 ```
 
-Enable **SceneZOI**, **HZoi** and **HZoi Gameplay** in the game's mod menu, then
-load your household. The game displays the mod as **HZoi Gameplay**.
+Enable **SceneZOI**, **HZoi Gameplay** and your animation pack in the game's
+mod menu, then load your household. The game displays the mod as
+**HZoi Gameplay**.
 
 ## Play
 

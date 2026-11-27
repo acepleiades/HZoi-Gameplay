@@ -157,7 +157,7 @@ Use the same ranking in each pass and prefer the nearest eligible option within 
 2. Any compatible double bed.
 3. Any compatible single bed.
 4. A compatible sofa with an available adjacent seat pair.
-5. A standing scene with two separate, reachable walkable spots inside the room. The room may contain furniture that was unavailable or unsuitable.
+5. A standing scene with two separate, reachable walkable spots inside the room. Prefer open floor space near the center of the room. Try another spot if the center is blocked. The room may contain furniture that was unavailable or unsuitable.
 
 Read native bed assignments for the first tier. When the initiator has no eligible assigned bed in the current pass, use the remaining tiers. The partner's assignment and other bed assignments do not add tiers. Use `find_furniture` for availability and playback preflight for scene compatibility. Use `FB2Site:IsSameRoom` with the venue point and loaded Zois' positions to distinguish room occupancy from furniture occupancy. Validate indoor room membership, floor boundaries, native permissions and both walking paths. [Site API](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/structs/fb2site/) · [Room scan](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/cli/build/build-scan-floors/).
 
@@ -195,6 +195,42 @@ With no visible observers, the encounter can start. Apply the same check to play
 If an observer fails the check, cancel before SceneZOI starts. Show the localized toast **They need more privacy.** only while the player controls the Zoi who sent the invitation. Save overhead reactions for sightings during playback. Clear the pending actions and release any reservation. Romance stays as it was, and an NPC's Urge remains pending.
 
 A non-partner who qualified at arrival and stays in view does not immediately count as a walk-in. This matters for someone admitted on Friendship alone. If they leave and come back into view, apply the walk-in rules to that new sighting. An official partner can qualify at arrival under the same score check. If they then see an intimate action during playback, the existing cheating rules apply. An attempt canceled before playback creates no cheating incident.
+
+### Bystander speech at playback start
+
+A bystander who passed the arrival privacy check can make one surprised comment when playback begins and the encounter is still in view. Choose one of five localized lines from the Troublemaker, Charmer, or Recluse pool as appropriate. Most Zois use the default pool. An official partner’s qualifying sighting uses the existing cheating reaction. Each bystander speaks once for this start and can continue their activity. A later return to view follows the walk-in rules if the bystander lost sight after moving at least 80 cm from their arrival-check position or leaving the loaded area.
+
+**Default**
+
+- “Oh. I wasn’t expecting that.”
+- “Well, that caught me off guard.”
+- “Huh. I didn’t see that coming.”
+- “Oh! Things changed quickly.”
+- “Oh. That took me a second.”
+
+**Troublemaker**
+
+- “I picked quite a moment to look up.”
+- “Well, this just got interesting.”
+- “Oh! And here I was having a quiet day.”
+- “Well, that’s one way to liven up the room.”
+- “Oh. I’ll save my questions for later.”
+
+**Charmer**
+
+- “Oh! I guess the flirting went well.”
+- “Well, somebody’s having a lovely day.”
+- “Oh! There’s clearly some chemistry here.”
+- “Oh! Good for you. I wasn’t expecting that.”
+- “Well, someone certainly knows how to set the mood.”
+
+**Recluse**
+
+- “Oh. I’ll just mind my own business.”
+- “Oh. I think I’ll look somewhere else.”
+- “Oh. I have no idea what to say.”
+- “Oh. I’ll pretend I didn’t notice.”
+- “Oh. I’ll just be quiet over here.”
 
 ## Witnesses and cheating
 
@@ -420,7 +456,7 @@ In live verification, test a reachable booked commercial room without a bed, an 
 | Session-ending notice | Test a walk-in stop while controlling a participant. Verify the localized reason and ten-second **Dismiss** countdown. Switch to an uninvolved Zoi either before cleanup or during the countdown and confirm switching back leaves the notice closed. Verify manual dismissal on a technical error panel. |
 | Romance outcomes | Measure the native relationship in both directions for each invitation branch, including caps and native modifiers. Check the refusal loss at the conversation and no early gain after acceptance. Verify zero, partial, and full bonus outcomes, a repeat completion by only one Zoi, a failed start, an interruption, and duplicate terminal notifications. |
 | Needs and moodlets | Check all cost needs below, at, and just above 33%, plus near-full Fun and Social. Verify per-completion changes, natural decay, and deduplication. Test the outcome and witness moodlets separately, along with strength, duration, trait precedence, and localized dialogue. |
-| Arrival privacy | Check no observers, a solid wall, and the same doorway closed and open. Test a ray through the open gap, a ray that hits an opened leaf, and a wall beyond the opening. Check an observer who can see only one arrival point, a qualifying observer, an unqualified one, and both observers together. Cover both qualification routes, scores on either side of 30, and asymmetric values. Verify that a visible child or teen with no Romance toward the adults blocks the start even with Friendship ≥30 toward a same-sex roster. Confirm that an adult observer can still qualify through the split route when the roster includes an opposite-sex participant. Verify that a qualifying observer who stays in view does not trigger a false walk-in and that an official partner still detects cheating if playback starts and they see it. An arrival rejection sends one localized privacy toast, clears the invitation and leaves the relationship score alone. Verify that walk-in speech requires a sighting during playback. |
+| Arrival privacy | Check no observers, a solid wall, and the same doorway closed and open. Test a ray through the open gap, a ray that hits an opened leaf, and a wall beyond the opening. Check an observer who can see only one arrival point, a qualifying observer, an unqualified one, and both observers together. Cover both qualification routes, scores on either side of 30, and asymmetric values. Verify that a visible child or teen with no Romance toward the adults blocks the start even with Friendship ≥30 toward a same-sex roster. Confirm that an adult observer can still qualify through the split route when the roster includes an opposite-sex participant. Verify that a qualifying observer who stays in view does not trigger a false walk-in and that an official partner still detects cheating if playback starts and they see it. An arrival rejection sends one localized privacy toast, clears the invitation and leaves the relationship score alone. Check that a bystander approved at arrival speaks once upon seeing playback begin and uses the correct trait or default pool. Check that a failed start, an obscured bystander, and a duplicate playback notification add no start bubble. Verify that walk-in speech requires a sighting during playback. |
 | Witnesses and cheating | Test sight to both participants, blocked sight, the four speech pools, and ordinary Romance just below and at 30 and 60. Check zero, one, and two familiar participants. In a tied vote, verify the participant who wants to stop still speaks, gets the applicable moodlet, and leaves playback running. Verify that votes never accumulate across sightings and HZoi speech clears after five seconds. Check that a high-Romance witness keeps their task and an idle lower-Romance witness can walk away. Check that children and adolescents can walk away without a speech bubble and teenagers can use the approved lines. Test Rulebreaker and Flirt separately and together. Confirm a single native cheating reaction after cleanup, including when a tie lets playback continue after the sighting. |
 | Automatic venues and concurrency | Check a native bed assigned to the initiator, all fallback tiers, and both passes in reachable residential rooms regardless of room purpose. Verify that a vacant standing venue outranks an occupied room with a free bed. In the occupied-room pass, verify that an obscured or qualifying observer allows playback and a visible unqualified observer cancels the start and releases the claim. Check blocked, occupied, and newly freed furniture separately from room vacancy. Verify **Have Sex** reports when no venue qualifies, clears pending HZoi actions, and leaves the relationship score alone. Check overlapping sessions, competing claims, and a pending Urge after cancellation. [Venue test matrix](../prototype/queen-bed/npc-venues.md#test-the-venue-search) |
 | Urges and NPC autonomy | Verify the HZoi-owned offer uses native pair compatibility without a fixed life-stage list. Check an Emotionally Needy owner and a qualifying named lover just below and at 30 Romance, and verify that a missing trait or ineligible partner blocks the offer. Check owner-only completion with the selected partner, expiry, cooldown, and a single reward. At Normal speed test global autonomy off, an individual override with global autonomy on, a recipient with autonomy off, and an initiator autonomy change during preparation. Confirm a canceled NPC invitation leaves the Urge and relationship score alone, an already-playing scene can finish, and manual **Have Sex Here** still works. Verify the sender cooldown starts once on actual playback, lasts 32 to 48 game hours, and leaves the sender eligible to be invited by another partner. Check that refusals and failed starts keep the 15-minute pair retry. |

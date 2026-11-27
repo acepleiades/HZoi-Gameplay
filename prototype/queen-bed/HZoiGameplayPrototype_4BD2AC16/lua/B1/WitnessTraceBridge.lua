@@ -49,15 +49,17 @@ function M.reply(owner, raw)
             local value = type(id) == "number" and id or id.Value
             if value and actor then characters[tostring(value)] = actor end
         end
-        return Trace.sample(characters, query.participants, query.revision, arrival and query.points or nil, baseline)
+        return Trace.sample(characters, query.participants, query.revision, arrival and query.points or nil,
+            baseline, baseline ~= nil and query.arrival_reactions == true)
     end
 
-    local sampled, rows, diagnostic, baselineAbsent = pcall(sample)
+    local sampled, rows, diagnostic, baselineAbsent, baselineVisible = pcall(sample)
     local reply = {kind = query.kind, token = query.token, revision = query.revision, language = Localization.culture()}
     if sampled then
         reply.observations = Json.array(rows)
         reply.diagnostic = diagnostic
         if baselineAbsent and baseline then reply.baseline_absent = Json.array(baselineAbsent) end
+        reply.baseline_visible = baselineVisible
     else
         reply.diagnostic = tostring(rows):sub(1, 150)
     end

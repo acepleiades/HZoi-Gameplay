@@ -174,14 +174,20 @@ assert(replies[7].diagnostic == "observer_view_unavailable", "Unresolved viewpoi
 request({"1", "2"}, {kind = "arrival", points = {}})
 assert(#replies == 7, "Reject a malformed arrival point before native calls")
 
-request({"1", "2"}, {baseline = {"32", "33", "34"}})
+request({"1", "2"}, {baseline = {"32", "33", "34"}, arrival_reactions = true})
 local baselineAbsent = replies[8].baseline_absent
 assert(#baselineAbsent == 1 and baselineAbsent[1] == "34",
     "Track continuity even over the playback limit, without clearing an unknown eye position")
+for _, observation in ipairs(replies[8].observations) do assert(observation.id ~= "32") end
+local visibleAtStart = replies[8].baseline_visible
+assert((visibleAtStart["32"] == "1" or visibleAtStart["32"] == "2")
+    and not visibleAtStart["33"] and not visibleAtStart["34"],
+    "Prove an already-qualified bystander is in view even beyond the regular observation cap")
 characters[32] = actor("32", 6000)
 request({"1", "2"}, {baseline = {"32", "33", "34"}})
 baselineAbsent = replies[9].baseline_absent
 assert(#baselineAbsent == 2 and baselineAbsent[1] == "32" and baselineAbsent[2] == "34")
+assert(not replies[9].baseline_visible, "Subsequent playback traces omit the arrival-specific map")
 
 characters = {[1] = actor("1", 20, true), [2] = actor("2", 30, true), [4] = actor("4", 50)}
 staticObstruction[20] = true
@@ -226,5 +232,21 @@ assert(#doorReply(103, 30, true) == 1, "An open doorway can expose an arrival po
 assert(#doorReply(104, 30) == 0, "A separate Visibility occluder behind the open door still blocks the ray")
 assert(#doorReply(106, 30) == 0, "A solid WorldStatic obstruction behind the open door still blocks the ray")
 assert(#doorReply(107, 30) == 0, "The door frame still blocks sight when the leaves are out of the ray")
+
+characters, wholeRoster, participantCount = {}, {}, 32
+local maxBaseline = {}
+for index = 1, 160 do
+    local id = "12345678901234567" .. ("%03d"):format(index)
+    characters[{Value = id}] = actor(id, 200 + index, index <= participantCount)
+    if index <= participantCount then
+        wholeRoster[index] = id
+    else
+        maxBaseline[#maxBaseline + 1] = id
+    end
+end
+request(wholeRoster, {baseline = maxBaseline, arrival_reactions = true})
+local fullArrival = replies[#replies]
+assert(replySize <= 32768 and #fullArrival.observations == 24)
+for _, id in ipairs(maxBaseline) do assert(fullArrival.baseline_visible[id]) end
 
 print(("Witness trace bridge: door leaves, two-channel occlusion, bounded rosters, correlation and %d-byte full response passed."):format(fullReplySize))

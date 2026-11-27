@@ -98,4 +98,44 @@ assert(#none == 0 and status == "floor_origin_unavailable")
 sites = {}
 local none, status = Anchors.find(site, a, b)
 assert(#none == 0 and status == "projection_unavailable")
+
+-- Start at the doorway of an L-shaped room. The doorway is walkable,
+-- the inner corner is furnished and the wider arm offers a better anchor.
+roomAt = function(p)
+    if p.Y < 0 or p.Y >= 600 or p.X < -200 or p.X >= 800 then return end
+    if p.X < 0 then return "hall" end
+    if p.X >= 400 or p.Y < 200 then return "living" end
+end
+site.IsSameRoom = function(_, a, b)
+    return roomAt(a) ~= nil and roomAt(a) == roomAt(b) and floorAt(a) == floorAt(b)
+end
+floor.IsOnWalkableGrid = function(_, p)
+    return roomAt(p) ~= nil and not (p.X >= 390 and p.X < 550 and p.Y >= 180 and p.Y < 350)
+end
+sites.GetSiteNearGridLocation = function(_, _, p) return true, p end
+sites.IsIndoor = function(_, p) return roomAt(p) ~= nil end
+local inset, _, preferences = Anchors.find(site, actor(20, 100, 90, 90), actor(-20, 100, 90, 90))
+local living, hall
+for _, p in ipairs(inset) do
+    if roomAt(p) == "living" then living = living or p else hall = hall or p end
+end
+assert(living and living.X >= 550 and living.Y >= 180 and living.Y < 500,
+    "A walkable doorway and a furnished center should favor the open arm")
+assert(preferences[living].order == 1 and hall and preferences[living].room ~= preferences[hall].room)
+assert(floor:IsOnWalkableGrid(living))
+
+local rejected = 0
+local remaining = Anchors.find(site, actor(20, 100, 90, 90), actor(-20, 100, 90, 90), nil,
+    function(p)
+        if roomAt(p) == "living" and p.X >= 200 then rejected = rejected + 1 end
+        return roomAt(p) == "living" and p.X < 200
+    end)
+assert(rejected >= 3 and #remaining > 0 and remaining[1].X < 200,
+    "An anchor that fits both arrival routes must survive multiple unusable center candidates")
+
+roomAt = function(p)
+    return p.X >= 0 and p.X < 180 and p.Y >= 0 and p.Y < 260 and "narrow" or nil
+end
+local narrow = Anchors.find(site, actor(40, 40, 90, 90), actor(40, 40, 90, 90))
+assert(#narrow > 0, "A small room can still supply a valid anchor")
 print("Standing anchors pass bounded scanning, native out-value handling, indoor checks, and stacked floor rejection.")

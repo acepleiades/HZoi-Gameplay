@@ -93,7 +93,7 @@ assert(newer == 1 and same == 2)
 
 local Json = require("SceneZOIAddon.Json")
 local Bridge = require("EncounterWitness")
-local send, stops, explanation, announced, logs, seenParticipant, shouldWalk
+local send, stops, explanation, announced, logs, logData, seenParticipant, shouldWalk
 inzoi = {
     EB2ComponentType = {Bio = "Bio", Relationship = "Relationship", Trait = "Trait", Howling = "Howling"},
     message = {send_to_client = function(ownerId, kind, raw)
@@ -127,16 +127,17 @@ end
 local function findActor(id) return participants[id] end
 local function onSight(id, reference, depart) announced, seenParticipant, shouldWalk = id, reference, depart end
 local function onStop(reason, text) stops, explanation = reason, text end
-local function log(which, data) logs = which end
+local function log(which, data) logs, logData = which, data end
 local carrier = {GetEntityId = function() return "1" end}
 local record = {session_id = "one", request_id = "try.start", participants = {"1", "2"}, snapshot = first}
 Bridge.tick(record, defs, carrier, 1)
 assert(send.token == "try.start.1" and send.revision == first.revision)
-local language, baselineAbsent
+local language, baselineAbsent, baselineVisible
 local function replyAt(time, ...)
     Bridge.reply(record, defs, Json.encode({
         token = send.token, revision = send.revision, observations = {...}, language = language,
         baseline_absent = baselineAbsent,
+        baseline_visible = baselineVisible,
     }), findActor, time, onSight, onStop, log)
 end
 record.snapshot = changed
@@ -255,46 +256,67 @@ assert(stops == "witness_sighting" and announced == "4" and seenParticipant == "
 assert(explanation == "The encounter ended after someone walked in.",
     "A group stop must not show a two-name explanation")
 
+local originalLocation = {X = 100, Y = 100, Z = 100}
+local currentLocation = originalLocation
+participants["3"].GetLocation = function() return currentLocation end
 record = {session_id = "one", request_id = "arrival.start", participants = {"1", "2"},
-    arrivalWitnesses = {["3"] = true}, snapshot = first}
+    arrivalWitnesses = {["3"] = true}, arrivalWitnessLocations = {["3"] = originalLocation}, snapshot = first}
 announced, shouldWalk, stops, bubbles = nil, nil, nil, {}
 stages["3"], scores["3"] = inzoi.EB1GrowthStep.HighTeen, {[1] = 59, [2] = 30}
 Bridge.tick(record, defs, carrier, 15)
-assert(send.baseline[1] == "3")
+assert(send.baseline[1] == "3" and send.arrival_reactions)
+baselineVisible = {["3"] = "1"}
 replyAt(15, witness("3", 1))
-assert(not announced and #bubbles == 0)
+baselineVisible = nil
+assert(not announced and #bubbles == 1 and bubbles[1].source == 3 and bubbles[1].target == 1)
+assert(bubbles[1].id:match("^HZoiGameplay_ArrivalSurprise[1-5]$"))
+assert(logs == "arrival_bystander_dialogue" and logData.speaker == "3" and logData.bubble == bubbles[1].id)
 Bridge.tick(record, defs, carrier, 16)
+assert(not send.arrival_reactions)
 baselineAbsent = {"3"}
 replyAt(16)
 baselineAbsent = nil
 Bridge.tick(record, defs, carrier, 17)
-assert(send.baseline == nil)
+assert(send.baseline[1] == "3")
 replyAt(17, witness("3", 1))
-assert(announced == "3" and shouldWalk and not stops and #bubbles == 1)
-assert(bubbles[1].source == 3 and bubbles[1].id:match("^HZoiGameplay_WitnessFamiliar[1-5]$"))
+assert(not announced and not stops and #bubbles == 1,
+    "A brief interruption in visibility must not add a walk-in line")
+baselineAbsent = {"3"}
 Bridge.tick(record, defs, carrier, 18)
-replyAt(18, witness("3", 1))
-assert(#bubbles == 1, "Each witness gets one line per session")
+replyAt(18)
+currentLocation = {X = 200, Y = 100, Z = 100}
+Bridge.tick(record, defs, carrier, 19)
+replyAt(19)
+baselineAbsent = nil
+currentLocation = originalLocation
+Bridge.tick(record, defs, carrier, 20)
+assert(send.baseline == nil)
+replyAt(20, witness("3", 1))
+assert(announced == "3" and shouldWalk and not stops and #bubbles == 2)
+assert(bubbles[2].source == 3 and bubbles[2].id:match("^HZoiGameplay_WitnessFamiliar[1-5]$"))
+Bridge.tick(record, defs, carrier, 21)
+replyAt(21, witness("3", 1))
+assert(#bubbles == 2, "A bystander who leaves and returns still gets one walk-in line")
 
 record = {session_id = "one", request_id = "younger.start", participants = {"1", "2"}, snapshot = first}
 stages["3"], scores["3"] = inzoi.EB1GrowthStep.LowTeen, {[1] = 59, [2] = 0}
 Bridge.tick(record, defs, carrier, 19)
 replyAt(19, witness("3", 1))
-assert(shouldWalk and #bubbles == 2 and bubbles[2].source == 2,
+assert(shouldWalk and #bubbles == 3 and bubbles[3].source == 2,
     "A quiet witness still walks and only the unfamiliar participant complains")
 record = {session_id = "one", request_id = "close.start", participants = {"1", "2"}, snapshot = first}
 stages["3"], scores["3"] = inzoi.EB1GrowthStep.Adult, {[1] = 30, [2] = 60}
 Bridge.tick(record, defs, carrier, 20)
 replyAt(20, witness("3", 1))
-assert(not shouldWalk and #bubbles == 3)
-assert(bubbles[3].id:match("^HZoiGameplay_WitnessClose[1-5]$"))
+assert(not shouldWalk and #bubbles == 4)
+assert(bubbles[4].id:match("^HZoiGameplay_WitnessClose[1-5]$"))
 record = {session_id = "one", request_id = "affair.start", participants = {"1", "2"}, snapshot = first}
 stages["4"], scores["4"] = inzoi.EB1GrowthStep.Adult, {[1] = 90, [2] = 90}
 Bridge.tick(record, defs, carrier, 21)
 replyAt(21, witness("4", 1))
 assert(stops == "caught_by_partner" and #record.witnessPolicy.incidents == 1)
-assert(bubbles[4].source == 4 and bubbles[4].target == 1)
-assert(bubbles[4].id:match("^HZoiGameplay_WitnessBetrayed[1-5]$"))
+assert(bubbles[5].source == 4 and bubbles[5].target == 1)
+assert(bubbles[5].id:match("^HZoiGameplay_WitnessBetrayed[1-5]$"))
 
 -- Two Introverts interrupted by an unfamiliar witness each get the fallback
 -- even though neither has a trait-specific line.
@@ -376,6 +398,81 @@ for _, variant in ipairs({{"Perfectionist", "Perfectionist"}, {"Helper", "Reclus
     end
 end
 math.random = realRandom
+
+local function arrivalRecord(playing, approved)
+    return {session_id = "one", request_id = "arrival-reactions.start", participants = {"1", "2"},
+        arrivalWitnesses = approved or {["3"] = true}, snapshot = playing}
+end
+
+-- The first live trace is still requested if the opening scene has no
+-- directed intimate action. Check all variants of each bystander pool.
+for _, variant in ipairs({{false, "Surprise"}, {"Entertainer", "Troublemaker"},
+    {"Romantic", "Charmer"}, {"Helper", "Recluse"}}) do
+    reactionTraits["3"] = variant[1]
+    for index = 1, 5 do
+        math.random = function(limit) assert(limit == 5); return index end
+        record = arrivalRecord(snapshot(1, "cuddle"))
+        stops, announced, bubbles = nil, nil, {}
+        Bridge.tick(record, defs, carrier, 28)
+        assert(send.arrival_reactions == true)
+        baselineVisible = {["3"] = "2"}
+        replyAt(28, witness("3", 1))
+        assert(not stops and not announced and #bubbles == 1)
+        assert(bubbles[1].source == 3 and bubbles[1].target == 2
+            and bubbles[1].id == "HZoiGameplay_Arrival" .. variant[2] .. index)
+        Bridge.tick(record, defs, carrier, 29)
+        assert(not send.arrival_reactions)
+        replyAt(29, witness("3", 1))
+        assert(#bubbles == 1, "The same arrival-approved Zoi cannot speak twice")
+    end
+end
+math.random, baselineVisible = realRandom, nil
+
+participants["5"] = {
+    GetEntityId = function() return {Value = 5} end,
+    GetComponent = function() end,
+}
+record = arrivalRecord(first, {["3"] = true, ["4"] = true, ["5"] = true})
+stops, announced, bubbles = nil, nil, {}
+reactionTraits["1"] = nil
+Bridge.tick(record, defs, carrier, 30)
+baselineVisible = {["3"] = "2", ["4"] = "1", ["5"] = "1"}
+replyAt(30, witness("3", 1), witness("4", 1), witness("5", 1))
+baselineVisible = nil
+assert(stops == "caught_by_partner" and #bubbles == 3 and #record.witnessPolicy.incidents == 1)
+assert(bubbles[3].source == 4 and bubbles[3].id:match("^HZoiGameplay_WitnessBetrayed[1-5]$"),
+    "The official partner gets the actual cheating line and no arrival surprise")
+assert((bubbles[1].source == 3 and bubbles[2].source == 5) or (bubbles[1].source == 5 and bubbles[2].source == 3),
+    "Each remaining qualified bystander in view gets an arrival line")
+
+record = arrivalRecord(first)
+bubbles = {}
+Bridge.tick(record, defs, carrier, 32)
+baselineVisible, baselineAbsent = {}, {"3"}
+replyAt(32)
+baselineVisible, baselineAbsent = {["3"] = "1"}, nil
+Bridge.tick(record, defs, carrier, 33)
+assert(not send.arrival_reactions)
+replyAt(33)
+assert(#bubbles == 0, "A bystander absent at first playback does not get a deferred arrival line")
+
+record = arrivalRecord(changed)
+record.arrivalPlaybackRevision = first.revision
+Bridge.tick(record, defs, carrier, 34)
+assert(not send.arrival_reactions, "A snapshot on a later node cannot substitute for the opening view")
+replyAt(34)
+assert(#bubbles == 0)
+baselineVisible = nil
+
+local reported = send
+for _, phase in ipairs({"preparing", "ended"}) do
+    local notPlaying = snapshot(1)
+    notPlaying.phase = phase
+    record = arrivalRecord(notPlaying)
+    record.started = phase == "ended"
+    Bridge.tick(record, defs, carrier, 35)
+    assert(send == reported and #bubbles == 0, "Preparing and ended-only recovery cannot trigger arrival speech")
+end
 
 local native = require("WitnessNative")
 local removals = {}

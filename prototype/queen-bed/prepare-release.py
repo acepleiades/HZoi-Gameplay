@@ -14,7 +14,7 @@ SOURCE = Path(__file__).resolve().parent
 GAMEPLAY_LICENSE = SOURCE.parents[1] / "LICENSE"
 MOD = "HZoiGameplayPrototype_4BD2AC16"
 DESCRIPTOR = f"{MOD}.uplugin"
-DEPENDENCIES = ["SceneZOI_93C44199", "HZoi_660649D8"]
+DEPENDENCIES = ["SceneZOI_93C44199"]
 ASSETS = {"String/mod_ST_Buff_4bd2ac16", "String/mod_ST_SpeechBubble_4bd2ac16"}
 VENUE_UI = {
     "ui/uimod_apps.json",
