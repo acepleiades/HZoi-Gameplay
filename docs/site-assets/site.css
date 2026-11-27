@@ -73,9 +73,9 @@ h1 span { display: block; font-size: min(.83em, 13cqi); }
 .steps li { padding-left: .3rem; margin-bottom: .7rem; }
 .steps li::marker { color: var(--accent); font-weight: 750; }
 code { padding: .1em .25em; border-radius: .25em; background: #3d2b2c; font-size: .88em; overflow-wrap: anywhere; }
-details { border-top: 1px solid var(--line); }
-details p { margin-bottom: .75rem; }
-summary { cursor: pointer; color: var(--accent); font-weight: 650; padding: .65rem 0; }
+.content-packs { border-top: 1px solid var(--line); padding-top: .85rem; }
+.content-packs h3 { font-size: 1.05rem; }
+.content-packs p { margin-top: .65rem; }
 #release-notes { margin-top: .7rem; overflow-wrap: anywhere; }
 #release-notes h3 { font-size: 1.02rem; margin-block: .85rem .3rem; }
 #release-notes ul, #release-notes ol { padding-inline-start: 1.25rem; margin: .55rem 0 .75rem; }
