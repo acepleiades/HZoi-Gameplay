@@ -642,21 +642,69 @@ msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_Emo
 msgid "You realized a second too late what was happening. You wish you’d given everyone a bit more privacy."
 msgstr "Вы на секунду позже, чем хотелось бы, поняли, что происходит. Лучше было бы тихо уйти и оставить всех наедине."
 
-msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist_MessageTextId"
-msgid "Could you knock next time?"
-msgstr "В следующий раз можно постучать?"
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist1_MessageTextId"
+msgid "A little warning would’ve been nice."
+msgstr "Неплохо бы сначала предупредить."
 
-msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse_MessageTextId"
-msgid "I wanted a little privacy."
-msgstr "Мне хотелось немного уединения."
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist2_MessageTextId"
+msgid "Could you check before coming in next time?"
+msgstr "В следующий раз можно спросить, прежде чем входить?"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist3_MessageTextId"
+msgid "We should’ve picked somewhere more private."
+msgstr "Надо было выбрать место поукромнее."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist4_MessageTextId"
+msgid "Everything was going fine until that interruption."
+msgstr "Всё шло хорошо, пока нам не помешали."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist5_MessageTextId"
+msgid "Can we make sure we won’t be interrupted again?"
+msgstr "Можно сделать так, чтобы нам больше не мешали?"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse1_MessageTextId"
+msgid "I was hoping for a little privacy."
+msgstr "Хотелось немного побыть без посторонних."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse2_MessageTextId"
+msgid "I wish I could disappear right now."
+msgstr "Вот бы сейчас провалиться сквозь землю."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse3_MessageTextId"
+msgid "I don’t even know where to look."
+msgstr "Не знаю даже, куда смотреть."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse4_MessageTextId"
+msgid "I really didn’t want anyone to see me like this."
+msgstr "Совсем не хотелось, чтобы меня увидели в таком виде."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse5_MessageTextId"
+msgid "I hope nobody else comes in."
+msgstr "Надеюсь, больше никто не зайдёт."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop1_MessageTextId"
+msgid "Of all the times to walk in."
+msgstr "Ну и время выбрали, чтобы зайти."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop2_MessageTextId"
+msgid "That was awkward. I need a second."
+msgstr "Как неловко. Мне нужна секунда."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop3_MessageTextId"
+msgid "I’d feel better with some privacy right now."
+msgstr "Сейчас мне было бы спокойнее без посторонних."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop4_MessageTextId"
+msgid "Getting interrupted like that threw me off."
+msgstr "Меня это совсем сбило с настроя."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop5_MessageTextId"
+msgid "Seeing someone walk in took me right out of the moment."
+msgstr "Стоило кому-то войти, как всё настроение пропало."
 
 msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyPrivateTime_MessageTextId"
 msgid "Can’t we have a little private time?"
 msgstr "Нам можно хоть немного побыть наедине?"
-
-msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyWorstMoment_MessageTextId"
-msgid "They walked in at the worst moment."
-msgstr "Кто-то вошёл в самый неподходящий момент."
 
 msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyEmptyRoom_MessageTextId"
 msgid "I thought this room was empty."

@@ -7,11 +7,11 @@
       "Method": "Append",
       "Query": "SpeechBubble",
       "Value": {
-        "Id": "HZoiGameplay_WitnessPerfectionist",
+        "Id": "HZoiGameplay_WitnessPerfectionist1",
         "SpeechBubbleData": [
           {
             "ListKey": "1",
-            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist_MessageTextId",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist1_MessageTextId",
             "Icon": "None",
             "SpeechBubbleOption": "Basic",
             "IntervalSec": 0.2,
@@ -27,11 +27,11 @@
       "Method": "Append",
       "Query": "SpeechBubble",
       "Value": {
-        "Id": "HZoiGameplay_WitnessRecluse",
+        "Id": "HZoiGameplay_WitnessPerfectionist2",
         "SpeechBubbleData": [
           {
             "ListKey": "1",
-            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse_MessageTextId",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist2_MessageTextId",
             "Icon": "None",
             "SpeechBubbleOption": "Basic",
             "IntervalSec": 0.2,
@@ -47,11 +47,251 @@
       "Method": "Append",
       "Query": "SpeechBubble",
       "Value": {
-        "Id": "HZoiGameplay_WitnessStop",
+        "Id": "HZoiGameplay_WitnessPerfectionist3",
         "SpeechBubbleData": [
           {
             "ListKey": "1",
-            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyWorstMoment_MessageTextId",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist3_MessageTextId",
+            "Icon": "None",
+            "SpeechBubbleOption": "Basic",
+            "IntervalSec": 0.2,
+            "LifeTime": 5,
+            "bOverride": true,
+            "Probability": 1
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "SpeechBubble",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessPerfectionist4",
+        "SpeechBubbleData": [
+          {
+            "ListKey": "1",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist4_MessageTextId",
+            "Icon": "None",
+            "SpeechBubbleOption": "Basic",
+            "IntervalSec": 0.2,
+            "LifeTime": 5,
+            "bOverride": true,
+            "Probability": 1
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "SpeechBubble",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessPerfectionist5",
+        "SpeechBubbleData": [
+          {
+            "ListKey": "1",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist5_MessageTextId",
+            "Icon": "None",
+            "SpeechBubbleOption": "Basic",
+            "IntervalSec": 0.2,
+            "LifeTime": 5,
+            "bOverride": true,
+            "Probability": 1
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "SpeechBubble",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessRecluse1",
+        "SpeechBubbleData": [
+          {
+            "ListKey": "1",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse1_MessageTextId",
+            "Icon": "None",
+            "SpeechBubbleOption": "Basic",
+            "IntervalSec": 0.2,
+            "LifeTime": 5,
+            "bOverride": true,
+            "Probability": 1
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "SpeechBubble",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessRecluse2",
+        "SpeechBubbleData": [
+          {
+            "ListKey": "1",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse2_MessageTextId",
+            "Icon": "None",
+            "SpeechBubbleOption": "Basic",
+            "IntervalSec": 0.2,
+            "LifeTime": 5,
+            "bOverride": true,
+            "Probability": 1
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "SpeechBubble",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessRecluse3",
+        "SpeechBubbleData": [
+          {
+            "ListKey": "1",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse3_MessageTextId",
+            "Icon": "None",
+            "SpeechBubbleOption": "Basic",
+            "IntervalSec": 0.2,
+            "LifeTime": 5,
+            "bOverride": true,
+            "Probability": 1
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "SpeechBubble",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessRecluse4",
+        "SpeechBubbleData": [
+          {
+            "ListKey": "1",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse4_MessageTextId",
+            "Icon": "None",
+            "SpeechBubbleOption": "Basic",
+            "IntervalSec": 0.2,
+            "LifeTime": 5,
+            "bOverride": true,
+            "Probability": 1
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "SpeechBubble",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessRecluse5",
+        "SpeechBubbleData": [
+          {
+            "ListKey": "1",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse5_MessageTextId",
+            "Icon": "None",
+            "SpeechBubbleOption": "Basic",
+            "IntervalSec": 0.2,
+            "LifeTime": 5,
+            "bOverride": true,
+            "Probability": 1
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "SpeechBubble",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessStop1",
+        "SpeechBubbleData": [
+          {
+            "ListKey": "1",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop1_MessageTextId",
+            "Icon": "None",
+            "SpeechBubbleOption": "Basic",
+            "IntervalSec": 0.2,
+            "LifeTime": 5,
+            "bOverride": true,
+            "Probability": 1
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "SpeechBubble",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessStop2",
+        "SpeechBubbleData": [
+          {
+            "ListKey": "1",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop2_MessageTextId",
+            "Icon": "None",
+            "SpeechBubbleOption": "Basic",
+            "IntervalSec": 0.2,
+            "LifeTime": 5,
+            "bOverride": true,
+            "Probability": 1
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "SpeechBubble",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessStop3",
+        "SpeechBubbleData": [
+          {
+            "ListKey": "1",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop3_MessageTextId",
+            "Icon": "None",
+            "SpeechBubbleOption": "Basic",
+            "IntervalSec": 0.2,
+            "LifeTime": 5,
+            "bOverride": true,
+            "Probability": 1
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "SpeechBubble",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessStop4",
+        "SpeechBubbleData": [
+          {
+            "ListKey": "1",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop4_MessageTextId",
+            "Icon": "None",
+            "SpeechBubbleOption": "Basic",
+            "IntervalSec": 0.2,
+            "LifeTime": 5,
+            "bOverride": true,
+            "Probability": 1
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "SpeechBubble",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessStop5",
+        "SpeechBubbleData": [
+          {
+            "ListKey": "1",
+            "MessageTextId": "mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop5_MessageTextId",
             "Icon": "None",
             "SpeechBubbleOption": "Basic",
             "IntervalSec": 0.2,

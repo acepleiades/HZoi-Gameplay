@@ -642,21 +642,69 @@ msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_Emo
 msgid "You realized a second too late what was happening. You wish you’d given everyone a bit more privacy."
 msgstr "한 박자 늦게 무슨 일이 벌어지고 있는지 알아차렸다. 다들 좀 더 편히 있을 수 있게 자리를 비켜 줬으면 좋았을 텐데."
 
-msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist_MessageTextId"
-msgid "Could you knock next time?"
-msgstr "다음에는 노크 좀 해 줄래요?"
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist1_MessageTextId"
+msgid "A little warning would’ve been nice."
+msgstr "들어오기 전에 한마디 해 줬으면 좋았을 텐데."
 
-msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse_MessageTextId"
-msgid "I wanted a little privacy."
-msgstr "조금은 방해받지 않고 있고 싶었는데."
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist2_MessageTextId"
+msgid "Could you check before coming in next time?"
+msgstr "다음엔 들어오기 전에 괜찮은지 물어봐 줄래요?"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist3_MessageTextId"
+msgid "We should’ve picked somewhere more private."
+msgstr "좀 더 눈에 띄지 않는 곳을 골랐어야 했어."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist4_MessageTextId"
+msgid "Everything was going fine until that interruption."
+msgstr "방해받기 전까진 잘되고 있었는데."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist5_MessageTextId"
+msgid "Can we make sure we won’t be interrupted again?"
+msgstr "다음엔 방해받지 않게 할 수 있을까?"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse1_MessageTextId"
+msgid "I was hoping for a little privacy."
+msgstr "잠깐만이라도 방해받지 않고 싶었는데."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse2_MessageTextId"
+msgid "I wish I could disappear right now."
+msgstr "지금 당장 사라지고 싶어."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse3_MessageTextId"
+msgid "I don’t even know where to look."
+msgstr "어디를 봐야 할지도 모르겠어."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse4_MessageTextId"
+msgid "I really didn’t want anyone to see me like this."
+msgstr "이런 모습은 정말 아무한테도 보이고 싶지 않았어."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse5_MessageTextId"
+msgid "I hope nobody else comes in."
+msgstr "더는 아무도 들어오지 않았으면 좋겠어."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop1_MessageTextId"
+msgid "Of all the times to walk in."
+msgstr "하필 이럴 때 들어오다니."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop2_MessageTextId"
+msgid "That was awkward. I need a second."
+msgstr "민망했어. 잠깐만."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop3_MessageTextId"
+msgid "I’d feel better with some privacy right now."
+msgstr "지금은 사람들 눈에 안 띄는 게 마음 편할 것 같아."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop4_MessageTextId"
+msgid "Getting interrupted like that threw me off."
+msgstr "갑자기 방해받으니까 흐름이 끊겼어."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop5_MessageTextId"
+msgid "Seeing someone walk in took me right out of the moment."
+msgstr "누가 들어오는 걸 보니 분위기가 확 깨졌어."
 
 msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyPrivateTime_MessageTextId"
 msgid "Can’t we have a little private time?"
 msgstr "우리 둘만의 시간을 좀 가지면 안 될까요?"
-
-msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyWorstMoment_MessageTextId"
-msgid "They walked in at the worst moment."
-msgstr "하필 이럴 때 들어오다니."
 
 msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyEmptyRoom_MessageTextId"
 msgid "I thought this room was empty."

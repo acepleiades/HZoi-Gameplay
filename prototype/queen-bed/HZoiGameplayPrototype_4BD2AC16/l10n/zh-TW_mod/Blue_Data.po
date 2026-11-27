@@ -642,21 +642,69 @@ msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_Emo
 msgid "You realized a second too late what was happening. You wish you’d given everyone a bit more privacy."
 msgstr "你慢了一拍才明白自己撞見了什麼。早知道就該悄悄走開，讓他們多一點私人空間。"
 
-msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist_MessageTextId"
-msgid "Could you knock next time?"
-msgstr "下次能先敲門嗎？"
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist1_MessageTextId"
+msgid "A little warning would’ve been nice."
+msgstr "要是進來前先打聲招呼就好了。"
 
-msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse_MessageTextId"
-msgid "I wanted a little privacy."
-msgstr "我只是想有一點私人空間。"
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist2_MessageTextId"
+msgid "Could you check before coming in next time?"
+msgstr "下次進來前，可以先問一聲嗎？"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist3_MessageTextId"
+msgid "We should’ve picked somewhere more private."
+msgstr "早知道就該找個更私密一點的地方。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist4_MessageTextId"
+msgid "Everything was going fine until that interruption."
+msgstr "剛剛明明很順，偏偏被打斷了。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist5_MessageTextId"
+msgid "Can we make sure we won’t be interrupted again?"
+msgstr "有沒有辦法讓下次別再被打擾？"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse1_MessageTextId"
+msgid "I was hoping for a little privacy."
+msgstr "我本來只想有一點私人空間。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse2_MessageTextId"
+msgid "I wish I could disappear right now."
+msgstr "真想現在就消失。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse3_MessageTextId"
+msgid "I don’t even know where to look."
+msgstr "我都不知道該往哪裡看了。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse4_MessageTextId"
+msgid "I really didn’t want anyone to see me like this."
+msgstr "我真的不想被人看到這副樣子。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse5_MessageTextId"
+msgid "I hope nobody else comes in."
+msgstr "希望別再有人進來了。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop1_MessageTextId"
+msgid "Of all the times to walk in."
+msgstr "偏偏在這個時候進來。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop2_MessageTextId"
+msgid "That was awkward. I need a second."
+msgstr "好尷尬。讓我緩一下。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop3_MessageTextId"
+msgid "I’d feel better with some privacy right now."
+msgstr "現在要是有點私人空間，我會好過一點。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop4_MessageTextId"
+msgid "Getting interrupted like that threw me off."
+msgstr "突然被打斷，節奏都亂了。"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop5_MessageTextId"
+msgid "Seeing someone walk in took me right out of the moment."
+msgstr "一看到有人走進來，剛剛的感覺一下就沒了。"
 
 msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyPrivateTime_MessageTextId"
 msgid "Can’t we have a little private time?"
 msgstr "不能讓我們單獨相處一下嗎？"
-
-msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyWorstMoment_MessageTextId"
-msgid "They walked in at the worst moment."
-msgstr "偏偏在這種時候走進來。"
 
 msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyEmptyRoom_MessageTextId"
 msgid "I thought this room was empty."

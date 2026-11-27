@@ -68,13 +68,11 @@ local function sayReactions(record, watch, result, participants, actor, log)
         for _, id in ipairs(record.participants) do
             if not spoken[id] and (sighting.official or sighting.unfamiliar[id]) then
                 local participant = participants[id]
-                local line = Traits.witnessDialogue(function(trait)
+                local pool = Traits.witnessDialoguePool(function(trait)
                     return Native.hasTrait(participant, trait)
-                end)
-                if not line and sighting.stop_voters and sighting.stop_voters[id] then
-                    line = "HZoiGameplay_WitnessStop"
-                end
-                if line then
+                end, sighting.stop_voters and sighting.stop_voters[id])
+                if pool then
+                    local line = "HZoiGameplay_Witness" .. pool .. math.random(5)
                     spoken[id] = true
                     local said, why = pcall(Native.say, participant, witness, line)
                     log("witness_participant_dialogue", {session = record.session_id, participant = id,

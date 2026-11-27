@@ -217,8 +217,8 @@ Bridge.tick(record, defs, carrier, 11)
 replyAt(11, witness("3", 1))
 assert(#bubbles == 2 and stops == "witness_sighting")
 assert(explanation == "Jaewoo and Minah decided to stop after someone walked in on them.")
-assert(bubbles[1].source == 1 and bubbles[1].target == 3 and bubbles[1].id == "HZoiGameplay_WitnessPerfectionist")
-assert(bubbles[2].source == 2 and bubbles[2].target == 3 and bubbles[2].id == "HZoiGameplay_WitnessRecluse")
+assert(bubbles[1].source == 1 and bubbles[1].target == 3 and bubbles[1].id:match("^HZoiGameplay_WitnessPerfectionist[1-5]$"))
+assert(bubbles[2].source == 2 and bubbles[2].target == 3 and bubbles[2].id:match("^HZoiGameplay_WitnessRecluse[1-5]$"))
 Bridge.tick(record, defs, carrier, 12)
 replyAt(12, witness("4", 1, {["1"] = true}))
 assert(#bubbles == 2, "another sighting must not repeat the participants’ lines")
@@ -306,8 +306,8 @@ Bridge.tick(record, defs, carrier, 22)
 replyAt(22, witness("3", 1))
 assert(stops == "witness_sighting" and #bubbles == 3)
 assert(bubbles[1].source == 3 and bubbles[1].id:match("^HZoiGameplay_WitnessUnfamiliar[1-5]$"))
-assert(bubbles[2].source == 1 and bubbles[2].target == 3 and bubbles[2].id == "HZoiGameplay_WitnessStop")
-assert(bubbles[3].source == 2 and bubbles[3].target == 3 and bubbles[3].id == "HZoiGameplay_WitnessStop")
+assert(bubbles[2].source == 1 and bubbles[2].target == 3 and bubbles[2].id:match("^HZoiGameplay_WitnessStop[1-5]$"))
+assert(bubbles[3].source == 2 and bubbles[3].target == 3 and bubbles[3].id:match("^HZoiGameplay_WitnessStop[1-5]$"))
 Bridge.tick(record, defs, carrier, 23)
 replyAt(23, witness("3", 1))
 assert(#bubbles == 3, "The same walk-in must not repeat the fallback lines")
@@ -318,7 +318,7 @@ stops, bubbles = nil, {}
 Bridge.tick(record, defs, carrier, 24)
 replyAt(24, witness("3", 1))
 assert(not stops and #bubbles == 2 and bubbles[1].source == 3)
-assert(bubbles[2].source == 2 and bubbles[2].target == 3 and bubbles[2].id == "HZoiGameplay_WitnessStop",
+assert(bubbles[2].source == 2 and bubbles[2].target == 3 and bubbles[2].id:match("^HZoiGameplay_WitnessStop[1-5]$"),
     "The unfamiliar participant speaks after a tie; the familiar participant does not")
 
 reactionTraits["2"] = "Cooperator"
@@ -327,7 +327,7 @@ scores["3"], stops, bubbles = nil, nil, {}
 Bridge.tick(record, defs, carrier, 25)
 replyAt(25, witness("3", 1))
 assert(not stops and #bubbles == 2 and bubbles[1].source == 3)
-assert(bubbles[2].source == 1 and bubbles[2].target == 3 and bubbles[2].id == "HZoiGameplay_WitnessStop",
+assert(bubbles[2].source == 1 and bubbles[2].target == 3 and bubbles[2].id:match("^HZoiGameplay_WitnessStop[1-5]$"),
     "An Introvert reacts when the Rulebreaker prefers to continue")
 Bridge.tick(record, defs, carrier, 26)
 replyAt(26, witness("3", 1))
@@ -343,8 +343,8 @@ Bridge.tick(record, defs, carrier, 25)
 replyAt(25, sight)
 assert(stops == "witness_sighting" and #bubbles == 3)
 assert(bubbles[1].source == 4 and bubbles[1].id:match("^HZoiGameplay_WitnessFamiliar[1-5]$"))
-assert(bubbles[2].source == 2 and bubbles[2].id == "HZoiGameplay_WitnessStop")
-assert(bubbles[3].source == 3 and bubbles[3].id == "HZoiGameplay_WitnessStop",
+assert(bubbles[2].source == 2 and bubbles[2].id:match("^HZoiGameplay_WitnessStop[1-5]$"))
+assert(bubbles[3].source == 3 and bubbles[3].id:match("^HZoiGameplay_WitnessStop[1-5]$"),
     "Only participants who voted for a stop can say the fallback line")
 
 record = {session_id = "one", request_id = "introvert-affair.start", participants = {"1", "2"}, snapshot = first}
@@ -353,6 +353,29 @@ Bridge.tick(record, defs, carrier, 26)
 replyAt(26, witness("4", 1))
 assert(stops == "caught_by_partner" and #bubbles == 1 and bubbles[1].source == 4,
     "The ordinary fallback must not override native cheating reactions")
+
+local realRandom = math.random
+local traitOutcomes = require("TraitOutcomes")
+assert(traitOutcomes.witnessDialoguePool(function() return true end, true) == "Perfectionist",
+    "Perfectionist dialogue wins over Recluse and the generic stop pool")
+for _, variant in ipairs({{"Perfectionist", "Perfectionist"}, {"Helper", "Recluse"}, {"Introvert", "Stop"}}) do
+    reactionTraits["1"], reactionTraits["2"] = variant[1], nil
+    for index = 1, 5 do
+        math.random = function(limit)
+            assert(limit == 5)
+            return index
+        end
+        record = {session_id = "one", request_id = "dialogue-pool.start", participants = {"1", "2"}, snapshot = first}
+        stops, bubbles = nil, {}
+        Bridge.tick(record, defs, carrier, 27)
+        replyAt(27, witness("3", 1))
+        assert(not stops and #bubbles == 2)
+        assert(bubbles[1].id == "HZoiGameplay_WitnessUnfamiliar" .. index)
+        assert(bubbles[2].source == 1 and bubbles[2].id == "HZoiGameplay_Witness" .. variant[2] .. index,
+            "All five numbered participant lines are reachable even when a tie keeps the session playing")
+    end
+end
+math.random = realRandom
 
 local native = require("WitnessNative")
 local removals = {}
@@ -369,8 +392,8 @@ removals = {}
 local realTime, now = os.time, 100
 os.time = function() return now end
 local one, two = participants["1"], participants["2"]
-local line = "HZoiGameplay_WitnessPerfectionist"
-local otherLine = "HZoiGameplay_WitnessRecluse"
+local line = "HZoiGameplay_WitnessPerfectionist1"
+local otherLine = "HZoiGameplay_WitnessRecluse1"
 native.say(one, two, line)
 native.say(two, one, line)
 now = 103

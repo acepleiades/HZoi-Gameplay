@@ -219,11 +219,39 @@ Evaluate stop votes for each verified sighting. For an ordinary witness, each pa
 
 For example, a Perfectionist and a Recluse would both vote to stop when an unfamiliar Zoi walks in. If the witness has Romance 30 with only the Recluse, only the Perfectionist votes to stop, and the Recluse gets no **Nowhere to Hide** moodlet from that sighting. If the witness has Romance 30 with both, neither votes to stop. Use the specific witness-to-participant score here, even if the witness has a higher score with the other participant.
 
-Give each participant a chance to react to the walk-in regardless of the group vote. Use the participant’s trait-specific line when available. A participant who votes to stop after an ordinary sighting and has no trait-specific line says “They walked in at the worst moment.” Each participant can speak once per session. A participant can still receive a moodlet for being seen when the vote ties and the session continues.
+Give each participant a chance to react to the walk-in regardless of the group vote. Choose one of five localized lines at random from the participant’s trait-specific pool when available. Use the general stop-vote pool when a participant votes to stop after an ordinary sighting and has no trait-specific pool. Each participant can speak once per session. A participant can still receive a moodlet for being seen when the vote ties and the session continues.
 
 HZoi requests ordinary Exit only if **more than half of the full roster** votes to stop over the same sighting. One of two is a tie, and playback continues. Evaluate later witnesses separately. Two separate one-vote sightings cannot be added into a majority, and familiarity with one witness cannot erase the reaction to another. Issue at most one Exit request. The player can still Exit normally.
 
 For a verified official-partner sighting, each participant defaults to stopping. The **Rulebreaker trait or the Flirt characteristic** is enough for that Zoi to prefer to continue, even when their own official partner is the witness. Each participant counts once. This sighting takes priority over ordinary sightings in the same check. When HZoi requests Exit, pass a localized reason that distinguishes an ordinary walk-in from getting caught by an official partner. Whether playback stops is independent of recording the cheating incident.
+
+### Participant speech bubbles
+
+The matching pool has five lines. A vote to stop can trigger a line even if the session continues.
+
+**Perfectionist**
+
+- “A little warning would’ve been nice.”
+- “Could you check before coming in next time?”
+- “We should’ve picked somewhere more private.”
+- “Everything was going fine until that interruption.”
+- “Can we make sure we won’t be interrupted again?”
+
+**Recluse**
+
+- “I was hoping for a little privacy.”
+- “I wish I could disappear right now.”
+- “I don’t even know where to look.”
+- “I really didn’t want anyone to see me like this.”
+- “I hope nobody else comes in.”
+
+**Other participant who votes to stop**
+
+- “Of all the times to walk in.”
+- “That was awkward. I need a second.”
+- “I’d feel better with some privacy right now.”
+- “Getting interrupted like that threw me off.”
+- “Seeing someone walk in took me right out of the moment.”
 
 ### Witness speech bubbles
 
@@ -303,9 +331,9 @@ The live `Trait` table has 18 `Nature` rows. The reactions below are HZoi propos
 
 | Trait | Trigger | Iteration 1 reaction | In-game tooltip |
 | --- | --- | --- | --- |
-| Perfectionist (`Perfectionist`) | Some participants complete, or the encounter is seen | **Out of Order** adds Annoyed on a mismatch. When seen, prefers to stop and says “Could you knock next time?” | [From the encounter ending before everyone reached orgasm]<br>You wanted everyone to enjoy it. Ending before everyone could finish made the whole thing feel a little uneven. |
+| Perfectionist (`Perfectionist`) | Some participants complete, or the encounter is seen | **Out of Order** adds Annoyed on a mismatch. When seen, prefers to stop and uses the Perfectionist speech pool. | [From the encounter ending before everyone reached orgasm]<br>You wanted everyone to enjoy it. Ending before everyone could finish made the whole thing feel a little uneven. |
 | Innovator (`Activist`) | Everyone completes | **Found a Better Rhythm** adds +2 to `Curious`. | [From everyone reaching orgasm]<br>Changing things up came naturally once you started paying attention to each other. You’re glad you tried something different. |
-| Recluse (`Helper`) | Encounter is seen | **Nowhere to Hide** adds Flustered (`Cringing`). Prefers to stop and says “I wanted a moment to ourselves.” | [From being seen having sex]<br>You thought you had some privacy. The second you realized someone could see you, you wished you could disappear. |
+| Recluse (`Helper`) | Encounter is seen | **Nowhere to Hide** adds Flustered (`Cringing`). Prefers to stop and uses the Recluse speech pool. | [From being seen having sex]<br>You thought you had some privacy. The second you realized someone could see you, you wished you could disappear. |
 | Charmer (`Romantic`) | Earns a positive completion moodlet | Add one point to that moodlet's usual strength. | — |
 | Socialite (`Popular`) | Ordinary witness | **Played It Cool** adds Content. | [From being seen having sex]<br>Being seen was awkward for a second, but you kept your cool. It doesn’t feel like something you need to make a big deal of. |
 | Go-Getter (`Achiever`) | Nobody completes before a participant ends the scene | **Unfinished Business** adds Annoyed. | [From stopping early]<br>You were just getting into it when things stopped. The feeling that you left something unfinished is hard to shake. |

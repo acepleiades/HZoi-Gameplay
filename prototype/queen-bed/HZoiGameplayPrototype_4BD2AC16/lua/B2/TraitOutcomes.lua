@@ -170,14 +170,15 @@ function M.select(hasTrait, facts)
 end
 
 local witnessDialogue = {
-    {trait = "Perfectionist", bubble = "HZoiGameplay_WitnessPerfectionist"},
-    {trait = "Helper", bubble = "HZoiGameplay_WitnessRecluse"},
+    {trait = "Perfectionist", pool = "Perfectionist"},
+    {trait = "Helper", pool = "Recluse"},
 }
 
-function M.witnessDialogue(hasTrait)
+function M.witnessDialoguePool(hasTrait, votesToStop)
     for _, rule in ipairs(witnessDialogue) do
-        if hasTrait(rule.trait) then return rule.bubble end
+        if hasTrait(rule.trait) then return rule.pool end
     end
+    if votesToStop then return "Stop" end
 end
 
 -- Buff point values are data. Reserve a second row for a positive completion
