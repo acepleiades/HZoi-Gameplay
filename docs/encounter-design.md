@@ -10,6 +10,8 @@ Add **Have Sex Here** to walkable ground and to beds and sofas recognized by Sce
 
 Open the same native picker as SceneZOI’s debug starter. It returns the selected Zoi and preserves existing gameplay groups. If nobody qualifies, show **No eligible partners are available.** and keep the picker closed. The native Lua picker shows the game’s roster, so **Invite** checks the selected Zoi against the eligible list and rechecks the current relationship. Keep the roster representation compatible with more roles for later packs. [SceneZOI picker and group behavior](https://github.com/acepleiades/SceneZOI/blob/main/docs/group-support.md#solo-launcher-and-debug-picker).
 
+If the controlled Zoi is in a gameplay group, ask the player to leave the group before choosing a partner. If a picker is already open, ask the player to close it first. Use **The partner picker could not open.** for failures with no known cause.
+
 When the player clicks another Zoi, add **Have Sex** with the burning heart to the native **Romance** menu. Use the clicked Zoi as the partner and find a venue using the [same search as NPC invitations](#automatic-venue-selection). The action can appear when the lot has no supported furniture.
 
 ### Who can invite whom
@@ -264,31 +266,31 @@ For a verified official-partner sighting, each participant defaults to stopping.
 
 ### Participant speech bubbles
 
-The matching pool has five lines. A vote to stop can trigger a line even if the session continues.
+The matching pool has five lines. Each line expresses how the Zoi reacts to being seen and fits whether playback continues or the group votes to end the session.
 
 **Perfectionist**
 
-- “A little warning would’ve been nice.”
-- “Could you check before coming in next time?”
-- “We should’ve picked somewhere more private.”
-- “Everything was going fine until that interruption.”
-- “Can we make sure we won’t be interrupted again?”
+- “It’s... hard to concentrate like this.”
+- “That’s... a little distracting.”
+- “It’s... somewhat unsettling to be seen like this.”
+- “Being seen like this... it’s hard to stay in the moment.”
+- “I could focus better with more... privacy.”
 
 **Recluse**
 
-- “I was hoping for a little privacy.”
-- “I wish I could disappear right now.”
-- “I don’t even know where to look.”
-- “I really didn’t want anyone to see me like this.”
-- “I hope nobody else comes in.”
+- “Oh! I can feel my face getting warm...”
+- “Oh! I wish I could disappear right now...”
+- “I... don’t even know where to look.”
+- “I feel a little exposed like this...”
+- “I get so self-conscious when seen like this...”
 
 **Other participant who votes to stop**
 
-- “Of all the times to walk in.”
-- “That was awkward. I need a second.”
-- “I’d feel better with some privacy right now.”
-- “Getting interrupted like that threw me off.”
-- “Seeing someone walk in took me right out of the moment.”
+- “Well, this is a little awkward.”
+- “It feels a bit weird to be seen like this.”
+- “What an awkward situation...”
+- “I’m... trying to act casual about this.”
+- “To be seen like this... I don’t know how to react.”
 
 ### Witness speech bubbles
 

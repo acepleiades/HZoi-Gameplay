@@ -204,9 +204,9 @@ moodlet. If traits compete for the same slot, the more specific rule wins.
 Ties prefer core personality, then characteristics, then aptitudes.
 Charmer adds one point to a positive completion moodlet and keeps its title
 and duration. A Rulebreaker or a Flirt votes to continue if someone sees the
-encounter, including an established partner. On an eligible sighting, a Perfectionist can ask the witness to knock next
-time and a Recluse can ask for privacy. Both lines use the native overhead
-bubble. Check the [arrival and witness rules](../../docs/encounter-design.md#arrival-privacy-check)
+encounter, including an established partner. On an eligible sighting, a
+Perfectionist can express difficulty concentrating, and a Recluse can show
+embarrassment. Their overhead lines fit either outcome of the stop vote. Check the [arrival and witness rules](../../docs/encounter-design.md#arrival-privacy-check)
 for the score thresholds and the full test matrix.
 
 ## Iteration 1 test evidence

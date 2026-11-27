@@ -7,6 +7,7 @@ local observerId = 20526
 local scores = {}
 local partnerStage, partnerGender, ownerGender = 32, 2, 1
 local pairEligible, initiatorMood = true, true
+local gameplayGroups = {}
 local walkable = function() return true end
 local bedPath = function() return true end
 local bedRoom = function() return true end
@@ -40,6 +41,7 @@ local function actor(i)
     }
     return {
         GetEntityId = function() return entity(i) end,
+        GetZoiGroupId = function() return entity(gameplayGroups[i]) end,
         GetComponent = function() return component end,
         GetGrowthStep = function() return i == partnerId and partnerStage or 32 end,
         IsSpawned = function() return true end,
@@ -104,6 +106,7 @@ print = function(text) logs[#logs + 1] = text end
 os.time = function() return clock end
 UE = {FVector = point}
 inzoi = {
+    FB1ZoiGroupId = entity,
     FB1EntityId = entity, getB2Manager = function(name)
         if name == "FB2SiteManager" then return {FindClosestSite = function() return site end} end
         return manager
@@ -795,6 +798,42 @@ assert(#pending == 0 and #queued == 0 and #notices == ordinaryNotices and #picke
     "A paused invitation shows the host's message exactly once and does not start gameplay")
 invite(partnerId, bedId, nil, nil, true)
 
+do
+    local function preparePicker()
+        selectFurniture(bedId)
+        reply("get_version", {features = features(1)})
+        reply("find_furniture", {furniture = {{furniture_id = tostring(bedId), profile = {kind = "bed.queen"}}}})
+    end
+
+    gameplayGroups[ownerId] = 42
+    preparePicker()
+    assert(#pending == 0 and #queued == 0 and notices[#notices] == "picker_grouped",
+        "Say why a grouped initiator cannot open the picker, before requesting it")
+    assert(gameplayGroups[ownerId] == 42, "Opening an invitation must leave the gameplay group intact")
+    gameplayGroups[ownerId] = nil
+
+    for _, replyCase in ipairs({{"picker_busy", "picker_busy"}, {"invalid_request", "picker_unavailable"}}) do
+        preparePicker()
+        local picker = request("open_partner_picker")
+        clientCallbacks.response({request_id = picker.key, ok = false, code = replyCase[1]})
+        assert(#pending == 0 and #queued == 0 and notices[#notices] == replyCase[2],
+            "Distinguish an open native picker from an unexpected failure")
+    end
+
+    for _, finishCase in ipairs({{false, "picker_unavailable"}, {42, "picker_grouped"}}) do
+        preparePicker()
+        local picker = reply("open_partner_picker", {opened = true})
+        gameplayGroups[ownerId] = finishCase[1] or nil
+        clientCallbacks.event({name = "partner_picker_finished", request_id = picker.key, code = "picker_unavailable"})
+        assert(#pending == 0 and #queued == 0 and notices[#notices] == finishCase[2],
+            "Recheck the initiator's group after a native failure to open")
+        gameplayGroups[ownerId] = nil
+    end
+
+    invite(partnerId, bedId, nil, nil, true)
+    assert(logs[#logs]:find("picker_cancelled"), "Retry after a picker failure must open normally")
+end
+
 for _, missing in ipairs({"autonomous_auto_speed_minimum", "shared_interaction_menu"}) do
     local noticeCountBeforeOldHost = #notices
     selectFurniture(bedId)
@@ -813,7 +852,7 @@ local lostPicker = reply("open_partner_picker", {opened = true})
 clock = clock + 60
 tick()
 selectFurniture(bedId)
-assert(#pending == 0 and notices[#notices] == "busy", "Allow time for the player to choose a partner")
+assert(#pending == 0 and notices[#notices] == "picker_busy", "A repeated request must leave the existing picker open")
 clock = clock + 241
 tick()
 assert(notices[#notices] == "timeout", "Recover a picker without a completion event")

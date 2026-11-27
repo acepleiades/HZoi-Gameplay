@@ -3,8 +3,9 @@ local Json = require("SceneZOIAddon.Json")
 local Localization = require("Localization")
 local M = {context = nil}
 local notices = {
-    picker_unavailable = "The partner picker could not open. Close any open picker and make sure your Zoi is out of their group.",
-    picker_busy = "Close the current Zoi picker before sending an invitation.",
+    picker_unavailable = "The partner picker could not open.",
+    picker_busy = "Close the open picker before choosing a partner.",
+    picker_grouped = "Leave your group before choosing a partner.",
     busy = "An HZoi invitation is already in progress.",
     failed = "Could not finish the invitation.",
     furniture_unavailable = "That bed is occupied or unavailable.",

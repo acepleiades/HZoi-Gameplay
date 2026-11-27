@@ -1,19 +1,19 @@
 Key,SourceString
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist1_MessageTextId,A little warning would’ve been nice.
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist2_MessageTextId,Could you check before coming in next time?
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist3_MessageTextId,We should’ve picked somewhere more private.
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist4_MessageTextId,Everything was going fine until that interruption.
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist5_MessageTextId,Can we make sure we won’t be interrupted again?
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse1_MessageTextId,I was hoping for a little privacy.
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse2_MessageTextId,I wish I could disappear right now.
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse3_MessageTextId,I don’t even know where to look.
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse4_MessageTextId,I really didn’t want anyone to see me like this.
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse5_MessageTextId,I hope nobody else comes in.
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop1_MessageTextId,Of all the times to walk in.
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop2_MessageTextId,That was awkward. I need a second.
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop3_MessageTextId,I’d feel better with some privacy right now.
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop4_MessageTextId,Getting interrupted like that threw me off.
-mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop5_MessageTextId,Seeing someone walk in took me right out of the moment.
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist1_MessageTextId,It’s... hard to concentrate like this.
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist2_MessageTextId,That’s... a little distracting.
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist3_MessageTextId,It’s... somewhat unsettling to be seen like this.
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist4_MessageTextId,Being seen like this... it’s hard to stay in the moment.
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist5_MessageTextId,I could focus better with more... privacy.
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse1_MessageTextId,Oh! I can feel my face getting warm...
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse2_MessageTextId,Oh! I wish I could disappear right now...
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse3_MessageTextId,I... don’t even know where to look.
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse4_MessageTextId,I feel a little exposed like this...
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse5_MessageTextId,I get so self-conscious when seen like this...
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop1_MessageTextId,"Well, this is a little awkward."
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop2_MessageTextId,It feels a bit weird to be seen like this.
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop3_MessageTextId,What an awkward situation...
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop4_MessageTextId,I’m... trying to act casual about this.
+mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop5_MessageTextId,To be seen like this... I don’t know how to react.
 mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyPrivateTime_MessageTextId,Can’t we have a little private time?
 mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyEmptyRoom_MessageTextId,I thought this room was empty.
 mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessBetrayed1_MessageTextId,I trusted you. How could you?

@@ -734,6 +734,33 @@ local function selectSofaSeats(attempt, rows)
     end
 end
 
+local function inGameplayGroup(person)
+    if not person then return false end
+    local ok, grouped = pcall(function()
+        return person:GetZoiGroupId().Value ~= inzoi.FB1ZoiGroupId().Value
+    end)
+    return ok and grouped
+end
+
+local pickerFailureNotices = {
+    game_paused = true,
+    initiator_not_controlled = true,
+    partner_ineligible = true,
+    picker_busy = true,
+    picker_grouped = true,
+    session_already_running = true,
+    transport_timeout = true,
+}
+
+local function pickerFailureNotice(attempt, code)
+    if pickerFailureNotices[code] then return code end
+    -- SceneZOI can acknowledge the request before the simulation checks the group.
+    if code == "picker_unavailable" and inGameplayGroup(actor(attempt.initiator)) then
+        return "picker_grouped"
+    end
+    return "picker_unavailable"
+end
+
 local function openPicker(attempt)
     if controlledId() ~= attempt.initiator then
         release(attempt)
@@ -742,6 +769,10 @@ local function openPicker(attempt)
     local owner = actor(attempt.initiator)
     if not Eligibility.moodAllowsInvitation(owner) then
         fail(attempt, "The initiator's mood does not allow an invitation", "mood_blocked")
+        return
+    end
+    if inGameplayGroup(owner) then
+        fail(attempt, "The initiator is in a gameplay group", "picker_grouped")
         return
     end
     local candidates = Json.array({})
@@ -1214,8 +1245,9 @@ local function onResponse(attempt, reply)
     end
     if not reply.ok then
         local pickerMessage = step == "picker" and reply.code == "game_paused" and reply.message
+        local notice = step == "picker" and pickerFailureNotice(attempt, reply.code) or reply.code
         fail(attempt, step .. ": " .. tostring(reply.code) .. " " .. tostring(reply.message or ""),
-            reply.code, pickerMessage)
+            notice, pickerMessage)
         return
     end
     local result = reply.result
@@ -1240,7 +1272,9 @@ local function onResponse(attempt, reply)
     elseif step == "venue-" .. tostring(attempt.candidateIndex) then
         considerVenue(attempt, result)
     elseif step == "picker" then
-        assert(result.opened, "The native partner picker did not open")
+        if not result or not result.opened then
+            fail(attempt, "The native partner picker did not acknowledge opening", pickerFailureNotice(attempt, "picker_unavailable"))
+        end
     elseif step == "venue" then
         local selected
         for _, furniture in ipairs(result.furniture) do
@@ -1325,8 +1359,7 @@ local function onSessionEvent(attempt, event)
                 request(attempt, "definitions", "get_definitions")
             end
         else
-            local notice = event.code == "partner_ineligible" and event.code or "picker_unavailable"
-            fail(attempt, "Partner picker finished: " .. tostring(event.code), notice)
+            fail(attempt, "Partner picker finished: " .. tostring(event.code), pickerFailureNotice(attempt, event.code))
         end
         return
     end
@@ -1382,7 +1415,11 @@ end
 beginAttempt = function(who, nonce, furniture, ground)
     if not client or who ~= controlledId() then return end
     local attempt = newAttempt(who, nonce)
-    if not attempt then notify(who, "busy"); return end
+    if not attempt then
+        local active = participants[who]
+        notify(who, active and active.initiator == who and active.phase == "picking" and "picker_busy" or "busy")
+        return
+    end
     attempt.furniture, attempt.ground = furniture, ground
     guarded(attempt, function(active)
         local owner = actor(active.initiator)

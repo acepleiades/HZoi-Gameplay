@@ -41,4 +41,14 @@ controlled = bystander
 UI.on_lua_message(state, nil, "HZoiGameplay.PickerPaused", "Jeu en pause")
 assert(#toasts == 2, "Do not show a delayed picker notice for another Zoi")
 
+controlled = initiator
+for _, notice in ipairs({
+    {"picker_grouped", "Leave your group before choosing a partner."},
+    {"picker_busy", "Close the open picker before choosing a partner."},
+    {"picker_unavailable", "The partner picker could not open."},
+}) do
+    deliver(notice[1])
+    assert(toasts[#toasts] == "toast.show immediate=true message=" .. string.format('%q', notice[2]))
+end
+
 print("Privacy and picker toasts follow the initiating Zoi at receipt time.")
