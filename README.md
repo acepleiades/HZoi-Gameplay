@@ -51,8 +51,7 @@ mod menu, then load your household. The game displays the mod as
   when they arrive.
   [How Zois choose a venue](prototype/queen-bed/npc-venues.md)
 - **Let Zois initiate.** The Zoi making the invitation needs autonomy enabled.
-  The invited Zoi can respond with autonomy off if available. An active Urge
-  makes its chosen partner more likely to be picked.
+  The invited Zoi can respond with autonomy off if available.
 - **Control playback.** Auto mode progresses through the encounter. Turn Auto
   off to choose from the available scenes. **Exit** restores both Zois to
   normal gameplay. Their outcome can affect Romance, needs and moodlets.

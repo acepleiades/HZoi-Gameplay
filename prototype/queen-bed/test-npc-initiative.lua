@@ -1,12 +1,6 @@
 local minute = 600000000
 local ticks, wallTime, speed, globalAutonomy, building = minute, 1000, 1, true, false
 local scans = 0
-local urges = {}
-local offered = {}
-local urgeSource = {
-    pending = function(person) return urges[person.id] end,
-    requestEligible = function(person) offered[#offered+1] = person.id end,
-}
 
 local function candidate(id, x)
     local person = {id = id, x = x, spawned = true, dead = false, busy = false,
@@ -65,7 +59,7 @@ local function scheduler()
         assert(type(started) == "function")
         calls[#calls + 1] = {first, second, started = started}
         return mayStart, mayStart and "npc-test" or "busy"
-    end, urgeSource, function(first, second)
+    end, function(first, second)
         return allowed[first.id .. "|" .. second.id] == true
     end, function(id)
         return reserved[id] == true
@@ -100,7 +94,6 @@ end
 
 allow(2, 3)
 allow(3, 4)
-urges[1] = {partner = "2", expires = 400 * minute}
 globalAutonomy = false
 scan(0, 0); assert(scans == 0)
 globalAutonomy, speed = true, 0
@@ -186,33 +179,10 @@ calls, allowed = {}, {}
 allow(2, 3)
 allow(3, 2)
 allow(4, 3)
-urges[4] = {partner = "2", expires = ticks + 60 * minute}
-scan(0, 0, {12, 2}, {12, 2})
-assert(#calls == 0, "An Urge with a different partner does not increase the odds")
-urges[4] = {partner = "3", expires = ticks}
-scan(5, 5, {12, 2}, {12, 2})
-assert(#calls == 0, "An expired Urge does not increase the odds")
-urges[4].expires = ticks + 60 * minute
-allowed["4|3"] = nil
 allow(3, 4)
-scan(5, 5, {12, 2}, {12, 2})
-assert(#calls == 0, "An Urge cannot improve the odds when its owner cannot start the invitation")
-allow(4, 3)
-scan(5, 5, {12, 1}, {12, 2})
-assert(#calls == 1 and calls[1][1] == "4" and calls[1][2] == "3",
-    "A passing Urge pair takes priority and queues the Urge owner's valid direction")
-
-start = scheduler()
-urges[4] = nil
 scan(5, 5, {12, 1}, {12, 1}, {2, 2}, {2, 2})
-assert(#calls == 2 and calls[2][1] == "4" and calls[2][2] == "3",
+assert(#calls == 1 and calls[1][1] == "4" and calls[1][2] == "3",
     "Choose a random passing pair, then a random eligible direction. A bidirectional pair gets only one opportunity")
-urges[1] = nil
-local count = #offered
-globalAutonomy = false
-scan(5, 5); assert(#offered == count + 1 and offered[#offered] == 1)
-
-globalAutonomy = true
 start = scheduler()
 calls, allowed = {}, {}
 allow(1, 2)
@@ -247,6 +217,7 @@ allow(2, 3)
 scan(5, 5, {12, 1})
 assert(#calls == 1 and calls[1][1] == "2" and calls[1][2] == "3",
     "A local pair can start well away from the controlled Zoi")
+
 math.random, os.time = realRandom, realTime
 
-print("NPC initiative passed: eligibility, cadence, directed fairness, Urges, sender-only playback cooldown, pair retry and world rewind.")
+print("NPC initiative passed: eligibility, cadence, directed fairness, sender-only playback cooldown, pair retry and world rewind.")

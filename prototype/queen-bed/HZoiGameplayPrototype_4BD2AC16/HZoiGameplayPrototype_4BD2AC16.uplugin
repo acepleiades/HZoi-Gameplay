@@ -3,7 +3,7 @@
   "Version": 25,
   "VersionName": "1.0.0",
   "FriendlyName": "HZoi Gameplay",
-  "Description": "Invite a partner at a supported bed, sofa, or spot on the ground. Zois can also act on their own Urges.",
+  "Description": "Invite a partner at a supported bed, sofa, or spot on the ground. Zois can also send invitations autonomously.",
   "Category": "Other",
   "CreatedBy": "acepleiades",
   "CanContainContent": true,

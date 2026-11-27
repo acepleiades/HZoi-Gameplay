@@ -103,7 +103,7 @@ inzoi = {
     end,
     EB1GrowthStep = {Youth = 32, Adult = 64, Old = 128, Elderly = 256}, EB1GenderType = {Male = 1, Female = 2},
     EB1SiteType = {Residence = 1}, EB2EntityType = {Character = 3, CoopScheduler = 4},
-    EB2ComponentType = {Interaction = 1, Hope = 2, Mission = 3},
+    EB2ComponentType = {Interaction = 1},
     EB1InteractionPlayReason = {User = 3, Autonomy = 8}, EB1InteractionCancelReason = {User = 1},
     EB1AddInteractionQueueResult = {Success = 1, EnqueueConditionCheckFail = 17},
     FB2ControllerSystem = {GetPossessEntityId = function() return entity(controlled) end},
@@ -163,10 +163,6 @@ package.loaded.InvitationEligibility = {
     canSelect = function() return true end,
 }
 package.loaded.NpcStandingAnchors = {find = function() return standing or {} end}
-package.loaded.OwnedEncounterUrges = {
-    onCompletion = function() return false end,
-    reset = function() end,
-}
 package.loaded.WitnessNative = {
     relationshipScore = function(observer)
         assert(observer == actors[31], "Read the observer's side")
@@ -332,7 +328,7 @@ actors[21]:move(point(300))
 actors[22]:move(point(300))
 local recoveredStarts = 0
 local success, retry = invite.beginNpc(21, 22, function() recoveredStarts = recoveredStarts + 1 end)
-assert(success, "A confirmed privacy denial releases the participants and room and preserves the urge")
+assert(success, "A confirmed privacy denial releases the participants and room")
 standing = {point(3320)}
 preflight(retry, 21, 22, rows)
 standing = nil

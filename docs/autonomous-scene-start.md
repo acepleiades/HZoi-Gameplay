@@ -124,7 +124,7 @@ The leading participant's progress makes stages 2–4 due at 25%, 50%, and 75%. 
 | Queen bed and single bed | Two positions when the optional AAL tracks are available, otherwise one. |
 | Sofa and ground | One position. |
 
-Use `session_ended` and its task counts to evaluate final outcomes. `task_completed` supports needs and urges during playback, including repeated completions.
+Use `session_ended` and its task counts to evaluate final outcomes. `task_completed` supports need changes during playback, including repeated completions.
 
 If more than half of the roster votes to stop after a witness sees the encounter, HZoi calls `request_stop` for the session. It sends `witness_sighting` or `caught_by_partner` as the machine-readable `reason`. With SceneZOI's `stop_session_display_reason` feature, HZoi also sends a short `display_reason` explaining why the session ended. SceneZOI displays it with the session result and dismisses the panel automatically after normal cleanup.
 

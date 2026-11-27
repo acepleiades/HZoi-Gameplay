@@ -64,7 +64,7 @@ inzoi = {
 
 local eligibility = require("InvitationEligibility")
 local canInvite = eligibility.canInvite
-assert(canInvite(first, second), "An ordinary pair at Romance 30 can initiate without an Urge")
+assert(canInvite(first, second), "An ordinary pair at Romance 30 can initiate")
 model.moodBlocked = true
 assert(eligibility.canSelect(first, second) and not canInvite(first, second),
     "Only the initiator's native mood blocks a compatible invitation")

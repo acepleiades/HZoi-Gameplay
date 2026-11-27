@@ -125,16 +125,14 @@ ends the attempt. The log records the native cancellation and any retry.
 
 ## Autonomous invitations
 
-With inZOI autonomy enabled, HZoi periodically checks nearby idle NPCs for
-a partner-specific [Urge](owned-urges.md). Both Zois need to be free to
-participate. The game uses its normal invitation rules, so an Urge still
-allows the partner to refuse. HZoi searches [indoor venues](npc-venues.md)
+With inZOI autonomy enabled, HZoi periodically checks for eligible pairs of
+nearby Zois. Both Zois need to be free to participate. The game uses its
+normal invitation rules, including the partner's ability to refuse. HZoi searches [indoor venues](npc-venues.md)
 with a walking route for both Zois. It checks vacant rooms first, then
 considers occupied rooms if none qualifies. Each pair keeps its own room
 claim and SceneZOI request. The arrival privacy check still decides whether
-the pair can start. If the attempt is canceled, HZoi releases the room and
-keeps the Urge pending. A background encounter leaves the controlled Zoi
-available.
+the pair can start. If the attempt is canceled, HZoi releases the room.
+A background encounter leaves the controlled Zoi available.
 
 ## Build
 
@@ -215,7 +213,7 @@ for the score thresholds and the full test matrix.
 
 **In game.** The native picker reached acceptance and refusal on both freestanding and wall-side queen beds. A separate ground acceptance sent the pair to separate points and ran all four stages through cleanup. The three-seat sofa passed the adjacent-seat availability checks. In a separate wall-side bed run, a bystander stopped the encounter and both participants returned to normal gameplay.
 
-At Normal speed, an NPC Urge selected Jaewoo and Xinyu while Seoyun carried on with her own actions. A third Zoi entering the claimed room canceled the first approach. A later native invitation reached the queen bed and completed all four stages. The log recorded one Excitement completion per participant. The need changes included Hunger stopping at −34, no further Hygiene cost where it was already low, and Fun reaching 100. The Urge owner received the standard reward moodlet, 5 Meow Coins and 15 Admit before normal stat decay. The partner received no coins. Both Zois resumed native conversation after cleanup.
+At Normal speed, Jaewoo and Xinyu approached a venue while Seoyun carried on with her own actions. A third Zoi entering the claimed room canceled the first approach. A later native invitation reached the queen bed and completed all four stages. The log recorded one Excitement completion per participant. The need changes included Hunger stopping at −34, no further Hygiene cost where it was already low, and Fun reaching 100. Both Zois resumed native conversation after cleanup.
 
 In a ground invitation, an established partner saw both participants. HZoi stopped the scene, confirmed restoration, then passed the three identities to inZOI. The expected native confrontation actions played for all three Zois.
 

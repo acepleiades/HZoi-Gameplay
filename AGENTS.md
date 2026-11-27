@@ -6,7 +6,7 @@ for playback and the [vanilla romance reference](docs/inzoi-romance.md) for nati
 interaction rules. Prove each native handoff in game before building features that
 depend on it.
 
-- HZoi Gameplay owns invitations, venue selection, witnesses, Urges and gameplay
+- HZoi Gameplay owns invitations, venue selection, witnesses and gameplay
   consequences. SceneZOI owns animation selection, placement, playback, scene
   tasks and cleanup. Content packs supply the scenes and their assets.
 - Keep iteration 1's two-Zoi rules at the invitation, venue approach, and

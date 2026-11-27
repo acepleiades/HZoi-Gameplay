@@ -20,12 +20,9 @@ function M.culture()
     return language
 end
 
-function M.text(english, values)
+function M.text(english)
     local strings = Translations[M.culture()]
-    local message = strings and strings[english] or english
-    return (message:gsub("{([%w_]+)}", function(name)
-        return values and values[name] or "{" .. name .. "}"
-    end))
+    return strings and strings[english] or english
 end
 
 return M

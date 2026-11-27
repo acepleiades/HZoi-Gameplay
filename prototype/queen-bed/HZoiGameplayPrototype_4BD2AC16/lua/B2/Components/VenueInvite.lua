@@ -13,7 +13,6 @@ local Ledger = require("EncounterLedger")
 local Consequences = require("EncounterConsequences")
 local Relationship = require("EncounterRelationship")
 local NpcVenue = require("NpcVenue")
-local Urges = require("OwnedEncounterUrges")
 local Initiative = require("NpcInitiative")
 local Eligibility = require("InvitationEligibility")
 
@@ -880,12 +879,6 @@ end
 local function completed(attempt, record, who, task, index)
     log(attempt, "task_completed", {session = record.session_id, participant = who, task = task, index = index})
     deliverConsequence(attempt, "onCompletion", record, who, task, index)
-    local person = actor(who)
-    if person then
-        local ok, earned = pcall(Urges.onCompletion, record, person, task)
-        if ok and earned then log(attempt, "urge_completed", {participant = who, session = record.session_id}) end
-        if not ok then log(attempt, "urge_handoff_failed", {participant = who, reason = tostring(earned)}) end
-    end
 end
 
 local function observeSession(attempt, snapshot)
@@ -1371,7 +1364,7 @@ function M.on_begin()
         local name = "interaction." .. kind
         subscriptions[name] = inzoi.event.on(name, function(info) onNativeEvent(kind, info) end)
     end
-    pollNpc = Initiative.new(M.beginNpc, Urges, Eligibility.canInvite, function(who)
+    pollNpc = Initiative.new(M.beginNpc, Eligibility.canInvite, function(who)
         return participants[who] ~= nil or romancePicks[who] ~= nil
     end)
     log(nil, "simulation_ready")
@@ -1661,7 +1654,6 @@ function M.shutdown()
     subscriptions, client, venueClick, pollNpc = {}, nil, nil, nil
     romancePicks = {}
     attempts, participants = {}, {}
-    Urges.reset()
 end
 
 return M

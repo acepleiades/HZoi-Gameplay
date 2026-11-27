@@ -45,6 +45,5 @@ Leave at least one room without an assigned purpose.
 | Start with a pair on opposite sides of a lot boundary. Try a room both can reach and then block one Zoi's route. | The reachable room can qualify. The blocked route prevents the selection. |
 | Use a commercial site's specific room booking containing both Zois, then test an unbooked common area or expire the booking while they approach. | The booked room can qualify even for standing. The common area stays out of the search and an expired booking invalidates the claim. |
 
-Check that each canceled attempt leaves the Urge pending. Confirm that both
-walk routes respect locked doors and floor boundaries, and that outdoor
+Confirm that both walk routes respect locked doors and floor boundaries, and that outdoor
 spots stay outside the NPC search.

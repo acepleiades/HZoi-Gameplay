@@ -42,8 +42,8 @@ function M.on_tick(self, component)
     if not M.context then M.on_begin(self, component) end
 end
 
-local function showNotice(message, values)
-    inzoi.cli.execute("toast.show immediate=true message=" .. Json.encode(Localization.text(message, values)))
+local function showNotice(message)
+    inzoi.cli.execute("toast.show immediate=true message=" .. Json.encode(Localization.text(message)))
 end
 
 local function isControlled(actor)
@@ -53,28 +53,12 @@ local function isControlled(actor)
     return controlledId and controlledId.Value == actor:GetEntityId().Value
 end
 
-local function showUrge(self, content)
-    if not isControlled(self.actor) then return end
-    local ok, urge = pcall(Json.decode, content, 1024)
-    if not ok or type(urge) ~= "table" then return end
-    local partner = type(urge.partner) == "string" and #urge.partner <= 256 and urge.partner:match("%S") and urge.partner
-    if urge.kind == "selected" then
-        showNotice(partner and "Your Zoi wants some private time with {partner}." or
-            "Your Zoi wants some private time with their partner.", {partner = partner})
-    elseif urge.kind == "fulfilled" then
-        showNotice(partner and "Your Zoi fulfilled their urge with {partner}." or
-            "Your Zoi fulfilled their urge with their partner.", {partner = partner})
-    end
-end
-
 function M.on_lua_message(self, component, kind, content)
     if kind == "HZoiGameplay.WitnessTrace" then
         if self.actor then WitnessTrace.reply(self.actor, content) end
         return
     end
-    if kind == "HZoiGameplay.Urge" then
-        showUrge(self, content)
-    elseif kind == "HZoiGameplay.PickerPaused" then
+    if kind == "HZoiGameplay.PickerPaused" then
         if isControlled(self.actor) then
             inzoi.cli.execute("toast.show immediate=true message=" .. Json.encode(content))
         end
