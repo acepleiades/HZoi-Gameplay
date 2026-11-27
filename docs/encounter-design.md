@@ -167,7 +167,7 @@ When a Zoi's current position is off the walkable grid, check the approach from 
 
 ### Private rooms on commercial sites
 
-A commercial room qualifies when an active native accommodation booking names both Zois and identifies the exact site and room. Check native room permissions and both walking routes separately. A rented karaoke room could qualify for a standing scene if the game exposes an equivalent booking. A public common area remains shared even when momentarily empty. Apply the same vacant-first and occupied-second ranking, scene compatibility, and room claims. Recheck the booking and room access at arrival.
+A commercial room qualifies when an active native accommodation booking names both Zois and identifies the exact site and room. An active booking grants the named guests room access. Check both walking routes with each Zoi's native door permissions. A rented karaoke room could qualify for a standing scene if the game exposes an equivalent booking. A public common area remains shared even when momentarily empty. Apply the same vacant-first and occupied-second ranking, scene compatibility, and room claims. Recheck the booking and room access at arrival.
 
 `Crowd_Guest` is a temporary motive that some business sites give to crowd NPCs. HZoi already has no gate for it. Decide venue suitability from the room, access, available space, and who can actually see the participants. Apply the existing arrival privacy and walk-in checks at every venue.
 

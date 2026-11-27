@@ -82,7 +82,10 @@ local function accessibleRoom(world, site, point)
         return false, "room_unavailable"
     end
     local purpose = site:GetRoomPurposeIdByLocation(point)
-    if not privateResidence(site) and not bookedForPair(world, site, purpose) then
+    if not privateResidence(site) then
+        -- Check-in grants room access to the named guests. The path check
+        -- still uses each Zoi's own door permissions.
+        if bookedForPair(world, site, purpose) then return true, purpose end
         return false, "room_privacy_unverified"
     end
     local household = site:GetOwnerHouseholdId()

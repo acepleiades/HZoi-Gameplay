@@ -169,8 +169,13 @@ booking[1].RoomKey.AccommodationDtId = "site"
 booking[1].RoomKey.RoomPurposeId = "EntireSite"
 assert(#rank() == 0, "A whole-site booking does not prove that a particular room is private")
 booking[1].RoomKey.RoomPurposeId = bedroom
+roomAccess = false
 local booked = rank()
-assert(#booked == 1 and booked[1].furniture_id == "20", "Only the booked room is eligible within a public business")
+assert(#booked == 1 and booked[1].furniture_id == "20",
+    "An active booking authorizes the guest pair even when the residence permission does not")
+bedAccess = false
+assert(#rank() == 0, "Room authorization never bypasses the permission-aware native route")
+bedAccess = true
 local standing = Venue.candidates(initiator, partner, {}, {point(2220), point(4200)}, arrivalPoints)
 assert(#standing == 1 and standing[1].kind == "ground" and standing[1].room_purpose == bedroom,
     "A booked room without compatible furniture can serve as a standing venue")
