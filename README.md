@@ -6,7 +6,7 @@ to pick a partner. You can also click another Zoi and choose **Have Sex** from
 the **Romance** menu to let the pair find a venue. The Zois use the game's
 **Set the Mood** rules, so the answer depends on their relationship and mood.
 
-**[OStim/SceneZOI Community Discord](https://discord.gg/RECvhVaRcU)** ·
+**[Download HZoi Gameplay](https://acepleiades.github.io/HZoi-Gameplay/)** · **[OStim/SceneZOI Community Discord](https://discord.gg/RECvhVaRcU)** ·
 **[Encounter design](docs/encounter-design.md)**
 
 ## Install
