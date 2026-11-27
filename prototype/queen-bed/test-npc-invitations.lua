@@ -268,17 +268,17 @@ actors[1]:autonomyAllowed(true)
 actors[11]:busy(true)
 assert(not invite.beginNpc(11, 12))
 actors[11]:busy(false)
-local queuedCount = 0
+local starts, deniedStarts = 0, 0
 controlled = 11
 actors[12]:autonomyAllowed(false)
-local success, a = invite.beginNpc(11, 12, function() queuedCount = queuedCount + 1 end)
+local success, a = invite.beginNpc(11, 12, function() starts = starts + 1 end)
 assert(success, "A controlled initiator can invite an available partner with autonomy off")
-local success, b = invite.beginNpc(21, 22)
+local success, b = invite.beginNpc(21, 22, function() deniedStarts = deniedStarts + 1 end)
 assert(success and a ~= b)
 assert(not invite.beginNpc(11, 22) and not invite.beginNpc(31, 12), "No overlapping roster")
 preflight(b, 21, 22)
 preflight(a, 11, 12)
-assert(queuedCount == 0, "Preparation does not start the invitation cooldown")
+assert(starts == 0, "Preparation does not start the invitation cooldown")
 local denied = reply(b, "venue-1", "validate_start", {valid = false, code = "no_matching_scenes"})
 assert(denied.background and denied.furniture_id == "411")
 local selected = reply(b, "venue-2", "validate_start", valid(21, 22, "center"))
@@ -286,11 +286,11 @@ assert(selected.background and selected.furniture_id == "421" and selected.furni
 actors[12]:setRunning("ordinary_task", inzoi.EB1InteractionPlayReason.Autonomy)
 actors[12]:finishSoon(true)
 reply(a, "venue-1", "validate_start", valid(11, 12))
-assert(queuedCount == 0 and #queued == 1, "Let the partner finish the ordinary task before asking")
+assert(starts == 0 and #queued == 1, "Let the partner finish the ordinary task before asking")
 actors[12]:finishSoon(false)
 actors[12]:setRunning()
 tick()
-assert(queuedCount == 1, "Only the successful native invitation enqueue starts the cooldown")
+assert(starts == 0 and deniedStarts == 0, "Successful native invitation enqueue does not start the cooldown")
 assert(queued[1].who == 21 and queued[2].who == 11 and queued[1].reason == inzoi.EB1InteractionPlayReason.Autonomy)
 controlled = 11
 nativeConversation(11, 12)
@@ -306,7 +306,13 @@ reply(a, "arrival", "validate_start", valid(11, 12))
 confirmPrivacy(a)
 local args = reply(a, "start", "start_autonomous_scene", {accepted = true})
 assert(args.background and args.furniture_id == "411" and args.initiator == "11")
+assert(starts == 0, "Acceptance, arrival and the SDK's accepted start request do not start the cooldown")
+observers.event(snapshot(a, "session-a", 11, 12, "preparing", "session_preparing"))
+assert(starts == 0, "Preparing playback does not start the cooldown")
 observers.event(snapshot(a, "session-a", 11, 12, "playing", "session_started"))
+assert(starts == 1, "Observed playback starts the autonomous sender's cooldown")
+observers.event(snapshot(a, "session-a", 11, 12, "playing", "session_started"))
+assert(starts == 1, "A duplicate event cannot spend another cooldown")
 
 actors[31]:move(point(2450))
 now = now + 1
@@ -317,14 +323,15 @@ controlled = 22
 tick()
 reply(b, "arrival", "validate_start", valid(21, 22, "center"))
 confirmPrivacy(b, {{id = "31"}})
-assert(not wire["encounter." .. b .. ".start"] and #speech == 0 and #canceled == 0,
+assert(not wire["encounter." .. b .. ".start"] and #speech == 0 and #canceled == 0 and deniedStarts == 0,
     "A visible unqualified observer ends the invitation quietly while the invited partner is controlled")
 controlled = 1
 
 actors[31]:move(point(300))
 actors[21]:move(point(300))
 actors[22]:move(point(300))
-local success, retry = invite.beginNpc(21, 22)
+local recoveredStarts = 0
+local success, retry = invite.beginNpc(21, 22, function() recoveredStarts = recoveredStarts + 1 end)
 assert(success, "A confirmed privacy denial releases the participants and room and preserves the urge")
 standing = {point(3320)}
 preflight(retry, 21, 22, rows)
@@ -343,7 +350,14 @@ tick()
 reply(retry, "arrival", "validate_start", valid(21, 22))
 confirmPrivacy(retry)
 reply(retry, "start", "start_autonomous_scene", {accepted = true})
+observers.event(snapshot(retry, "session-b", 21, 22, "preparing", "session_preparing"))
+assert(recoveredStarts == 0)
+now = now + 8
+tick()
+reply(retry, "observe-1", "get_session", {session = snapshot(retry, "session-b", 21, 22, "playing")})
+assert(recoveredStarts == 1, "A recovered playing snapshot can establish a missed playback start")
 observers.event(snapshot(retry, "session-b", 21, 22, "playing", "session_started"))
+assert(recoveredStarts == 1, "The delayed original event cannot spend another cooldown")
 
 local task = snapshot(retry, "session-b", 21, 22, "playing", "task_completed")
 task.task, task.participant_id = {id = "excitement", completion_index = 1}, "21"

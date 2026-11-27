@@ -866,6 +866,12 @@ local function observeSession(attempt, snapshot)
     if not observed then return false end
     if record.started and not wasStarted then
         log(attempt, "session_started", {scene = snapshot.node_id, session = record.session_id})
+        local onPlaybackStarted = attempt.onPlaybackStarted
+        attempt.onPlaybackStarted = nil
+        if onPlaybackStarted then
+            local cooldown = onPlaybackStarted()
+            if cooldown then log(attempt, "initiative_cooldown", cooldown) end
+        end
     end
     if snapshot.phase == "ended" or snapshot.name == "session_ended" then
         local result = Ledger.finish(record, snapshot, countsComplete)
@@ -1001,10 +1007,6 @@ local function queueInvitation(attempt, initiator, partner)
         return
     end
     attempt.invitationQueued = true
-    if attempt.onInvitationQueued then
-        attempt.onInvitationQueued()
-        attempt.onInvitationQueued = nil
-    end
     log(attempt, attempt.conversationRetried and "invitation_requeued" or "invitation_queued")
 end
 
@@ -1372,7 +1374,7 @@ beginAttempt = function(who, nonce, furniture, ground)
     end)
 end
 
-beginVenueSearch = function(initiatorId, partnerId, npc, onInvitationQueued)
+beginVenueSearch = function(initiatorId, partnerId, npc, onPlaybackStarted)
     if not client then return false, "simulation_unavailable" end
     local first, second = positiveId(initiatorId), positiveId(partnerId)
     if not first or not second or first == second then return false, "partner_ineligible" end
@@ -1385,7 +1387,7 @@ beginVenueSearch = function(initiatorId, partnerId, npc, onInvitationQueued)
     local attempt = newAttempt(first, nonce, second)
     if not attempt then return false, "busy" end
     attempt.searchVenue, attempt.npc = true, npc
-    attempt.onInvitationQueued = onInvitationQueued
+    attempt.onPlaybackStarted = onPlaybackStarted
     if npc then log(attempt, "initiative_selected") end
     guarded(attempt, request, "features", "get_version")
     -- The attempt already reported any synchronous failure.
@@ -1393,8 +1395,8 @@ beginVenueSearch = function(initiatorId, partnerId, npc, onInvitationQueued)
     return true, nonce
 end
 
-function M.beginNpc(initiatorId, partnerId, onInvitationQueued)
-    return beginVenueSearch(initiatorId, partnerId, true, onInvitationQueued)
+function M.beginNpc(initiatorId, partnerId, onPlaybackStarted)
+    return beginVenueSearch(initiatorId, partnerId, true, onPlaybackStarted)
 end
 
 function M.on_lua_message(self, component, kind, content)

@@ -1,7 +1,8 @@
 local M = {}
 local TICKS_PER_MINUTE = 600000000
 local SCAN_INTERVAL_SECONDS = 5
-local INVITATION_COOLDOWN = 120 * TICKS_PER_MINUTE
+local MIN_COOLDOWN_MINUTES = 32 * 60
+local COOLDOWN_HALF_SPREAD_MINUTES = 8 * 60
 local RETRY_DELAY = 15 * TICKS_PER_MINUTE
 -- DA_Interaction.AutonomyMaxTalkDistance in the retail game (centimeters).
 local DEFAULT_TALK_RANGE_CM = 10000
@@ -125,8 +126,8 @@ function M.new(beginNpc, urges, canInvite, isReserved)
                     if partner and partner ~= candidate and closeEnough(candidate, partner) then return partner.person end
                 end)
             end
-            if candidate.available and not cooldowns[candidate.id] then
-                candidate.canInitiate = M.canAct(candidate.person, current.autonomy)
+            if candidate.available then
+                candidate.canInitiate = not cooldowns[candidate.id] and M.canAct(candidate.person, current.autonomy)
                 ready[#ready + 1] = candidate
             end
         end
@@ -166,19 +167,21 @@ function M.new(beginNpc, urges, canInvite, isReserved)
         end
         retries[choice.key] = now + RETRY_DELAY
 
-        -- Only a native queue acknowledgment spends either Zoi's full cooldown.
-        local attemptWorld, acknowledged = retries, false
-        local function queued()
-            if acknowledged or attemptWorld ~= retries then return end
-            local queuedAt = inzoi.FB2TimeManager.StaticGetCurrentTicks()
-            if type(queuedAt) ~= "number" or not (queuedAt >= now and queuedAt < math.huge) then return end
-            acknowledged = true
-            for _, candidate in ipairs({first, second}) do
-                cooldowns[candidate.id] = math.max(cooldowns[candidate.id] or 0, queuedAt + INVITATION_COOLDOWN)
-            end
+        local attemptWorld, started = retries, false
+        local function onPlaybackStarted()
+            if started or attemptWorld ~= retries then return end
+            local startedAt = inzoi.FB2TimeManager.StaticGetCurrentTicks()
+            if type(startedAt) ~= "number" or not (startedAt >= lastGameTick and startedAt < math.huge) then return end
+            started = true
+            -- The sum of two uniform draws gives a triangular distribution.
+            local minutes = MIN_COOLDOWN_MINUTES + math.random(COOLDOWN_HALF_SPREAD_MINUTES + 1)
+                + math.random(COOLDOWN_HALF_SPREAD_MINUTES + 1) - 2
+            local deadline = startedAt + minutes * TICKS_PER_MINUTE
+            cooldowns[first.id] = deadline
+            return {started_tick = startedAt, until_tick = deadline, duration_minutes = minutes}
         end
 
-        return beginNpc(first.id, second.id, queued)
+        return beginNpc(first.id, second.id, onPlaybackStarted)
     end
 
     return function()

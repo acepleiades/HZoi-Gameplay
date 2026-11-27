@@ -61,9 +61,9 @@ local function allow(first, second)
     allowed[first .. "|" .. second] = true
 end
 local function scheduler()
-    return require("NpcInitiative").new(function(first, second, queued)
-        assert(type(queued) == "function")
-        calls[#calls + 1] = {first, second, queued = queued}
+    return require("NpcInitiative").new(function(first, second, started)
+        assert(type(started) == "function")
+        calls[#calls + 1] = {first, second, started = started}
         return mayStart, mayStart and "npc-test" or "busy"
     end, urgeSource, function(first, second)
         return allowed[first.id .. "|" .. second.id] == true
@@ -87,6 +87,15 @@ local function scan(realSeconds, gameMinutes, ...)
     assert(#seen == #expected, ("Unexpected number of random draws: %d, expected %d"):format(#seen, #expected))
     for i, roll in ipairs(expected) do assert(seen[i] == roll[1], "Unexpected range for random draw " .. i) end
     return ok, reason
+end
+
+local function observeStart(call, firstRoll, secondRoll)
+    expected, seen = {{481, firstRoll}, {481, secondRoll}}, {}
+    local cooldown = assert(call.started())
+    assert(#seen == 2 and seen[1] == 481 and seen[2] == 481, "Use two uniform half-range draws")
+    assert(cooldown.started_tick == ticks)
+    assert(cooldown.until_tick == ticks + cooldown.duration_minutes * minute)
+    return cooldown
 end
 
 allow(2, 3)
@@ -128,29 +137,49 @@ scan(5, 5, {12, 1})
 assert(#calls == 3, "Starting asynchronous venue setup does not consume the long cooldown")
 
 scan(3, 3)
-calls[3].queued()
+local cooldown = observeStart(calls[3], 241, 241)
+assert(cooldown.duration_minutes == 40 * 60, "The two central draws give a 40-hour sender cooldown")
+assert(calls[3].started() == nil and #seen == 2, "Duplicate start observations do not extend or reroll")
+allow(3, 2)
+scan(5, 11)
+assert(#calls == 3, "The brief unordered retry still blocks reversing the same pending pair")
+scan(5, 1, {12, 1})
+assert(#calls == 4 and calls[4][1] == "3" and calls[4][2] == "2",
+    "The invited partner is free to initiate and the cooled sender can receive")
+allowed["3|2"], allowed["3|4"] = nil, nil
 people[4].x = 650
 allow(2, 4)
-scan(5, 117)
-assert(#calls == 3, "Both Zois are on cooldown with all partners, measured from actual queue time")
-calls[3].queued()
 local scansBeforeClockJump = scans
 scan(-100, 0)
-assert(scans == scansBeforeClockJump + 1 and #calls == 3, "A backward wall-clock adjustment keeps game cooldowns")
-scan(5, 5, {12, 12}, {12, 1}, {12, 12})
-assert(#calls == 4 and calls[4][1] == "2" and calls[4][2] == "4",
-    "After two hours both Zois can start other invitations; duplicate acknowledgements do not extend the window")
+assert(scans == scansBeforeClockJump + 1 and #calls == 4, "A backward wall-clock adjustment keeps game cooldowns")
+ticks = cooldown.until_tick - minute
+scan(5, 0)
+assert(#calls == 4, "A cooled sender cannot start with any partner")
+scan(5, 1, {12, 12}, {12, 1})
+assert(#calls == 5 and calls[5][1] == "2" and calls[5][2] == "4",
+    "At the deadline the sender can start with a different partner")
 
-local obsolete = calls[4].queued
+local obsolete = calls[5].started
 scan(1, 10)
-scan(1, -5, {12, 12}, {12, 1}, {12, 12})
-assert(#calls == 5 and calls[5][2] == "4", "Read game-clock rewinds even between real-time scans")
-ticks = 1000 * minute
-obsolete()
+ticks = ticks - 5 * minute
+assert(obsolete() == nil and #seen == 0, "Reject an old-world start arriving before the rewind poll")
+scan(1, 0, {12, 12}, {12, 1})
+assert(#calls == 6 and calls[6][2] == "4", "Read game-clock rewinds even between real-time scans")
+ticks = ticks + 1000 * minute
+assert(obsolete() == nil)
 local beforeForwardJump = scans
-scan(300, 0, {12, 1}, {12, 12}, {12, 12})
-assert(scans == beforeForwardJump + 1 and #calls == 6 and calls[6][2] == "3",
-    "A forward wall-clock jump samples once, and an obsolete queue callback cannot affect the new world")
+scan(300, 0, {12, 1}, {12, 12})
+assert(scans == beforeForwardJump + 1 and #calls == 7 and calls[7][2] == "3",
+    "A forward wall-clock jump samples once, and an obsolete start callback cannot affect the new world")
+
+for _, boundary in ipairs({{1, 32}, {481, 48}}) do
+    start = scheduler()
+    calls, allowed = {}, {}
+    allow(2, 3)
+    scan(5, 0, {12, 1})
+    local sampled = observeStart(calls[1], boundary[1], boundary[1])
+    assert(sampled.duration_minutes == boundary[2] * 60, "The cooldown includes both 32- and 48-hour endpoints")
+end
 
 start = scheduler()
 calls, allowed = {}, {}
@@ -220,4 +249,4 @@ assert(#calls == 1 and calls[1][1] == "2" and calls[1][2] == "3",
     "A local pair can start well away from the controlled Zoi")
 math.random, os.time = realRandom, realTime
 
-print("NPC initiative passed: eligibility, real-time cadence, directed fairness, Urge opportunities, queue-time cooldown, temporary retry and world rewind.")
+print("NPC initiative passed: eligibility, cadence, directed fairness, Urges, sender-only playback cooldown, pair retry and world rewind.")
