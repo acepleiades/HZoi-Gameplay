@@ -1,6 +1,6 @@
 # HZoi Gameplay encounter design
 
-**Iteration 1 is in testing.**
+**Iteration 1 ships in HZoi Gameplay 1.0.0.**
 
 Iteration 1 supports encounters between exactly two Zois. HZoi Gameplay owns invitations, venue selection, witness reactions, and gameplay consequences. SceneZOI owns placement, playback, task progress, and cleanup. Installed content packs determine which rosters and venues can play a scene. Iteration 1 is complete when every item and acceptance check below passes for that two-Zoi scope.
 

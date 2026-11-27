@@ -11,13 +11,14 @@ the **Romance** menu to let the pair find a venue. The Zois use the game's
 
 ## Install
 
-Download the Windows ZIP for HZoi Gameplay. Install SceneZOI and a compatible
-animation pack.
+Download **HZoiGameplay-1.0.0.zip** from the
+[HZoi Gameplay GitHub release](https://github.com/acepleiades/HZoi-Gameplay/releases/tag/v1.0.0).
+Install SceneZOI and a compatible animation pack.
 
-- **The matching SceneZOI build with shared interaction menus** is required
-  for the invitation menus, partner picker, playback, and Auto-mode.
+- **[SceneZOI 1.7.3](https://github.com/acepleiades/SceneZOI/releases/tag/v1.7.3)**
+  is required for the shared interaction menus, partner picker, playback, and Auto mode.
 - **HZoi 1.4.1** is the recommended animation pack. It supplies standing,
-  bed and sofa scenes. [HZoi downloads](https://www.patreon.com/skyrimaceanimations/posts/hzoi-public-174452155)
+  bed and sofa scenes. [HZoi downloads](https://www.patreon.com/skyrimaceanimations/posts/hzoi-1-4-1-174452155)
 - **Ace Animations Library (AAL) is optional.** It adds more choices to HZoi
   where compatible tracks are available.
 

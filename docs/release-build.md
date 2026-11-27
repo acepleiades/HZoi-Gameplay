@@ -17,6 +17,7 @@ $sceneZOI = "C:/repos/SceneZOI"
 $modkitRoot = "C:/isolated-build/inZOIModKit"
 $project = Join-Path $modkitRoot "inZOIModKit/inZOIModKit.uproject"
 $exportRoot = "C:/isolated-build/HZoiGameplay-export"
+$filteredExport = "C:/isolated-build/HZoiGameplay-filtered"
 $modId = "HZoiGameplayPrototype_4BD2AC16"
 $staged = Join-Path (Split-Path $project -Parent) "Mods/$modId"
 
@@ -32,16 +33,23 @@ if ($LASTEXITCODE -ne 0) { throw "Staging failed." }
   -unattended -noturnkeyvariables -ddc=NoZenLocalFallback
 if ($LASTEXITCODE -ne 0) { throw "ModKit packaging failed." }
 
-python prepare-release.py archive --scenezoi $sceneZOI --prepared $staged `
-  --exported (Join-Path $exportRoot $modId) --output "HZoiGameplay-1.0.0.zip"
+python prepare-release.py filter --modkit-root $modkitRoot --project $project `
+  --exported (Join-Path $exportRoot $modId) --output $filteredExport
+if ($LASTEXITCODE -ne 0) { throw "Container filtering failed." }
+
+python prepare-release.py archive --scenezoi $sceneZOI --modkit-root $modkitRoot `
+  --prepared $staged --exported $filteredExport --output "HZoiGameplay-1.0.0.zip"
 if ($LASTEXITCODE -ne 0) { throw "Package verification failed." }
 ```
 
 The script copies the matching SceneZOI SDK into the staged mod and regenerates
-the invitation and localization files. It verifies the two native StringTables,
-14 non-English translation files, protected Lua, encoded UI and native patches
-against the prepared inventory. It preserves ModKit's asset hash and generated
-checksums and declares SceneZOI as the package dependency. It includes the
+the invitation and localization files. Filter the cook before another cook
+replaces its response files. The filter keeps the two mod StringTables and
+omits base-game assets. The archive step lists the resulting containers again
+and verifies the registry, 14 non-English translation files, protected Lua,
+encoded UI, and native patches against the prepared inventory. It keeps the
+native asset hash, updates checksums for the rebuilt containers, and declares
+SceneZOI as the package dependency. It includes the
 HZoi Gameplay GPLv3 license as `LICENSE.txt` and the SceneZOI SDK's separate license as
 `LICENSE-SceneZOI-SDK.txt`, then prints the finished ZIP's SHA-256.
 
