@@ -8,6 +8,7 @@
       "Query": "InteractionBag",
       "Value": {
         "Id": "HZoiGameplay_Invite",
+        "AgingConditionFlags": 511,
         "bUniqueInQueue": true,
         "DisplayInfo": {
           "DisplayCategoryTextId": "",
@@ -189,26 +190,6 @@
             "CoopId": "HZoiGameplay_Coop_Accept",
             "bIsTalk": false,
             "NextInteractionBagId": "None"
-          },
-          {
-            "Id": "LowRomance_Refuse",
-            "Probability": 1,
-            "bSequencial": false,
-            "EnableConditionId": "HZoiGameplay_Mood_LowRomance",
-            "SequenceStartInfos": [],
-            "MainInteractionId": "None",
-            "InteractionInfos": [
-              {
-                "InteractionId": "RequestCoop",
-                "Label": "A",
-                "SuccessNextLabel": "None",
-                "FailNextLabel": "None",
-                "bIsOptional": false
-              }
-            ],
-            "CoopId": "HZoiGameplay_Coop_Refuse",
-            "bIsTalk": false,
-            "NextInteractionBagId": "None"
           }
         ]
       },
@@ -219,6 +200,7 @@
       "Query": "InteractionBag",
       "Value": {
         "Id": "HZoiGameplay_Walk",
+        "AgingConditionFlags": 511,
         "InteractionSequence": [
           {
             "Probability": 1.0,
@@ -260,6 +242,7 @@
       "Query": "InteractionBag",
       "Value": {
         "Id": "HZoiGameplay_WalkRetry",
+        "AgingConditionFlags": 511,
         "InteractionSequence": [
           {
             "Probability": 1.0,
@@ -282,8 +265,16 @@
       "Value": {
         "InteractionBagCategory": "Click",
         "PostureGroupId": "AllGroup",
+        "AgingConditionFlags": 511,
         "bUniqueInQueue": true,
         "bAddSameInteractionToGroupMember": false,
+        "InteractionBagTags": [
+          "Lock_Emotion_Sad_Lv3",
+          "Lock_Emotion_Uneasy_Lv3",
+          "Lock_Emotion_Cringing_Lv3",
+          "Lock_Emotion_Irritated_Lv3",
+          "Lock_Emotion_Worried_Lv3"
+        ],
         "DisplayInfo": {
           "DisplayTextId": "Have Sex Here",
           "DisplayCategoryTextId": "InteractionBag_DisplayInfo_ClickMove_Self_DisplayCategoryTextId",
@@ -304,6 +295,60 @@
         ],
         "ID": "HZoiGameplay_SelectVenue"
       }
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_FindVenue",
+        "PostureGroupId": "TalkGroup",
+        "AgingConditionFlags": 511,
+        "bUniqueInQueue": true,
+        "InteractionBagTags": [
+          "Lock_Emotion_Sad_Lv3",
+          "Lock_Emotion_Uneasy_Lv3",
+          "Lock_Emotion_Cringing_Lv3",
+          "Lock_Emotion_Irritated_Lv3",
+          "Lock_Emotion_Worried_Lv3"
+        ],
+        "DisplayInfo": {
+          "DisplayCategoryTextId": "",
+          "DisplayTextId": "Have Sex",
+          "OverrideQueueTextId": "",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Talk_Mood.Action_Talk_Mood'",
+          "InteractionQueueIcon": "None",
+          "PanelIcon": "None",
+          "PanelIconId": "Conversation_Icon_Mood",
+          "PanelIconColorId": "None",
+          "LeftMarkerId": "None",
+          "PanelIconWithBG": {
+            "IconId": "None",
+            "BGColor1Id": "None",
+            "BGColor2Id": "None"
+          },
+          "bHideUI": false
+        },
+        "InteractionVisibleConditionIds": [
+          "HZoiGameplay_CanFindVenue"
+        ],
+        "InteractionEnableConditionIds": [
+          "HZoiGameplay_CanFindVenue",
+          "Not_FromRemoteCity_SelfTarget"
+        ],
+        "InteractionSequence": [
+          {
+            "Probability": 1,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "HZoiGameplay_SelectVenue",
+                "Label": "A"
+              }
+            ]
+          }
+        ]
+      },
+      "Enabled": true
     }
   ]
 }

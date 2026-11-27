@@ -2,7 +2,9 @@ local now = 100
 local controlled = 1
 local callbacks, wire, queued, canceled, completed, terminal = {}, {}, {}, {}, {}, {}
 local observers, tickCount
+local standing
 local privacyQueries, speech = {}, {}
+local schedulers, notices = {}, {}
 local Json = require("SceneZOIAddon.Json")
 local function entity(value) return {Value = value or -1} end
 local function point(x, y, z) return {X = x, Y = y or 0, Z = z or 0} end
@@ -12,13 +14,17 @@ local actors = {}
 for _, number in ipairs({1, 11, 12, 21, 22, 31}) do
     local location = point(300)
     local busy, currentBag, currentReason, currentTarget, autonomy = false, nil, nil, nil, true
+    local finishing = false
     local interaction = {
         GetCurrentInteractionQueueId = function() return currentBag and 42 or -1 end,
         GetCurrentInteractionBagId = function() return currentBag or "None" end,
         GetCurrentInteractionTargetEntityId = function() return entity(currentTarget) end,
         GetCurrentInteractionPlayReason = function() return currentReason end,
         IsQueueEmpty = function() return not busy end,
-        IsPlayingInteraction = function() return busy end,
+        IsPlayingInteraction = function() return busy or finishing end,
+        IsInteractionEnabled = function() return true end,
+        IsCurrentInteractionInfinite = function() return false end,
+        IsCurrentInteractionAlmostFinished = function() return finishing end,
         IsCurrentInteractionCoop = function() return false end,
         IsPendingCoop = function() return false end,
         AddInteractionQueueByParam = function(_, target, destination, bag, reason)
@@ -38,10 +44,13 @@ for _, number in ipairs({1, 11, 12, 21, 22, 31}) do
         GetGenderType = function() return number % 2 == 0 and 2 or 1 end,
         GetComponent = function(_, kind) if kind == 1 then return interaction end end,
         IsSpawned = function() return true end,
+        IsDeath = function() return false end,
+        IsInRabbitHole = function() return false end,
         IsAutonomyEnable = function() return not busy end,
         GetLocation = function() return location end,
         move = function(_, p) location = p end,
         busy = function(_, state) busy = state end,
+        finishSoon = function(_, state) finishing = state end,
         setRunning = function(_, bag, reason, target) currentBag, currentReason, currentTarget = bag, reason, target end,
         autonomyAllowed = function(_, value)
             if value ~= nil then autonomy = value end
@@ -77,7 +86,7 @@ local function furniture(x)
 end
 local objects = {[411] = furniture(1425), [421] = furniture(2425)}
 local manager = {
-    GetAllEntities = function() return actors end,
+    GetAllEntities = function(_, kind) return kind == 4 and schedulers or actors end,
     FindCharacter = function(_, who) return actors[who.Value] end,
     FindGameObject = function(_, object) return objects[object.Value] end,
 }
@@ -93,7 +102,7 @@ inzoi = {
         return {IsOnWalkableGrid = function(_, p) return site:IsIn(p) and p.Y >= -800 and p.Y <= 800 end}
     end,
     EB1GrowthStep = {Youth = 32, Adult = 64, Old = 128, Elderly = 256}, EB1GenderType = {Male = 1, Female = 2},
-    EB1SiteType = {Residence = 1}, EB2EntityType = {Character = 3},
+    EB1SiteType = {Residence = 1}, EB2EntityType = {Character = 3, CoopScheduler = 4},
     EB2ComponentType = {Interaction = 1, Hope = 2, Mission = 3},
     EB1InteractionPlayReason = {User = 3, Autonomy = 8}, EB1InteractionCancelReason = {User = 1},
     EB1AddInteractionQueueResult = {Success = 1, EnqueueConditionCheckFail = 17},
@@ -103,6 +112,10 @@ inzoi = {
         off = function(name) callbacks[name] = nil end,
     },
     message = {send_to_client = function(owner, kind, payload)
+        if kind == "HZoiGameplay.Notice" then
+            notices[#notices + 1] = {owner = owner.Value, code = payload}
+            return
+        end
         assert(owner.Value == controlled and kind == "HZoiGameplay.WitnessTrace",
             "NPC failures should stay in the diagnostics")
         local query = Json.decode(payload)
@@ -141,10 +154,16 @@ package.loaded["EncounterConsequences"] = {
     end,
 }
 
-package.loaded.NpcInitiative = {new = function() end, canAct = function(person) return person:autonomyAllowed() end}
-package.loaded.OwnedEncounterUrges = {
-    pending = function(owner) return {partner = tostring(owner:GetEntityId().Value + 1)} end,
+local Initiative = require("NpcInitiative")
+Initiative.new = function() end
+Initiative.canAct = function(person) return person:autonomyAllowed() end
+Initiative.isSimulationRunning = function() return true end
+package.loaded.InvitationEligibility = {
     canInvite = function() return true end,
+    canSelect = function() return true end,
+}
+package.loaded.NpcStandingAnchors = {find = function() return standing or {} end}
+package.loaded.OwnedEncounterUrges = {
     onCompletion = function() return false end,
     reset = function() end,
 }
@@ -154,9 +173,11 @@ package.loaded.WitnessNative = {
         return 0
     end,
     say = function(...) speech[#speech + 1] = {...} end,
+    tickSpeech = function() end,
 }
 local invite = require("Components.VenueInvite")
-invite.on_begin()
+local main = require("Main")
+main.on_begin()
 local function expect(nonce, step, op)
     assert(nonce)
     local key = "encounter." .. nonce .. "." .. step
@@ -181,9 +202,7 @@ local function confirmPrivacy(nonce, visible)
 end
 local function tick()
     local before = tickCount
-    for whom in pairs(actors) do
-        invite.on_tick({}, {GetOwnerEntityId = function() return entity(whom) end}, 0.05)
-    end
+    main.on_tick(0.05)
     assert(tickCount == before + 1, "Tick the shared SDK once per frame")
 end
 local function event(name, who, target, bag, reason)
@@ -204,7 +223,7 @@ local knownFeatures = setmetatable({}, {__index = function() return 1 end})
 local definitions = {actions = {handjob = {sexual_activity = "non_penetrative", content_rating = "EXPLICIT"}}}
 local function preflight(nonce, first, second, furniture)
     reply(nonce, "features", "get_version", {features = knownFeatures})
-    local search = reply(nonce, "npc_venues", "find_furniture", {furniture = furniture or rows})
+    local search = reply(nonce, "venues", "find_furniture", {furniture = furniture or rows})
     assert(search.include_unavailable and search.origin_id == tostring(first))
     assert(search.participants[1] == tostring(first) and search.participants[2] == tostring(second))
     reply(nonce, "definitions", "get_definitions", definitions)
@@ -224,9 +243,9 @@ local function walkFor(who, bag)
         if walk.who == who and walk.bag == (bag or "HZoiGameplay_Walk") then return walk end
     end
 end
-local function arrived(who, bag)
+local function arrived(who, bag, playReason)
     local walk = assert(walkFor(who, bag))
-    assert(walk.reason == inzoi.EB1InteractionPlayReason.Autonomy)
+    assert(walk.reason == (playReason or inzoi.EB1InteractionPlayReason.Autonomy))
     actors[who]:move(walk.point)
     event("finished", who, -1, walk.bag)
 end
@@ -243,27 +262,41 @@ local function snapshot(nonce, session, first, second, phase, name, facts)
     }
 end
 
-assert(not invite.beginNpc(1, 11), "Do not initiate for the controlled Zoi")
+actors[1]:autonomyAllowed(false)
+assert(not invite.beginNpc(1, 11), "A controlled initiator must have effective autonomy")
+actors[1]:autonomyAllowed(true)
 actors[11]:busy(true)
 assert(not invite.beginNpc(11, 12))
 actors[11]:busy(false)
-local success, a = invite.beginNpc(11, 12)
-assert(success)
+local queuedCount = 0
+controlled = 11
+actors[12]:autonomyAllowed(false)
+local success, a = invite.beginNpc(11, 12, function() queuedCount = queuedCount + 1 end)
+assert(success, "A controlled initiator can invite an available partner with autonomy off")
 local success, b = invite.beginNpc(21, 22)
 assert(success and a ~= b)
 assert(not invite.beginNpc(11, 22) and not invite.beginNpc(31, 12), "No overlapping roster")
 preflight(b, 21, 22)
 preflight(a, 11, 12)
+assert(queuedCount == 0, "Preparation does not start the invitation cooldown")
 local denied = reply(b, "venue-1", "validate_start", {valid = false, code = "no_matching_scenes"})
 assert(denied.background and denied.furniture_id == "411")
 local selected = reply(b, "venue-2", "validate_start", valid(21, 22, "center"))
 assert(selected.background and selected.furniture_id == "421" and selected.furniture_pair_id == "center")
+actors[12]:setRunning("ordinary_task", inzoi.EB1InteractionPlayReason.Autonomy)
+actors[12]:finishSoon(true)
 reply(a, "venue-1", "validate_start", valid(11, 12))
+assert(queuedCount == 0 and #queued == 1, "Let the partner finish the ordinary task before asking")
+actors[12]:finishSoon(false)
+actors[12]:setRunning()
+tick()
+assert(queuedCount == 1, "Only the successful native invitation enqueue starts the cooldown")
 assert(queued[1].who == 21 and queued[2].who == 11 and queued[1].reason == inzoi.EB1InteractionPlayReason.Autonomy)
 controlled = 11
 nativeConversation(11, 12)
 nativeConversation(21, 22)
 tick()
+actors[12]:autonomyAllowed(true)
 arrived(11)
 arrived(12)
 arrived(21)
@@ -291,9 +324,11 @@ controlled = 1
 actors[31]:move(point(300))
 actors[21]:move(point(300))
 actors[22]:move(point(300))
-local success, retry = invite.beginNpc(21, 22, {point(3320)})
+local success, retry = invite.beginNpc(21, 22)
 assert(success, "A confirmed privacy denial releases the participants and room and preserves the urge")
+standing = {point(3320)}
 preflight(retry, 21, 22, rows)
+standing = nil
 -- The active encounter claims the first room. Try standing after the sofa fails preflight.
 local sofa = reply(retry, "venue-1", "validate_start", {valid = false, code = "no_matching_scenes"})
 assert(sofa.furniture_id == "421")
@@ -460,13 +495,13 @@ actions.InteractionQueue = {
     {InteractionQueueId = 52, InteractionBagId = branch .. "_Feedback", PickedEntityId = entity(31)},
 }
 local canceledBefore, queuedBefore = #canceled, #queued
-actors[12]:autonomyAllowed(false)
+actors[11]:autonomyAllowed(false)
 tick()
 assert(#canceled == canceledBefore + 3 and canceled[canceledBefore + 1].bag == "HZoiGameplay_Invite")
 assert(canceled[canceledBefore + 2].who == 11 and canceled[canceledBefore + 2].queue == 42)
 assert(canceled[canceledBefore + 3].who == 12 and canceled[canceledBefore + 3].queue == 51,
-    "Cancel only the matching conversation roles when either person's autonomy changes")
-actors[12]:autonomyAllowed(true)
+    "Cancel only the matching conversation roles when the initiator's autonomy changes")
+actors[11]:autonomyAllowed(true)
 nativeConversation(11, 12)
 assert(#queued == queuedBefore, "Late canceled conversation events must not start the approach")
 actions.InteractionQueue = nil
@@ -480,6 +515,10 @@ confirmPrivacy(nonce)
 reply(nonce, "start", "start_autonomous_scene", {accepted = true})
 now = now + 1
 actors[11]:autonomyAllowed(false)
+tick()
+assert(not wire["encounter." .. nonce .. ".cancel-start"],
+    "SceneZOI can temporarily disable autonomy between the start reply and playback")
+now = now + 60
 tick()
 local cancelArgs = reply(nonce, "cancel-start", "cancel_start", {accepted = true})
 assert(cancelArgs.start_request_id == "encounter." .. nonce .. ".start")
@@ -495,10 +534,140 @@ confirmPrivacy(nonce)
 reply(nonce, "start", "start_autonomous_scene", {accepted = true})
 observers.event(snapshot(nonce, "keep-playing", 11, 12, "playing", "session_started"))
 now = now + 1
-actors[12]:autonomyAllowed(false)
+actors[11]:autonomyAllowed(false)
 tick()
 assert(not wire["encounter." .. nonce .. ".cancel-start"], "An already-playing session can finish")
-actors[12]:autonomyAllowed(true)
+actors[11]:autonomyAllowed(true)
+invite.shutdown()
+
+invite.on_begin()
+for _, pair in ipairs({{11, 12}, {12, 11}}) do
+    local first, second = table.unpack(pair)
+    controlled, wire = first, {}
+    actors[first]:autonomyAllowed(false)
+    actors[second]:autonomyAllowed(false)
+    local queuedBefore = #queued
+    local menu = "HZoiGameplay_FindVenue"
+    local actions = actors[first]:GetComponent(1)
+    actions.InteractionQueue = {{InteractionBagId = menu, PickedEntityId = entity(second),
+        PlayReason = inzoi.EB1InteractionPlayReason.User}}
+    event("started", first, -1, menu)
+    event("canceled", first, -1, menu)
+    event("finished", first, second, menu)
+    assert(next(wire) == nil, "A canceled Romance interaction must not start a search")
+    event("started", first, -1, menu)
+    assert(next(wire) == nil, "Wait until the native menu action finishes")
+    actions.InteractionQueue = nil
+    controlled = 1
+    event("finished", first, -1, menu)
+    local key = assert(next(wire), "Use the clicked partner across possession changes")
+    local nonce = assert(key:match("^encounter%.(romance%-[^.]+)%.features$"))
+    preflight(nonce, first, second)
+    local args = reply(nonce, "venue-1", "validate_start", valid(first, second))
+    assert(not args.background and args.furniture_id == "411", "Use the shared venue ranking for player starts")
+    local invitation = assert(queued[#queued])
+    assert(invitation.reason == inzoi.EB1InteractionPlayReason.User
+        and invitation.who == first and invitation.target == second)
+    nativeConversation(first, second, true)
+    assert(#queued == queuedBefore + 1, "Refusal does not walk to the venue or start a session")
+end
+
+controlled, wire, queued = 11, {}, {}
+for _, person in pairs(actors) do
+    person:move(point(300))
+    person:setRunning()
+end
+event("started", 11, 12, "HZoiGameplay_FindVenue")
+event("finished", 11, 12, "HZoiGameplay_FindVenue")
+local romance = assert(assert(next(wire)):match("^encounter%.(romance%-[^.]+)%.features$"))
+preflight(romance, 11, 12)
+reply(romance, "venue-1", "validate_start", valid(11, 12))
+nativeConversation(11, 12)
+tick()
+assert(#queued == 3)
+event("canceled", 12, -1, WALK, "CharacterOverlap")
+arrived(11, WALK, inzoi.EB1InteractionPlayReason.User)
+tick()
+pushAside(walkFor(11).point)
+arrived(12, RETRY, inzoi.EB1InteractionPlayReason.User)
+event("started", 11, -1, "ClickMove_Self", "User")
+tick()
+assert(#queued == 4 and not wire["encounter." .. romance .. ".arrival"],
+    "A player action after a Romance invitation supersedes an automatic return walk")
+invite.shutdown()
+
+invite.on_begin()
+local function prepareRomanceHandoff()
+    controlled, wire, queued, notices, schedulers = 11, {}, {}, {}, {}
+    for _, person in pairs(actors) do
+        person:move(point(300))
+        person:setRunning()
+    end
+    event("started", 11, 12, "HZoiGameplay_FindVenue")
+    event("finished", 11, 12, "HZoiGameplay_FindVenue")
+    local key = assert(assert(next(wire)):match("^encounter%.(romance%-[^.]+)%.features$"))
+    preflight(key, 11, 12)
+    reply(key, "venue-1", "validate_start", valid(11, 12))
+    event("started", 11, 12, "HZoiGameplay_Invite")
+end
+local relationship = require("EncounterRelationship")
+local onRefusal = relationship.onRefusal
+local refusalCount = 0
+relationship.onRefusal = function()
+    refusalCount = refusalCount + 1
+end
+local coop = {GetEntityId = function() return entity(900) end, HostId = entity(11), MainTargetId = entity(12),
+    OriginInteractionBagId = "Co_TryTo_Mood_Lover", CoopId = "HZoiGameplay_Coop_Refuse", CurrentResult = "None"}
+prepareRomanceHandoff()
+schedulers = {coop}
+event("canceled", 11, 12, "HZoiGameplay_Invite", "Coop")
+tick()
+assert(#notices == 0 and refusalCount == 0)
+coop.OriginInteractionBagId = "HZoiGameplay_Invite"
+tick()
+local refusal = "Coop_TalkLike_Before_MakeLove_Fail"
+event("started", 11, 12, refusal)
+event("started", 12, 11, refusal .. "_Feedback")
+event("finished", 11, 12, refusal)
+assert(refusalCount == 0, "Wait for both Zois to finish the native refusal")
+event("finished", 12, 11, refusal .. "_Feedback")
+event("finished", 12, 11, refusal .. "_Feedback")
+assert(refusalCount == 1 and #queued == 1 and #notices == 0, "Complete the refusal once without walking")
+
+prepareRomanceHandoff()
+coop.MainTargetId = entity(21)
+schedulers = {coop}
+event("canceled", 11, 12, "HZoiGameplay_Invite", "Coop")
+now = now + 2
+tick()
+assert(refusalCount == 1 and #queued == 1 and #notices == 1 and notices[1].code == "failed",
+    "An unrelated scheduler must not turn a real cancellation into a dispatch")
+relationship.onRefusal = onRefusal
+invite.shutdown()
+
+invite.on_begin()
+controlled, wire, queued, schedulers = 11, {}, {}, {}
+for _, person in pairs(actors) do
+    person:move(point(300))
+    person:setRunning()
+end
+actors[11]:autonomyAllowed(true)
+local ready, interrupted = invite.beginNpc(11, 12)
+assert(ready)
+preflight(interrupted, 11, 12)
+actors[12]:setRunning("ordinary_task", inzoi.EB1InteractionPlayReason.Autonomy)
+actors[12]:finishSoon(true)
+reply(interrupted, "venue-1", "validate_start", valid(11, 12))
+assert(#queued == 0)
+actors[12]:finishSoon(false)
+actors[12]:setRunning()
+actors[11]:busy(true)
+local canceledBefore = #canceled
+tick()
+assert(#queued == 0 and #canceled == canceledBefore,
+    "A player action queued while waiting supersedes the invitation without being canceled")
+actors[11]:busy(false)
+assert(invite.beginNpc(11, 12), "A superseded invitation releases both Zois")
 invite.shutdown()
 
 emit("NPC invitation checks passed: concurrent sessions, privacy, venue fallback, and one-time return after native overlap.")

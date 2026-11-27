@@ -227,7 +227,11 @@
     "[From walking in on Zois having sex]": "[Por teres apanhado Zois a fazer sexo]"
   },
   "messages": {
+    "Have Sex": "Fazer sexo",
     "Have Sex Here": "Fazer sexo aqui",
+    "No eligible partners are available.": "Não há parceiros elegíveis disponíveis.",
+    "Your Zoi cannot ask in this mood.": "O teu Zoi não pode fazer este convite com este estado de espírito.",
+    "No suitable place is available.": "Não há um local adequado.",
     "Your Zoi wants some private time with {partner}.": "O teu Zoi quer passar algum tempo a sós com {partner}.",
     "Your Zoi wants some private time with their partner.": "O teu Zoi quer passar algum tempo a sós com a pessoa com quem tem uma relação.",
     "Your Zoi fulfilled their urge with {partner}.": "O teu Zoi satisfez o desejo de passar um momento íntimo com {partner}.",

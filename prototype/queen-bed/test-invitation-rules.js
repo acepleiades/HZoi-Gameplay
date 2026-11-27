@@ -10,7 +10,18 @@ function rows(table) {
 
 const enqueue = rows('Condition_Enqueue').get('HZoiGameplay_EligibleForMood');
 const talkRules = rows('Condition_Interaction_Talk');
-const invitation = rows('InteractionBag').get('HZoiGameplay_Invite');
+const bags = rows('InteractionBag');
+const invitation = bags.get('HZoiGameplay_Invite');
+const romance = bags.get('HZoiGameplay_FindVenue');
+const romanceVisibility = talkRules.get('HZoiGameplay_CanFindVenue');
+assert.deepEqual(romance.InteractionBagTags, ['Sad', 'Uneasy', 'Cringing', 'Irritated', 'Worried']
+    .map(emotion => `Lock_Emotion_${emotion}_Lv3`));
+assert.deepEqual(romance.InteractionEnableConditionIds, ['HZoiGameplay_CanFindVenue', 'Not_FromRemoteCity_SelfTarget']);
+// The native table treats zero as no eligible stage. Include every EB1GrowthStep bit.
+const allLifeStages = 1 | 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256;
+for (const bag of ['Invite', 'FindVenue', 'SelectVenue', 'Walk', 'WalkRetry']) {
+    assert.equal(bags.get(`HZoiGameplay_${bag}`).AgingConditionFlags, allLifeStages);
+}
 
 function matches(row, state) {
     function matchesGroup({Conditions}) {
@@ -45,6 +56,7 @@ function matches(row, state) {
 
 function check(overrides, expected) {
     const state = {romance: 0, emotion: 'Negative', lovable: true, ...overrides};
+    assert.equal(matches(romanceVisibility, state) && state.remote === undefined, expected.length > 0);
     assert.equal(matches(enqueue, state), expected.length > 0);
     const routes = invitation.InteractionSequence
         .filter(route => matches(talkRules.get(route.EnableConditionId), state));
@@ -56,12 +68,20 @@ function check(overrides, expected) {
 
 const accept = 'HZoiGameplay_Coop_Accept';
 const refuse = 'HZoiGameplay_Coop_Refuse';
-check({}, [[refuse, 1]]);
-check({romance: 29}, [[refuse, 1]]);
+check({}, []);
+check({romance: 29}, []);
 check({romance: 30}, [[accept, 0.3], [refuse, 0.7]]);
 check({romance: 30, emotion: 'Positive'}, [[accept, 1]]);
+check({romance: 60}, [[accept, 0.3], [refuse, 0.7]]);
+check({romance: 61}, [[accept, 1]]);
 check({relationship: 'Youth_Lover'}, [[accept, 0.7], [refuse, 0.3]]);
 check({relationship: 'engagement'}, [[accept, 0.7], [refuse, 0.3]]);
+check({relationship: 'Youth_Lover', romance: -31}, []);
+check({relationship: 'Youth_Lover', romance: -30}, [[accept, 0.7], [refuse, 0.3]]);
+check({relationship: 'engagement', romance: -31}, []);
+check({relationship: 'engagement', romance: -30}, [[accept, 0.7], [refuse, 0.3]]);
+check({familyRelationship: 'Spouse', family: -31}, []);
+check({familyRelationship: 'Spouse', family: -30}, [[accept, 0.7], [refuse, 0.3]]);
 check({familyRelationship: 'Spouse', family: 0}, [[accept, 0.7], [refuse, 0.3]]);
 check({familyRelationship: 'Spouse', family: 30}, [[accept, 1]]);
 check({relationship: 'HighTeen_Lover'}, []);
@@ -87,7 +107,8 @@ assert.deepEqual(manifest.triggers.filter(({type}) => type === 'interaction_menu
 }]);
 assert.equal(manifest.display.input_policy, 'passthrough');
 
-const venueBag = rows('InteractionBag').get(venue);
+const venueBag = bags.get(venue);
+assert.deepEqual(venueBag.InteractionBagTags, romance.InteractionBagTags);
 assert.equal(venueBag.DisplayInfo.DisplayTextId, 'Have Sex Here');
 assert.equal(venueBag.DisplayInfo.PanelIconId, 'Conversation_Icon_Mood');
 assert.equal(venueBag.bUniqueInQueue, true);

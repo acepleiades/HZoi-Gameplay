@@ -14,6 +14,7 @@ local study = "HZoiGameplay_PrivateStudy"
 local purposes = {[1] = study, [2] = bedroom, [3] = study, [4] = study, [7] = study, [8] = study}
 local ownership = {}
 local active, public, bedAccess, indoor, roomAccess = {}, false, true, true, true
+local tick, booking, crossSiteAllowed, crossSiteChecks = 400, nil, true, 0
 local function character(id, location)
     return {
         GetEntityId = function() return {Value = id} end,
@@ -32,6 +33,7 @@ local assigned = {}
 local site = {
     GetSiteType = function() return public and 2 or 1 end,
     GetSiteId = function() return "site" end,
+    GetEntityId = function() return {Value = 900} end,
     IsPublicSite = function() return public end,
     IsFakeSite = function() return false end,
     IsIn = function(_, position) return position.X >= 0 and position.X < 9000 end,
@@ -66,12 +68,29 @@ local entities = {
 local sites = {
     FindClosestSite = function() return site end,
     IsIndoor = function(_, p) return indoor and roomAt(p) ~= 8 end,
+    QuerySiteAreaPath = function(_, output, source, destination, params)
+        assert(type(output) == "table" and source.X < 0 and site:IsIn(destination))
+        assert(params.bIgnorePermission == false and params.EntityId.Value == 2)
+        crossSiteChecks = crossSiteChecks + 1
+        return crossSiteAllowed
+    end,
 }
 
 inzoi = {
     EB1SiteType = {Residence = 1}, EB2EntityType = {Character = 3}, EB2ComponentType = {Slot = 4},
     FB1EntityId = function() return {} end, FB1NavigationQueryParams = function() return {} end,
-    getB2Manager = function(name) return name == "FB2EntityManager" and entities or sites end,
+    FB1NavigationPath = function() return {} end,
+    FB2TimeManager = {StaticGetCurrentTicks = function() return tick end},
+    getB2Manager = function(name)
+        if name == "FB2EntityManager" then return entities end
+        if name == "FB2SiteManager" then return sites end
+        if name == "FB2HouseholdBizManager" and booking then
+            return {FindHouseholdBizBySiteEntityIdPtr = function(_, id)
+                assert(id.Value == 900)
+                return {BizInfoData = {AccommodationInfoList = {Infos = booking}}}
+            end}
+        end
+    end,
     getB2Subsystem = function()
         return {IsOnWalkableGrid = function(_, p) return p.X < 7500 end}
     end,
@@ -137,12 +156,45 @@ assert(rank()[1].kind == "sofa.pair")
 local access, reason = Venue.claim("private", ranked[1], initiator, partner)
 assert(not access and reason == "room_access_denied")
 public = true
-local none, reason = rank()
-assert(#none == 0 and reason == "site_unavailable")
+local none, _, rejected = rank()
+assert(#none == 0 and rejected.room_privacy_unverified, "A public common room cannot qualify on vacancy alone")
+roomAccess = true
+booking = {{RoomKey = {AccommodationDtId = "site", RoomPurposeId = bedroom},
+    StartTicks = 100, EndTicks = 500, GuestEntityIds = {{Value = 1}}}}
+assert(#rank() == 0, "Both Zois must be included in the active room booking")
+booking[1].GuestEntityIds[2] = {Value = 2}
+booking[1].RoomKey.AccommodationDtId = "other_site"
+assert(#rank() == 0, "A booking elsewhere cannot authorize this room")
+booking[1].RoomKey.AccommodationDtId = "site"
+booking[1].RoomKey.RoomPurposeId = "EntireSite"
+assert(#rank() == 0, "A whole-site booking does not prove that a particular room is private")
+booking[1].RoomKey.RoomPurposeId = bedroom
+local booked = rank()
+assert(#booked == 1 and booked[1].furniture_id == "20", "Only the booked room is eligible within a public business")
+local standing = Venue.candidates(initiator, partner, {}, {point(2220), point(4200)}, arrivalPoints)
+assert(#standing == 1 and standing[1].kind == "ground" and standing[1].room_purpose == bedroom,
+    "A booked room without compatible furniture can serve as a standing venue")
+assert(Venue.claim("booked", standing[1], initiator, partner))
+tick = 500
+local stillBooked, reason = Venue.recheck("booked", initiator, partner)
+assert(not stillBooked and reason == "room_privacy_unverified", "Booking expiry invalidates the claim")
+Venue.release("booked")
+booking = nil
 public, indoor = false, false
 assert(#rank() == 0, "No indoor room leaves no autonomous destination")
 
 indoor, roomAccess = true, true
+local originalPartnerPosition = partner.GetLocation
+partner.GetLocation = function() return point(-40) end
+local acrossLotLine = rank()
+assert(#acrossLotLine == 6 and crossSiteChecks > 0, "Reachable partners may start on opposite sides of a lot line")
+assert(Venue.claim("cross-site", acrossLotLine[1], initiator, partner))
+crossSiteAllowed = false
+local reachable, routeReason = Venue.recheck("cross-site", initiator, partner, acrossLotLine[1].arrival_points)
+assert(not reachable and routeReason == "walk_failed", "The native approach remains required from outside a venue lot")
+Venue.release("cross-site")
+assert(#rank() == 0, "Unavailable cross-site routes cannot use geometrically near venues")
+crossSiteAllowed, partner.GetLocation = true, originalPartnerPosition
 purposes[2], purposes[3], purposes[4] = nil, nil, nil
 ownership[20] = {[{Value = 1}] = "BedSlot_Left"}
 assert(rank()[1].furniture_id == "20" and rank()[1].assigned, "Unlabelled bedrooms qualify")
@@ -174,4 +226,58 @@ local occupied = rank()
 for _, candidate in ipairs(occupied) do assert(candidate.occupied) end
 assert(occupied[1].assigned and occupied[2].kind == "bed.single" and occupied[3].kind == "sofa.pair",
     "When every room is occupied, apply the same priorities from the start")
-print("NPC venue checks passed: assigned beds, vacant-first ranking, occupied fallback, access, reservations and standing.")
+
+objects[15], objects[80] = point(6550), point(1400)
+ownership[20] = nil
+ownership[50] = {[{Value = 1}] = "BedSlot_Single"}
+local expectedOrder = {
+    {kind = "bed.single", id = "50", priority = 1},
+    {kind = "bed.queen", id = "20", priority = 2},
+    {kind = "bed.queen", id = "15", priority = 2},
+    {kind = "bed.single", id = "80", priority = 3},
+    {kind = "sofa.pair", id = "30", pair = "left", priority = 4},
+    {kind = "sofa.pair", id = "30", pair = "right", priority = 4},
+    {kind = "ground", priority = 5},
+}
+
+for _, occupiedPass in ipairs({false, true}) do
+    active = {initiator, partner}
+    if occupiedPass then
+        -- These observers occupy the rooms without using the selected furniture.
+        for room = 1, 6 do active[#active + 1] = character(room + 2, point(room * 1000 + 100)) end
+    end
+    local options = {
+        row(30, "sofa.pair", true, "right"), row(15, "bed.queen", true),
+        row(80, "bed.single", true), row(50, "bed.single", true),
+        row(20, "bed.queen", true), row(30, "sofa.pair", true, "left"),
+        row(30, "sofa.pair", true), -- A sofa row must name an exact pair.
+    }
+    local standing = {point(4200)}
+    for index, expected in ipairs(expectedOrder) do
+        local ranked = Venue.candidates(initiator, partner, options, standing, arrivalPoints)
+        assert(#ranked == #expectedOrder - index + 1, "A blocked candidate leaves the remaining venue tiers available")
+        local winner = ranked[1]
+        assert(winner.kind == expected.kind and winner.furniture_id == expected.id
+            and winner.furniture_pair_id == expected.pair and winner.priority == expected.priority
+            and winner.occupied == occupiedPass,
+            ("Tier %d, occupied pass %s, ranked %s/%s/%s with priority %s and occupied=%s")
+                :format(index, tostring(occupiedPass), winner.kind, tostring(winner.furniture_id),
+                    tostring(winner.furniture_pair_id), tostring(winner.priority), tostring(winner.occupied)))
+        if expected.id then
+            for _, option in ipairs(options) do
+                if option.furniture_id == expected.id and option.furniture_pair_id == expected.pair then
+                    option.available = false
+                end
+            end
+        else
+            assert(Venue.claim("last-stand", winner, initiator, partner))
+            assert(Venue.recheck("last-stand", initiator, partner, winner.arrival_points))
+            Venue.release("last-stand")
+            standing = {}
+        end
+    end
+    local none = Venue.candidates(initiator, partner, options, standing, arrivalPoints)
+    assert(#none == 0, "No available furniture, exact sofa pair or standing spot leaves no venue")
+end
+
+print("NPC venue checks passed: all venue tiers in both passes, nearest double bed, exact sofa pairs, no venue, access and reservations.")

@@ -1,9 +1,9 @@
 # HZoi-owned partner Urges
 
-The fallback reads the same eligibility as the Emotionally Needy Urge and
-offers one specific target. The owner and partner must meet the game's paired
-conditions. The owner needs the Emotionally Needy characteristic and an
-established lover under 30 Romance. Sleep, prison, rabbit holes, site events,
+The fallback follows the native Emotionally Needy Urge and offers one specific
+target. The pair must pass the game's `IsLovable` check. The owner needs the
+Emotionally Needy characteristic and an established lover whose Romance score
+from the owner is below 30. Sleep, prison, rabbit holes, site events,
 and the Cahaya desert island block new Urges. When multiple eligible named
 lovers are loaded, the mod picks the one with the highest Romance and uses
 their entity ID to break ties.

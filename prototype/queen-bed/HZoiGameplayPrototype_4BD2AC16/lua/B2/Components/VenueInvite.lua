@@ -1,7 +1,6 @@
 local Client = require("SceneZOIAddon.Client")
 local Json = require("SceneZOIAddon.Json")
 local makeArguments = require("EncounterArguments")
-local LifeStage = require("LifeStageEligibility")
 local FurnitureKind = require("VenueFurnitureKind")
 local Bed = require("BedArrival")
 local Sofa = require("SofaArrival")
@@ -15,7 +14,7 @@ local Relationship = require("EncounterRelationship")
 local NpcVenue = require("NpcVenue")
 local Urges = require("OwnedEncounterUrges")
 local Initiative = require("NpcInitiative")
-local Standing = require("NpcStandingAnchors")
+local Eligibility = require("InvitationEligibility")
 
 local M = {}
 local INVITE = "HZoiGameplay_Invite"
@@ -23,6 +22,7 @@ local CONVERSATION_WALK = "ClickMove_Self"
 local WALK = "HZoiGameplay_Walk"
 local WALK_RETRY = "HZoiGameplay_WalkRetry"
 local SELECT_VENUE = "HZoiGameplay_SelectVenue"
+local FIND_VENUE = "HZoiGameplay_FindVenue"
 local DIALOGUE = {
     accept = "Coop_TalkLike_Before_MakeLove",
     refuse = "Coop_TalkLike_Before_MakeLove_Fail",
@@ -34,8 +34,9 @@ local FEATURES = {
     "preflight_start_distance", "partner_picker_candidate_filter", "autonomous_auto_speed_minimum",
 }
 local client, pollNpc
-local attempts, participants = {}, {}
+local attempts, participants, romancePicks = {}, {}, {}
 local OBSERVATION_INTERVAL = 8
+local INVITATION_AVAILABILITY_SECONDS = 10
 local VENUE_CHECK_INTERVAL = 1
 local PICKER_TIMEOUT_SECONDS = 300
 local CONVERSATION_RETRY_DELAY_SECONDS = 2
@@ -47,7 +48,7 @@ local ARRIVAL_PRIVACY_RETRIES = 3
 local ARRIVAL_PRIVACY_REPLY_SECONDS = 2
 local subscriptions = {}
 local venueSerial, npcSerial = 0, 0
-local venueClick, beginAttempt, guarded
+local venueClick, beginAttempt, beginVenueSearch, guarded
 
 local function log(attempt, phase, details)
     details = details or {}
@@ -101,7 +102,7 @@ end
 
 local function release(attempt)
     attempts[attempt.nonce] = nil
-    if attempt.npc then NpcVenue.release(attempt.nonce) end
+    if attempt.searchVenue then NpcVenue.release(attempt.nonce) end
     participants[attempt.initiator] = nil
     if attempt.partner then participants[attempt.partner] = nil end
 end
@@ -204,6 +205,7 @@ local function cancelPendingStart(attempt, reason, notice)
     attempt.startCancellation = {reason = reason, notice = notice}
     attempt.deadline = os.time() + START_CANCEL_GRACE_SECONDS
     attempt.nextObservation = os.time()
+    log(attempt, "start_cancel_requested", {reason = reason})
     request(attempt, "cancel-start", "cancel_start", {start_request_id = attempt.encounter.request_id})
 end
 
@@ -218,24 +220,16 @@ local function validation(attempt, step)
     request(attempt, step, "validate_start", args)
 end
 
-local function idleForNpc(person)
-    if not LifeStage.allowsCharacter(person) or person:IsAutonomyEnable() ~= true then return false end
-    local actions = interaction(person)
-    return actions and actions:IsQueueEmpty() == true and actions:IsPlayingInteraction() == false
-end
-
 local function confirmPair(attempt)
-    if attempt.npc and attempt.phase == "preflight" then
-        local controlled = controlledId()
-        assert(controlled ~= attempt.initiator and controlled ~= attempt.partner, "A player took control of an NPC")
-    end
     local initiator, partner = actor(attempt.initiator), actor(attempt.partner)
-    assert(LifeStage.allowsCharacter(initiator) and LifeStage.allowsCharacter(partner), "Selected pair is unavailable")
+    assert(initiator and partner, "Selected pair is unavailable")
     if attempt.npc then
-        assert(Initiative.canAct(initiator) and Initiative.canAct(partner), "The NPC pair no longer has autonomy enabled")
-        local pending = Urges.pending(initiator)
-        assert(pending and pending.partner == attempt.partner and Urges.canInvite(initiator, partner),
-            "The NPC invitation is no longer eligible")
+        assert(Initiative.isPresent(initiator) and Initiative.isPresent(partner), "Selected pair is unavailable")
+        assert(Initiative.canAct(initiator), "The initiator no longer has autonomy enabled")
+    end
+    if attempt.searchVenue then
+        assert(Eligibility.canSelect(initiator, partner),
+            "The selected pair no longer meets the invitation rules")
     end
     return initiator, partner
 end
@@ -367,7 +361,7 @@ local function retryWalk(attempt)
         fail(attempt, "The selected furniture changed before the walk could retry", "furniture_unavailable")
         return
     end
-    if attempt.npc then
+    if attempt.searchVenue then
         if not roomReady(attempt, initiator, partner, {first.point, second.point}) then return end
     elseif FurnitureKind.isBed(attempt.kind) then
         walk.point = alternativeBedPoint(walk.point, other.point, otherPerson:GetLocation(), furniture, floor)
@@ -380,11 +374,25 @@ local function retryWalk(attempt)
     queueWalk(attempt, person, who, walk, WALK_RETRY)
 end
 
+local function hasPlayerAction(person)
+    local actions = interaction(person)
+    local user = inzoi.EB1InteractionPlayReason.User
+    if actions:IsPlayingInteraction() and actions:GetCurrentInteractionPlayReason() == user then return true end
+    for _, row in ipairs(actions.InteractionQueue or {}) do
+        if row.PlayReason == user then return true end
+    end
+    return false
+end
+
 local function beginWalking(attempt)
     local initiator, partner = confirmPair(attempt)
+    if attempt.npc and (hasPlayerAction(initiator) or hasPlayerAction(partner)) then
+        fail(attempt, "A player action superseded the autonomous approach", "busy")
+        return
+    end
     local floor = assert(inzoi.getB2Subsystem("FB2PathFindSystem"), "Path finder unavailable")
     local points, furniture, reason
-    if attempt.npc then
+    if attempt.searchVenue then
         points = attempt.candidate.arrival_points
         if not roomReady(attempt, initiator, partner, points) then return end
         if attempt.furniture then
@@ -485,23 +493,40 @@ local function startingQueueEntry(actions, bag)
     return row and tostring(row.InteractionBagId) == bag and row or nil
 end
 
+local function invitationCoop(attempt, scheduler)
+    for _, coop in pairs(manager():GetAllEntities(inzoi.EB2EntityType.CoopScheduler) or {}) do
+        if (not scheduler or id(coop:GetEntityId()) == scheduler)
+            and tostring(coop.OriginInteractionBagId) == INVITE
+            and id(coop.HostId) == attempt.initiator and id(coop.MainTargetId) == attempt.partner then
+            return coop
+        end
+    end
+end
+
+local function conversationDispatched(attempt, coop)
+    attempt.coopHandoffUntil = nil
+    attempt.conversationDispatched = os.time()
+    if coop then
+        log(attempt, "conversation_handoff", {scheduler = id(coop:GetEntityId()),
+            coop = tostring(coop.CoopId), result = tostring(coop.CurrentResult)})
+    end
+    finishRefusal(attempt)
+end
+
 local function recordConversationWalk(attempt, who)
     local actions = interaction(actor(who))
     -- "started" arrives before the game moves the action from the queue to current.
     local row = startingQueueEntry(actions, CONVERSATION_WALK)
     local scheduler = row and row.CoopSchedulerId or actions:GetCurrentCoopSchedulerId()
-    if not positiveId(id(scheduler)) then return end
-    for _, coop in pairs(manager():GetAllEntities(inzoi.EB2EntityType.CoopScheduler) or {}) do
-        if id(coop:GetEntityId()) == id(scheduler) and tostring(coop.OriginInteractionBagId) == INVITE
-            and id(coop.HostId) == attempt.initiator and id(coop.MainTargetId) == attempt.partner then
-            -- HZoi reports terminal invitation failures itself. A blocked
-            -- approach can recover, so the native cancel toast is premature.
-            if not attempt.npc then coop.bSuppressNextCancelToast = true end
-            attempt.conversationWalks = attempt.conversationWalks or {}
-            attempt.conversationWalks[who] = true
-            return
-        end
-    end
+    local schedulerId = positiveId(id(scheduler))
+    local coop = schedulerId and invitationCoop(attempt, schedulerId)
+    if not coop then return end
+    -- HZoi reports terminal invitation failures itself. A blocked
+    -- approach can recover, so the native cancel toast is premature.
+    if not attempt.npc then coop.bSuppressNextCancelToast = true end
+    attempt.conversationWalks = attempt.conversationWalks or {}
+    attempt.conversationWalks[who] = true
+    if attempt.coopHandoffUntil then conversationDispatched(attempt, coop) end
 end
 
 local function onConversationWalk(attempt, kind, who, reason)
@@ -537,9 +562,15 @@ local function onAttemptAction(attempt, kind, event, who, target, bag)
             log(attempt, "conversation_started")
         elseif kind == "finished" then
             -- RequestCoop finishes before either Zoi starts talking.
-            if attempt.conversationStarted then
-                attempt.conversationDispatched = os.time()
-                finishRefusal(attempt)
+            if attempt.conversationStarted then conversationDispatched(attempt) end
+        elseif kind == "canceled" and attempt.conversationStarted and cancelReason(reason, "Coop") then
+            -- The scheduler can replace RequestCoop with its own role actions.
+            -- Only a scheduler for this invitation and pair proves that handoff.
+            local coop = invitationCoop(attempt)
+            if coop then
+                conversationDispatched(attempt, coop)
+            else
+                attempt.coopHandoffUntil = os.time() + CONVERSATION_CLEAR_GRACE_SECONDS
             end
         else
             fail(attempt, "Invitation " .. kind .. ": " .. tostring(reason))
@@ -588,7 +619,7 @@ local function onAttemptAction(attempt, kind, event, who, target, bag)
         if not walk then return end
         if walk.finished then
             local reason = event.play_reason or event.reason
-            if attempt.npc and kind == "started" and bag ~= walk.bag
+            if attempt.searchVenue and kind == "started" and bag ~= walk.bag
                 and (tostring(reason) == "User" or (reason ~= nil and reason == inzoi.EB1InteractionPlayReason.User)) then
                 walk.userAction = true
             end
@@ -613,6 +644,26 @@ end
 local function onNativeEvent(kind, event)
     local who, target = id(event.entity_id), id(event.target_entity_id)
     local bag = tostring(event.interaction_bag_id)
+    if bag == FIND_VENUE then
+        if not who then return end
+        if kind == "started" then
+            local person = actor(who)
+            local actions = person and interaction(person)
+            local queued = actions and startingQueueEntry(actions, FIND_VENUE)
+            if who == controlledId() or (queued and queued.PlayReason == inzoi.EB1InteractionPlayReason.User) then
+                romancePicks[who] = {partner = queued and positiveId(id(queued.PickedEntityId)) or positiveId(target)}
+            end
+        else
+            local pick = romancePicks[who]
+            romancePicks[who] = nil
+            if kind == "finished" and pick then
+                local partner = pick.partner or positiveId(target)
+                local started, notice = beginVenueSearch(who, partner)
+                if not started and notice and who == controlledId() then notify(who, notice) end
+            end
+        end
+        return
+    end
     if bag == SELECT_VENUE then
         if kind == "started" and who == controlledId() then
             venueClick = {who = who, target = target, deadline = os.time() + 2}
@@ -676,17 +727,22 @@ local function openPicker(attempt)
         release(attempt)
         return
     end
+    local owner = actor(attempt.initiator)
+    if not Eligibility.moodAllowsInvitation(owner) then
+        fail(attempt, "The initiator's mood does not allow an invitation", "mood_blocked")
+        return
+    end
     local candidates = Json.array({})
     local actors = manager()
     for _, current in pairs(actors:GetAllEntities(inzoi.EB2EntityType.Character)) do
         local nativeId = current:GetEntityId()
         if id(nativeId) ~= attempt.initiator and current:IsSpawned() then
             local candidate = actors:FindCharacter(nativeId)
-            if LifeStage.allowsCharacter(candidate) then candidates[#candidates + 1] = id(nativeId) end
+            if Eligibility.canSelect(owner, candidate) then candidates[#candidates + 1] = id(nativeId) end
         end
     end
     if #candidates == 0 then
-        fail(attempt, "No eligible partners are loaded", "partner_ineligible")
+        fail(attempt, "No eligible partners are loaded", "no_eligible_partners")
         return
     end
     attempt.phase, attempt.deadline = "picking", os.time() + PICKER_TIMEOUT_SECONDS
@@ -694,7 +750,7 @@ local function openPicker(attempt)
 end
 
 local function recoverDisplacedZoi(attempt, who, walk, other, initiator, partner)
-    if not attempt.npc or attempt.phase ~= "walking" or attempt.reapproachUsed
+    if not attempt.searchVenue or attempt.phase ~= "walking" or attempt.reapproachUsed
         or not walk.reported or walk.hadOverlap or not other.hadOverlap or walk.userAction then return false end
     local person = actor(who)
     local ready = queueReadyForRetry(person)
@@ -892,7 +948,7 @@ local function prepareArguments(attempt, initiator, partner)
     return true
 end
 
-local function nextNpcVenue(attempt)
+local function nextVenue(attempt)
     attempt.candidateIndex = (attempt.candidateIndex or 0) + 1
     local candidate = attempt.candidates[attempt.candidateIndex]
     if not candidate then
@@ -908,11 +964,11 @@ local function nextNpcVenue(attempt)
     end
 end
 
-local function collectNpcVenues(attempt, rows)
+local function collectVenues(attempt, rows)
     local initiator, partner = confirmPair(attempt)
     local fallbackAnchor = initiator:GetGenderType() == inzoi.EB1GenderType.Male
         and attempt.initiator or attempt.partner
-    local candidates, reason = NpcVenue.candidates(initiator, partner, rows, attempt.groundAnchors, function(option, floor)
+    local candidates, reason, rejected = NpcVenue.candidates(initiator, partner, rows, nil, function(option, floor)
         option.furniture = option.furniture_id
         if option.kind == "sofa.pair" then
             option.seats = Sofa.seats(option.row)
@@ -925,15 +981,19 @@ local function collectNpcVenues(attempt, rows)
         return points
     end)
     attempt.candidates = candidates
-    log(attempt, "npc_venues_ranked", {count = #candidates, reason = reason})
+    log(attempt, "venues_ranked", {count = #candidates, reason = reason, rejected = rejected, furniture_rows = #rows})
     if #candidates == 0 then
-        fail(attempt, reason or "No reachable venue", reason)
+        fail(attempt, reason or "No reachable venue", "no_reachable_venue")
         return
     end
     request(attempt, "definitions", "get_definitions")
 end
 
 local function queueInvitation(attempt, initiator, partner)
+    if not Eligibility.canInvite(initiator, partner) then
+        fail(attempt, "The pair no longer meets the native invitation rules", "not_eligible")
+        return
+    end
     local queued, reason = queue(attempt, initiator, partner:GetEntityId(), partner:GetLocation(), INVITE)
     if not queued then
         local denied = reason == inzoi.EB1AddInteractionQueueResult.EnqueueConditionCheckFail
@@ -941,6 +1001,10 @@ local function queueInvitation(attempt, initiator, partner)
         return
     end
     attempt.invitationQueued = true
+    if attempt.onInvitationQueued then
+        attempt.onInvitationQueued()
+        attempt.onInvitationQueued = nil
+    end
     log(attempt, attempt.conversationRetried and "invitation_requeued" or "invitation_queued")
 end
 
@@ -955,15 +1019,31 @@ local function ask(attempt, initiator, partner, result)
     queueInvitation(attempt, initiator, partner)
 end
 
-local function considerNpcVenue(attempt, result)
+local function askWhenAvailable(attempt, initiator, partner, result)
+    local first, second = Initiative.readiness(initiator), Initiative.readiness(partner)
+    if not first or not second then
+        fail(attempt, "A Zoi became unavailable for the autonomous invitation", "busy")
+    elseif first == "ready" and second == "ready" and Initiative.isSimulationRunning() then
+        if attempt.phase == "awaiting_availability"
+            and not roomReady(attempt, initiator, partner, attempt.candidate.arrival_points) then return end
+        attempt.pendingInvitationResult = nil
+        ask(attempt, initiator, partner, result)
+    elseif attempt.phase ~= "awaiting_availability" then
+        attempt.phase, attempt.deadline = "awaiting_availability", os.time() + INVITATION_AVAILABILITY_SECONDS
+        attempt.pendingInvitationResult = result
+        log(attempt, "invitation_waiting_for_availability", {initiator_state = first, partner_state = second})
+    end
+end
+
+local function considerVenue(attempt, result)
     if not result.valid or result.route_uncertain
         or (attempt.seats and result.furniture_pair_id ~= attempt.seats.id) then
-        log(attempt, "npc_venue_rejected", {reason = result.code or "route_uncertain"})
-        nextNpcVenue(attempt)
+        log(attempt, "venue_rejected", {reason = result.code or "route_uncertain"})
+        nextVenue(attempt)
         return
     end
     local initiator, partner = confirmPair(attempt)
-    if not (idleForNpc(initiator) and idleForNpc(partner)) then
+    if attempt.npc and not (Initiative.readiness(initiator) and Initiative.readiness(partner)) then
         fail(attempt, "The NPC pair is busy", "busy")
         return
     end
@@ -976,14 +1056,18 @@ local function considerNpcVenue(attempt, result)
     end
     local claimed, reason = NpcVenue.claim(attempt.nonce, candidate, initiator, partner)
     if not claimed then
-        log(attempt, "npc_venue_rejected", {reason = reason})
-        nextNpcVenue(attempt)
+        log(attempt, "venue_rejected", {reason = reason})
+        nextVenue(attempt)
         return
     end
-    log(attempt, "npc_venue_claimed", {site = candidate.site_id, room = candidate.room_purpose,
+    log(attempt, "venue_claimed", {site = candidate.site_id, room = candidate.room_purpose,
         kind = candidate.kind, furniture_id = candidate.furniture_id, assigned_bed = candidate.assigned,
         occupied_room_fallback = candidate.occupied})
-    ask(attempt, initiator, partner, result)
+    if attempt.npc then
+        askWhenAvailable(attempt, initiator, partner, result)
+    else
+        ask(attempt, initiator, partner, result)
+    end
 end
 
 local function arrivalReady(attempt)
@@ -995,7 +1079,7 @@ local function arrivalReady(attempt)
         return
     end
     local points = {attempt.walks[attempt.initiator].point, attempt.walks[attempt.partner].point}
-    if attempt.npc and not roomReady(attempt, initiator, partner, points) then return end
+    if attempt.searchVenue and not roomReady(attempt, initiator, partner, points) then return end
     local floor = inzoi.getB2Subsystem("FB2PathFindSystem")
     if not floor or not floor:IsOnWalkableGrid(points[1]) or not floor:IsOnWalkableGrid(points[2]) then
         fail(attempt, "The arrival points became unavailable", "walk_failed")
@@ -1109,21 +1193,21 @@ local function onResponse(attempt, reply)
             if result.features[key] ~= 1 then fail(attempt, "Missing SceneZOI feature " .. key, "update_scenezoi"); return end
         end
         attempt.stopDisplayReason = result.features.stop_session_display_reason == 1
-        if attempt.npc then
-            if result.features.background_sessions ~= 1 then
+        if attempt.searchVenue then
+            if attempt.npc and result.features.background_sessions ~= 1 then
                 fail(attempt, "SceneZOI does not support background sessions", "update_scenezoi")
                 return
             end
-            discoverVenue(attempt, "npc_venues", {attempt.initiator, attempt.partner})
+            discoverVenue(attempt, "venues", {attempt.initiator, attempt.partner})
         elseif attempt.ground then
             openPicker(attempt)
         else
             discoverVenue(attempt, "venue")
         end
-    elseif step == "npc_venues" then
-        collectNpcVenues(attempt, result.furniture)
+    elseif step == "venues" then
+        collectVenues(attempt, result.furniture)
     elseif step == "venue-" .. tostring(attempt.candidateIndex) then
-        considerNpcVenue(attempt, result)
+        considerVenue(attempt, result)
     elseif step == "picker" then
         assert(result.opened, "The native partner picker did not open")
     elseif step == "venue" then
@@ -1148,8 +1232,8 @@ local function onResponse(attempt, reply)
         selectSofaSeats(attempt, result.furniture)
     elseif step == "definitions" then
         attempt.actionDefinitions = result.actions
-        if attempt.npc then
-            nextNpcVenue(attempt)
+        if attempt.searchVenue then
+            nextVenue(attempt)
         else
             local initiator, partner = confirmPair(attempt)
             if prepareArguments(attempt, initiator, partner) then validation(attempt, "invitation") end
@@ -1192,6 +1276,10 @@ local function onSessionEvent(attempt, event)
             release(attempt)
         elseif event.code == "selected" and type(event.partner_id) == "string"
             and event.partner_id:match("^%d+$") and event.partner_id ~= attempt.initiator then
+            if not Eligibility.canInvite(actor(attempt.initiator), actor(event.partner_id)) then
+                fail(attempt, "The selected pair no longer meets the native invitation rules", "not_eligible")
+                return
+            end
             if participants[event.partner_id] then
                 fail(attempt, "The selected partner is already preparing another encounter", "busy")
                 return
@@ -1245,7 +1333,9 @@ function M.on_begin()
         local name = "interaction." .. kind
         subscriptions[name] = inzoi.event.on(name, function(info) onNativeEvent(kind, info) end)
     end
-    pollNpc = Initiative.new(M.beginNpc, Standing.find, Urges)
+    pollNpc = Initiative.new(M.beginNpc, Urges, Eligibility.canInvite, function(who)
+        return participants[who] ~= nil or romancePicks[who] ~= nil
+    end)
     log(nil, "simulation_ready")
 end
 
@@ -1265,7 +1355,10 @@ beginAttempt = function(who, nonce, furniture, ground)
     attempt.furniture, attempt.ground = furniture, ground
     guarded(attempt, function(active)
         local owner = actor(active.initiator)
-        assert(LifeStage.allowsCharacter(owner), "The initiator is unavailable")
+        if not Eligibility.moodAllowsInvitation(owner) then
+            fail(active, "The initiator's mood does not allow an invitation", "mood_blocked")
+            return
+        end
         if ground then
             log(attempt, "ground_selected")
             if not Ground.walkable(inzoi.getB2Subsystem("FB2PathFindSystem"), ground) then
@@ -1279,26 +1372,29 @@ beginAttempt = function(who, nonce, furniture, ground)
     end)
 end
 
--- Start a background invitation after the scheduler finds an eligible pair.
-function M.beginNpc(initiatorId, partnerId, groundAnchors)
+beginVenueSearch = function(initiatorId, partnerId, npc, onInvitationQueued)
     if not client then return false, "simulation_unavailable" end
-    local first, second = tostring(initiatorId), tostring(partnerId)
-    if not first:match("^[1-9]%d*$") or not second:match("^[1-9]%d*$")
-        or first == second or first == controlledId() or second == controlledId() then return false, "invalid_pair" end
+    local first, second = positiveId(initiatorId), positiveId(partnerId)
+    if not first or not second or first == second then return false, "partner_ineligible" end
     local initiator, partner = actor(first), actor(second)
-    if not (idleForNpc(initiator) and idleForNpc(partner)) then return false, "busy" end
-    local pending = Urges.pending(initiator)
-    if not pending or pending.partner ~= second or not Urges.canInvite(initiator, partner) then
-        return false, "urge_unavailable"
-    end
+    if not Eligibility.canInvite(initiator, partner) then return false, "not_eligible" end
+    if npc and not (Initiative.canAct(initiator) and Initiative.readiness(initiator)
+        and Initiative.readiness(partner)) then return false, "busy" end
     npcSerial = npcSerial + 1
-    local nonce = ("npc-%d-%d"):format(os.time(), npcSerial)
+    local nonce = ("%s-%d-%d"):format(npc and "npc" or "romance", os.time(), npcSerial)
     local attempt = newAttempt(first, nonce, second)
     if not attempt then return false, "busy" end
-    attempt.npc, attempt.groundAnchors = true, groundAnchors
-    guarded(attempt, function(active) request(active, "features", "get_version") end)
-    if attempts[nonce] ~= attempt then return false, "request_failed" end
+    attempt.searchVenue, attempt.npc = true, npc
+    attempt.onInvitationQueued = onInvitationQueued
+    if npc then log(attempt, "initiative_selected") end
+    guarded(attempt, request, "features", "get_version")
+    -- The attempt already reported any synchronous failure.
+    if attempts[nonce] ~= attempt then return false end
     return true, nonce
+end
+
+function M.beginNpc(initiatorId, partnerId, onInvitationQueued)
+    return beginVenueSearch(initiatorId, partnerId, true, onInvitationQueued)
 end
 
 function M.on_lua_message(self, component, kind, content)
@@ -1348,14 +1444,17 @@ end
 
 local function tickAttempt(attempt)
     local now = os.time()
-    local autonomyLost = false
-    if attempt.npc and (not attempt.encounter or attempt.phase == "starting")
-        and now >= (attempt.nextAutonomyCheck or 0) then
+    -- SceneZOI can disable the participants' native autonomy during
+    -- preparation. Check the option until we hand it the start request.
+    if attempt.npc and not attempt.encounter and now >= (attempt.nextAutonomyCheck or 0) then
         attempt.nextAutonomyCheck = now + VENUE_CHECK_INTERVAL
         local first, second = actor(attempt.initiator), actor(attempt.partner)
-        autonomyLost = not (first and second and Initiative.canAct(first) and Initiative.canAct(second))
-        if autonomyLost and not attempt.encounter then
-            fail(attempt, "The NPC pair no longer has autonomy enabled")
+        if not (Initiative.isPresent(first) and Initiative.isPresent(second)) then
+            fail(attempt, "Selected pair is unavailable")
+            return
+        end
+        if not Initiative.canAct(first) then
+            fail(attempt, "The initiator no longer has autonomy enabled")
             return
         end
     end
@@ -1368,12 +1467,8 @@ local function tickAttempt(attempt)
             if cancellation and now >= attempt.deadline then
                 fail(attempt, cancellation.reason, cancellation.notice)
                 return
-            elseif not cancellation then
-                if autonomyLost then
-                    cancelPendingStart(attempt, "The NPC pair no longer has autonomy enabled")
-                elseif now >= attempt.deadline then
-                    cancelPendingStart(attempt, "Session start timed out", "timeout")
-                end
+            elseif not cancellation and now >= attempt.deadline then
+                cancelPendingStart(attempt, "Session start timed out", "timeout")
             end
         end
         if attempt.observation or os.time() < attempt.nextObservation then return end
@@ -1391,6 +1486,16 @@ local function tickAttempt(attempt)
         release(attempt)
         return
     end
+    if attempt.phase == "awaiting_availability" then
+        if not Initiative.isSimulationRunning() then return end
+        if now >= attempt.deadline then
+            fail(attempt, "The Zois did not become available for the autonomous invitation", "busy")
+            return
+        end
+        local initiator, partner = confirmPair(attempt)
+        askWhenAvailable(attempt, initiator, partner, attempt.pendingInvitationResult)
+        return
+    end
     if now >= attempt.deadline then fail(attempt, "Timed out", "timeout"); return end
     if attempt.phase == "arrival_privacy" then
         local privacy = attempt.arrivalPrivacy
@@ -1401,7 +1506,7 @@ local function tickAttempt(attempt)
         end
         return
     end
-    if attempt.npc and attempt.phase == "walking" and os.time() >= (attempt.nextVenueCheck or 0) then
+    if attempt.searchVenue and attempt.phase == "walking" and os.time() >= (attempt.nextVenueCheck or 0) then
         attempt.nextVenueCheck = os.time() + VENUE_CHECK_INTERVAL
         local initiator, partner = confirmPair(attempt)
         if not roomReady(attempt, initiator, partner) then return end
@@ -1410,6 +1515,15 @@ local function tickAttempt(attempt)
         local retry = attempt.conversationRetry
         if retry then
             retryConversation(attempt, retry, now)
+            return
+        end
+        if attempt.coopHandoffUntil then
+            local coop = invitationCoop(attempt)
+            if coop then
+                conversationDispatched(attempt, coop)
+            elseif now >= attempt.coopHandoffUntil then
+                fail(attempt, "Invitation canceled: Coop (no matching scheduler)")
+            end
             return
         end
         local first, second = attempt.initiator, attempt.partner
@@ -1444,9 +1558,9 @@ local function tickAttempt(attempt)
     validation(attempt, "arrival")
 end
 
-function M.on_tick(self, component, dt)
-    local who = id(component:GetOwnerEntityId())
-    if venueClick and who == venueClick.who then
+function M.tick(dt)
+    if venueClick then
+        local who = venueClick.who
         local ok, problem = pcall(consumeVenueClick, who)
         if venueClick and (not ok or os.time() >= venueClick.deadline) then
             venueClick = nil
@@ -1454,9 +1568,11 @@ function M.on_tick(self, component, dt)
             notify(who, "ground_click_missing")
         end
     end
-    if not client or who ~= controlledId() then return end
+    if not client then return end
     if pollNpc then pollNpc() end
     if next(attempts) == nil then return end
+    local who = controlledId()
+    if not who then return end
     local owner = actor(who)
     if not owner then return end
     client:tick(dt, owner)
@@ -1465,6 +1581,7 @@ end
 
 function M.on_end(self, component)
     local who = id(component:GetOwnerEntityId())
+    romancePicks[who] = nil
     local active = participants[who]
     if active and not active.encounter then guarded(active, fail, "Participant unloaded") end
 end
@@ -1477,6 +1594,7 @@ function M.shutdown()
         if handle and handle ~= 0 then inzoi.event.off(name, handle) end
     end
     subscriptions, client, venueClick, pollNpc = {}, nil, nil, nil
+    romancePicks = {}
     attempts, participants = {}, {}
     Urges.reset()
 end

@@ -1,5 +1,4 @@
 local Json = require("SceneZOIAddon.Json")
-local LifeStage = require("LifeStageEligibility")
 local M = {}
 
 local MINUTE = 600000000
@@ -61,8 +60,7 @@ local function namedRelationship(data)
 end
 
 local function eligiblePair(owner, partner)
-    if not LifeStage.allowsCharacter(owner) or not LifeStage.allowsCharacter(partner)
-        or owner:IsDeath() ~= false or partner:IsDeath() ~= false or owner:IsInRabbitHole() ~= false then return end
+    if owner:IsDeath() ~= false or partner:IsDeath() ~= false or owner:IsInRabbitHole() ~= false then return end
     local ownerId, partnerId = entity(owner), entity(partner)
     if not id(ownerId) or not id(partnerId) or ownerId.Value == partnerId.Value then return end
 
@@ -88,18 +86,8 @@ local function eligiblePair(owner, partner)
     if not named and not former then return end
     local romance = relationships:FindRelationshipStatData(partnerId, "Romance")
     if romance and type(romance.Value) == "number" and math.abs(romance.Value) < math.huge then
-        return romance.Value, named, data, context
+        return romance.Value
     end
-end
-
-function M.canInvite(owner, partner)
-    local romance, named, data, context = eligiblePair(owner, partner)
-    if not romance or romance < (named and -30 or 30) or data.bIsFamilyRelationship ~= false then return false end
-
-    local remote = inzoi.FB2Script_City.Condition_IsFromRemoteCity
-    local compare, objects = inzoi.EB1CompareType, inzoi.EB1BaseObject
-    return check(context, remote, "IsFromRemoteCity", "None", objects.Self, compare.NotEqual)
-        and check(context, remote, "IsFromRemoteCity", "None", objects.Target, compare.NotEqual)
 end
 
 local function notify(owner, kind, partnerName)

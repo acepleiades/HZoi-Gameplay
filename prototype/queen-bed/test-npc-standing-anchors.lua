@@ -85,8 +85,13 @@ isIndoor = function(p) return p.X == 750 or p.X == 800 end
 local onlyBoundary = Anchors.find(site, actor(750, 0, 90.15, 90), actor(750, 0, 90.15, 90))
 assert(#onlyBoundary == 0)
 siteType, callCount = 2, 0
-local none, status = Anchors.find(site, a, b)
-assert(#none == 0 and status == "site_unavailable" and callCount == 0)
+local none, status = Anchors.find(site, a, b, function() return false end)
+assert(#none == 0 and callCount == 0)
+mode, isIndoor = "ok", function() return true end
+local rented = Anchors.find(site, actor(900, 0, 90.15, 90), actor(1510, 0, 90.15, 90),
+    function(seed) return roomAt(seed) == "private" end)
+assert(#rented > 0, "A partner just across the lot line can consider the booked room")
+for _, point in ipairs(rented) do assert(roomAt(point) == "private") end
 siteType, mode = 1, "ok"
 local none, status = Anchors.find(site, actor(0, 0, 0), b)
 assert(#none == 0 and status == "floor_origin_unavailable")

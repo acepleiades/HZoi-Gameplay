@@ -42,8 +42,8 @@ local function actor(id, rules)
     models[id] = rules
     return person
 end
-local ownerRules = {name = "Eli", needy = true, relationships = {[23] = {score = 14}, [42] = {score = 12}}}
-local owner, partner = actor(14, ownerRules), actor(23, {name = 'Alex "Jr."' })
+local ownerRules = {name = "Eli", needy = true, growth = 512, relationships = {[23] = {score = 29}, [42] = {score = 12}}}
+local owner, partner = actor(14, ownerRules), actor(23, {name = 'Alex "Jr."', growth = 1024})
 local third = actor(42, {name = "Sam"})
 local function reward(command, id, amount)
     return function(ctx, param)
@@ -106,19 +106,16 @@ for _, state in ipairs({"sleeping", "siteEvent", "desertIsland", "dead", "prison
     ownerRules[state] = false
 end
 models[23].notLovable = true
-assert(not Urges.request(owner, partner))
+assert(not Urges.request(owner, partner), "Native romantic compatibility is required")
 models[23].notLovable = false
+ownerRules.needy = false
+assert(not Urges.request(owner, partner), "The owner needs the Emotionally Needy trait")
+ownerRules.needy = true
 ownerRules.relationships[23].score = 30
-assert(not Urges.request(owner, partner) and Urges.canInvite(owner, partner), "A high Romance partner can invite")
-ownerRules.relationships[23].score = -31
-assert(not Urges.canInvite(owner, partner), "Keep very low Romance Urges pending")
-ownerRules.relationships[23].score = 14
-models[23].remote = true
-assert(not Urges.canInvite(owner, partner))
-models[23].remote = false
-assert(Urges.canInvite(owner, partner))
+assert(not Urges.request(owner, partner), "The native Urge only applies below Romance 30")
+ownerRules.relationships[23].score = 29
 
-assert(Urges.request(owner, partner))
+assert(Urges.request(owner, partner), "Native-compatible partners can qualify at future life stages")
 local pending = assert(Urges.pending(owner))
 assert(pending.partner == "23" and pending.expires == ticks + 12 * hour)
 assert(#notices == 1 and notices[1].kind == "selected" and notices[1].partner == 'Alex "Jr." Test')

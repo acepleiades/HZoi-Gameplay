@@ -59,14 +59,21 @@ ordinary interactions for these checks.
 1. Confirm all three mods appear enabled. A compatible pair should see
    **Have Sex Here** with a burning heart on beds, sofas and walkable ground. Confirm the
    action has no gold **MOD** badge and other mod actions keep their badges.
-   Confirm each opens the native one-partner picker.
+   Confirm each opens the native one-partner picker when someone qualifies
+   and blocks an ineligible selection on **Invite**.
+   Compare it with **Have Sex** under Romance. Check the score thresholds,
+   native compatibility, remote-city status, and initiator mood restrictions.
+   Change a partner's eligibility with the picker open and verify **Invite** rechecks it.
 2. Run one refusal and one acceptance. Make sure both queues clear after
    refusal. After acceptance, watch both Zois walk to the venue and verify
    **Exit** restores normal movement. Repeat on a bed, sofa and walkable ground.
 3. With autonomy enabled, run the [NPC venue checks](../prototype/queen-bed/npc-venues.md#test-the-venue-search).
    Verify a native bed assignment, the fallback without an assignment, both
-   search passes, and independent claims. The controlled Zoi should stay
-   available during background playback.
+   search passes, and independent claims. Test the controlled Zoi as both
+   initiator and invited partner. Check that an available partner can respond
+   with autonomy off and that a player-queued action takes priority during
+   preparation. An uninvolved controlled Zoi can keep playing during a
+   background session.
 4. Switch to a non-English modded language and repeat after a fresh launch.
    Check the menu and picker, one moodlet, an overhead line and the
    session-ending reason.

@@ -227,7 +227,11 @@
     "[From walking in on Zois having sex]": "[Après avoir surpris des Zois en train de faire l’amour]"
   },
   "messages": {
+    "Have Sex": "Faire l’amour",
     "Have Sex Here": "Faire l’amour ici",
+    "No eligible partners are available.": "Aucun partenaire admissible n’est disponible.",
+    "Your Zoi cannot ask in this mood.": "L’humeur actuelle de votre Zoi ne lui permet pas de faire cette proposition.",
+    "No suitable place is available.": "Il n’y a pas d’endroit approprié.",
     "Your Zoi wants some private time with {partner}.": "Votre Zoi aimerait passer un moment en tête-à-tête avec {partner}.",
     "Your Zoi wants some private time with their partner.": "Votre Zoi veut passer un moment en tête-à-tête avec son partenaire.",
     "Your Zoi fulfilled their urge with {partner}.": "Votre Zoi a réalisé son envie de passer un moment intime avec {partner}.",

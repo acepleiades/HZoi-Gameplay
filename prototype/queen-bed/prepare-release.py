@@ -49,8 +49,7 @@ def stage(args):
     b1_sdk = mod / "lua/B1/SceneZOIAddon"
     b1_sdk.mkdir()
     shutil.copyfile(sdk / "Json.lua", b1_sdk / "Json.lua")
-    for tool in ("prepare-life-stage.py", "prepare-localization.py"):
-        subprocess.run([sys.executable, str(SOURCE / tool), str(mod)], check=True)
+    subprocess.run([sys.executable, str(SOURCE / "prepare-localization.py"), str(mod)], check=True)
     print(f"Staged {mod}")
 
 

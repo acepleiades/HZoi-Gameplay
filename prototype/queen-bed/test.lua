@@ -6,6 +6,7 @@ local notices, privacyQueries, speech, pickerNotices = {}, {}, {}, {}
 local observerId = 20526
 local scores = {}
 local partnerStage, partnerGender, ownerGender = 32, 2, 1
+local pairEligible, initiatorMood = true, true
 local walkable = function() return true end
 local bedPath = function() return true end
 local bedRoom = function() return true end
@@ -171,6 +172,11 @@ package.loaded["SceneZOIAddon.Client"] = {
     end,
 }
 package.loaded.NpcInitiative = {new = function() end}
+package.loaded.InvitationEligibility = {
+    moodAllowsInvitation = function(who) return who ~= nil and initiatorMood end,
+    canSelect = function(first, second) return first ~= nil and second ~= nil and pairEligible end,
+    canInvite = function(first, second) return first ~= nil and second ~= nil and pairEligible and initiatorMood end,
+}
 package.loaded.WitnessNative = {
     say = function(...) speech[#speech + 1] = {...} end,
     relationshipScore = function(witness, target, stat)
@@ -182,7 +188,7 @@ local module = require("Components.VenueInvite")
 local component = {GetOwnerEntityId = function() return entity(controlled) end}
 local state = {}
 module.on_begin(state, component)
-local function tick() module.on_tick(state, component, .05) end
+local function tick() module.tick(.05) end
 local function request(op)
     local call = assert(table.remove(pending, 1), op)
     assert(call.op == op, call.op)
@@ -251,8 +257,8 @@ local function invite(partner, bed, bedStatus, rejection, cancelPicker, prefligh
     assert(venues.args.origin_id == tostring(controlled))
 
     if bedStatus == "occupied" then return end
-    if partnerStage ~= 32 then
-        assert(#pending == 0 and notices[#notices] == "partner_ineligible")
+    if not pairEligible then
+        assert(#pending == 0 and notices[#notices] == "no_eligible_partners")
         return
     end
     local picker = reply("open_partner_picker", {opened = true})
@@ -1074,15 +1080,25 @@ bedPath, bedRoom, walkable = function() return true end, function() return true 
 bedSlots = nil
 line("Bed arrival checks passed: room boundary, route permissions for each Zoi, narrow aisle, and unavailable paths.")
 
--- The same policy gates picker candidates and NPC/Urge eligibility in B2.
-local life = require("LifeStageEligibility")
-assert(life.allows(32) and life.allows(64) and life.allows(128) and life.allows(256))
-assert(not life.allows(nil) and not life.allows(16) and not life.allows(1024))
 local beforeCompatibility = #queued
-partnerStage = 1024
+initiatorMood = false
+selectFurniture(bedId)
+assert(#pending == 0 and #queued == beforeCompatibility and notices[#notices] == "mood_blocked")
+initiatorMood, pairEligible = true, false
 invite(partnerId, alternateBedId)
 assert(#queued == beforeCompatibility)
-partnerStage, partnerGender = 32, 1
+pairEligible = true
+selectFurniture(bedId)
+reply("get_version", {features = features(1)})
+reply("find_furniture", {furniture = {{furniture_id = tostring(bedId), profile = {kind = "bed.queen"}}}})
+local stalePicker = reply("open_partner_picker", {opened = true})
+pairEligible = false
+clientCallbacks.event({name = "partner_picker_finished", request_id = stalePicker.key,
+    code = "selected", partner_id = tostring(partnerId)})
+assert(#pending == 0 and #queued == beforeCompatibility and notices[#notices] == "not_eligible",
+    "A change in the chosen pair while the picker was open blocks the invitation")
+pairEligible = true
+partnerStage, partnerGender = 1024, 1
 invite(partnerId, alternateBedId, nil, nil, false,
     {valid = false, code = "no_matching_scenes"})
 assert(#queued == beforeCompatibility and notices[#notices] == "no_matching_scenes")

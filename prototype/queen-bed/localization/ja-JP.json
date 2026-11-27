@@ -1,6 +1,10 @@
 {
   "messages": {
+    "Have Sex": "セックスする",
     "Have Sex Here": "ここでセックスする",
+    "No eligible partners are available.": "候補となるパートナーがいません。",
+    "Your Zoi cannot ask in this mood.": "今の気分では、お誘いできません。",
+    "No suitable place is available.": "ふさわしい場所がありません。",
     "Your Zoi wants some private time with {partner}.": "あなたの Zoi は {partner} と二人きりで過ごしたがっています。",
     "Your Zoi fulfilled their urge with {partner}.": "あなたの Zoi は {partner} と過ごして欲求を満たしました。",
     "{first} and {second} decided to stop after someone walked in on them.": "{first} と {second} は、誰かが入ってきたため、やめることにしました。",

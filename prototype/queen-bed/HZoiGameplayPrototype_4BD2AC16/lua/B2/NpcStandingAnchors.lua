@@ -59,14 +59,13 @@ end
 
 -- Find possible anchors inside actual rooms. NpcVenue checks vacancy,
 -- access, and the separate arrival paths for both Zois.
-function M.find(site, initiator, partner)
+function M.find(site, initiator, partner, isAllowedRoom)
     local floor = inzoi.getB2Subsystem("FB2PathFindSystem")
     local sites = inzoi.getB2Manager("FB2SiteManager")
     if not floor or not sites or type(sites.GetSiteNearGridLocation) ~= "function" then
         return {}, "projection_unavailable"
     end
-    if not site or site:GetSiteType() ~= inzoi.EB1SiteType.Residence or site:IsPublicSite() ~= false
-        or site:IsFakeSite() ~= false then
+    if not site or site:IsFakeSite() ~= false then
         return {}, "site_unavailable"
     end
 
@@ -75,9 +74,6 @@ function M.find(site, initiator, partner)
     if not first or not second then return {}, "floor_origin_unavailable" end
     local siteId = site:GetEntityId()
     local origins = {first, second}
-    for _, origin in ipairs(origins) do
-        if site:IsIn(origin) ~= true then return {}, "site_unavailable" end
-    end
     local seeds, projections = 0, 0
     local function sample(origin, dx, dy)
         local seed = UE.FVector(origin.X + dx * GRID_STEP, origin.Y + dy * GRID_STEP, origin.Z)
@@ -87,6 +83,7 @@ function M.find(site, initiator, partner)
         seeds = seeds + 1
 
         if site:IsIn(seed) ~= true or sites:IsIndoor(seed) ~= true or site:IsSameRoom(seed, seed) ~= true then return end
+        if isAllowedRoom and not isAllowedRoom(seed) then return end
         if not roomHasSpace(site, points, seed) then return end
 
         projections = projections + 1

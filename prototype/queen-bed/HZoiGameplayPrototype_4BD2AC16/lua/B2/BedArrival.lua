@@ -1,3 +1,4 @@
+local VenuePath = require("VenuePath")
 local M = {}
 local MIN_SEPARATION_SQ = 150 ^ 2
 
@@ -13,24 +14,20 @@ function M.points(bed, floor, initiator, partner)
     if site and not site:IsIn(center) then site = nil end
     local indoor = site and site:IsSameRoom(center, center) == true
     local origins = {initiator:GetLocation(), partner:GetLocation()}
-    local filters = {}
+    local routes = {}
+    local grid = inzoi.getB2Subsystem and inzoi.getB2Subsystem("FB2PathFindSystem") or floor
     for i, person in ipairs({initiator, partner}) do
         if site and site:IsIn(origins[i]) then
-            local params = inzoi.FB1NavigationQueryParams()
-            params.EntityId = person:GetEntityId()
-            params.bIgnorePermission = false
-            filters[i] = params
+            routes[i] = VenuePath.query(site, sites, grid, person)
         end
     end
 
     local candidates = {}
     local function reachable(candidate, person)
         if candidate.paths[person] == nil then
-            local params = filters[person]
             -- The site query covers internal routes. A Zoi outside the site
             -- is still routed by the native walk when queued.
-            candidate.paths[person] = not params
-                or site:IsExistInternalPath(origins[person], candidate.point, params) == true
+            candidate.paths[person] = not routes[person] or routes[person](candidate.point)
         end
         return candidate.paths[person]
     end

@@ -12,6 +12,4 @@ for (const age of [4, 8, 16, 32, 64, 128, 256]) {
     assert.equal(witnessWalk.Value.AgingConditionFlags & age, age);
 }
 assert.notEqual(witnessWalk.Value.Id, 'HZoiGameplay_Walk');
-const policyGenerator = fs.readFileSync(path.join(__dirname, 'prepare-life-stage.py'), 'utf8');
-assert(!policyGenerator.includes('HZoiGameplay_WitnessWalk'), 'Do not replace the native movement mask during packaging');
 console.log('Native witness movement keeps the ClickMove life stages.');

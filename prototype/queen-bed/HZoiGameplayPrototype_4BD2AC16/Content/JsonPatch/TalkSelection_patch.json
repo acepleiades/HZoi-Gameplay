@@ -1,0 +1,15 @@
+{
+  "BaseVersion": "20261026.16562.W.MODKIT.EGS",
+  "SaveVersion": "20261026.16562.W.MODKIT.EGS",
+  "Struct": "TalkSelection",
+  "PatchList": [
+    {
+      "Method": "Append",
+      "Query": "TalkSelection[Id=Romance].InteractionBagList",
+      "Value": [
+        "HZoiGameplay_FindVenue"
+      ],
+      "Enabled": true
+    }
+  ]
+}

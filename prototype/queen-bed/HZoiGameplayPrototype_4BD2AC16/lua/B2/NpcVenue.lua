@@ -1,5 +1,7 @@
 local Planner = require("NpcVenuePlanner")
 local FurnitureKind = require("VenueFurnitureKind")
+local VenuePath = require("VenuePath")
+local Standing = require("NpcStandingAnchors")
 local M = {}
 local claims = {}
 local function distanceSquared(first, second)
@@ -11,15 +13,6 @@ local function scope(initiator, partner, checkVacancy)
     local siteManager = inzoi.getB2Manager("FB2SiteManager")
     local pathFinder = inzoi.getB2Subsystem("FB2PathFindSystem")
     if not entityManager or not siteManager or not pathFinder then return end
-    local firstPosition, secondPosition = initiator:GetLocation(), partner:GetLocation()
-    local site = siteManager:FindClosestSite(firstPosition, false)
-    if not site or site:GetSiteType() ~= inzoi.EB1SiteType.Residence or site:IsPublicSite() ~= false
-        or site:IsFakeSite() ~= false or site:IsIn(firstPosition) ~= true or site:IsIn(secondPosition) ~= true then
-        return
-    end
-
-    local siteId = tostring(site:GetSiteId())
-    if siteId == "" or siteId == "None" then return end
     local occupants = {}
     if checkVacancy then
         local firstId, secondId = initiator:GetEntityId().Value, partner:GetEntityId().Value
@@ -29,44 +22,92 @@ local function scope(initiator, partner, checkVacancy)
                 local character = entityManager:FindCharacter(entityId)
                 -- Without a location, vacancy cannot be confirmed.
                 if not character then return end
-                local location = character:GetLocation()
-                if site:IsIn(location) then occupants[#occupants + 1] = location end
+                occupants[#occupants + 1] = character:GetLocation()
             end
         end
     end
     return {
-        manager = entityManager, sites = siteManager, floor = pathFinder, site = site,
-        site_id = siteId, participants = {initiator, partner}, occupants = occupants,
+        manager = entityManager, sites = siteManager, floor = pathFinder,
+        participants = {initiator, partner}, occupants = occupants,
     }
 end
 
-local function accessibleRoom(world, point)
-    if world.site:IsIn(point) ~= true or world.sites:IsIndoor(point) ~= true
-        or world.site:IsSameRoom(point, point) ~= true then
+local function siteId(site)
+    if not site or site:IsFakeSite() ~= false then return end
+    local id = tostring(site:GetSiteId())
+    if id ~= "" and id ~= "None" then return id end
+end
+
+local function siteAt(world, point)
+    local site = world.sites:FindClosestSite(point, false)
+    if siteId(site) and site:IsIn(point) == true then return site end
+end
+
+local function privateResidence(site)
+    return site:GetSiteType() == inzoi.EB1SiteType.Residence and site:IsPublicSite() == false
+end
+
+local function bookedForPair(world, site, purpose)
+    if type(purpose) ~= "string" or purpose == "" or purpose == "None" or purpose == "EntireSite" then
+        return false
+    end
+    local ok, booked = pcall(function()
+        local manager = inzoi.getB2Manager("FB2HouseholdBizManager")
+        local biz = manager and manager:FindHouseholdBizBySiteEntityIdPtr(site:GetEntityId())
+        if not biz then return false end
+        local tick = inzoi.FB2TimeManager.StaticGetCurrentTicks()
+        local first = world.participants[1]:GetEntityId().Value
+        local second = world.participants[2]:GetEntityId().Value
+        local id = site:GetSiteId()
+        for _, room in pairs(biz.BizInfoData.AccommodationInfoList.Infos) do
+            local key = room.RoomKey
+            if key.AccommodationDtId == id and key.RoomPurposeId == purpose
+                and room.StartTicks >= 0 and room.StartTicks <= tick and tick < room.EndTicks then
+                local firstGuest, secondGuest
+                for _, guest in pairs(room.GuestEntityIds) do
+                    firstGuest = firstGuest or guest.Value == first
+                    secondGuest = secondGuest or guest.Value == second
+                end
+                if firstGuest and secondGuest then return true end
+            end
+        end
+        return false
+    end)
+    return ok and booked == true
+end
+
+local function accessibleRoom(world, site, point)
+    if site:IsIn(point) ~= true or world.sites:IsIndoor(point) ~= true
+        or site:IsSameRoom(point, point) ~= true then
         return false, "room_unavailable"
     end
-    local purpose = world.site:GetRoomPurposeIdByLocation(point)
-    local household = world.site:GetOwnerHouseholdId()
+    local purpose = site:GetRoomPurposeIdByLocation(point)
+    if not privateResidence(site) and not bookedForPair(world, site, purpose) then
+        return false, "room_privacy_unverified"
+    end
+    local household = site:GetOwnerHouseholdId()
     for _, person in ipairs(world.participants) do
-        if world.site:IsCharacterAllowedInRoom(person:GetEntityId(), purpose, household) ~= true then
+        if site:IsCharacterAllowedInRoom(person:GetEntityId(), purpose, household) ~= true then
             return false, "room_access_denied"
         end
     end
     return true, purpose
 end
 
-local function occupiedRoom(world, point)
+local function occupiedRoom(world, site, point)
     for _, occupant in ipairs(world.occupants) do
-        local inside = world.site:IsSameRoom(point, occupant)
-        if inside == true then return true end
-        if inside ~= false then return nil end
+        if site:IsIn(occupant) == true then
+            local inside = site:IsSameRoom(point, occupant)
+            if inside == true then return true end
+            if inside ~= false then return nil end
+        end
     end
     return false
 end
 
-local function unclaimedRoom(world, point)
+local function unclaimedRoom(site, id, point)
     for _, claim in pairs(claims) do
-        if claim.site_id == world.site_id and world.site:IsSameRoom(point, claim.point) ~= false then
+        if claim.site_id == id and site:IsSameRoom(point, claim.point) ~= false then
             return false
         end
     end
@@ -85,31 +126,66 @@ local function assignedTo(object, initiatorId)
     return false
 end
 
-local function roomFloor(world, point)
+local function roomFloor(world, site, point)
     return {
         IsOnWalkableGrid = function(_, destination)
-            return world.site:IsSameRoom(point, destination) == true
+            return site:IsSameRoom(point, destination) == true
                 and world.floor:IsOnWalkableGrid(destination) == true
         end,
     }
 end
 
-local function eligiblePoints(world, option, arrivalPoints)
+local function routesFrom(world, site)
+    return {
+        VenuePath.query(site, world.sites, world.floor, world.participants[1]),
+        VenuePath.query(site, world.sites, world.floor, world.participants[2]),
+    }
+end
+
+local function eligiblePoints(world, site, option, arrivalPoints, routes)
     local minimumSeparation = option.kind == "sofa.pair" and 100 or 150
     if type(arrivalPoints) ~= "table" or #arrivalPoints ~= 2
         or distanceSquared(arrivalPoints[1], arrivalPoints[2]) < minimumSeparation^2 then
-        return false
+        return false, "arrival_points_unavailable"
     end
     for index, destination in ipairs(arrivalPoints) do
-        if world.site:IsSameRoom(option.point, destination) ~= true
-            or world.floor:IsOnWalkableGrid(destination) ~= true then return false end
-        local person = world.participants[index]
-        local params = inzoi.FB1NavigationQueryParams()
-        params.EntityId = person:GetEntityId()
-        params.bIgnorePermission = false
-        if world.site:IsExistInternalPath(person:GetLocation(), destination, params) ~= true then return false end
+        if site:IsIn(destination) ~= true or site:IsSameRoom(option.point, destination) ~= true
+            or world.floor:IsOnWalkableGrid(destination) ~= true then return false, "arrival_outside_room" end
+        if not routes[index](destination) then return false, "route_" .. index .. "_unavailable" end
     end
     return true
+end
+
+local function standingPoints(world)
+    local points, visited = {}, {}
+    -- Check the party's two locations and the nearest neighboring sites.
+    -- Each ground search independently bounds its samples around the pair.
+    for _, person in ipairs(world.participants) do
+        local position = person:GetLocation()
+        for _, skipLocatedSite in ipairs({false, true}) do
+            local site = world.sites:FindClosestSite(position, skipLocatedSite)
+            local id = siteId(site)
+            if id and not visited[id] then
+                visited[id] = true
+                local allowed
+                if not privateResidence(site) then
+                    local checked = {}
+                    allowed = function(point)
+                        local purpose = site:GetRoomPurposeIdByLocation(point)
+                        if not purpose then return false end
+                        if checked[purpose] == nil then
+                            checked[purpose] = bookedForPair(world, site, purpose)
+                        end
+                        return checked[purpose]
+                    end
+                end
+                for _, point in ipairs(Standing.find(site, world.participants[1], world.participants[2], allowed)) do
+                    points[#points + 1] = point
+                end
+            end
+        end
+    end
+    return points
 end
 
 -- The adapters are intentionally read-only. Confirm playback compatibility
@@ -118,6 +194,7 @@ function M.candidates(initiator, partner, rows, groundAnchors, arrivalPoints)
     local world = scope(initiator, partner, true)
     if not world then return {}, "site_unavailable" end
     local furniture = {}
+    local siteByPoint, routesBySite = {}, {}
     local initiatorId = initiator:GetEntityId().Value
     for _, row in ipairs(rows) do
         local kind = row.profile.kind
@@ -125,9 +202,8 @@ function M.candidates(initiator, partner, rows, groundAnchors, arrivalPoints)
             local nativeId = inzoi.FB1EntityId()
             nativeId.Value = tonumber(row.furniture_id)
             local object = world.manager:FindGameObject(nativeId)
-            if not object then return {}, "furniture_unverified" end
-            local location = object:GetLocation()
-            if world.site:IsIn(location) then
+            if object then
+                local location = object:GetLocation()
                 furniture[#furniture + 1] = {
                     kind = kind, point = location, furniture_id = row.furniture_id,
                     furniture_pair_id = row.furniture_pair_id, row = row, available = row.available,
@@ -137,28 +213,44 @@ function M.candidates(initiator, partner, rows, groundAnchors, arrivalPoints)
         end
     end
 
-    local ranked = Planner.candidates(furniture, groundAnchors, function(option)
-        local accessible, purpose = accessibleRoom(world, option.point)
-        if not accessible or not unclaimedRoom(world, option.point) then return end
-        local occupied = occupiedRoom(world, option.point)
-        if occupied == nil then return end
-        local points = arrivalPoints(option, roomFloor(world, option.point))
-        if not eligiblePoints(world, option, points) then return end
-        option.site_id = world.site_id
+    local rejected = {}
+    local function reject(reason)
+        rejected[reason] = (rejected[reason] or 0) + 1
+    end
+    local ranked = Planner.candidates(furniture, groundAnchors or standingPoints(world), function(option)
+        local site = siteByPoint[option.point]
+        if not site then
+            site = siteAt(world, option.point)
+            siteByPoint[option.point] = site
+        end
+        if not site then return reject("site_unavailable") end
+        local id = siteId(site)
+        local accessible, purpose = accessibleRoom(world, site, option.point)
+        if not accessible then return reject(purpose) end
+        if not unclaimedRoom(site, id, option.point) then return reject("room_claimed") end
+        local occupied = occupiedRoom(world, site, option.point)
+        if occupied == nil then return reject("room_unknown") end
+        local points = arrivalPoints(option, roomFloor(world, site, option.point))
+        routesBySite[id] = routesBySite[id] or routesFrom(world, site)
+        local canArrive, reason = eligiblePoints(world, site, option, points, routesBySite[id])
+        if not canArrive then return reject(reason) end
+        option.site_id = id
         option.room_purpose = purpose
         return occupied, distanceSquared(initiator:GetLocation(), option.point), points
     end)
-    return ranked
+    return ranked, nil, #ranked == 0 and rejected or nil
 end
 
 function M.claim(key, candidate, initiator, partner)
     if claims[key] then return false, "room_claimed" end
     local world = scope(initiator, partner, true)
-    if not world or world.site_id ~= candidate.site_id then return false, "site_unavailable" end
-    local accessible, reason = accessibleRoom(world, candidate.point)
+    local site = world and siteAt(world, candidate.point)
+    local id = siteId(site)
+    if not id or id ~= candidate.site_id then return false, "site_unavailable" end
+    local accessible, reason = accessibleRoom(world, site, candidate.point)
     if not accessible then return false, reason end
-    if not unclaimedRoom(world, candidate.point) then return false, "room_claimed" end
-    local occupied = occupiedRoom(world, candidate.point)
+    if not unclaimedRoom(site, id, candidate.point) then return false, "room_claimed" end
+    local occupied = occupiedRoom(world, site, candidate.point)
     if occupied == nil then return false, "room_unknown" end
     if occupied and not candidate.occupied then return false, "room_occupied" end
     local initiatorId, partnerId = initiator:GetEntityId().Value, partner:GetEntityId().Value
@@ -168,9 +260,11 @@ function M.claim(key, candidate, initiator, partner)
             return false, "participant_busy"
         end
     end
-    if not eligiblePoints(world, candidate, candidate.arrival_points) then return false, "walk_failed" end
+    if not eligiblePoints(world, site, candidate, candidate.arrival_points, routesFrom(world, site)) then
+        return false, "walk_failed"
+    end
     claims[key] = {
-        site_id = world.site_id, point = candidate.point, kind = candidate.kind,
+        site_id = id, point = candidate.point, kind = candidate.kind,
         initiator = initiatorId, partner = partnerId,
     }
     return true
@@ -184,12 +278,15 @@ function M.recheck(key, initiator, partner, destinations)
         return false, "room_unclaimed"
     end
     local world = scope(initiator, partner)
-    if not world or world.site_id ~= claim.site_id then return false, "site_unavailable" end
+    local site = world and siteAt(world, claim.point)
+    if not site or siteId(site) ~= claim.site_id then return false, "site_unavailable" end
     -- Vacancy and competing claims were checked when this room was claimed.
     -- Judge anyone who enters afterward by sight once the pair arrives.
-    local accessible, reason = accessibleRoom(world, claim.point)
+    local accessible, reason = accessibleRoom(world, site, claim.point)
     if not accessible then return false, reason end
-    if destinations and not eligiblePoints(world, claim, destinations) then return false, "walk_failed" end
+    if destinations and not eligiblePoints(world, site, claim, destinations, routesFrom(world, site)) then
+        return false, "walk_failed"
+    end
     return true
 end
 

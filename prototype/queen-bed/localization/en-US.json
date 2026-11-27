@@ -1,6 +1,10 @@
 {
   "messages": {
+    "Have Sex": "Have Sex",
     "Have Sex Here": "Have Sex Here",
+    "No eligible partners are available.": "No eligible partners are available.",
+    "Your Zoi cannot ask in this mood.": "Your Zoi cannot ask in this mood.",
+    "No suitable place is available.": "No suitable place is available.",
     "Your Zoi wants some private time with {partner}.": "Your Zoi wants some private time with {partner}.",
     "Your Zoi fulfilled their urge with {partner}.": "Your Zoi fulfilled their urge with {partner}.",
     "{first} and {second} decided to stop after someone walked in on them.": "{first} and {second} decided to stop after someone walked in on them.",

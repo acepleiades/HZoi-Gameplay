@@ -32,11 +32,11 @@ failure, or an unavailable spot ends the attempt.
 Load the usual test household at Normal speed. Try a free-standing queen bed
 and a queen bed with one side against a wall.
 
-1. Use two friends with Romance 0. They should play the refusal conversation
-   every time. To test the existing invitation odds, a married pair with
-   Family below 30 but at least -30 has a 30% refusal chance. An eligible
-   unnamed romantic pair at Romance 30–60 has a 70% refusal chance when the
-   target's emotion tendency is Negative.
+1. Compare two uncommitted pairs at Romance 29 and 30. The first pair is
+   ineligible. The second pair qualifies if it passes the native eligibility
+   checks. For refusal, use an eligible uncommitted pair at Romance 30–60
+   with a negative target mood for a 70% chance, or spouses at Family −30
+   to below 30 for a 30% chance.
 2. On refusal, verify the conversation finishes, neither Zoi is sent to the
    bed, and both can start another game interaction.
 3. On acceptance, verify both Zois reach separate points on the same floor
@@ -94,8 +94,11 @@ offer **Have Sex Here**, including furniture from other mods. Both menus
 show the burning heart and the game's ModKit marker.
 
 The furniture trigger forwards the exact object ID to the same invitation
-flow as the ground menu. The native partner picker checks the
-same life-stage eligibility as invitations and Urges when a partner is chosen.
+flow as the ground menu. The initiator's native mood restriction applies
+before the picker opens. The action checks for eligible partners using the
+same Romance and Family thresholds, `IsLovable`, and remote-city checks as
+the directed **Have Sex** entry. The native picker uses the game’s roster.
+**Invite** blocks ineligible partners and rechecks the selected pair.
 Content and furniture checks run before the invitation. The placement distance
 check runs after both Zois arrive. For
 sofas, it queries availability again with the two chosen participants and
@@ -104,11 +107,10 @@ playback. The menu action neither moves a Zoi nor takes a furniture
 slot. After acceptance, both walks are checked against the scene
 and role bindings selected before the invitation.
 
-The new interaction rows use the game’s lover and spouse conditions, branch
-order and weights. A separate branch lets an otherwise eligible pair below
-the ordinary Romance threshold reach the existing refusal dialogue. The exact
-venue check replaces the generic vanilla
-site-has-a-double-bed condition. The two Coop rows use the game's approach and
+The new interaction rows use the game’s lover and spouse score thresholds,
+branch order and weights. HZoi uses native compatibility and those thresholds
+for the encounter entries. HZoi checks the selected venue directly. The two
+Coop rows use the game's approach and
 dialogue. The game finishes the parent RequestCoop action before the dialogue
 ends, so the add-on waits for both conversation roles and the end of the Coop.
 If the game cancels a player's approach to the conversation spot because a Zoi
@@ -135,11 +137,6 @@ Use the [release build instructions](../../docs/release-build.md) to stage the
 matching SceneZOI SDK, cook the ModKit package, and verify the resulting ZIP.
 See [installation](../../README.md#install) for the SceneZOI and HZoi
 dependencies.
-
-Run `python prepare-life-stage.py <staged-mod-directory>` before packaging.
-Edit `lua/B2/LifeStageEligibility.lua` to change which life stages are
-eligible. The preparation step calculates the native interaction flags from
-the same policy.
 
 Cook `Content/String/mod_ST_Buff_4bd2ac16.uasset` with the mod. The included
 `moodlet-text.csv` is the authoring source for the English moodlet names and
@@ -211,7 +208,7 @@ for the score thresholds and the full test matrix.
 
 ## Iteration 1 test evidence
 
-**In game.** The native picker reached acceptance and refusal on both freestanding and wall-side queen beds. On the ground, a Romance 0 pair finished the refusal and cleared both queues. Acceptance sent them to separate points and ran all four stages through cleanup. The three-seat sofa passed the adjacent-seat availability checks. In a separate wall-side bed run, a bystander stopped the encounter and both participants returned to normal gameplay.
+**In game.** The native picker reached acceptance and refusal on both freestanding and wall-side queen beds. A separate ground acceptance sent the pair to separate points and ran all four stages through cleanup. The three-seat sofa passed the adjacent-seat availability checks. In a separate wall-side bed run, a bystander stopped the encounter and both participants returned to normal gameplay.
 
 At Normal speed, an NPC Urge selected Jaewoo and Xinyu while Seoyun carried on with her own actions. A third Zoi entering the claimed room canceled the first approach. A later native invitation reached the queen bed and completed all four stages. The log recorded one Excitement completion per participant. The need changes included Hunger stopping at −34, no further Hygiene cost where it was already low, and Fun reaching 100. The Urge owner received the standard reward moodlet, 5 Meow Coins and 15 Admit before normal stat decay. The partner received no coins. Both Zois resumed native conversation after cleanup.
 

@@ -1,6 +1,10 @@
 {
   "messages": {
+    "Have Sex": "做愛",
     "Have Sex Here": "在這裡做愛",
+    "No eligible partners are available.": "目前沒有符合條件的對象。",
+    "Your Zoi cannot ask in this mood.": "你的 Zoi 目前的心情不適合提出邀請。",
+    "No suitable place is available.": "沒有合適的地點。",
     "Your Zoi wants some private time with {partner}.": "你的 Zoi 想和 {partner} 單獨相處一下。",
     "Your Zoi fulfilled their urge with {partner}.": "你的 Zoi 和 {partner} 一起實現了這個心願。",
     "{first} and {second} decided to stop after someone walked in on them.": "有人撞見了 {first} 和 {second}，兩人決定停下來。",
