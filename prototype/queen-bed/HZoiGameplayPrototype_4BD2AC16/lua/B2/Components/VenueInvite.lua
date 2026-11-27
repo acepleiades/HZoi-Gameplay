@@ -5,6 +5,7 @@ local FurnitureKind = require("VenueFurnitureKind")
 local Bed = require("BedArrival")
 local Sofa = require("SofaArrival")
 local Ground = require("GroundArrival")
+local Approach = require("VenueApproach")
 local Witness = require("EncounterWitness")
 local WitnessNative = require("WitnessNative")
 local ArrivalPrivacy = require("ArrivalPrivacy")
@@ -162,6 +163,8 @@ local function fail(attempt, reason, notice, pickerMessage)
         witness_incidents = incidents and #incidents > 0 and incidents or nil})
     -- Drop routing first. Native cancellation can publish another event immediately.
     release(attempt)
+    local retry = attempt.conversationRetry
+    if retry and retry.walking then cancel(actor(retry.walker), WALK_RETRY) end
     if attempt.phase == "conversation" and attempt.invitationQueued then
         cancel(actor(attempt.initiator), INVITE)
         if attempt.conversationStarted then
@@ -319,23 +322,6 @@ local function queueReadyForRetry(person)
     return not waiting
 end
 
-local function alternativeBedPoint(original, partnerPoint, partnerLocation, bed, floor)
-    local angle = math.atan(original.Y - partnerPoint.Y, original.X - partnerPoint.X)
-    local center = bed:GetLocation()
-    for _, turn in ipairs({0, .25, -.25, .5, -.5, .75, -.75}) do
-        local yaw = angle + turn * math.pi
-        local x, y = math.cos(yaw) * 110, math.sin(yaw) * 110
-        local point = UE.FVector(original.X + x, original.Y + y, original.Z)
-        local actualDx, actualDy = point.X - partnerLocation.X, point.Y - partnerLocation.Y
-        if distanceSquared(point, center) <= 290^2 and distanceSquared(point, partnerPoint) >= 150^2
-            and actualDx^2 + actualDy^2 >= 150^2 and floor:IsOnWalkableGrid(point)
-            and floor:IsOnWalkableGrid(UE.FVector(original.X + x / 2, original.Y + y / 2, original.Z)) then
-            return point
-        end
-    end
-    return original
-end
-
 local function retryWalk(attempt)
     local first, second = attempt.walks[attempt.initiator], attempt.walks[attempt.partner]
     if not first or not second or not (first.retryPending or second.retryPending) then return end
@@ -349,6 +335,10 @@ local function retryWalk(attempt)
     end
     local initiator, partner = confirmPair(attempt)
     local person, otherPerson = actor(who), actor(otherId)
+    if walk.userAction then
+        fail(attempt, "A player action superseded the walk for " .. who, "walk_failed")
+        return
+    end
     local ready = queueReadyForRetry(person)
     if ready == nil then
         fail(attempt, "A different action superseded the walk for " .. who, "walk_failed")
@@ -364,8 +354,9 @@ local function retryWalk(attempt)
     end
     if attempt.searchVenue then
         if not roomReady(attempt, initiator, partner, {first.point, second.point}) then return end
-    elseif FurnitureKind.isBed(attempt.kind) then
-        walk.point = alternativeBedPoint(walk.point, other.point, otherPerson:GetLocation(), furniture, floor)
+    else
+        walk.point = Approach.retryPoint(walk.point, other.point, otherPerson:GetLocation(),
+            furniture, floor, person, attempt.kind, attempt.ground)
     end
     if not floor:IsOnWalkableGrid(walk.point) then
         fail(attempt, "The arrival point became unavailable for " .. who, "walk_failed")
@@ -518,7 +509,8 @@ local function recordConversationWalk(attempt, who)
     local actions = interaction(actor(who))
     -- "started" arrives before the game moves the action from the queue to current.
     local row = startingQueueEntry(actions, CONVERSATION_WALK)
-    local scheduler = row and row.CoopSchedulerId or actions:GetCurrentCoopSchedulerId()
+    local scheduler = row and row.CoopSchedulerId
+    if not row then scheduler = actions:GetCurrentCoopSchedulerId() end
     local schedulerId = positiveId(id(scheduler))
     local coop = schedulerId and invitationCoop(attempt, schedulerId)
     if not coop then return end
@@ -528,26 +520,29 @@ local function recordConversationWalk(attempt, who)
     attempt.conversationWalks = attempt.conversationWalks or {}
     attempt.conversationWalks[who] = true
     if attempt.coopHandoffUntil then conversationDispatched(attempt, coop) end
+    return true
 end
 
-local function onConversationWalk(attempt, kind, who, reason)
-    if kind == "started" then
-        -- The same move bag is used by unrelated native conversations.
-        if not attempt.branch then recordConversationWalk(attempt, who) end
-        return
-    end
+local function finishConversationWalk(attempt, kind, who, reason)
     local walks = attempt.conversationWalks
     if not walks or not walks[who] then return end
     walks[who] = nil
     if kind == "finished" then return end
-    log(attempt, "conversation_walk_failed", {participant = who, reason = tostring(reason)})
-    if cancelReason(reason, "FailedMoveOver") and not attempt.branch then
-        if attempt.npc or attempt.conversationRetried then
-            fail(attempt, "Could not reach the native conversation spot: FailedMoveOver")
+    local person = actor(who)
+    local location = person and person:GetLocation()
+    log(attempt, "conversation_walk_failed", {participant = who, reason = tostring(reason),
+        x = location and location.X, y = location and location.Y, z = location and location.Z})
+    if (cancelReason(reason, "FailedMoveOver") or cancelReason(reason, "CharacterOverlap")) and not attempt.branch then
+        local repositioned = attempt.firstRepositionedWalker
+        local canMoveOther = repositioned and repositioned ~= who
+        if attempt.npc or (attempt.conversationRetried and not canMoveOther) then
+            fail(attempt, "Could not reach the native conversation spot: " .. tostring(reason))
             return
         end
         local now = os.time()
-        attempt.conversationRetry = {earliest = now + CONVERSATION_RETRY_DELAY_SECONDS,
+        attempt.conversationRetry = attempt.conversationRetry or {walker = who,
+            requiresReposition = attempt.conversationRetried,
+            earliest = now + CONVERSATION_RETRY_DELAY_SECONDS,
             expires = now + CONVERSATION_RETRY_WINDOW_SECONDS}
     elseif cancelReason(reason, "User") then
         fail(attempt, "The player canceled the conversation approach")
@@ -578,10 +573,27 @@ local function onAttemptAction(attempt, kind, event, who, target, bag)
         end
     elseif attempt.phase == "conversation" and attempt.conversationStarted then
         if bag == CONVERSATION_WALK then
-            onConversationWalk(attempt, kind, who, reason)
+            if kind ~= "started" then
+                finishConversationWalk(attempt, kind, who, reason)
+                return
+            end
+            -- Move Here shares this bag. Only the owned scheduler's native
+            -- move may bypass the check for a new player action below.
+            if not attempt.branch and recordConversationWalk(attempt, who) then return end
+        end
+        local retry = attempt.conversationRetry
+        if retry and retry.walking and who == retry.walker and bag == WALK_RETRY then
+            if kind == "started" then return end
+            retry.walking = nil
+            if kind == "canceled" and cancelReason(reason, "User") then
+                fail(attempt, "The player canceled the conversation approach")
+                return
+            end
+            retry.completed = kind == "finished"
+            log(attempt, "conversation_reposition_" .. kind, {participant = who, reason = reason and tostring(reason)})
             return
         end
-        if attempt.conversationRetry and kind == "started" then
+        if retry and kind == "started" then
             local actions = interaction(actor(who))
             local row = startingQueueEntry(actions, bag)
             local playReason = event.play_reason or (row and row.PlayReason) or actions:GetCurrentInteractionPlayReason()
@@ -618,23 +630,23 @@ local function onAttemptAction(attempt, kind, event, who, target, bag)
     elseif attempt.phase == "walking" then
         local walk = attempt.walks[who]
         if not walk then return end
-        if walk.finished then
+        if kind == "started" and bag ~= WALK and bag ~= WALK_RETRY then
             local reason = event.play_reason or event.reason
-            if attempt.searchVenue and kind == "started" and bag ~= walk.bag
-                and (tostring(reason) == "User" or (reason ~= nil and reason == inzoi.EB1InteractionPlayReason.User)) then
-                walk.userAction = true
+            if tostring(reason) == "User" or (reason ~= nil and reason == inzoi.EB1InteractionPlayReason.User) then
+                walk.userAction = bag
             end
-            return
         end
+        if walk.finished then return end
         if walk.retryPending and kind == "canceled" and cancelReason(event.reason, "User") then
             fail(attempt, "Walk retry canceled by the player for " .. who, "walk_failed")
         elseif bag == walk.bag then
             if kind == "finished" then
                 walk.finished = true
-            elseif bag == WALK and kind == "canceled" and cancelReason(event.reason, "CharacterOverlap") then
+            elseif bag == WALK and kind == "canceled"
+                and (cancelReason(event.reason, "CharacterOverlap") or cancelReason(event.reason, "FailedMoveOver")) then
                 walk.bag, walk.retryPending = nil, true
                 walk.hadOverlap = true
-                log(attempt, "walk_retry_waiting", {participant = who, reason = "CharacterOverlap"})
+                log(attempt, "walk_retry_waiting", {participant = who, reason = tostring(event.reason)})
             elseif kind ~= "started" then
                 fail(attempt, "Walk " .. kind .. " for " .. who .. ": " .. tostring(event.reason), "walk_failed")
             end
@@ -751,22 +763,38 @@ local function openPicker(attempt)
 end
 
 local function recoverDisplacedZoi(attempt, who, walk, other, initiator, partner)
-    if not attempt.searchVenue or attempt.phase ~= "walking" or attempt.reapproachUsed
-        or not walk.reported or walk.hadOverlap or not other.hadOverlap or walk.userAction then return false end
+    if attempt.phase ~= "walking" or attempt.reapproachUsed
+        or not walk.reported or walk.hadOverlap
+        or (attempt.npc and not other.hadOverlap) then return false end
     local person = actor(who)
+    if walk.userAction then
+        log(attempt, "walk_recovery_blocked", {participant = who, reason = "player_action", action = walk.userAction})
+        return false
+    end
     local ready = queueReadyForRetry(person)
-    if ready == nil then return false end
+    if ready == nil then
+        local actions = interaction(person)
+        local nextAction = (actions.InteractionQueue or {})[1]
+        log(attempt, "walk_recovery_blocked", {participant = who, reason = "other_action",
+            action = tostring(actions:GetCurrentInteractionBagId()),
+            play_reason = tostring(actions:GetCurrentInteractionPlayReason()),
+            next_action = nextAction and tostring(nextAction.InteractionBagId)})
+        return false
+    end
     if not ready then return true end
     if not furnitureStillThere(attempt) then
         fail(attempt, "The selected furniture changed before the Zoi could return", "furniture_unavailable")
         return true
     end
-    if not roomReady(attempt, initiator, partner,
+    if attempt.searchVenue and not roomReady(attempt, initiator, partner,
         {attempt.walks[attempt.initiator].point, attempt.walks[attempt.partner].point}) then return true end
+    local floor = inzoi.getB2Subsystem("FB2PathFindSystem")
+    if not Ground.walkable(floor, walk.point) then return false end
 
     attempt.reapproachUsed = true
     walk.finished, walk.reported = nil, nil
-    log(attempt, "walk_return_after_overlap", {participant = who})
+    log(attempt, other.hadOverlap and "walk_return_after_overlap" or "walk_return_after_drift",
+        {participant = who})
     queueWalk(attempt, person, who, walk, WALK_RETRY)
     return true
 end
@@ -1439,14 +1467,41 @@ local function retryConversation(attempt, retry, now)
         fail(attempt, "The native conversation approach failed and the Zois did not become free to retry")
         return
     end
-    if now < retry.earliest or now == retry.lastCheck then return end
+    if retry.walking or now < retry.earliest or now == retry.lastCheck then return end
     retry.lastCheck = now
     local initiator, partner = confirmPair(attempt)
     local first, second = interaction(initiator), interaction(partner)
     if conversationBusy(first) or conversationBusy(second) or first:IsPlayingInteraction()
         or second:IsPlayingInteraction() or not first:IsQueueEmpty() or not second:IsQueueEmpty() then return end
+    if not retry.staged then
+        retry.staged = true
+        local walker, other = initiator, partner
+        if retry.walker == attempt.partner then walker, other = partner, initiator end
+        local floor = inzoi.getB2Subsystem("FB2PathFindSystem")
+        local checked, point = pcall(Approach.conversationPoint, walker, other, floor)
+        if checked and point then
+            retry.walking = true
+            local queued, reason = queue(attempt, walker, entity(), point, WALK_RETRY)
+            if attempts[attempt.nonce] ~= attempt then return end
+            if queued then
+                log(attempt, "conversation_reposition_queued",
+                    {participant = retry.walker, x = point.X, y = point.Y, z = point.Z})
+                return
+            end
+            retry.walking = nil
+            log(attempt, "conversation_reposition_unavailable", {participant = retry.walker, reason = tostring(reason)})
+        elseif not checked then
+            log(attempt, "conversation_reposition_unavailable", {participant = retry.walker, reason = tostring(point)})
+        end
+    end
+    if retry.requiresReposition and not retry.completed then
+        fail(attempt, "Could not reposition the other Zoi for the native invitation")
+        return
+    end
     attempt.conversationStarted, attempt.conversationDispatched, attempt.conversationWalks = nil, nil, nil
     attempt.coopClearedAt, attempt.lastCoopCheck, attempt.conversationRetry = nil, nil, nil
+    -- Only a completed first step can earn a follow-up, and only for the other Zoi.
+    attempt.firstRepositionedWalker = not retry.requiresReposition and retry.completed and retry.walker or nil
     attempt.invitationQueued, attempt.conversationRetried = nil, true
     -- The native queue still applies the same acceptance and refusal rules.
     queueInvitation(attempt, initiator, partner)

@@ -58,6 +58,19 @@ for (const bag of ['Invite', 'FindVenue', 'SelectVenue', 'Walk', 'WalkRetry']) {
     assert.equal(bags.get(`HZoiGameplay_${bag}`).AgingConditionFlags, allLifeStages);
 }
 
+const walkIcon = "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Move01.Action_Move01'";
+for (const name of ['Walk', 'WalkRetry', 'WitnessWalk']) {
+    const display = bags.get(`HZoiGameplay_${name}`).DisplayInfo;
+    assert.equal(display?.Icon, walkIcon, `${name} must use the native walking icon`);
+    assert.equal(display.InteractionQueueIcon, walkIcon, `${name} must set the HUD queue icon explicitly`);
+    assert.equal(display.DisplayTextId, 'InteractionBag_DisplayInfo_ClickMove_Self_DisplayTextId');
+}
+for (const name of ['Invite', 'FindVenue', 'SelectVenue']) {
+    const display = bags.get(`HZoiGameplay_${name}`).DisplayInfo;
+    assert.equal(display.Icon, "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Talk_Mood.Action_Talk_Mood'");
+    assert.equal(display.PanelIconId, 'Conversation_Icon_Mood');
+}
+
 function matches(row, state) {
     function matchesGroup({Conditions}) {
         return Conditions.every(({BaseObject, Command, CompareType, S1, F1}) => {

@@ -285,10 +285,10 @@ local function invite(partner, bed, bedStatus, rejection, cancelPicker, prefligh
     assert(preflight.args.furniture_id == tostring(bed) and preflight.args.stages == 4)
     assert(#preflight.args.goals == 2 and preflight.args.start_mode == "start_autonomous_scene")
 end
-local INVITE, WALK = "HZoiGameplay_Invite", "HZoiGameplay_Walk"
+local INVITE, WALK, RETRY = "HZoiGameplay_Invite", "HZoiGameplay_Walk", "HZoiGameplay_WalkRetry"
 local COOP_WALK = "ClickMove_Self"
 
-local function cancelNativeApproach(origin, coopId, targetId, withDialogue)
+local function cancelNativeApproach(origin, coopId, targetId, withDialogue, cancelReason, failedWalker)
     local schedulerId = 25000
     fire("started", ownerId, INVITE, partnerId)
     fire("finished", ownerId, INVITE, partnerId)
@@ -313,8 +313,11 @@ local function cancelNativeApproach(origin, coopId, targetId, withDialogue)
     assert(coop.bSuppressNextCancelToast == ownedApproach,
         "Only the owned invitation approach may suppress the native cancel toast")
 
-    fire("canceled", partnerId, COOP_WALK, -1, nil, inzoi.EB1InteractionCancelReason.FailedMoveOver)
-    fire("canceled", ownerId, COOP_WALK, -1, "CoopCanceled")
+    failedWalker = failedWalker or partnerId
+    local other = failedWalker == partnerId and ownerId or partnerId
+    local reason = inzoi.EB1InteractionCancelReason[cancelReason or "FailedMoveOver"]
+    fire("canceled", failedWalker, COOP_WALK, -1, nil, reason)
+    fire("canceled", other, COOP_WALK, -1, "CoopCanceled")
     nativeSchedulers = {}
 end
 
@@ -512,6 +515,8 @@ fire("started", ownerId, INVITE, partnerId)
 fire("failed", ownerId, INVITE, partnerId, nil, "CannotFindSpace")
 assert(logs[#logs - 1]:find("CannotFindSpace", 1, true), "Keep the native event's failure reason in diagnostics")
 
+local nativeConversationPoint = require("VenueApproach").conversationPoint
+require("VenueApproach").conversationPoint = function() end
 local acceptCoop = "HZoiGameplay_Coop_Accept"
 queued = {}
 invite(partnerId, bedId)
@@ -592,6 +597,168 @@ clock = clock + 2
 tick()
 assert(#queued == 1 and #pending == 0, "Never retry after either Zoi starts the native dialogue")
 fire("canceled", ownerId, INVITE, partnerId)
+
+-- A clear short walk can break the native approach collision. Its completion
+-- still needs to result in a fresh native answer from both Zois.
+do
+    local approach = require("VenueApproach")
+    local reposition = point(115, 30, 0)
+    local function beginRecovery(reason, walker, coop)
+        local failed = walker == ownerId and owner or partner
+        local other = walker == ownerId and partner or owner
+        approach.conversationPoint = function(person, counterpart)
+            assert(person == failed and counterpart == other, "Only the blocked walker moves for approach recovery")
+            return reposition
+        end
+        owner:MoveTo(point(0, 0, 90))
+        partner:MoveTo(point(30, 0, 90))
+        queued = {}
+        invite(partnerId, alternateBedId)
+        local before = #notices
+        cancelNativeApproach(INVITE, coop, partnerId, nil, reason, walker)
+        clock = clock + 2
+        tick()
+        assert(#queued == 2 and queued[2].bag == RETRY and queued[2].id == walker
+            and queued[2].destination == reposition and #pending == 0 and #notices == before,
+            "One native recovery walk for a blocked participant before repeating the invitation")
+        tick()
+        assert(#queued == 2 and #pending == 0, "Wait for the recovery move before asking again")
+        return failed
+    end
+
+    local function expectNativeRetry(index)
+        clock = clock + 1
+        tick()
+        local call = queued[index]
+        assert(#queued == index and call.bag == INVITE and call.id == ownerId
+            and call.target == partnerId and #pending == 0, "Recovery returns to the original native invitation")
+    end
+
+    local function finishRecovery(person, who, spot, nextInvite)
+        person:MoveTo(point(spot.X, spot.Y, spot.Z + 90))
+        fire("finished", who, RETRY, -1)
+        expectNativeRetry(nextInvite)
+    end
+
+    for _, case in ipairs({
+        {reason = "CharacterOverlap", walker = partnerId, coop = acceptCoop},
+        {reason = "FailedMoveOver", walker = ownerId, coop = "HZoiGameplay_Coop_Refuse", refusal = true},
+    }) do
+        local failed = beginRecovery(case.reason, case.walker, case.coop)
+        finishRecovery(failed, case.walker, reposition, 3)
+        conversation(case.refusal)
+        if case.refusal then
+            assert(#queued == 3 and #pending == 0 and logs[#logs]:find("refused"),
+                "Native refusal after recovery applies the refusal without a venue walk")
+        else
+            assert(#queued == 5 and queued[4].bag == WALK and queued[5].bag == WALK and #pending == 0,
+                "Native acceptance after recovery begins the venue walk")
+            fire("failed", partnerId, WALK, -1)
+        end
+    end
+
+    local secondSpot = point(-120, 20, 0)
+    local function secondCollision(walker, firstMoveFailed, spot)
+        local failed = beginRecovery("CharacterOverlap", partnerId, acceptCoop)
+        if firstMoveFailed then
+            fire("canceled", partnerId, RETRY, -1, "CharacterOverlap")
+            expectNativeRetry(3)
+        else
+            finishRecovery(failed, partnerId, reposition, 3)
+        end
+        local before = #notices
+        approach.conversationPoint = function(person, counterpart)
+            assert(person == owner and counterpart == partner, "The same Zoi cannot stage a second recovery move")
+            return spot
+        end
+        cancelNativeApproach(INVITE, acceptCoop, partnerId, nil, "FailedMoveOver", walker)
+        clock = clock + 2
+        tick()
+        return before
+    end
+
+    noticeCount = secondCollision(ownerId, false, secondSpot)
+    assert(#queued == 4 and queued[4].id == ownerId and queued[4].bag == RETRY
+        and queued[4].destination == secondSpot and #pending == 0 and #notices == noticeCount,
+        "After the first reposition succeeds, allow one reposition for the other blocked Zoi")
+    clock = clock + 1
+    tick()
+    assert(#queued == 4 and #pending == 0, "The third native invitation waits for the second reposition")
+    finishRecovery(owner, ownerId, secondSpot, 5)
+    conversation(false)
+    assert(#queued == 7 and queued[6].bag == WALK and queued[7].bag == WALK,
+        "Both roles still finish the native acceptance dialogue after the two recovery moves")
+    fire("failed", partnerId, WALK, -1)
+
+    noticeCount = secondCollision(ownerId, false, secondSpot)
+    finishRecovery(owner, ownerId, secondSpot, 5)
+    cancelNativeApproach(INVITE, acceptCoop, partnerId, nil, "CharacterOverlap", partnerId)
+    clock = clock + 2
+    tick()
+    assert(#queued == 5 and #pending == 0 and #notices == noticeCount + 1,
+        "Once each Zoi has repositioned, native approach failures are final")
+
+    for _, case in ipairs({
+        {walker = partnerId, spot = secondSpot, expected = "The same Zoi cannot move twice"},
+        {walker = ownerId, firstMoveFailed = true, spot = secondSpot,
+            expected = "A failed first reposition cannot authorize a third invitation"},
+        {walker = ownerId, expected = "A missing safe second point cannot authorize a third invitation"},
+    }) do
+        noticeCount = secondCollision(case.walker, case.firstMoveFailed, case.spot)
+        assert(#queued == 3 and #pending == 0 and #notices == noticeCount + 1, case.expected)
+    end
+
+    for _, reason in ipairs({"FailedMoveOver", "User"}) do
+        noticeCount = secondCollision(ownerId, false, secondSpot)
+        fire("canceled", ownerId, RETRY, -1, reason)
+        clock = clock + 3
+        tick()
+        assert(#queued == 4 and #pending == 0 and #notices == noticeCount + 1,
+            "A failed or canceled second reposition cannot restart the invitation")
+    end
+
+    beginRecovery("FailedMoveOver", partnerId, acceptCoop)
+    noticeCount = #notices
+    fire("canceled", partnerId, RETRY, -1, "User")
+    clock = clock + 3
+    tick()
+    assert(#queued == 2 and #pending == 0 and #notices == noticeCount + 1,
+        "The player can cancel the recovery move without the invitation restarting")
+
+    beginRecovery("CharacterOverlap", ownerId, acceptCoop)
+    noticeCount = #notices
+    nativePlayReasons[partnerId] = inzoi.EB1InteractionPlayReason.User
+    fire("started", partnerId, "OtherInteraction", -1)
+    nativePlayReasons[partnerId] = nil
+    clock = clock + 3
+    tick()
+    assert(#queued == 2 and #pending == 0 and #notices == noticeCount + 1,
+        "A new player action from either participant supersedes the recovery")
+
+    beginRecovery("CharacterOverlap", partnerId, acceptCoop)
+    noticeCount = #notices
+    local actions = owner:GetComponent()
+    actions.InteractionQueue = {{InteractionBagId = COOP_WALK, PlayReason = inzoi.EB1InteractionPlayReason.User}}
+    fire("started", ownerId, COOP_WALK, -1)
+    actions.InteractionQueue = {}
+    clock = clock + 3
+    tick()
+    assert(#queued == 2 and #pending == 0 and #notices == noticeCount + 1,
+        "A player Move Here using the native approach bag supersedes the recovery")
+
+    queued = {}
+    invite(partnerId, alternateBedId)
+    noticeCount = #notices
+    cancelNativeApproach(INVITE, acceptCoop, partnerId, nil, "User")
+    clock = clock + 3
+    tick()
+    assert(#queued == 1 and #pending == 0 and #notices == noticeCount + 1,
+        "A canceled native approach never falls back or queues a recovery move")
+
+    approach.conversationPoint = nativeConversationPoint
+    owner:MoveTo(point(0, 0, 0))
+    partner:MoveTo(point(0, 0, 0))
+end
 
 queued = {}
 invite(partnerId, bedId)
@@ -961,7 +1128,6 @@ assert(#resultEffects == 2, "Ineligible outcomes never reach the relationship bo
 
 line("Encounter results passed: request and roster matching, deduplication, lost notifications, cleanup, and unknown outcomes.")
 
-local RETRY = "HZoiGameplay_WalkRetry"
 local function recoveryAction(who, bag, reason)
     local actions = who:GetComponent()
     actions.GetCurrentInteractionQueueId = function() return bag and 76 or -1 end
@@ -1113,3 +1279,97 @@ invite(partnerId, alternateBedId, nil, "EnqueueConditionCheckFail", false,
 assert(notices[#notices] == "not_eligible", "Female/female content uses the same native invitation check")
 ownerGender = 1
 partnerGender = 2
+
+do
+    local function prepareManual(kind)
+        controlled, queued = ownerId, {}
+        owner:MoveTo(point(900, 800, 430))
+        partner:MoveTo(point(1100, 650, 430))
+        recoveryAction(owner)
+        recoveryAction(partner)
+        if kind == "ground" then
+            groundInvite()
+            recoveryAction(owner)
+        else
+            sofaInvite(true)
+        end
+        conversation(false)
+        assert(#queued == 3 and #pending == 0, "Both Zois must have their original venue walks")
+        return queued[2].destination, queued[3].destination
+    end
+
+    local function displaceFirst(kind, across, height, supersede)
+        local first, second = prepareManual(kind)
+        finishWalk(owner, ownerId, first)
+        tick()
+        assert(#queued == 3 and #pending == 0, "First arrival must wait for the remaining walk")
+        owner:MoveTo(point(first.X + across, first.Y, first.Z + height))
+        if supersede then supersede() end
+        finishWalk(partner, partnerId, second)
+        tick()
+        return first
+    end
+
+    local function expectReturn(first)
+        local retry = assert(queued[4], "A verified same-floor arrival can return once after being displaced")
+        assert(#queued == 4 and #pending == 0 and retry.id == ownerId and retry.bag == RETRY)
+        local destination = retry.destination
+        assert(destination.X == first.X and destination.Y == first.Y and destination.Z == first.Z,
+            "The return walk must keep the validated approach point")
+        return destination
+    end
+
+    local first = displaceFirst("ground", 358.6, 90)
+    assert(first.X == clickedFloor.X and first.Y == clickedFloor.Y and first.Z == clickedFloor.Z)
+    finishWalk(owner, ownerId, expectReturn(first), RETRY)
+    tick()
+    local arrival = reply("validate_start", {valid = false, code = "furniture_unavailable"})
+    assert(not arrival.args.furniture_id and arrival.args.check_start_distance == nil,
+        "The recovered ground walk still requires normal arrival validation")
+
+    first = displaceFirst("sofa", 123.7, 90)
+    finishWalk(owner, ownerId, expectReturn(first), RETRY)
+    tick()
+    arrival = reply("validate_start", {valid = false, code = "furniture_unavailable"})
+    assert(arrival.args.furniture_id == tostring(sofaId) and arrival.args.furniture_pair_id == "side",
+        "The sofa recovery must revalidate the original object and pair")
+
+    first = displaceFirst("ground", 358.6, 90)
+    expectReturn(first)
+    owner:MoveTo(point(first.X + 250, first.Y, first.Z + 90))
+    fire("finished", ownerId, RETRY, -1)
+    tick()
+    tick()
+    assert(#queued == 4 and #pending == 0 and notices[#notices] == "ground_walk_failed",
+        "An unsuccessful return must not queue another return")
+
+    displaceFirst("ground", 123.7, 390)
+    assert(#queued == 3 and #pending == 0 and notices[#notices] == "ground_walk_failed",
+        "Never return after a wrong-floor arrival")
+
+    displaceFirst("ground", 123.7, 90, function()
+        fire("started", ownerId, "ClickMove_Self", -1, "User")
+    end)
+    assert(#queued == 3 and #pending == 0 and notices[#notices] == "ground_walk_failed",
+        "An explicit player action supersedes a manual venue return")
+
+    displaceFirst("sofa", 123.7, 90, function()
+        recoveryAction(owner, "Eat", "Autonomy")
+    end)
+    assert(#queued == 3 and #pending == 0 and notices[#notices] == "sofa_walk_failed",
+        "An unrelated native action must never be replaced by a venue return")
+
+    local second
+    first, second = prepareManual("ground")
+    fire("canceled", ownerId, WALK, -1, "FailedMoveOver")
+    tick()
+    assert(#queued == 3 and #pending == 0, "Wait for the other Zoi before retrying a native move-over failure")
+    finishWalk(partner, partnerId, second)
+    tick()
+    expectReturn(first)
+    fire("canceled", ownerId, RETRY, -1, "FailedMoveOver")
+    tick()
+    assert(#queued == 4 and #pending == 0 and notices[#notices] == "ground_walk_failed",
+        "A second native move-over failure ends the attempt")
+end
+line("Manual venue arrivals passed: original ground and sofa approaches, wrong floor, explicit player and native actions, and bounded move-over recovery.")

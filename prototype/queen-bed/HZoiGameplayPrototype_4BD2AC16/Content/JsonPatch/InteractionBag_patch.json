@@ -201,6 +201,11 @@
       "Value": {
         "Id": "HZoiGameplay_Walk",
         "AgingConditionFlags": 511,
+        "DisplayInfo": {
+          "DisplayTextId": "InteractionBag_DisplayInfo_ClickMove_Self_DisplayTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Move01.Action_Move01'",
+          "InteractionQueueIcon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Move01.Action_Move01'"
+        },
         "InteractionSequence": [
           {
             "Probability": 1.0,
@@ -222,6 +227,11 @@
       "Value": {
         "Id": "HZoiGameplay_WitnessWalk",
         "AgingConditionFlags": 508,
+        "DisplayInfo": {
+          "DisplayTextId": "InteractionBag_DisplayInfo_ClickMove_Self_DisplayTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Move01.Action_Move01'",
+          "InteractionQueueIcon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Move01.Action_Move01'"
+        },
         "InteractionSequence": [
           {
             "Probability": 1.0,
@@ -243,6 +253,11 @@
       "Value": {
         "Id": "HZoiGameplay_WalkRetry",
         "AgingConditionFlags": 511,
+        "DisplayInfo": {
+          "DisplayTextId": "InteractionBag_DisplayInfo_ClickMove_Self_DisplayTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Move01.Action_Move01'",
+          "InteractionQueueIcon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Move01.Action_Move01'"
+        },
         "InteractionSequence": [
           {
             "Probability": 1.0,

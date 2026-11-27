@@ -54,11 +54,24 @@ Once the partner and venue are selected, the initiator walks up to the partner a
 - **If the partner accepts**, have both Zois walk to separate arrival points at the selected venue. Once both arrive, recheck the participants, arrival points, and furniture availability, then apply the [arrival privacy check](#arrival-privacy-check) before requesting SceneZOI playback. For automatic venue selection, recheck the pair’s relationship eligibility during preparation as well. Acceptance alone gives no relationship bonus.
 - **If the partner refuses**, play the refusal branch, apply the [relationship loss](#romance-changes) when the refusal happens, and end the invitation there. An uncommitted partner with a negative emotional tendency at 30–60 Romance gives the pair a 70% chance of refusal.
 
-If a recoverable path problem interrupts a player-directed invitation before the partner answers, let both action queues clear and retry the native approach once. Show a cancellation message only if the invitation ultimately fails. If the game blocks or cancels the conversation before the partner answers, leave the relationship score alone. A refusal requires a completed refusal branch.
+If a recoverable path problem interrupts a player-directed invitation before the partner answers, let both action queues clear. When possible, have the Zoi whose walk failed take a short step to a reachable spot in the same room before retrying the native approach. If the other Zoi is then blocked, allow one final retry after that Zoi also reaches a nearby spot. Let the native dialogue determine the answer. Show a cancellation message only if the invitation ultimately fails. If the game blocks or cancels the conversation before the partner answers, leave the relationship score alone. A refusal requires a completed refusal branch.
 
 Once the pair is selected, the invitation stays with those Zois. Switching control
 during their conversation or walk lets them finish on their own. A valid encounter
 can start while the player controls a different Zoi.
+
+### Venue arrival and pathfinding
+
+Make arrival forgiving at every venue, including future venue types. Use the
+single bed in a narrow aisle as the benchmark. If the game can walk the Zois to
+separate spots near the venue, let the encounter proceed once both arrive and
+pass the venue and privacy checks. Prefer the usual approach points and reuse
+the shared walk recovery when a temporary pathfinding failure gets in the way.
+For player-started encounters, allow a nearby reachable retry and one return
+walk if a Zoi reached the venue and got displaced while waiting for a partner.
+Keep both approach points on the selected floor and in the same room when
+indoors. Preserve the selected furniture, sofa seat pair, or standing anchor.
+Honor player cancellation and conflicting actions.
 
 ### Group invitations
 
@@ -449,7 +462,7 @@ In live verification, test a reachable booked commercial room without a bed, an 
 | --- | --- |
 | Content and venues | Check `get_version`, activity definitions, and the joint goal route. Test a supported pair, an intercourse-only opener, a pair with no compatible content, and a same-sex route if a test pack supplies one. Verify content-only preflight before walking and live placement validation afterward. Cover freestanding and wall-side beds, a single bed with a narrow shared aisle, optional AAL, usable and occupied sofa pairs, a spare seat, and walkable and blocked ground. |
 | Picker, dialogue, and walking | Check object and ground hooks separately. Confirm that the native picker preserves gameplay groups, **Invite** blocks ineligible partners, and the picker stays closed when nobody qualifies. Compare the picker and Romance menu at the −30 and 30 boundaries for named partners, uncommitted pairs and spouses, in both score directions. Check native incompatibility and remote-city status. Change an eligible pair’s score before clicking **Invite** and verify the invitation is blocked. Compare native acceptance and refusal, verify no walk after refusal, and wait for both Zois to reach separate valid points on the correct floor before starting. [Coop action](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/actions/fb2action-coop/) · [WalkTo action](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/actions/fb2action-walkto/). |
-| Invitation recovery | Switch control during the conversation and again during the walk. Verify both stages can continue. Reproduce a recoverable blocked native approach and check that it retries once after both queues clear. A cancellation before either Zoi answers leaves Romance or Family alone. |
+| Invitation recovery | Switch control during the conversation and again during the walk. Verify both stages can continue. Reproduce a blocked native approach and check that the affected Zoi can take a short walk to a reachable spot before the native invitation retries. Verify that a player action can cancel the retry and that canceling before either Zoi answers leaves Romance or Family alone. |
 | Interaction menus | Check **Have Sex** alongside native **Set the Mood Next to Bed** and confirm it invites the clicked Zoi. Compare the initiator mood restriction on both **Have Sex Here** menus. In the Miserable mood, verify the dimmed row and tooltip, then verify the action is available again after recovery. Check the localized label, burning heart, and ModKit icon on beds, sofas, and ground. Check that unrelated furniture never shows a brief invitation row. |
 | Adaptive playback | Verify all four stages, their thresholds and speeds, approved and excluded actions, and clip variety. Test direct routes and routes with authored transitions. Compare full Auto, manual Exit, and manual completion followed by re-enabling Auto. Verify the six-second Auto wait at Normal speed, settling of active completion effects, and restoration to arrival transforms. |
 | Result recovery | Test zero, one, and two completed goals, repeated and duplicate completions, a missed callback recovered through `get_session_result`, and an unavailable result. Cover ordinary Exit, a failed start, a technical stop, lifecycle teardown, and incomplete cleanup. Verify separate stop and cleanup reasons and retention of earned needs, Urges, and verified sightings. |
