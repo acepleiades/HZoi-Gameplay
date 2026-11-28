@@ -1,19 +1,27 @@
-# Standing anchor test
+# Find standing spots inside a room
 
-A possible ground anchor is sampled from the floors occupied by the two Zois
-at a residential site. The scan stays within 10 metres in each horizontal
-direction of either Zoi. It considers at most 160 sample points, attempts at
-most 36 native projections, and returns up to 3 points in each eligible room.
+If beds and sofas are unavailable, HZoi Gameplay can use a clear area of
+floor. It looks farther into each room so the Zois don't start in the
+doorway just because that was the first reachable point. If the center
+is blocked, it tries other spots with room to stand.
 
-The scan starts at each Zoi's capsule position minus their native half
-height. The sample and its native walkable floor projection must belong to
-the same indoor room, regardless of its purpose. If the native projection
-returns no point, the candidate is skipped. Venue selection needs two
-separate walkable arrival points with paths for both Zois. Furniture in the
-room can be unavailable as long as those spots qualify.
+[`NpcStandingAnchors.lua`](HZoiGameplay_4BD2AC16/lua/B2/NpcStandingAnchors.lua)
+samples floor points near both Zois, groups them by room and gives each room
+a chance before trying more points in the same room. It scores the available
+space toward the walls and how close each candidate is to the sampled center.
+It then projects the best candidates onto the native walkable floor. A
+projection has to stay in the same room and at roughly the same height.
+The venue code still needs two separate spots with routes the Zois can use.
+The room can have any purpose that passes the venue rules.
+[How NPCs choose a venue](npc-venues.md)
 
-Run the standing anchor Lua fixture for split levels, room boundaries, missing
-projection results and scan limits. A live apartment probe confirmed that
-the native site grid returned the same floor height as a picked floor point.
-Verify the standing fallback in a room without an assigned purpose. Repeat
-with unavailable furniture and enough clear floor space for both arrivals.
+The search uses a two-metre grid up to ten metres in each horizontal
+direction from a Zoi. Across the search it checks at most 160 seeds and
+36 native projections, keeping up to 12 points overall and three per room.
+If you're adapting this for your mod, keep a bound on native projections and
+test that one cluttered room can't use the whole search budget.
+
+Try a clear room where both Zois start outside the door, a room with furniture
+at its center, and a split-level or L-shaped room. Check that both Zois enter
+and reach different points on the same floor.
+[Standing spot tests](test-npc-standing-anchors.lua)

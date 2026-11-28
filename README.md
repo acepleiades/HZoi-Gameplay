@@ -1,88 +1,63 @@
 # HZoi Gameplay
 
-HZoi Gameplay adds invitations and autonomous encounters to inZOI. Click a
-supported bed, a sofa or a clear spot on the ground and choose **Have Sex Here**
-to pick a partner. You can also click another Zoi and choose **Have Sex** from
-the **Romance** menu to let the pair find a venue. The Zois use the game's
-**Set the Mood** rules, so the answer depends on their relationship and mood.
+Invite another Zoi to have sex through inZOI's Romance menu, pick a bed, sofa
+or spot on the ground, or let your Zois look for somewhere on their own.
+HZoi Gameplay uses SceneZOI to play the encounter and inZOI's systems for
+invitations, moodlets and relationship changes.
 
-**[Download HZoi Gameplay](https://acepleiades.github.io/HZoi-Gameplay/)** · **[OStim/SceneZOI Community Discord](https://discord.gg/RECvhVaRcU)** ·
-**[Encounter design](docs/encounter-design.md)**
+## For players
 
-## Install
+### Install
 
-Download the **HZoiGameplay** ZIP from the
-[latest HZoi Gameplay release](https://github.com/acepleiades/HZoi-Gameplay/releases/latest).
-Install SceneZOI and a compatible animation pack.
+**[Download HZoi Gameplay and follow the install guide](https://acepleiades.github.io/HZoi-Gameplay/).**
+Use the [latest SceneZOI release](https://github.com/acepleiades/SceneZOI/releases/latest)
+and a compatible content pack. I recommend HZoi. See
+[GitHub releases](https://github.com/acepleiades/HZoi-Gameplay/releases/latest)
+for the ZIP and update notes.
 
-- **[SceneZOI](https://github.com/acepleiades/SceneZOI/releases/latest)** 1.7.3 or newer
-  is required for the shared interaction menus, partner picker, playback, and Auto mode.
-- **HZoi 1.4.1** is the recommended animation pack. It supplies standing,
-  bed and sofa scenes. [HZoi downloads](https://www.patreon.com/skyrimaceanimations/posts/hzoi-1-4-1-174452155)
-- **Ace Animations Library (AAL) is optional.** It adds more choices to HZoi
-  where compatible tracks are available.
+For help or to share what happens in your game, join the
+[OStim/SceneZOI Community Discord](https://discord.gg/RECvhVaRcU).
+If you enjoy my mods, you can [support my work on Patreon](https://www.patreon.com/skyrimaceanimations).
 
-You can use any SceneZOI pack that supplies a route for the selected Zois and
-venue. The route needs an action HZoi Gameplay can choose in Auto and must
-let every participant complete an Excitement task. Auto aims for four
-different scenes, and a single compatible loop can carry the whole encounter.
-[Supported actions and playback rules](docs/autonomous-scene-start.md)
+### Play in another language
 
-Close inZOI and extract the packages to `Documents\inZOI\Mods`. Keep the
-folder name from the ZIP and check that `mod_manifest.json` is directly inside
-`HZoiGameplay_4BD2AC16`. If you’re updating from 1.0.0, remove
-`HZoiGameplayPrototype_4BD2AC16` before extracting the new ZIP.
+HZoi Gameplay supports all 15 inZOI languages. Menus, toasts and session-ending
+reasons follow the game language. For translated native speech, moodlets and
+the invitation title in the action queue, select the corresponding modded
+language entry in Game Options. English uses the standard English entry.
 
-Enable **SceneZOI**, **HZoi Gameplay** and your animation pack in the game's
-mod menu, then load your household. The game displays the mod as
-**HZoi Gameplay**.
+## For mod authors
 
-## Play
+- **[Build a gameplay mod with SceneZOI](docs/gameplay-authoring.md).** Follow a
+  real invitation into the code. Find the native interaction rows, partner
+  picker, venue checks, witness reactions and tests.
+- **[Start a goal-driven session](docs/autonomous-scene-start.md).** Build the
+  Lua request, choose stage preferences and handle packs with fewer scenes
+  or no compatible route.
+- **[See how an HZoi Gameplay encounter works](docs/encounter-design.md).**
+  Read the full flow from eligibility to cleanup, cooldowns and rewards.
+- **[Look up inZOI's romance rules](docs/inzoi-romance.md).** See what
+  **Set the Mood** checks, how the game distinguishes a score from a
+  partnership, and which native rows handle cheating.
+- **[Set up a new add-on in SceneZOI](https://github.com/acepleiades/SceneZOI/blob/main/docs/addon-authoring.md).**
+  Install the SDK, send your first request and see how to use the replies.
 
-- **Invite a partner.** Choose **Have Sex Here**, select a partner and click
-  **Invite**. If the partner accepts, both Zois walk to the spot. The scene can
-  still be called off if the spot becomes unavailable or the pair needs more
-  privacy.
-- **Let the pair find a venue.** Choose **Have Sex** from **Romance** to use the
-  same venue search as autonomous invitations. Zois look for a reachable indoor
-  spot, starting with rooms that have no other Zois. They check privacy again
-  when they arrive.
-  [How Zois choose a venue](prototype/queen-bed/npc-venues.md)
-- **Let Zois initiate.** The Zoi making the invitation needs autonomy enabled.
-  The invited Zoi can respond with autonomy off if available.
-- **Control playback.** Auto mode progresses through the encounter. Turn Auto
-  off to choose from the available scenes. **Exit** restores both Zois to
-  normal gameplay. Their outcome can affect Romance, needs and moodlets.
-- **Getting caught.** Zois react to what they can see. Familiarity and
-  personality affect whether the participants stop. An official partner who
-  catches the encounter can trigger inZOI's cheating reactions.
+## For contributors
 
-This version supports two-Zoi invitations. Which pairs and venues can play
-depends on the scenes and goals supplied by the installed packs.
+Want to improve this mod or its docs? Start with
+[Contributing](CONTRIBUTING.md) and the [build and test guide](docs/release-build.md).
+Fork the repository and open a pull request with what you changed and how you
+checked it.
 
-## Play in another language
+### Report a problem
 
-HZoi Gameplay supports all 15 inZOI languages. Menus and session-ending reasons
-follow the selected language. For translated overhead speech bubbles and
-moodlet tooltips, select your language's **modded** entry in Game Options.
-English works with the standard English entry.
-
-## Report a problem
-
-Include the versions of inZOI, HZoi Gameplay, SceneZOI and your animation packs.
-Say where you clicked, which two Zois you chose, and how far the invitation got.
-The `[HZoiGameplay]` entries in the inZOI Lua log and the SceneZOI runtime folder
-can help when playback fails. [SceneZOI logs and support](https://github.com/acepleiades/SceneZOI/blob/main/docs/playing.md#report-a-problem)
-
-## Develop
-
-[Build and verify a package](docs/release-build.md) ·
-[Invitation tests](prototype/queen-bed/README.md) ·
-[inZOI romance reference](docs/inzoi-romance.md) ·
-[HZoi content pack examples](https://github.com/acepleiades/HZoi-Reference)
+Check the [existing issues](https://github.com/acepleiades/HZoi-Gameplay/issues)
+and then [open an issue](https://github.com/acepleiades/HZoi-Gameplay/issues/new/choose).
+Include your versions, what you clicked and how far the encounter got.
+[What to include in a report](CONTRIBUTING.md#report-a-problem)
 
 ## License
 
 HZoi Gameplay is licensed under [GPL-3.0-only](LICENSE). The player package
 includes a separate license notice for the bundled SceneZOI SDK. The inZOI
-game, ModKit and HZoi animation pack retain their own terms.
+game, ModKit and HZoi content pack retain their own terms.

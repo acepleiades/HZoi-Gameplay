@@ -1,10 +1,11 @@
 # Working on HZoi Gameplay
 
-Start with the [encounter proposal](docs/encounter-design.md) and follow its
-implementation priorities. Use the [SceneZOI request](docs/autonomous-scene-start.md)
-for playback and the [vanilla romance reference](docs/inzoi-romance.md) for native
-interaction rules. Prove each native handoff in game before building features that
-depend on it.
+Start with the [authoring walkthrough](docs/gameplay-authoring.md) to find the
+code and tests for your change. Use the [encounter design](docs/encounter-design.md)
+for what should happen in game, the [playback example](docs/autonomous-scene-start.md)
+for the SceneZOI request and the [inZOI romance reference](docs/inzoi-romance.md)
+for native interaction rules. See [contributing](CONTRIBUTING.md) for checks and
+bug reports.
 
 - HZoi Gameplay owns invitations, venue selection, witnesses and gameplay
   consequences. SceneZOI owns animation selection, placement, playback, scene

@@ -1,10 +1,16 @@
-# Vanilla inZOI romance reference
+# How romance works in inZOI
 
-Observed on **Windows Steam v0.11.2**, build `20261027.16617.W`, on **2026-11-23**. This is a reference for HZoi Gameplay and other gameplay mods. It describes the base game. [Krafton's build notice](https://steamcommunity.com/app/2456740/announcements/).
+If you're adding a romance interaction, check the score, the named relationship
+and the mood separately. A Zoi at **True Love** can still have no official
+partner. HZoi Gameplay uses **Set the Mood Next to Bed** as its reference for
+who can ask, how the partner answers and which relationship stat to change.
 
-**Cheating detection appears unreliable in v0.11.2.** The tests suggest that repeated romance with another Zoi near a formal partner will most likely trigger detection eventually. [Test conclusions](#conclusions-from-the-tests).
+[Set the Mood rules](#set-the-mood-next-to-bed-menu-rules) · [Cheating reactions](#jealousy-and-cheating)
+· [Full interaction index (CSV)](inzoi-romance-interactions.csv)
 
-[Full interaction index (CSV)](inzoi-romance-interactions.csv) · [Marriage](#proposal-engagement-and-marriage) · [Children](#having-children) · [Set the Mood](#set-the-mood-next-to-bed-menu-rules) · [Cheating](#jealousy-and-cheating) · [Validation](#what-we-verified-in-game)
+The base-game rows and trials below are a snapshot from **Windows Steam
+v0.11.2**, build `20261027.16617.W`, on **November 23, 2026**. Read the
+[current HZoi Gameplay rules](encounter-design.md) for what the add-on does.
 
 ## Read the romance state correctly
 
@@ -91,13 +97,15 @@ The site tag is the declared venue check for showing the option. The visible con
 
 Among qualifying pairs, the configured acceptance chance is 70% for a named partner or fiancé below 30 Romance and 100% from 30. An uncommitted partner with a negative emotional tendency at 30–60 Romance has a 30% chance of accepting. At those same scores, neutral or positive partners take the acceptance branch, as do qualifying uncommitted partners with Romance ≥61. Spouses have a 70% acceptance chance below 30 Family and 100% from 30. The relationship checks read the initiator's score for the selected target. The live apartment menu showed the lover row enabled in both directions for Jaewoo and Yiming.
 
-HZoi Gameplay's **Have Sex** and **Have Sex Here** use the game's `IsLovable` predicate, the same Romance and Family thresholds, and the remote-city check. Those checks determine eligibility for the HZoi entry points. The age mask and double-bed tag in the table above belong to the original inZOI action. **Have Sex** uses the clicked partner and searches for a venue. **Have Sex Here** opens the native picker only if someone qualifies and rechecks the pair on **Invite**. At Nuri Plaza, an eligible pair could select **Have Sex** in either direction. HZoi's search ended before the invitation because the plaza had no reachable residential venue in scope. See the [encounter design](encounter-design.md#player-interaction) for availability and final privacy.
+**Have Sex** and **Have Sex Here** use those Romance and Family thresholds,
+`IsLovable` and the remote-city check. HZoi Gameplay checks its own venues,
+so neither entry needs the native double-bed tag. In a test at Nuri Plaza,
+**Have Sex** was available to the pair but the search found no suitable venue
+and ended before the invitation. [How HZoi Gameplay starts an encounter](encounter-design.md#player-interaction)
 
 Native **Set the Mood** uses `Positive_Talk`. The game's `Emotion` table disables that tag at level 3 for `Sad`, `Uneasy`, `Cringing`, `Irritated`, and `Worried`. The live menu showed **Cannot Be Used While Feeling Miserable** for a Sad level 3 initiator. HZoi uses the corresponding restrictions for the initiator on both entry points. The target's mood affects the response weights above.
 
 ## Set the Mood Romance effects
-
-When the native scheduler takes over an HZoi invitation, the starter can report `Coop` cancellation as the scheduler begins the approach. HZoi verifies the scheduler's origin and both participants before treating this as a handoff. A refusal affects Romance only after both native dialogue roles finish. [ModKit co-op scheduler reference](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/luaapi/b2/structs/fb2coopscheduler/).
 
 After the **Set the Mood Next to Bed** acceptance conversation, `Co_TryTo_Mood` calls `Mood_Success_Relationship`. The inspected game row adds 10 Romance for a pair without a family relationship, or 10 Family for a pair with a family relationship. The refused sequence calls `TryToHaveChildren_Fail_Talk`, which subtracts 5 Romance for a pair without a family relationship or 5 Family for spouses. Both use an `AddRelationship` command with the initiator as Self, the partner as Target, and the game's normal relationship limits. The later bed step runs `Mood_Success` for effects such as moodlets and needs. The score delta can depend on native modifiers and limits. [ModKit AddRelationship reference](https://mod-docs.playinzoi.com/docs/modkit-docs/wiki/script-execution/exec-addrelationship/).
 
@@ -140,7 +148,7 @@ Xinyu accepted **Suggest Having a Baby**, and the pair stopped before the bed st
 
 ### Conclusions from the tests
 
-**Cheating detection appears unreliable in v0.11.2.** The working conclusion is that repeated romance with another Zoi near a formal partner will most likely trigger detection eventually. The tests leave the odds and exact trigger unknown. Verify detection using `effect_Affair_Confirmed`, the witness and caught records, and Romance in both directions.
+The trials confirmed some affair detections and also found qualifying-looking interactions with no visible or recorded detection. They did not establish the odds or the exact trigger for each route. Verify detection using `effect_Affair_Confirmed`, the witness and caught records, and Romance in both directions.
 
 ## Keep this reference current
 

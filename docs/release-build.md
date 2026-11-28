@@ -1,6 +1,7 @@
 # Build HZoi Gameplay
 
-Use a fresh isolated Windows ModKit project and the SceneZOI checkout used to
+To test a source change in game, build a ZIP in an isolated Windows ModKit
+project. Use the SceneZOI checkout used to
 build the framework package you will test with. Use a build that reports
 `features.shared_interaction_menu = 1` and
 `features.autonomous_auto_speed_minimum = 1` in `get_version`.
@@ -53,13 +54,7 @@ SceneZOI as the package dependency. It includes the
 HZoi Gameplay GPLv3 license as `LICENSE.txt` and the SceneZOI SDK's separate license as
 `LICENSE-SceneZOI-SDK.txt`, then prints the finished ZIP's SHA-256.
 
-The English text for native moodlets, speech bubbles and the invitation queue
-lives in `moodlet-text.csv`, `speech-text.csv` and `interaction-text.csv`.
-Reimport changes to the corresponding
-StringTable and verify its keys and source strings in the editor before cooking.
-The 15 [translation catalogs](../prototype/queen-bed/localization/) generate
-the shared interaction menu declaration, ending reasons and non-English
-native language files.
+If you are changing text, update and reimport the source StringTables first. [Localization and source checks](../prototype/queen-bed/README.md#update-player-text)
 
 ## Verify the release ZIP
 
@@ -115,7 +110,7 @@ ordinary interactions for these checks.
    just the localized privacy toast. Verify both queues clear and no playback
    starts. Overhead walk-in reactions belong to sightings during playback.
 
-Use the [iteration 1 acceptance matrix](encounter-design.md#acceptance-checks)
+Use the [encounter checks](encounter-design.md#acceptance-checks)
 and the [full invitation test notes](../prototype/queen-bed/README.md#test-in-game)
 for detailed cases. Record the exact package versions and hash alongside the
 test results.

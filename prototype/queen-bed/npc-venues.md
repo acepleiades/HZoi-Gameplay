@@ -27,6 +27,14 @@ applicable, and furniture availability. It applies the
 to anyone who can see either arrival point. An observer who fails the check
 causes both Zois to call off the encounter.
 
+## Follow the search in Lua
+
+[`NpcVenue.lua`](HZoiGameplay_4BD2AC16/lua/B2/NpcVenue.lua) gathers the native
+room, booking and path facts. [`NpcVenuePlanner.lua`](HZoiGameplay_4BD2AC16/lua/B2/NpcVenuePlanner.lua)
+sorts the usable candidates. The invitation runs SceneZOI preflight for the
+ranked candidates and claims one it can use. For a floor-only room, see
+[how the standing search picks a spot away from the door](standing-anchors.md).
+
 ## Test the venue search
 
 Use a disposable household with several indoor rooms at the same residence.
