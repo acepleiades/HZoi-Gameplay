@@ -28,9 +28,13 @@ language entry in Game Options. English uses the standard English entry.
 
 ## For mod authors
 
-- **[Build a gameplay mod with SceneZOI](docs/gameplay-authoring.md).** Follow a
-  real invitation into the code. Find the native interaction rows, partner
-  picker, venue checks, witness reactions and tests.
+- **[Make your first SceneZOI gameplay add-on](https://github.com/acepleiades/SceneZOI/blob/main/docs/first-gameplay-addon.md).**
+  Create a ModKit project, package it, and verify your first request in game.
+- **[Read HZoi Gameplay's implementation](docs/gameplay-authoring.md).** Follow
+  [an invitation](docs/gameplay-authoring.md#add-the-interaction-and-get-an-answer)
+  to see how a session starts, or go straight to
+  [witnesses and interruptions](docs/gameplay-authoring.md#handle-witnesses-and-interruptions)
+  to see how the mod reacts during playback.
 - **[Start a goal-driven session](docs/autonomous-scene-start.md).** Build the
   Lua request, choose stage preferences and handle packs with fewer scenes
   or no compatible route.
@@ -39,8 +43,6 @@ language entry in Game Options. English uses the standard English entry.
 - **[Look up inZOI's romance rules](docs/inzoi-romance.md).** See what
   **Set the Mood** checks, how the game distinguishes a score from a
   partnership, and which native rows handle cheating.
-- **[Set up a new add-on in SceneZOI](https://github.com/acepleiades/SceneZOI/blob/main/docs/addon-authoring.md).**
-  Install the SDK, send your first request and see how to use the replies.
 
 ## For contributors
 

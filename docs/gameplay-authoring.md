@@ -1,18 +1,27 @@
 # Build a gameplay mod with SceneZOI
 
-Start with one interaction you want to add to inZOI. In HZoi Gameplay, that's
-inviting another Zoi to have sex, getting an answer, walking to a bed, sofa or
-clear floor space, then starting the animation. Your mod can use the same
-approach for a different interaction, such as feeding as a vampire and deciding
-what happens to the target when the feeding ends.
+If this is your first ModKit project, start with
+[Make your first SceneZOI gameplay add-on](https://github.com/acepleiades/SceneZOI/blob/main/docs/first-gameplay-addon.md).
+It takes you from a new project to a working add-on installed in inZOI.
+Come back here when you want to see how a released mod handles a particular
+part of an encounter.
 
-Use the [SceneZOI add-on guide](https://github.com/acepleiades/SceneZOI/blob/main/docs/addon-authoring.md)
-to set up your ModKit project and connect the Lua SDK. Read the
-[encounter design](encounter-design.md) if you want to see the whole HZoi
-Gameplay encounter from the player's click to the result. Start with the
-[playback example](autonomous-scene-start.md) if you already have an interaction
-and just need to start an animation session. For help from other authors, ask
-in the [OStim/SceneZOI Community Discord](https://discord.gg/RECvhVaRcU).
+[`prototype/queen-bed/`](../prototype/queen-bed/) is where HZoi Gameplay's
+first queen-bed invitation was built. It still holds the ModKit project source
+used for the player release, alongside the tests and build scripts.
+[How to build HZoi Gameplay](release-build.md)
+
+- **Start a session.** Read [the invitation code](#add-the-interaction-and-get-an-answer)
+  if your mod needs an interaction or picker. If you already have the gameplay
+  that leads up to playback, start with [the SceneZOI request](autonomous-scene-start.md).
+- **React to a session.** If your mod watches scenes started elsewhere, start
+  with [SceneZOI event subscriptions](https://github.com/acepleiades/SceneZOI/blob/main/docs/addons.md#events-and-ownership).
+  [The witness code](#handle-witnesses-and-interruptions) shows how HZoi Gameplay
+  uses scene snapshots and reacts when a Zoi sees what is happening.
+
+For the full flow from invitation to outcome, read the
+[encounter design](encounter-design.md). For help from other authors, ask in
+the [OStim/SceneZOI Community Discord](https://discord.gg/RECvhVaRcU).
 
 ## Add the interaction and get an answer
 
