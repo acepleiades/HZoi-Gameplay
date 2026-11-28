@@ -9,6 +9,17 @@ const label = document.getElementById("download-label");
 const status = document.getElementById("release-status");
 const releaseLink = document.getElementById("release-link");
 const notes = document.getElementById("release-notes");
+const releaseLanguage = document.getElementById("release-language");
+let assetSize;
+
+function showAssetSize() {
+  if (assetSize === undefined) return;
+  assetInfo.textContent = new Intl.NumberFormat(document.documentElement.lang, {
+    style: "unit", unit: "megabyte", unitDisplay: "short", maximumFractionDigits: 1
+  }).format(assetSize / 1000000);
+}
+
+document.addEventListener("site-language-change", showAssetSize);
 
 // Render only the Markdown used in release notes, never remote HTML.
 function addInline(element, text) {
@@ -27,6 +38,8 @@ function addInline(element, text) {
 
 function showNotes(body) {
   if (!body?.trim()) return;
+  notes.lang = "en";
+  releaseLanguage.hidden = false;
   notes.replaceChildren();
   let block;
   for (const line of body.trim().split(/\r?\n/)) {
@@ -78,15 +91,18 @@ async function loadRelease() {
     releaseTag.textContent = release.tag_name + " · ";
     releaseLink.href = repository + "/releases/tag/" + tag;
     download.href = asset ? asset.browser_download_url : releaseLink.href;
-    label.textContent = asset ? "Download HZoi Gameplay ZIP" : "View release on GitHub";
+    if (asset) {
+      setSiteMessage(label, "downloadZip", "Download HZoi Gameplay ZIP");
+    } else {
+      setSiteMessage(label, "viewRelease", "View release on GitHub");
+    }
     if (asset && Number.isFinite(asset.size)) {
-      assetInfo.textContent = new Intl.NumberFormat("en-US", {
-        style: "unit", unit: "megabyte", unitDisplay: "short", maximumFractionDigits: 1
-      }).format(asset.size / 1000000);
+      assetSize = asset.size;
+      showAssetSize();
     }
     showNotes(release.body);
   } catch {
-    status.textContent = "Live release details are unavailable. Open GitHub to get the latest ZIP.";
+    setSiteMessage(status, "releaseUnavailable", "Live release details are unavailable. Open GitHub to get the latest ZIP.");
   }
 }
 
