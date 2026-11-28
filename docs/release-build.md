@@ -18,7 +18,7 @@ $modkitRoot = "C:/isolated-build/inZOIModKit"
 $project = Join-Path $modkitRoot "inZOIModKit/inZOIModKit.uproject"
 $exportRoot = "C:/isolated-build/HZoiGameplay-export"
 $filteredExport = "C:/isolated-build/HZoiGameplay-filtered"
-$modId = "HZoiGameplayPrototype_4BD2AC16"
+$modId = "HZoiGameplay_4BD2AC16"
 $staged = Join-Path (Split-Path $project -Parent) "Mods/$modId"
 
 python prepare-localization.py --check
@@ -38,13 +38,13 @@ python prepare-release.py filter --modkit-root $modkitRoot --project $project `
 if ($LASTEXITCODE -ne 0) { throw "Container filtering failed." }
 
 python prepare-release.py archive --scenezoi $sceneZOI --modkit-root $modkitRoot `
-  --prepared $staged --exported $filteredExport --output "HZoiGameplay-1.0.0.zip"
+  --prepared $staged --exported $filteredExport --output "HZoiGameplay-1.0.1.zip"
 if ($LASTEXITCODE -ne 0) { throw "Package verification failed." }
 ```
 
 The script copies the matching SceneZOI SDK into the staged mod and regenerates
 the invitation and localization files. Filter the cook before another cook
-replaces its response files. The filter keeps the two mod StringTables and
+replaces its response files. The filter keeps the mod's StringTables and
 omits base-game assets. The archive step lists the resulting containers again
 and verifies the registry, 14 non-English translation files, protected Lua,
 encoded UI, and native patches against the prepared inventory. It keeps the
@@ -53,8 +53,9 @@ SceneZOI as the package dependency. It includes the
 HZoi Gameplay GPLv3 license as `LICENSE.txt` and the SceneZOI SDK's separate license as
 `LICENSE-SceneZOI-SDK.txt`, then prints the finished ZIP's SHA-256.
 
-The English text for native moodlets and speech bubbles lives in
-`moodlet-text.csv` and `speech-text.csv`. Reimport changes to the corresponding
+The English text for native moodlets, speech bubbles and the invitation queue
+lives in `moodlet-text.csv`, `speech-text.csv` and `interaction-text.csv`.
+Reimport changes to the corresponding
 StringTable and verify its keys and source strings in the editor before cooking.
 The 15 [translation catalogs](../prototype/queen-bed/localization/) generate
 the shared interaction menu declaration, ending reasons and non-English

@@ -1,5 +1,5 @@
 -- Run from prototype/queen-bed.
-local source = "HZoiGameplayPrototype_4BD2AC16/lua/B1/"
+local source = "HZoiGameplay_4BD2AC16/lua/B1/"
 local initiator, partner, bystander = {Value = 1}, {Value = 2}, {Value = 3}
 local controlled, toasts = initiator, {}
 local actor = {GetEntityId = function() return initiator end}

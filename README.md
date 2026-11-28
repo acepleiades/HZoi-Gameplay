@@ -11,11 +11,11 @@ the **Romance** menu to let the pair find a venue. The Zois use the game's
 
 ## Install
 
-Download **HZoiGameplay-1.0.0.zip** from the
-[HZoi Gameplay GitHub release](https://github.com/acepleiades/HZoi-Gameplay/releases/tag/v1.0.0).
+Download the **HZoiGameplay** ZIP from the
+[latest HZoi Gameplay release](https://github.com/acepleiades/HZoi-Gameplay/releases/latest).
 Install SceneZOI and a compatible animation pack.
 
-- **[SceneZOI 1.7.3](https://github.com/acepleiades/SceneZOI/releases/tag/v1.7.3)**
+- **[SceneZOI](https://github.com/acepleiades/SceneZOI/releases/latest)** 1.7.3 or newer
   is required for the shared interaction menus, partner picker, playback, and Auto mode.
 - **HZoi 1.4.1** is the recommended animation pack. It supplies standing,
   bed and sofa scenes. [HZoi downloads](https://www.patreon.com/skyrimaceanimations/posts/hzoi-1-4-1-174452155)
@@ -28,13 +28,10 @@ let every participant complete an Excitement task. Auto aims for four
 different scenes, and a single compatible loop can carry the whole encounter.
 [Supported actions and playback rules](docs/autonomous-scene-start.md)
 
-Close inZOI and extract the packages to `Documents\inZOI\Mods`. When
-updating, replace each old mod folder with the matching new one. Check that the
-gameplay package has this layout:
-
-```text
-Documents\inZOI\Mods\HZoiGameplayPrototype_4BD2AC16\mod_manifest.json
-```
+Close inZOI and extract the packages to `Documents\inZOI\Mods`. Keep the
+folder name from the ZIP and check that `mod_manifest.json` is directly inside
+`HZoiGameplay_4BD2AC16`. If you’re updating from 1.0.0, remove
+`HZoiGameplayPrototype_4BD2AC16` before extracting the new ZIP.
 
 Enable **SceneZOI**, **HZoi Gameplay** and your animation pack in the game's
 mod menu, then load your household. The game displays the mod as

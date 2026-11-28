@@ -1,5 +1,5 @@
 -- Run from prototype/queen-bed with the SceneZOI SDK on the Lua module search path.
-package.path = "HZoiGameplayPrototype_4BD2AC16/lua/B1/?.lua;" .. package.path
+package.path = "HZoiGameplay_4BD2AC16/lua/B1/?.lua;" .. package.path
 local Json = require("SceneZOIAddon.Json")
 package.loaded.Localization = {culture = function() return "fr-fr" end}
 local TraceBridge = require("WitnessTraceBridge")

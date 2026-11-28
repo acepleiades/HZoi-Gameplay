@@ -1,0 +1,489 @@
+{
+  "Struct": "InteractionBag",
+  "BaseVersion": "20261026.16562.W.MODKIT.EGS",
+  "SaveVersion": "20261026.16562.W.MODKIT.EGS",
+  "PatchList": [
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_Invite",
+        "AgingConditionFlags": 511,
+        "bUniqueInQueue": true,
+        "DisplayInfo": {
+          "DisplayCategoryTextId": "",
+          "DisplayTextId": "mod_InteractionBag_DisplayInfo_HZoiGameplay_Invite_OverrideQueueTextId",
+          "OverrideQueueTextId": "mod_InteractionBag_DisplayInfo_HZoiGameplay_Invite_OverrideQueueTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Talk_Mood.Action_Talk_Mood'",
+          "InteractionQueueIcon": "None",
+          "PanelIcon": "None",
+          "PanelIconId": "Conversation_Icon_Mood",
+          "PanelIconColorId": "None",
+          "LeftMarkerId": "None",
+          "PanelIconWithBG": {
+            "IconId": "None",
+            "BGColor1Id": "None",
+            "BGColor2Id": "None"
+          },
+          "bHideUI": false
+        },
+        "EnqueueConditionIds": [
+          "HZoiGameplay_EligibleForMood"
+        ],
+        "InteractionSequence": [
+          {
+            "Id": "Lover_1",
+            "Probability": 0.7,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Lover_01",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Accept",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Lover_2",
+            "Probability": 0.3,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Lover_01",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Refuse",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Lover_3",
+            "Probability": 0.3,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Lover_02",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Accept",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Lover_4",
+            "Probability": 0.7,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Lover_02",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Refuse",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Lover_5",
+            "Probability": 1,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Lover_03",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Accept",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Spouse_1",
+            "Probability": 0.7,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Spouse_01",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Accept",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Spouse_2",
+            "Probability": 0.3,
+            "bSequencial": false,
+            "EnableConditionId": "HZoiGameplay_Mood_Spouse_01",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Refuse",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          },
+          {
+            "Id": "Spouse_3",
+            "Probability": 1,
+            "bSequencial": true,
+            "EnableConditionId": "HZoiGameplay_Mood_Spouse_02",
+            "SequenceStartInfos": [],
+            "MainInteractionId": "None",
+            "InteractionInfos": [
+              {
+                "InteractionId": "RequestCoop",
+                "Label": "A",
+                "SuccessNextLabel": "None",
+                "FailNextLabel": "None",
+                "bIsOptional": false
+              }
+            ],
+            "CoopId": "HZoiGameplay_Coop_Accept",
+            "bIsTalk": false,
+            "NextInteractionBagId": "None"
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_Walk",
+        "AgingConditionFlags": 511,
+        "DisplayInfo": {
+          "DisplayTextId": "InteractionBag_DisplayInfo_ClickMove_Self_DisplayTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Move01.Action_Move01'",
+          "InteractionQueueIcon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Move01.Action_Move01'"
+        },
+        "InteractionSequence": [
+          {
+            "Probability": 1.0,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "ClickMove",
+                "Label": "A"
+              }
+            ]
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_WitnessWalk",
+        "AgingConditionFlags": 508,
+        "DisplayInfo": {
+          "DisplayTextId": "InteractionBag_DisplayInfo_ClickMove_Self_DisplayTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Move01.Action_Move01'",
+          "InteractionQueueIcon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Move01.Action_Move01'"
+        },
+        "InteractionSequence": [
+          {
+            "Probability": 1.0,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "ClickMove",
+                "Label": "A"
+              }
+            ]
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_WalkRetry",
+        "AgingConditionFlags": 511,
+        "DisplayInfo": {
+          "DisplayTextId": "InteractionBag_DisplayInfo_ClickMove_Self_DisplayTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Move01.Action_Move01'",
+          "InteractionQueueIcon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Move01.Action_Move01'"
+        },
+        "InteractionSequence": [
+          {
+            "Probability": 1.0,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "ClickMove",
+                "Label": "A"
+              }
+            ]
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Enabled": true,
+      "Value": {
+        "InteractionBagCategory": "Click",
+        "PostureGroupId": "AllGroup",
+        "AgingConditionFlags": 511,
+        "bUniqueInQueue": true,
+        "bAddSameInteractionToGroupMember": false,
+        "InteractionBagTags": [
+          "Lock_Emotion_Sad_Lv3",
+          "Lock_Emotion_Uneasy_Lv3",
+          "Lock_Emotion_Cringing_Lv3",
+          "Lock_Emotion_Irritated_Lv3",
+          "Lock_Emotion_Worried_Lv3"
+        ],
+        "DisplayInfo": {
+          "DisplayTextId": "Have Sex Here",
+          "DisplayCategoryTextId": "InteractionBag_DisplayInfo_ClickMove_Self_DisplayCategoryTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Talk_Mood.Action_Talk_Mood'",
+          "PanelIconId": "Conversation_Icon_Mood"
+        },
+        "InteractionSequence": [
+          {
+            "Probability": 1,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "HZoiGameplay_SelectVenue",
+                "Label": "A"
+              }
+            ]
+          }
+        ],
+        "ID": "HZoiGameplay_SelectVenue"
+      }
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_FindVenue",
+        "PostureGroupId": "TalkGroup",
+        "AgingConditionFlags": 511,
+        "bUniqueInQueue": true,
+        "InteractionBagTags": [
+          "Lock_Emotion_Sad_Lv3",
+          "Lock_Emotion_Uneasy_Lv3",
+          "Lock_Emotion_Cringing_Lv3",
+          "Lock_Emotion_Irritated_Lv3",
+          "Lock_Emotion_Worried_Lv3"
+        ],
+        "DisplayInfo": {
+          "DisplayCategoryTextId": "",
+          "DisplayTextId": "Have Sex",
+          "OverrideQueueTextId": "",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Talk_Mood.Action_Talk_Mood'",
+          "InteractionQueueIcon": "None",
+          "PanelIcon": "None",
+          "PanelIconId": "Conversation_Icon_Mood",
+          "PanelIconColorId": "None",
+          "LeftMarkerId": "None",
+          "PanelIconWithBG": {
+            "IconId": "None",
+            "BGColor1Id": "None",
+            "BGColor2Id": "None"
+          },
+          "bHideUI": false
+        },
+        "InteractionVisibleConditionIds": [
+          "HZoiGameplay_CanFindVenue"
+        ],
+        "InteractionEnableConditionIds": [
+          "HZoiGameplay_CanFindVenue",
+          "Not_FromRemoteCity_SelfTarget"
+        ],
+        "InteractionSequence": [
+          {
+            "Probability": 1,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "HZoiGameplay_SelectVenue",
+                "Label": "A"
+              }
+            ]
+          }
+        ]
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_InviteDialogue",
+        "PostureGroupId": "StandGroup",
+        "AgingConditionFlags": 504,
+        "RepeatCount": 1,
+        "DisplayInfo": {
+          "DisplayCategoryTextId": "InteractionBag_DisplayInfo_Coop_TalkLike_Before_MakeLove_DisplayCategoryTextId",
+          "DisplayTextId": "mod_InteractionBag_DisplayInfo_HZoiGameplay_Invite_OverrideQueueTextId",
+          "OverrideQueueTextId": "mod_InteractionBag_DisplayInfo_HZoiGameplay_Invite_OverrideQueueTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Self01.Action_Self01'"
+        },
+        "InteractionSequence": [
+          {
+            "Probability": 1,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "Coop_TalkLike_Before_MakeLove",
+                "Label": "A"
+              }
+            ]
+          }
+        ],
+        "ActionHintTextForSLM": "Making Mood Before Love"
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_InviteDialogue_Feedback",
+        "PostureGroupId": "StandGroup",
+        "AgingConditionFlags": 504,
+        "RepeatCount": 1,
+        "DisplayInfo": {
+          "DisplayCategoryTextId": "InteractionBag_DisplayInfo_Coop_TalkLike_Before_MakeLove_Feedback_DisplayCategoryTextId",
+          "DisplayTextId": "mod_InteractionBag_DisplayInfo_HZoiGameplay_Invite_OverrideQueueTextId",
+          "OverrideQueueTextId": "mod_InteractionBag_DisplayInfo_HZoiGameplay_Invite_OverrideQueueTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Self01.Action_Self01'"
+        },
+        "InteractionSequence": [
+          {
+            "Probability": 1,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "Coop_TalkLike_Before_MakeLove_Feedback",
+                "Label": "A"
+              }
+            ]
+          }
+        ],
+        "ActionHintTextForSLM": "Making Mood Before Love"
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_InviteDialogue_Fail",
+        "PostureGroupId": "StandGroup",
+        "AgingConditionFlags": 504,
+        "RepeatCount": 1,
+        "DisplayInfo": {
+          "DisplayCategoryTextId": "InteractionBag_DisplayInfo_Coop_TalkLike_Before_MakeLove_Fail_DisplayCategoryTextId",
+          "DisplayTextId": "mod_InteractionBag_DisplayInfo_HZoiGameplay_Invite_OverrideQueueTextId",
+          "OverrideQueueTextId": "mod_InteractionBag_DisplayInfo_HZoiGameplay_Invite_OverrideQueueTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Self01.Action_Self01'"
+        },
+        "InteractionSequence": [
+          {
+            "Probability": 1,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "Coop_TalkLike_Before_MakeLove_Fail",
+                "Label": "A"
+              }
+            ]
+          }
+        ],
+        "ActionHintTextForSLM": "Making Mood Before Love"
+      },
+      "Enabled": true
+    },
+    {
+      "Method": "Append",
+      "Query": "InteractionBag",
+      "Value": {
+        "Id": "HZoiGameplay_InviteDialogue_Fail_Feedback",
+        "PostureGroupId": "StandGroup",
+        "AgingConditionFlags": 504,
+        "RepeatCount": 1,
+        "DisplayInfo": {
+          "DisplayCategoryTextId": "InteractionBag_DisplayInfo_Coop_TalkLike_Before_MakeLove_Fail_Feedback_DisplayCategoryTextId",
+          "DisplayTextId": "mod_InteractionBag_DisplayInfo_HZoiGameplay_Invite_OverrideQueueTextId",
+          "OverrideQueueTextId": "mod_InteractionBag_DisplayInfo_HZoiGameplay_Invite_OverrideQueueTextId",
+          "Icon": "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Self01.Action_Self01'"
+        },
+        "InteractionSequence": [
+          {
+            "Probability": 1,
+            "bSequencial": true,
+            "InteractionInfos": [
+              {
+                "InteractionId": "Coop_TalkLike_Before_MakeLove_Fail_Feedback",
+                "Label": "A"
+              }
+            ]
+          }
+        ],
+        "ActionHintTextForSLM": "Making Mood Before Love"
+      },
+      "Enabled": true
+    }
+  ]
+}

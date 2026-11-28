@@ -1,0 +1,875 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Blue_Data\n"
+"Language: de-DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_DisplayTextId"
+msgid "In Sync"
+msgstr "Im Einklang"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nYou found a rhythm that felt right for everyone. Afterward, you wanted to stay close a little longer."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nIhr habt einen Rhythmus gefunden, der sich für alle richtig angefühlt hat. Danach wolltest du noch ein bisschen in der Nähe bleiben."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_InSync_EmotionReasonDescTextId"
+msgid "You found a rhythm that felt right for everyone. Afterward, you wanted to stay close a little longer."
+msgstr "Ihr habt einen Rhythmus gefunden, der sich für alle richtig angefühlt hat. Danach wolltest du noch ein bisschen in der Nähe bleiben."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_DisplayTextId"
+msgid "Satisfied"
+msgstr "Rundum zufrieden"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_ReasonTextId"
+msgid "[From reaching orgasm when some participants didn’t]\r\nYou feel relaxed and satisfied. You wish everyone had had the same chance to finish."
+msgstr "[Weil du zum Orgasmus kamst und manche andere nicht]\r\nDu fühlst dich entspannt und zufrieden. Du wünschst, alle hätten die gleiche Chance gehabt, zum Höhepunkt zu kommen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_Satisfied_EmotionReasonDescTextId"
+msgid "You feel relaxed and satisfied. You wish everyone had had the same chance to finish."
+msgstr "Du fühlst dich entspannt und zufrieden. Du wünschst, alle hätten die gleiche Chance gehabt, zum Höhepunkt zu kommen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_DisplayTextId"
+msgid "Out of Sync"
+msgstr "Aus dem Takt"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_ReasonTextId"
+msgid "[From someone else reaching orgasm while you didn’t]\r\nIt was good to see someone finish, but you were still getting there when it ended. You wish you’d had a little more time."
+msgstr "[Weil jemand anderes zum Orgasmus kam und du nicht]\r\nEs war schön zu sehen, wie jemand zum Höhepunkt kam. Für dich war der Moment aber zu früh vorbei. Ein bisschen mehr Zeit wäre schön gewesen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfSync_EmotionReasonDescTextId"
+msgid "It was good to see someone finish, but you were still getting there when it ended. You wish you’d had a little more time."
+msgstr "Es war schön zu sehen, wie jemand zum Höhepunkt kam. Für dich war der Moment aber zu früh vorbei. Ein bisschen mehr Zeit wäre schön gewesen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_DisplayTextId"
+msgid "Awkward Timing"
+msgstr "Ein ungünstiger Moment"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_ReasonTextId"
+msgid "[From being interrupted during sex]\r\nSomeone saw what was happening, and the encounter stopped. It’s hard to get back in the mood after that."
+msgstr "[Weil ihr beim Sex unterbrochen wurdet]\r\nJemand hat gesehen, was los war, und die Begegnung wurde abgebrochen. Danach fällt es dir schwer, wieder in Stimmung zu kommen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AwkwardTiming_EmotionReasonDescTextId"
+msgid "Someone saw what was happening, and the encounter stopped. It’s hard to get back in the mood after that."
+msgstr "Jemand hat gesehen, was los war, und die Begegnung wurde abgebrochen. Danach fällt es dir schwer, wieder in Stimmung zu kommen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_DisplayTextId"
+msgid "Unfinished Moment"
+msgstr "Ein Moment, der offenblieb"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_ReasonTextId"
+msgid "[From stopping early]\r\nThings were only just getting good when you stopped. You’re left thinking about what might have happened with a little more time."
+msgstr "[Weil ihr früh aufgehört habt]\r\nEs wurde gerade erst richtig schön, als ihr aufgehört habt. Du fragst dich, was mit ein bisschen mehr Zeit daraus geworden wäre."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedMoment_EmotionReasonDescTextId"
+msgid "Things were only just getting good when you stopped. You’re left thinking about what might have happened with a little more time."
+msgstr "Es wurde gerade erst richtig schön, als ihr aufgehört habt. Du fragst dich, was mit ein bisschen mehr Zeit daraus geworden wäre."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_DisplayTextId"
+msgid "Out of Order"
+msgstr "Aus dem Gleichgewicht"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_ReasonTextId"
+msgid "[From the encounter ending before everyone reached orgasm]\r\nYou wanted everyone to enjoy it. Ending before everyone could finish made the whole thing feel a little uneven."
+msgstr "[Weil die Begegnung endete, bevor alle zum Orgasmus kamen]\r\nDu wolltest, dass alle Spaß haben. Dass es vorbei war, bevor alle zum Höhepunkt kommen konnten, fühlte sich etwas unausgewogen an."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_OutOfOrder_EmotionReasonDescTextId"
+msgid "You wanted everyone to enjoy it. Ending before everyone could finish made the whole thing feel a little uneven."
+msgstr "Du wolltest, dass alle Spaß haben. Dass es vorbei war, bevor alle zum Höhepunkt kommen konnten, fühlte sich etwas unausgewogen an."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_DisplayTextId"
+msgid "Found a Better Rhythm"
+msgstr "Einen besseren Rhythmus gefunden"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nChanging things up came naturally once you started paying attention to each other. You’re glad you tried something different."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nAls ihr mehr aufeinander geachtet habt, kam die Abwechslung ganz von selbst. Du bist froh, dass ihr etwas Neues ausprobiert habt."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundABetterRhythm_EmotionReasonDescTextId"
+msgid "Changing things up came naturally once you started paying attention to each other. You’re glad you tried something different."
+msgstr "Als ihr mehr aufeinander geachtet habt, kam die Abwechslung ganz von selbst. Du bist froh, dass ihr etwas Neues ausprobiert habt."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_DisplayTextId"
+msgid "Nowhere to Hide"
+msgstr "Am liebsten unsichtbar"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_ReasonTextId"
+msgid "[From being seen having sex]\r\nYou thought you had some privacy. The second you realized someone could see you, you wished you could disappear."
+msgstr "[Weil ihr beim Sex gesehen wurdet]\r\nDu dachtest, ihr hättet etwas Privatsphäre. Als du gemerkt hast, dass jemand euch sehen konnte, wärst du am liebsten im Boden versunken."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_NowhereToHide_EmotionReasonDescTextId"
+msgid "You thought you had some privacy. The second you realized someone could see you, you wished you could disappear."
+msgstr "Du dachtest, ihr hättet etwas Privatsphäre. Als du gemerkt hast, dass jemand euch sehen konnte, wärst du am liebsten im Boden versunken."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_DisplayTextId"
+msgid "Played It Cool"
+msgstr "Cool geblieben"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_ReasonTextId"
+msgid "[From being seen having sex]\r\nBeing seen was awkward for a second, but you kept your cool. It doesn’t feel like something you need to make a big deal of."
+msgstr "[Weil ihr beim Sex gesehen wurdet]\r\nEs war dir kurz unangenehm, gesehen zu werden, aber du hast die Ruhe bewahrt. Für dich gibt es keinen Grund, daraus eine große Sache zu machen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_PlayedItCool_EmotionReasonDescTextId"
+msgid "Being seen was awkward for a second, but you kept your cool. It doesn’t feel like something you need to make a big deal of."
+msgstr "Es war dir kurz unangenehm, gesehen zu werden, aber du hast die Ruhe bewahrt. Für dich gibt es keinen Grund, daraus eine große Sache zu machen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_DisplayTextId"
+msgid "Unfinished Business"
+msgstr "Da fehlt noch was"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_ReasonTextId"
+msgid "[From stopping early]\r\nYou were just getting into it when things stopped. The feeling that you left something unfinished is hard to shake."
+msgstr "[Weil ihr früh aufgehört habt]\r\nDu warst gerade erst richtig dabei, als es vorbei war. Das Gefühl, dass noch etwas offen ist, lässt dich nicht los."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_UnfinishedBusiness_EmotionReasonDescTextId"
+msgid "You were just getting into it when things stopped. The feeling that you left something unfinished is hard to shake."
+msgstr "Du warst gerade erst richtig dabei, als es vorbei war. Das Gefühl, dass noch etwas offen ist, lässt dich nicht los."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_DisplayTextId"
+msgid "Perfect Improvisation"
+msgstr "Perfekt improvisiert"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nYou stopped thinking about how it ought to go and followed each other’s lead. Now you’re curious what else might feel that natural."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nIhr habt aufgehört, euch Gedanken darüber zu machen, wie es laufen sollte, und euch aufeinander eingelassen. Jetzt fragst du dich, was sich noch so natürlich anfühlen könnte."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_PerfectImprovisation_EmotionReasonDescTextId"
+msgid "You stopped thinking about how it ought to go and followed each other’s lead. Now you’re curious what else might feel that natural."
+msgstr "Ihr habt aufgehört, euch Gedanken darüber zu machen, wie es laufen sollte, und euch aufeinander eingelassen. Jetzt fragst du dich, was sich noch so natürlich anfühlen könnte."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_DisplayTextId"
+msgid "At My Own Pace"
+msgstr "In meinem eigenen Tempo"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_ReasonTextId"
+msgid "[From reaching orgasm]\r\nYou gave yourself time to enjoy being close without worrying about how fast things were moving. That was exactly what you needed."
+msgstr "[Weil du zum Orgasmus gekommen bist]\r\nDu hast dir Zeit für die Nähe genommen, ohne dich zu hetzen. Genau das hast du gebraucht."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AtMyOwnPace_EmotionReasonDescTextId"
+msgid "You gave yourself time to enjoy being close without worrying about how fast things were moving. That was exactly what you needed."
+msgstr "Du hast dir Zeit für die Nähe genommen, ohne dich zu hetzen. Genau das hast du gebraucht."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_DisplayTextId"
+msgid "Something to Think About"
+msgstr "Zum Nachdenken"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_ReasonTextId"
+msgid "[From reaching orgasm]\r\nYou keep thinking about what made that feel so good. It might be worth talking about what you liked next time."
+msgstr "[Weil du zum Orgasmus gekommen bist]\r\nDu denkst immer wieder daran, warum es sich so gut angefühlt hat. Vielleicht lohnt es sich, das nächste Mal darüber zu sprechen, was dir gefallen hat."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SomethingToThinkAbout_EmotionReasonDescTextId"
+msgid "You keep thinking about what made that feel so good. It might be worth talking about what you liked next time."
+msgstr "Du denkst immer wieder daran, warum es sich so gut angefühlt hat. Vielleicht lohnt es sich, das nächste Mal darüber zu sprechen, was dir gefallen hat."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_DisplayTextId"
+msgid "A Question of Timing"
+msgstr "Eine Frage des Timings"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_ReasonTextId"
+msgid "[From someone else reaching orgasm while you didn’t]\r\nSomeone finished just when you were starting to get close. You’re still wondering how the timing got so out of step."
+msgstr "[Weil jemand anderes zum Orgasmus kam und du nicht]\r\nJemand kam zum Höhepunkt, gerade als du selbst kurz davor warst. Du fragst dich immer noch, wie ihr so aus dem Takt geraten seid."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AQuestionOfTiming_EmotionReasonDescTextId"
+msgid "Someone finished just when you were starting to get close. You’re still wondering how the timing got so out of step."
+msgstr "Jemand kam zum Höhepunkt, gerade als du selbst kurz davor warst. Du fragst dich immer noch, wie ihr so aus dem Takt geraten seid."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_DisplayTextId"
+msgid "Exactly What I Worried About"
+msgstr "Genau das hatte ich befürchtet"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_ReasonTextId"
+msgid "[From being seen having sex]\r\nYou’d been wondering whether someone might see you, and then it actually happened. It’s going to take a while to stop worrying about it."
+msgstr "[Weil ihr beim Sex gesehen wurdet]\r\nDu hast dich schon gefragt, ob euch jemand sehen könnte, und dann ist es tatsächlich passiert. Es wird eine Weile dauern, bis du dir keine Gedanken mehr darüber machst."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ExactlyWhatIWorriedAbout_EmotionReasonDescTextId"
+msgid "You’d been wondering whether someone might see you, and then it actually happened. It’s going to take a while to stop worrying about it."
+msgstr "Du hast dich schon gefragt, ob euch jemand sehen könnte, und dann ist es tatsächlich passiert. Es wird eine Weile dauern, bis du dir keine Gedanken mehr darüber machst."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_DisplayTextId"
+msgid "Thrill of Being Caught"
+msgstr "Der Reiz des Erwischtwerdens"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_ReasonTextId"
+msgid "[From getting caught cheating]\r\nYour partner caught you with someone else. You know the conversation won’t be easy, but the rush caught you by surprise."
+msgstr "[Weil du beim Fremdgehen erwischt wurdest]\r\nDu wurdest von der Person, mit der du zusammen bist, beim Fremdgehen erwischt. Du weißt, dass das Gespräch nicht leicht wird, aber der Nervenkitzel hat dich überrascht."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ThrillOfBeingCaught_EmotionReasonDescTextId"
+msgid "Your partner caught you with someone else. You know the conversation won’t be easy, but the rush caught you by surprise."
+msgstr "Du wurdest von der Person, mit der du zusammen bist, beim Fremdgehen erwischt. Du weißt, dass das Gespräch nicht leicht wird, aber der Nervenkitzel hat dich überrascht."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_DisplayTextId"
+msgid "What an Entrance"
+msgstr "Was für ein Auftritt"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_ReasonTextId"
+msgid "[From being seen having sex]\r\nThe timing was so bad that it was almost funny. Once the surprise wore off, you had to fight the urge to laugh."
+msgstr "[Weil ihr beim Sex gesehen wurdet]\r\nDer Zeitpunkt war so daneben, dass es schon fast lustig war. Als der erste Schreck vorbei war, musstest du dir das Lachen verkneifen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatAnEntrance_EmotionReasonDescTextId"
+msgid "The timing was so bad that it was almost funny. Once the surprise wore off, you had to fight the urge to laugh."
+msgstr "Der Zeitpunkt war so daneben, dass es schon fast lustig war. Als der erste Schreck vorbei war, musstest du dir das Lachen verkneifen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_DisplayTextId"
+msgid "Worth the Rush"
+msgstr "Den Nervenkitzel wert"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nGetting carried away together felt better than you expected. Your heart is still racing a little just thinking about it."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nSich zusammen mitreißen zu lassen, war schöner als gedacht. Wenn du daran zurückdenkst, klopft dein Herz immer noch ein bisschen schneller."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheRush_EmotionReasonDescTextId"
+msgid "Getting carried away together felt better than you expected. Your heart is still racing a little just thinking about it."
+msgstr "Sich zusammen mitreißen zu lassen, war schöner als gedacht. Wenn du daran zurückdenkst, klopft dein Herz immer noch ein bisschen schneller."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_DisplayTextId"
+msgid "Who Let Them In?"
+msgstr "Wer hat sie reingelassen?"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_ReasonTextId"
+msgid "[From being seen having sex]\r\nYou expected a bit of privacy. Now you’re thinking about how easily someone saw you and how annoyed you are about it."
+msgstr "[Weil ihr beim Sex gesehen wurdet]\r\nDu hattest mit ein bisschen Privatsphäre gerechnet. Es ärgert dich immer noch, wie leicht euch jemand sehen konnte."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhoLetThemIn_EmotionReasonDescTextId"
+msgid "You expected a bit of privacy. Now you’re thinking about how easily someone saw you and how annoyed you are about it."
+msgstr "Du hattest mit ein bisschen Privatsphäre gerechnet. Es ärgert dich immer noch, wie leicht euch jemand sehen konnte."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_DisplayTextId"
+msgid "Kept It Together"
+msgstr "Die Fassung bewahrt"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_ReasonTextId"
+msgid "[From being interrupted during sex]\r\nYou were embarrassed at first, but you took a breath and kept your composure. It feels good to know you can handle an awkward moment."
+msgstr "[Weil ihr beim Sex unterbrochen wurdet]\r\nZuerst war es dir peinlich, aber du hast tief durchgeatmet und bist ruhig geblieben. Es tut gut zu wissen, dass du auch so einen Moment meistern kannst."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptItTogether_EmotionReasonDescTextId"
+msgid "You were embarrassed at first, but you took a breath and kept your composure. It feels good to know you can handle an awkward moment."
+msgstr "Zuerst war es dir peinlich, aber du hast tief durchgeatmet und bist ruhig geblieben. Es tut gut zu wissen, dass du auch so einen Moment meistern kannst."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_DisplayTextId"
+msgid "Mixed Feelings"
+msgstr "Gemischte Gefühle"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_ReasonTextId"
+msgid "[From someone else reaching orgasm while you didn’t]\r\nYou’re glad someone had a good time. You wish you’d had a little more time too."
+msgstr "[Weil jemand anderes zum Orgasmus kam und du nicht]\r\nDu freust dich, dass es jemandem gefallen hat. Ein bisschen mehr Zeit für dich wäre aber auch schön gewesen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_MixedFeelings_EmotionReasonDescTextId"
+msgid "You’re glad someone had a good time. You wish you’d had a little more time too."
+msgstr "Du freust dich, dass es jemandem gefallen hat. Ein bisschen mehr Zeit für dich wäre aber auch schön gewesen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_DisplayTextId"
+msgid "The World Went Quiet"
+msgstr "Als die Welt ganz still wurde"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nFor a little while you forgot about everything outside that moment. You’re still carrying that quiet feeling with you."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nEine Weile hast du alles vergessen, was außerhalb dieses Moments lag. Das Gefühl der Ruhe begleitet dich noch."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TheWorldWentQuiet_EmotionReasonDescTextId"
+msgid "For a little while you forgot about everything outside that moment. You’re still carrying that quiet feeling with you."
+msgstr "Eine Weile hast du alles vergessen, was außerhalb dieses Moments lag. Das Gefühl der Ruhe begleitet dich noch."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_DisplayTextId"
+msgid "Let’s Laugh About It"
+msgstr "Darüber können wir lachen"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_ReasonTextId"
+msgid "[From being seen having sex]\r\nIt was embarrassing to realize someone could see you, but the timing was hard to take seriously. You can already laugh about it."
+msgstr "[Weil ihr beim Sex gesehen wurdet]\r\nEs war peinlich zu merken, dass euch jemand sehen konnte. Aber der Zeitpunkt war so absurd, dass du inzwischen darüber lachen kannst."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_LetsLaughAboutIt_EmotionReasonDescTextId"
+msgid "It was embarrassing to realize someone could see you, but the timing was hard to take seriously. You can already laugh about it."
+msgstr "Es war peinlich zu merken, dass euch jemand sehen konnte. Aber der Zeitpunkt war so absurd, dass du inzwischen darüber lachen kannst."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_DisplayTextId"
+msgid "Too Many Eyes"
+msgstr "Zu viele Blicke"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_ReasonTextId"
+msgid "[From being seen having sex]\r\nThe moment felt private until you noticed someone looking. You’d rather be somewhere quiet where you don’t have to face anyone for a bit."
+msgstr "[Weil ihr beim Sex gesehen wurdet]\r\nDer Moment fühlte sich ganz privat an, bis du den Blick bemerkt hast. Jetzt wärst du lieber irgendwo, wo dich eine Weile niemand anspricht."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TooManyEyes_EmotionReasonDescTextId"
+msgid "The moment felt private until you noticed someone looking. You’d rather be somewhere quiet where you don’t have to face anyone for a bit."
+msgstr "Der Moment fühlte sich ganz privat an, bis du den Blick bemerkt hast. Jetzt wärst du lieber irgendwo, wo dich eine Weile niemand anspricht."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_DisplayTextId"
+msgid "A Little Letdown"
+msgstr "Ein kleiner Dämpfer"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_ReasonTextId"
+msgid "[From someone else reaching orgasm while you didn’t]\r\nYou enjoyed the closeness. It’s still a little disappointing to stop when you were getting close."
+msgstr "[Weil jemand anderes zum Orgasmus kam und du nicht]\r\nDu hast die Nähe genossen. Trotzdem ist es ein bisschen enttäuschend, kurz vor dem Höhepunkt aufhören zu müssen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLetDown_EmotionReasonDescTextId"
+msgid "You enjoyed the closeness. It’s still a little disappointing to stop when you were getting close."
+msgstr "Du hast die Nähe genossen. Trotzdem ist es ein bisschen enttäuschend, kurz vor dem Höhepunkt aufhören zu müssen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_DisplayTextId"
+msgid "A Little Light"
+msgstr "Ein kleiner Lichtblick"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nFeeling wanted and close to someone gave you a break from the things weighing on you. You’re glad you had that time together."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nDie Nähe und das Gefühl, begehrt zu werden, haben dich kurz von dem abgelenkt, was dich belastet. Du bist froh, dass ihr diese Zeit hattet."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLight_EmotionReasonDescTextId"
+msgid "Feeling wanted and close to someone gave you a break from the things weighing on you. You’re glad you had that time together."
+msgstr "Die Nähe und das Gefühl, begehrt zu werden, haben dich kurz von dem abgelenkt, was dich belastet. Du bist froh, dass ihr diese Zeit hattet."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_DisplayTextId"
+msgid "That Was Awkward"
+msgstr "Das war unangenehm"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_ReasonTextId"
+msgid "[From being interrupted during sex]\r\nThe second you noticed someone watching, you forgot where to look. Just remembering the awkward silence makes you cringe."
+msgstr "[Weil ihr beim Sex unterbrochen wurdet]\r\nAls du den fremden Blick bemerkt hast, wusstest du nicht mehr, wohin du schauen solltest. Schon die Erinnerung an das betretene Schweigen lässt dich zusammenzucken."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ThatWasAwkward_EmotionReasonDescTextId"
+msgid "The second you noticed someone watching, you forgot where to look. Just remembering the awkward silence makes you cringe."
+msgstr "Als du den fremden Blick bemerkt hast, wusstest du nicht mehr, wohin du schauen solltest. Schon die Erinnerung an das betretene Schweigen lässt dich zusammenzucken."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_DisplayTextId"
+msgid "A Chapter Worth Keeping"
+msgstr "Ein Kapitel zum Behalten"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nIt’s the little details you’ll remember, like the look you shared afterward. You’re glad you got to spend that time together."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nEs sind die kleinen Dinge, die dir in Erinnerung bleiben werden, etwa der Blick, den ihr danach ausgetauscht habt. Du bist froh, dass ihr die Zeit füreinander hattet."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AChapterWorthKeeping_EmotionReasonDescTextId"
+msgid "It’s the little details you’ll remember, like the look you shared afterward. You’re glad you got to spend that time together."
+msgstr "Es sind die kleinen Dinge, die dir in Erinnerung bleiben werden, etwa der Blick, den ihr danach ausgetauscht habt. Du bist froh, dass ihr die Zeit füreinander hattet."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_DisplayTextId"
+msgid "Stay Close"
+msgstr "Bleib noch ein bisschen"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_ReasonTextId"
+msgid "[From someone else reaching orgasm while you didn’t]\r\nSomeone finished while you were still getting there. You’d like a little reassurance and a moment to stay close."
+msgstr "[Weil jemand anderes zum Orgasmus kam und du nicht]\r\nJemand kam zum Höhepunkt, während du selbst noch nicht so weit warst. Du wünschst dir etwas Zuspruch und noch einen Moment der Nähe."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_StayClose_EmotionReasonDescTextId"
+msgid "Someone finished while you were still getting there. You’d like a little reassurance and a moment to stay close."
+msgstr "Jemand kam zum Höhepunkt, während du selbst noch nicht so weit warst. Du wünschst dir etwas Zuspruch und noch einen Moment der Nähe."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_DisplayTextId"
+msgid "Found Our Pace"
+msgstr "Unser Tempo gefunden"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nOnce you found a pace that felt good to everyone, everything clicked. You still feel the rush now that you’ve caught your breath."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nAls ihr ein Tempo gefunden habt, das sich für alle gut anfühlte, hat plötzlich alles gepasst. Du bist wieder zu Atem gekommen, spürst aber immer noch das Kribbeln."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundOurPace_EmotionReasonDescTextId"
+msgid "Once you found a pace that felt good to everyone, everything clicked. You still feel the rush now that you’ve caught your breath."
+msgstr "Als ihr ein Tempo gefunden habt, das sich für alle gut anfühlte, hat plötzlich alles gepasst. Du bist wieder zu Atem gekommen, spürst aber immer noch das Kribbeln."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_DisplayTextId"
+msgid "Still Buzzing"
+msgstr "Immer noch voller Energie"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_ReasonTextId"
+msgid "[From reaching orgasm when some participants didn’t]\r\nEven though the encounter ended early for some, you came away with more energy than you expected. Sitting still doesn’t sound very appealing right now."
+msgstr "[Weil du zum Orgasmus kamst und manche andere nicht]\r\nFür manche war es etwas zu früh vorbei, aber du fühlst dich viel energiegeladener als erwartet. Stillzusitzen klingt gerade nicht besonders verlockend."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_StillBuzzing_EmotionReasonDescTextId"
+msgid "Even though the encounter ended early for some, you came away with more energy than you expected. Sitting still doesn’t sound very appealing right now."
+msgstr "Für manche war es etwas zu früh vorbei, aber du fühlst dich viel energiegeladener als erwartet. Stillzusitzen klingt gerade nicht besonders verlockend."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_DisplayTextId"
+msgid "Could Use a Shower"
+msgstr "Eine Dusche wäre jetzt gut"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_ReasonTextId"
+msgid "[From feeling sweaty after sex]\r\nYou had a good time, but now everything feels a little sticky. A warm shower and a change of clothes sound wonderful."
+msgstr "[Weil du nach dem Sex verschwitzt bist]\r\nEs hat Spaß gemacht, aber jetzt fühlt sich alles ein wenig klebrig an. Eine warme Dusche und frische Sachen wären wunderbar."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldUseAShower_EmotionReasonDescTextId"
+msgid "You had a good time, but now everything feels a little sticky. A warm shower and a change of clothes sound wonderful."
+msgstr "Es hat Spaß gemacht, aber jetzt fühlt sich alles ein wenig klebrig an. Eine warme Dusche und frische Sachen wären wunderbar."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_DisplayTextId"
+msgid "Couldn’t Keep a Straight Face"
+msgstr "Kein ernstes Gesicht mehr"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_ReasonTextId"
+msgid "[From being seen having sex]\r\nYou knew you should probably look serious, but the surprise got the better of you. Thinking about it still makes you want to giggle."
+msgstr "[Weil ihr beim Sex gesehen wurdet]\r\nEigentlich wolltest du ernst schauen, aber die Überraschung hat dich überrumpelt. Beim Gedanken daran musst du immer noch kichern."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CouldntKeepAStraightFace_EmotionReasonDescTextId"
+msgid "You knew you should probably look serious, but the surprise got the better of you. Thinking about it still makes you want to giggle."
+msgstr "Eigentlich wolltest du ernst schauen, aber die Überraschung hat dich überrumpelt. Beim Gedanken daran musst du immer noch kichern."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_DisplayTextId"
+msgid "Missing Piece"
+msgstr "Das fehlende Stück"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_ReasonTextId"
+msgid "[From someone else reaching orgasm while you didn’t]\r\nYou can’t help replaying what happened. Someone finished, and you’re frustrated that you can’t work out what was missing for you."
+msgstr "[Weil jemand anderes zum Orgasmus kam und du nicht]\r\nDu gehst im Kopf immer wieder durch, was passiert ist. Jemand kam zum Höhepunkt, und dich frustriert, dass du nicht weißt, was dir gefehlt hat."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_MissingPiece_EmotionReasonDescTextId"
+msgid "You can’t help replaying what happened. Someone finished, and you’re frustrated that you can’t work out what was missing for you."
+msgstr "Du gehst im Kopf immer wieder durch, was passiert ist. Jemand kam zum Höhepunkt, und dich frustriert, dass du nicht weißt, was dir gefehlt hat."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_DisplayTextId"
+msgid "Good Enough for Me"
+msgstr "Für mich reicht’s"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_ReasonTextId"
+msgid "[From reaching orgasm when some participants didn’t]\r\nYou got what you needed and now you’re happy to take it easy. A few quiet minutes to yourself sound pretty good."
+msgstr "[Weil du zum Orgasmus kamst und manche andere nicht]\r\nDu hast bekommen, was du gebraucht hast, und willst es jetzt ruhig angehen lassen. Ein paar Minuten ganz für dich klingen gut."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_GoodEnoughForMe_EmotionReasonDescTextId"
+msgid "You got what you needed and now you’re happy to take it easy. A few quiet minutes to yourself sound pretty good."
+msgstr "Du hast bekommen, was du gebraucht hast, und willst es jetzt ruhig angehen lassen. Ein paar Minuten ganz für dich klingen gut."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_DisplayTextId"
+msgid "A Little Luxury"
+msgstr "Ein bisschen Luxus"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nHaving somewhere comfortable made it so much easier to relax together. You could get used to taking your time like that."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nAn einem bequemen Ort fiel es euch viel leichter, euch aufeinander einzulassen. So viel Zeit füreinander könntest du dir öfter nehmen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ALittleLuxury_EmotionReasonDescTextId"
+msgid "Having somewhere comfortable made it so much easier to relax together. You could get used to taking your time like that."
+msgstr "An einem bequemen Ort fiel es euch viel leichter, euch aufeinander einzulassen. So viel Zeit füreinander könntest du dir öfter nehmen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_DisplayTextId"
+msgid "I Got Mine"
+msgstr "Ich bin auf meine Kosten gekommen"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_ReasonTextId"
+msgid "[From reaching orgasm when some participants didn’t]\r\nYou noticed some hadn’t finished when it ended. You’re still feeling pretty smug about how well things went for you."
+msgstr "[Weil du zum Orgasmus kamst und manche andere nicht]\r\nDu hast bemerkt, dass manche noch nicht zum Höhepunkt gekommen waren, als es vorbei war. Du bist immer noch ziemlich zufrieden damit, wie gut es für dich gelaufen ist."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_IGotMine_EmotionReasonDescTextId"
+msgid "You noticed some hadn’t finished when it ended. You’re still feeling pretty smug about how well things went for you."
+msgstr "Du hast bemerkt, dass manche noch nicht zum Höhepunkt gekommen waren, als es vorbei war. Du bist immer noch ziemlich zufrieden damit, wie gut es für dich gelaufen ist."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_DisplayTextId"
+msgid "A Break Well Spent"
+msgstr "Eine gut genutzte Pause"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nYou managed to put everything else aside and give each other your full attention. It was worth making room for that."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nIhr konntet alles andere beiseitelegen und euch ganz aufeinander konzentrieren. Dafür hat es sich gelohnt, Zeit freizumachen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ABreakWellSpent_EmotionReasonDescTextId"
+msgid "You managed to put everything else aside and give each other your full attention. It was worth making room for that."
+msgstr "Ihr konntet alles andere beiseitelegen und euch ganz aufeinander konzentrieren. Dafür hat es sich gelohnt, Zeit freizumachen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_DisplayTextId"
+msgid "Cool Under Pressure"
+msgstr "Gelassen unter Druck"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_ReasonTextId"
+msgid "[From being seen having sex]\r\nYou caught someone looking and felt more amused than embarrassed. A little awkwardness wasn’t enough to ruin the moment for you."
+msgstr "[Weil ihr beim Sex gesehen wurdet]\r\nAls du bemerkt hast, dass jemand euch ansah, warst du eher amüsiert als verlegen. Ein bisschen Peinlichkeit konnte dir den Moment nicht verderben."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_CoolUnderPressure_EmotionReasonDescTextId"
+msgid "You caught someone looking and felt more amused than embarrassed. A little awkwardness wasn’t enough to ruin the moment for you."
+msgstr "Als du bemerkt hast, dass jemand euch ansah, warst du eher amüsiert als verlegen. Ein bisschen Peinlichkeit konnte dir den Moment nicht verderben."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_DisplayTextId"
+msgid "What Have I Done?"
+msgstr "Was habe ich getan?"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_ReasonTextId"
+msgid "[From getting caught cheating]\r\nGetting caught made it sink in how much you’d hurt your partner. You wish you could take back what just happened."
+msgstr "[Weil du beim Fremdgehen erwischt wurdest]\r\nAls du erwischt wurdest, wurde dir klar, wie sehr du deinen Partner verletzt hast. Du wünschst, du könntest rückgängig machen, was gerade passiert ist."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WhatHaveIDone_EmotionReasonDescTextId"
+msgid "Getting caught made it sink in how much you’d hurt your partner. You wish you could take back what just happened."
+msgstr "Als du erwischt wurdest, wurde dir klar, wie sehr du deinen Partner verletzt hast. Du wünschst, du könntest rückgängig machen, was gerade passiert ist."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_DisplayTextId"
+msgid "Quiet Again"
+msgstr "Wieder Ruhe"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_ReasonTextId"
+msgid "[From being interrupted during sex]\r\nThings got tense when you realized someone had seen you. Now that you’ve stopped, you’re glad to have a moment to breathe."
+msgstr "[Weil ihr beim Sex unterbrochen wurdet]\r\nAls dir klar wurde, dass euch jemand gesehen hatte, wurde es angespannt. Jetzt, wo ihr aufgehört habt, bist du froh, kurz durchatmen zu können."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_QuietAgain_EmotionReasonDescTextId"
+msgid "Things got tense when you realized someone had seen you. Now that you’ve stopped, you’re glad to have a moment to breathe."
+msgstr "Als dir klar wurde, dass euch jemand gesehen hatte, wurde es angespannt. Jetzt, wo ihr aufgehört habt, bist du froh, kurz durchatmen zu können."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_DisplayTextId"
+msgid "Well, Now I Know"
+msgstr "Jetzt weiß ich’s"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_ReasonTextId"
+msgid "[From reaching orgasm when some participants didn’t]\r\nFinishing made you think about how much your own preferences matter. You’d like to compare notes sometime."
+msgstr "[Weil du zum Orgasmus kamst und manche andere nicht]\r\nDer Höhepunkt hat dir gezeigt, wie wichtig deine eigenen Vorlieben sind. Du würdest dich gern mal darüber austauschen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WellNowIKnow_EmotionReasonDescTextId"
+msgid "Finishing made you think about how much your own preferences matter. You’d like to compare notes sometime."
+msgstr "Der Höhepunkt hat dir gezeigt, wie wichtig deine eigenen Vorlieben sind. Du würdest dich gern mal darüber austauschen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_DisplayTextId"
+msgid "Worth the Detour"
+msgstr "Der Umweg hat sich gelohnt"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nTaking a little time out of the day turned into something you’ll be smiling about later. You’re glad you went for it."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nAus einer kleinen Pause vom Alltag ist etwas geworden, an das du später mit einem Lächeln zurückdenken wirst. Du bist froh, dass du dich darauf eingelassen hast."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_WorthTheDetour_EmotionReasonDescTextId"
+msgid "Taking a little time out of the day turned into something you’ll be smiling about later. You’re glad you went for it."
+msgstr "Aus einer kleinen Pause vom Alltag ist etwas geworden, an das du später mit einem Lächeln zurückdenken wirst. Du bist froh, dass du dich darauf eingelassen hast."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_DisplayTextId"
+msgid "A Good Impression"
+msgstr "Ein guter Eindruck"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nKnowing everyone enjoyed it gave you butterflies. You’re still thinking about the looks you shared afterward."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nBei dem Gedanken, dass alle es genossen haben, kribbelt es in deinem Bauch. Du denkst immer noch an die Blicke, die ihr danach ausgetauscht habt."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AGoodImpression_EmotionReasonDescTextId"
+msgid "Knowing everyone enjoyed it gave you butterflies. You’re still thinking about the looks you shared afterward."
+msgstr "Bei dem Gedanken, dass alle es genossen haben, kribbelt es in deinem Bauch. Du denkst immer noch an die Blicke, die ihr danach ausgetauscht habt."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_DisplayTextId"
+msgid "A Pleasant Buzz"
+msgstr "Ein angenehmes Kribbeln"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_ReasonTextId"
+msgid "[From reaching orgasm when some participants didn’t]\r\nYou thought you might feel sleepy afterward, but your body is still humming with energy. It’s a pleasant surprise."
+msgstr "[Weil du zum Orgasmus kamst und manche andere nicht]\r\nDu dachtest, du wärst danach müde, aber dein Körper ist immer noch voller Energie. Das ist eine angenehme Überraschung."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_APleasantBuzz_EmotionReasonDescTextId"
+msgid "You thought you might feel sleepy afterward, but your body is still humming with energy. It’s a pleasant surprise."
+msgstr "Du dachtest, du wärst danach müde, aber dein Körper ist immer noch voller Energie. Das ist eine angenehme Überraschung."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_DisplayTextId"
+msgid "Sweet Finish"
+msgstr "Ein schöner Ausklang"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nYou took your time and it paid off for everyone. You’re in no hurry to move on from how good that felt."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nIhr habt euch Zeit gelassen, und das hat sich für alle gelohnt. Du möchtest dieses gute Gefühl noch eine Weile genießen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SweetFinish_EmotionReasonDescTextId"
+msgid "You took your time and it paid off for everyone. You’re in no hurry to move on from how good that felt."
+msgstr "Ihr habt euch Zeit gelassen, und das hat sich für alle gelohnt. Du möchtest dieses gute Gefühl noch eine Weile genießen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_DisplayTextId"
+msgid "Taking It Easy"
+msgstr "Erst mal durchatmen"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_ReasonTextId"
+msgid "[From being interrupted during sex]\r\nIt was tense when someone noticed what was happening. After stopping and taking a breath, you’re ready to let the awkwardness pass."
+msgstr "[Weil ihr beim Sex unterbrochen wurdet]\r\nAls jemand bemerkt hat, was los war, wurde es unangenehm. Nachdem du aufgehört und einmal tief durchgeatmet hast, kannst du die Sache hinter dir lassen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_TakingItEasy_EmotionReasonDescTextId"
+msgid "It was tense when someone noticed what was happening. After stopping and taking a breath, you’re ready to let the awkwardness pass."
+msgstr "Als jemand bemerkt hat, was los war, wurde es unangenehm. Nachdem du aufgehört und einmal tief durchgeatmet hast, kannst du die Sache hinter dir lassen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_DisplayTextId"
+msgid "A Memory to Keep"
+msgstr "Eine schöne Erinnerung"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nYou’ve already caught yourself smiling at the memory of being that close. It’s one of those moments you’d like to hold on to."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nBeim Gedanken an diese Nähe musstest du schon lächeln. Das ist einer der Momente, die du in Erinnerung behalten möchtest."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_AMemoryToKeep_EmotionReasonDescTextId"
+msgid "You’ve already caught yourself smiling at the memory of being that close. It’s one of those moments you’d like to hold on to."
+msgstr "Beim Gedanken an diese Nähe musstest du schon lächeln. Das ist einer der Momente, die du in Erinnerung behalten möchtest."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_DisplayTextId"
+msgid "Better Luck Next Time"
+msgstr "Vielleicht beim nächsten Mal"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_ReasonTextId"
+msgid "[From stopping early]\r\nThings ended before anyone could finish. You’re disappointed, but maybe you’ll have better luck when there’s more time."
+msgstr "[Weil ihr früh aufgehört habt]\r\nEs war vorbei, bevor jemand zum Höhepunkt kommen konnte. Du bist enttäuscht, aber mit mehr Zeit klappt es beim nächsten Mal vielleicht besser."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_BetterLuckNextTime_EmotionReasonDescTextId"
+msgid "Things ended before anyone could finish. You’re disappointed, but maybe you’ll have better luck when there’s more time."
+msgstr "Es war vorbei, bevor jemand zum Höhepunkt kommen konnte. Du bist enttäuscht, aber mit mehr Zeit klappt es beim nächsten Mal vielleicht besser."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_DisplayTextId"
+msgid "Found the Fit"
+msgstr "So hat es gepasst"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_ReasonTextId"
+msgid "[From everyone reaching orgasm]\r\nOnce you found a comfortable position, you could pay attention to each other. You’ll remember what worked next time."
+msgstr "[Weil alle zum Orgasmus kamen]\r\nAls ihr eine bequeme Position gefunden habt, konntet ihr euch ganz aufeinander konzentrieren. Beim nächsten Mal wirst du dich daran erinnern, was funktioniert hat."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_FoundTheFit_EmotionReasonDescTextId"
+msgid "Once you found a comfortable position, you could pay attention to each other. You’ll remember what worked next time."
+msgstr "Als ihr eine bequeme Position gefunden habt, konntet ihr euch ganz aufeinander konzentrieren. Beim nächsten Mal wirst du dich daran erinnern, was funktioniert hat."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_DisplayTextId"
+msgid "A Second Wind"
+msgstr "Neue Energie"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_ReasonTextId"
+msgid "[From reaching orgasm]\r\nYou felt worn out for a moment, then came away more energized than before. You could keep going with your day now."
+msgstr "[Weil du zum Orgasmus gekommen bist]\r\nDu warst kurz erschöpft, fühlst dich danach aber frischer als vorher. Jetzt kannst du deinen Tag gut fortsetzen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_ASecondWind_EmotionReasonDescTextId"
+msgid "You felt worn out for a moment, then came away more energized than before. You could keep going with your day now."
+msgstr "Du warst kurz erschöpft, fühlst dich danach aber frischer als vorher. Jetzt kannst du deinen Tag gut fortsetzen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_DisplayTextId"
+msgid "Kept My Composure"
+msgstr "Nicht aus der Ruhe gebracht"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_ReasonTextId"
+msgid "[From being seen having sex]\r\nYou felt a flash of embarrassment when you realized someone could see you. Staying calm through it left you feeling sure of yourself."
+msgstr "[Weil ihr beim Sex gesehen wurdet]\r\nEs war dir kurz peinlich, als dir auffiel, dass euch jemand sehen konnte. Du bist ruhig geblieben und fühlst dich dadurch sicherer."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_KeptMyComposure_EmotionReasonDescTextId"
+msgid "You felt a flash of embarrassment when you realized someone could see you. Staying calm through it left you feeling sure of yourself."
+msgstr "Es war dir kurz peinlich, als dir auffiel, dass euch jemand sehen konnte. Du bist ruhig geblieben und fühlst dich dadurch sicherer."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_DisplayTextId"
+msgid "Unexpected Company"
+msgstr "Unerwartete Begegnung"
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_ReasonTextId"
+msgid "[From walking in on Zois having sex]\r\nYou realized a second too late what was happening. You wish you’d given everyone a bit more privacy."
+msgstr "[Weil du Zois beim Sex überrascht hast]\r\nDu hast einen Moment zu spät gemerkt, was los war. Du wünschst, du hättest allen etwas mehr Privatsphäre gelassen."
+
+msgctxt "ST_Buff_4bd2ac16,mod_Buff_BuffDisplayInfo_HZoiGameplay_SawEncounter_EmotionReasonDescTextId"
+msgid "You realized a second too late what was happening. You wish you’d given everyone a bit more privacy."
+msgstr "Du hast einen Moment zu spät gemerkt, was los war. Du wünschst, du hättest allen etwas mehr Privatsphäre gelassen."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist1_MessageTextId"
+msgid "It’s... hard to concentrate like this."
+msgstr "So kann ich mich ... schlecht konzentrieren."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist2_MessageTextId"
+msgid "That’s... a little distracting."
+msgstr "Das lenkt mich ... ein bisschen ab."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist3_MessageTextId"
+msgid "It’s... somewhat unsettling to be seen like this."
+msgstr "Es verunsichert mich ... ein bisschen, so gesehen zu werden."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist4_MessageTextId"
+msgid "Being seen like this... it’s hard to stay in the moment."
+msgstr "So gesehen zu werden ... da fällt es mir schwer, im Moment zu bleiben."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessPerfectionist5_MessageTextId"
+msgid "I could focus better with more... privacy."
+msgstr "Mit etwas mehr ... Privatsphäre könnte ich mich besser konzentrieren."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse1_MessageTextId"
+msgid "Oh! I can feel my face getting warm..."
+msgstr "Oh! Ich merke, wie mir das Gesicht warm wird ..."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse2_MessageTextId"
+msgid "Oh! I wish I could disappear right now..."
+msgstr "Oh! Am liebsten würde ich jetzt im Boden versinken ..."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse3_MessageTextId"
+msgid "I... don’t even know where to look."
+msgstr "Ich ... weiß gar nicht, wohin ich schauen soll."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse4_MessageTextId"
+msgid "I feel a little exposed like this..."
+msgstr "So fühle ich mich ein bisschen auf dem Präsentierteller ..."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessRecluse5_MessageTextId"
+msgid "I get so self-conscious when seen like this..."
+msgstr "Wenn mich jemand so sieht, bin ich gleich total verlegen ..."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop1_MessageTextId"
+msgid "Well, this is a little awkward."
+msgstr "Tja, das ist ein bisschen peinlich."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop2_MessageTextId"
+msgid "It feels a bit weird to be seen like this."
+msgstr "Es fühlt sich ein bisschen komisch an, so gesehen zu werden."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop3_MessageTextId"
+msgid "What an awkward situation..."
+msgstr "Was für eine peinliche Situation ..."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop4_MessageTextId"
+msgid "I’m... trying to act casual about this."
+msgstr "Ich ... versuche, mir nichts anmerken zu lassen."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessStop5_MessageTextId"
+msgid "To be seen like this... I don’t know how to react."
+msgstr "So gesehen zu werden ... da weiß ich gar nicht, wie ich reagieren soll."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyPrivateTime_MessageTextId"
+msgid "Can’t we have a little private time?"
+msgstr "Können wir nicht einen Moment für uns haben?"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_PrivacyEmptyRoom_MessageTextId"
+msgid "I thought this room was empty."
+msgstr "Ich dachte, der Raum wäre leer."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessBetrayed1_MessageTextId"
+msgid "I trusted you. How could you?"
+msgstr "Ich habe dir vertraut. Wie konntest du nur?"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessBetrayed2_MessageTextId"
+msgid "I can’t believe you’d do this to me."
+msgstr "Ich kann nicht glauben, dass du mir das antust."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessBetrayed3_MessageTextId"
+msgid "I never thought I’d catch you in the act."
+msgstr "Ich hätte nie gedacht, dass ich dich auf frischer Tat ertappe."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessBetrayed4_MessageTextId"
+msgid "I thought what we had meant something."
+msgstr "Ich dachte, wir bedeuten einander etwas."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessBetrayed5_MessageTextId"
+msgid "Is this what you’ve been doing behind my back?"
+msgstr "Hast du das die ganze Zeit hinter meinem Rücken gemacht?"
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessUnfamiliar1_MessageTextId"
+msgid "Oh! Sorry, I’ll give you some privacy."
+msgstr "Oh! Entschuldigung, ich lasse euch in Ruhe."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessUnfamiliar2_MessageTextId"
+msgid "I didn’t mean to walk in on this."
+msgstr "Ich wollte nicht einfach so reinplatzen."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessUnfamiliar3_MessageTextId"
+msgid "Oh! I saw more than I meant to."
+msgstr "Oh! Ich habe mehr gesehen, als ich wollte."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessUnfamiliar4_MessageTextId"
+msgid "Sorry. I’ve clearly come at a bad time."
+msgstr "Tut mir leid. Ich komme wohl ungelegen."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessUnfamiliar5_MessageTextId"
+msgid "Oh! This looks private. I’ll come back later."
+msgstr "Oh! Das sieht privat aus. Ich komme später wieder."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessFamiliar1_MessageTextId"
+msgid "Oh, hey! I’ll let you have your moment."
+msgstr "Oh, hallo! Ich lasse euch den Moment."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessFamiliar2_MessageTextId"
+msgid "Of all the times to drop by! I’ll catch up with you later."
+msgstr "Na, da habe ich mir ja einen Moment ausgesucht! Wir reden später."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessFamiliar3_MessageTextId"
+msgid "Oh! No need to explain. I’ll give you some space."
+msgstr "Oh! Keine Erklärung nötig. Ich lasse euch etwas Freiraum."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessFamiliar4_MessageTextId"
+msgid "Ah, so that’s what you were up to. I’ll leave you to it."
+msgstr "Ach, das habt ihr also getrieben. Ich lasse euch mal machen."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessFamiliar5_MessageTextId"
+msgid "Oh! I can take a hint. See you later."
+msgstr "Oh! Schon verstanden. Bis später."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessClose1_MessageTextId"
+msgid "Oh! Getting pretty cozy in here."
+msgstr "Oh! Ganz schön kuschelig hier."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessClose2_MessageTextId"
+msgid "Well, that’s a little more than flirting."
+msgstr "Na, das ist wohl ein bisschen mehr als Flirten."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessClose3_MessageTextId"
+msgid "Oh! I see what kind of mood everyone’s in."
+msgstr "Oh! Jetzt weiß ich, in welcher Stimmung hier alle sind."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessClose4_MessageTextId"
+msgid "Well! It’s getting warm in here."
+msgstr "Na! Hier wird’s ja richtig warm."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_WitnessClose5_MessageTextId"
+msgid "Oh! Here I thought you were just talking."
+msgstr "Oh! Ich dachte, ihr unterhaltet euch nur."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise1_MessageTextId"
+msgid "Oh. I wasn’t expecting that."
+msgstr "Oh. Damit habe ich nicht gerechnet."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise2_MessageTextId"
+msgid "Well, that caught me off guard."
+msgstr "Na, das kam überraschend."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise3_MessageTextId"
+msgid "Huh. I didn’t see that coming."
+msgstr "Hm. Das habe ich nicht kommen sehen."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise4_MessageTextId"
+msgid "Oh! Things changed quickly."
+msgstr "Oh! Das ging ja schnell."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalSurprise5_MessageTextId"
+msgid "Oh. That took me a second."
+msgstr "Oh. Ich hab einen Moment gebraucht."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker1_MessageTextId"
+msgid "I picked quite a moment to look up."
+msgstr "Na, da hab ich im richtigen Moment aufgeschaut."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker2_MessageTextId"
+msgid "Well, this just got interesting."
+msgstr "Na, jetzt wird’s interessant."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker3_MessageTextId"
+msgid "Oh! And here I was having a quiet day."
+msgstr "Oh! Und ich dachte schon, heute passiert nichts mehr."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker4_MessageTextId"
+msgid "Well, that’s one way to liven up the room."
+msgstr "Na, so kommt auch Stimmung in die Bude."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalTroublemaker5_MessageTextId"
+msgid "Oh. I’ll save my questions for later."
+msgstr "Oh. Meine Fragen heb ich mir für später auf."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer1_MessageTextId"
+msgid "Oh! I guess the flirting went well."
+msgstr "Oh! Das mit dem Flirten hat wohl geklappt."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer2_MessageTextId"
+msgid "Well, somebody’s having a lovely day."
+msgstr "Na, da hat wohl jemand einen richtig schönen Tag."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer3_MessageTextId"
+msgid "Oh! There’s clearly some chemistry here."
+msgstr "Oh! Hier stimmt die Chemie ja offensichtlich."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer4_MessageTextId"
+msgid "Oh! Good for you. I wasn’t expecting that."
+msgstr "Oh! Freut mich. Damit hab ich nicht gerechnet."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalCharmer5_MessageTextId"
+msgid "Well, someone certainly knows how to set the mood."
+msgstr "Na, hier weiß jemand, wie man für Stimmung sorgt."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse1_MessageTextId"
+msgid "Oh. I’ll just mind my own business."
+msgstr "Oh. Ich kümmere mich lieber um meinen eigenen Kram."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse2_MessageTextId"
+msgid "Oh. I think I’ll look somewhere else."
+msgstr "Oh. Ich schau lieber woanders hin."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse3_MessageTextId"
+msgid "Oh. I have no idea what to say."
+msgstr "Oh. Ich weiß gar nicht, was ich sagen soll."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse4_MessageTextId"
+msgid "Oh. I’ll pretend I didn’t notice."
+msgstr "Oh. Ich tu einfach so, als hätte ich nichts bemerkt."
+
+msgctxt "ST_SpeechBubble_4bd2ac16,mod_SpeechBubble_SpeechBubbleData_1_HZoiGameplay_ArrivalRecluse5_MessageTextId"
+msgid "Oh. I’ll just be quiet over here."
+msgstr "Oh. Ich bleib hier und sag einfach nichts."
+
+msgctxt "ST_InteractionBag_4bd2ac16,mod_InteractionBag_DisplayInfo_HZoiGameplay_Invite_OverrideQueueTextId"
+msgid "Invite To Have Sex"
+msgstr "Sex vorschlagen"

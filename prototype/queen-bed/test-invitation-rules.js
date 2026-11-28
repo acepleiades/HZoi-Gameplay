@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const patchFolder = path.join(__dirname, 'HZoiGameplayPrototype_4BD2AC16', 'Content', 'JsonPatch');
+const patchFolder = path.join(__dirname, 'HZoiGameplay_4BD2AC16', 'Content', 'JsonPatch');
 function readJson(file) {
     return JSON.parse(fs.readFileSync(file, 'utf8'));
 }
@@ -15,6 +15,7 @@ const enqueue = rows('Condition_Enqueue').get('HZoiGameplay_EligibleForMood');
 const talkRules = rows('Condition_Interaction_Talk');
 const bags = rows('InteractionBag');
 const invitation = bags.get('HZoiGameplay_Invite');
+const coop = rows('Coop');
 const romance = bags.get('HZoiGameplay_FindVenue');
 const romanceVisibility = talkRules.get('HZoiGameplay_CanFindVenue');
 assert.deepEqual(romance.InteractionBagTags, ['Sad', 'Uneasy', 'Cringing', 'Irritated', 'Worried']
@@ -29,7 +30,7 @@ assert.equal(menu.kind, 'interaction_menu');
 const [furnitureMenu, groundMenu, romanceMenu] = menu.data.entries;
 const trigger = readJson(path.join(patchFolder, '../../ui/venue-invitation/uimod_manifest.json'))
     .triggers.find(({type}) => type === 'interaction_menu');
-assert.equal(furnitureMenu.id, '_UIMod_HZoiGameplayPrototype_4BD2AC16/venue-invitation~' + trigger.id);
+assert.equal(furnitureMenu.id, '_UIMod_HZoiGameplay_4BD2AC16/venue-invitation~' + trigger.id);
 assert.deepEqual(trigger.filter.objectCategory, ['Bed', 'Sofa']);
 assert.equal(furnitureMenu.icon, trigger.icon);
 assert.equal(furnitureMenu.label, trigger.label_key);
@@ -69,6 +70,21 @@ for (const name of ['Invite', 'FindVenue', 'SelectVenue']) {
     const display = bags.get(`HZoiGameplay_${name}`).DisplayInfo;
     assert.equal(display.Icon, "/Script/Engine.Texture2D'/Game/UI/Icon/Object/Action_Talk_Mood.Action_Talk_Mood'");
     assert.equal(display.PanelIconId, 'Conversation_Icon_Mood');
+}
+
+const queueTextId = 'mod_InteractionBag_DisplayInfo_HZoiGameplay_Invite_OverrideQueueTextId';
+assert.equal(invitation.DisplayInfo.OverrideQueueTextId, queueTextId);
+for (const [branch, suffix] of [['Accept', ''], ['Refuse', '_Fail']]) {
+    const dialogue = coop.get(`HZoiGameplay_Coop_${branch}`).TaskInfos[1];
+    for (const [index, feedback] of ['', '_Feedback'].entries()) {
+        const bagId = `HZoiGameplay_InviteDialogue${suffix}${feedback}`;
+        const scenarios = dialogue.RolePlayingInfos[index].ScenarioInfos;
+        assert.equal(scenarios[0].InteractionBagId, bagId);
+        const bag = bags.get(bagId);
+        assert.equal(bag.DisplayInfo.OverrideQueueTextId, queueTextId);
+        assert.equal(bag.InteractionSequence[0].InteractionInfos[0].InteractionId,
+            `Coop_TalkLike_Before_MakeLove${suffix}${feedback}`);
+    }
 }
 
 function matches(row, state) {

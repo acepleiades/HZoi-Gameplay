@@ -1,5 +1,5 @@
 -- B1 reads the player's native language, including a language-pack selection.
-package.path = "HZoiGameplayPrototype_4BD2AC16/lua/B1/?.lua;" .. package.path
+package.path = "HZoiGameplay_4BD2AC16/lua/B1/?.lua;" .. package.path
 local time, reads, setting = 1, 0, "ko-KR_mod"
 local Json = require("SceneZOIAddon.Json")
 os.time = function() return time end

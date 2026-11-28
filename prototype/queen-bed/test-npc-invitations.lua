@@ -227,7 +227,7 @@ end
 local function nativeConversation(first, second, refused)
     event("started", first, second, "HZoiGameplay_Invite")
     event("finished", first, second, "HZoiGameplay_Invite")
-    local branch = "Coop_TalkLike_Before_MakeLove" .. (refused and "_Fail" or "")
+    local branch = "HZoiGameplay_InviteDialogue" .. (refused and "_Fail" or "")
     event("started", first, second, branch)
     event("started", second, first, branch .. "_Feedback")
     event("finished", first, second, branch)
@@ -494,7 +494,7 @@ local ready, pauseConversation = invite.beginNpc(11, 12)
 assert(ready, pauseConversation)
 preflight(pauseConversation, 11, 12)
 reply(pauseConversation, "venue-1", "validate_start", valid(11, 12))
-local branch = "Coop_TalkLike_Before_MakeLove"
+local branch = "HZoiGameplay_InviteDialogue"
 event("started", 11, 12, "HZoiGameplay_Invite")
 event("finished", 11, 12, "HZoiGameplay_Invite")
 event("started", 11, 12, branch)
@@ -635,7 +635,7 @@ tick()
 assert(#notices == 0 and refusalCount == 0)
 coop.OriginInteractionBagId = "HZoiGameplay_Invite"
 tick()
-local refusal = "Coop_TalkLike_Before_MakeLove_Fail"
+local refusal = "HZoiGameplay_InviteDialogue_Fail"
 event("started", 11, 12, refusal)
 event("started", 12, 11, refusal .. "_Feedback")
 event("finished", 11, 12, refusal)

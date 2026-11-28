@@ -1,5 +1,5 @@
 -- Run from prototype/queen-bed.
-local source = "HZoiGameplayPrototype_4BD2AC16/lua/B1/"
+local source = "HZoiGameplay_4BD2AC16/lua/B1/"
 local context, emotionClass = {}, {}
 local controlled = {Value = 37}
 local emotion = {CurrentEmotionInfo = {EmotionId = "Sad", Level = 2}}

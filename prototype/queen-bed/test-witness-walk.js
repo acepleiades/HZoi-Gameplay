@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const bagPath = path.join(__dirname, 'HZoiGameplayPrototype_4BD2AC16/Content/JsonPatch/InteractionBag_patch.json');
+const bagPath = path.join(__dirname, 'HZoiGameplay_4BD2AC16/Content/JsonPatch/InteractionBag_patch.json');
 const bags = JSON.parse(fs.readFileSync(bagPath, 'utf8')).PatchList;
 const witnessWalk = bags.find(({Value}) => Value.Id === 'HZoiGameplay_WitnessWalk');
 assert(witnessWalk.Enabled && witnessWalk.Method === 'Append');

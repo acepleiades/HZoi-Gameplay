@@ -38,7 +38,8 @@ and a queen bed with one side against a wall.
    with a negative target mood for a 70% chance, or spouses at Family −30
    to below 30 for a 30% chance.
 2. On refusal, verify the conversation finishes, neither Zoi is sent to the
-   bed, and both can start another game interaction.
+   bed, and both can start another game interaction. The HZoi invitation
+   action should read **Invite To Have Sex** in the queue on both branches.
 3. On acceptance, verify both Zois reach separate points on the same floor
    beside the selected bed. At the wall-side bed, observe where each Zoi
    approaches. Exit SceneZOI and check that both can move again.
@@ -111,6 +112,10 @@ passes the same `furniture_pair_id` to preflight, arrival validation, and
 playback. The menu action neither moves a Zoi nor takes a furniture
 slot. After acceptance, both walks are checked against the scene
 and role bindings selected before the invitation.
+
+The invitation uses HZoi-owned queue entries for the native acceptance and
+refusal conversations. The entries keep the native actions and show
+**Invite To Have Sex** in the queue.
 
 The new interaction rows use the game’s lover and spouse score thresholds,
 branch order and weights. HZoi uses native compatibility and those thresholds

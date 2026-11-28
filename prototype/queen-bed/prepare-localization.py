@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parent
-MOD = ROOT / "HZoiGameplayPrototype_4BD2AC16"
+MOD = ROOT / "HZoiGameplay_4BD2AC16"
 CULTURES = (
     "en-US", "ko-KR", "ja-JP", "zh-CN", "zh-TW", "de-DE", "es-ES", "fr-FR",
     "it-IT", "nl-NL", "pl-PL", "pt-BR", "pt-PT", "ru-RU", "tr-TR",
@@ -24,6 +24,7 @@ STOP_MESSAGES = {
 PREFIX = "mod_Buff_BuffDisplayInfo_HZoiGameplay_"
 BUFF_NAMESPACE = "ST_Buff_4bd2ac16"
 SPEECH_NAMESPACE = "ST_SpeechBubble_4bd2ac16"
+INTERACTION_NAMESPACE = "ST_InteractionBag_4bd2ac16"
 FURNITURE_TRIGGER = "_UIMod_" + MOD.name + "/venue-invitation~scenezoi_furniture"
 HEART_ICON = "/Game/UI/Icon/Conversation/Conversation_Icon_Mood.Conversation_Icon_Mood"
 MOOD_LOCKS = ("Sad", "Uneasy", "Cringing", "Irritated", "Worried")
@@ -119,7 +120,7 @@ def lua(value, depth=0):
     return "{\n" + "".join(fields) + indent + "}"
 
 
-def native_po(culture, buffs, dialog, catalog, causes):
+def native_po(culture, buffs, dialog, interactions, catalog, causes):
     localized = {}
     for identifier, (title, description) in catalog["moodlets"].items():
         prefix = PREFIX + identifier
@@ -139,6 +140,7 @@ def native_po(culture, buffs, dialog, catalog, causes):
     for namespace, english, translations in (
         (BUFF_NAMESPACE, buffs, localized),
         (SPEECH_NAMESPACE, dialog, {key: catalog["messages"][source] for key, source in dialog.items()}),
+        (INTERACTION_NAMESPACE, interactions, {key: catalog["messages"][source] for key, source in interactions.items()}),
     ):
         require(set(english) == set(translations), f"{culture} native key mismatch for {namespace}")
         for key, source in english.items():
@@ -193,8 +195,11 @@ def generate():
     catalogs = load_catalogs()
     buffs = read_csv("moodlet-text.csv")
     dialog = read_csv("speech-text.csv")
+    interactions = read_csv("interaction-text.csv")
     causes = validate(catalogs, buffs, dialog)
+    require(set(interactions.values()) <= set(catalogs["en-US"]["messages"]), "English interaction text must be declared")
     stop_keys = {key for pair in STOP_MESSAGES.values() for key in pair.values()}
+    native_messages = set(dialog.values()) | set(interactions.values())
     runtime = {}
     stop_reasons = {}
     for culture, catalog in catalogs.items():
@@ -202,7 +207,7 @@ def generate():
         folded = culture.lower()
         runtime[folded] = {
             key: value for key, value in messages.items()
-            if key not in stop_keys and key not in dialog.values() and key not in {"Have Sex Here", "Have Sex"}
+            if key not in stop_keys and key not in native_messages and key not in {"Have Sex Here", "Have Sex"}
         }
         stop_reasons[folded] = {
             reason: {variant: messages[source] for variant, source in variants.items()}
@@ -216,9 +221,9 @@ def generate():
     }
     for culture in CULTURES:
         if culture == "en-US":
-            continue  # English is the source on the two native StringTable assets.
+            continue  # English is the source on the native StringTable assets.
         outputs[f"l10n/{culture}_mod/Blue_Data.po"] = native_po(
-            culture, buffs, dialog, catalogs[culture], causes
+            culture, buffs, dialog, interactions, catalogs[culture], causes
         )
     return outputs
 

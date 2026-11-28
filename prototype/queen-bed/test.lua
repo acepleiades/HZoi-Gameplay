@@ -295,7 +295,7 @@ local function cancelNativeApproach(origin, coopId, targetId, withDialogue, canc
     local schedulerId = 25000
     fire("started", ownerId, INVITE, partnerId)
     fire("finished", ownerId, INVITE, partnerId)
-    if withDialogue then fire("started", ownerId, "Coop_TalkLike_Before_MakeLove", partnerId) end
+    if withDialogue then fire("started", ownerId, "HZoiGameplay_InviteDialogue", partnerId) end
 
     local coop = {
         CoopId = coopId, OriginInteractionBagId = origin,
@@ -327,7 +327,7 @@ end
 local function conversation(refusal, switchAfterRefusal, switchDuringDialogue)
     local first, second = controlled, controlled == ownerId and partnerId or ownerId
     local bag = INVITE
-    local action = "Coop_TalkLike_Before_MakeLove" .. (refusal and "_Fail" or "")
+    local action = "HZoiGameplay_InviteDialogue" .. (refusal and "_Fail" or "")
     local count, effects = #queued, #refusalEffects
     fire("started", first, bag, second)
     fire("finished", first, bag, second)
@@ -490,7 +490,7 @@ assert(#notices == noticeCount + 1 and notices[#notices] == "failed" and #queued
 queued = {}
 invite(partnerId, bedId)
 noticeCount = #notices
-local dialogue = "Coop_TalkLike_Before_MakeLove"
+local dialogue = "HZoiGameplay_InviteDialogue"
 fire("started", ownerId, INVITE, partnerId)
 fire("finished", ownerId, INVITE, partnerId)
 fire("started", ownerId, dialogue, partnerId)

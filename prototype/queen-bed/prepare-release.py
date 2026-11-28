@@ -15,10 +15,14 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 SOURCE = Path(__file__).resolve().parent
 GAMEPLAY_LICENSE = SOURCE.parents[1] / "LICENSE"
-MOD = "HZoiGameplayPrototype_4BD2AC16"
+MOD = "HZoiGameplay_4BD2AC16"
 DESCRIPTOR = f"{MOD}.uplugin"
 DEPENDENCIES = ["SceneZOI_93C44199"]
-ASSETS = {"String/mod_ST_Buff_4bd2ac16", "String/mod_ST_SpeechBubble_4bd2ac16"}
+ASSETS = {
+    "String/mod_ST_Buff_4bd2ac16",
+    "String/mod_ST_SpeechBubble_4bd2ac16",
+    "String/mod_ST_InteractionBag_4bd2ac16",
+}
 CONTAINER = f"{MOD}inZOIModKit-Windows"
 PAK_DIR = Path("Content/Paks/Windows")
 MOD_MOUNT = f"../../../inZOIModKit/Mods/{MOD}/"
@@ -70,8 +74,8 @@ def verify_cooked(root, executable, scratch):
         with listing.open(encoding="utf-8-sig", newline="") as stream:
             rows = list(csv.DictReader(stream, skipinitialspace=True))
         payload = [row["Filename"].strip() for row in rows if row["Filename"].strip() != "<ContainerHeader>"]
-        require(len(rows) == 3 and len(payload) == 2 and set(payload) == ASSET_PATHS,
-                f"Expected only the two HZoi Gameplay assets in {utoc.name}. Listed: {payload}")
+        require(len(payload) == len(ASSET_PATHS) and len(rows) == len(payload) + 1 and set(payload) == ASSET_PATHS,
+                f"Expected only the HZoi Gameplay assets in {utoc.name}. Listed: {payload}")
         registry = subprocess.check_output(
             [str(executable), str(pak), "-List", f"-abslog={work / 'registry.log'}", "-unattended"],
             text=True, encoding="utf-8", errors="replace",
@@ -79,7 +83,7 @@ def verify_cooked(root, executable, scratch):
         require(f'with mount point "{MOD_MOUNT}"' in registry and
                 'Display: "AssetRegistry.bin"' in registry and "Display: 1 files (" in registry,
                 "Expected the companion .pak to contain only HZoi Gameplay's asset registry.")
-    print("Verified 2 mod StringTables and 1 mod asset registry. No stock asset payloads.")
+    print(f"Verified {len(ASSETS)} mod StringTables and 1 mod asset registry. No stock asset payloads.")
 
 
 def filter_export(args):
@@ -89,7 +93,7 @@ def filter_export(args):
             "Supply a fresh output folder separate from the original ModKit export.")
     manifest = load(original / "mod_manifest.json")
     require(manifest["ProjectName"] == MOD and set(manifest["Assets"]) == ASSETS,
-            "The ModKit export must declare the two HZoi Gameplay StringTables.")
+            "The ModKit export must declare the HZoi Gameplay StringTables.")
     project = args.project.resolve()
     require(project.is_file() and project.suffix == ".uproject", "Supply the ModKit project used for this cook.")
     mod = project.parent / "Mods" / MOD
@@ -110,7 +114,7 @@ def filter_export(args):
             require(destination not in selected and Path(source).resolve().is_relative_to(cooked)
                     and Path(source).is_file(), f"Missing or duplicate cooked asset: {destination}")
             selected[destination] = line
-    require(set(selected) == ASSET_PATHS, "The response does not reference both cooked HZoi Gameplay StringTables.")
+    require(set(selected) == ASSET_PATHS, "The response does not reference all cooked HZoi Gameplay StringTables.")
     executable = unrealpak(args.modkit_root)
     shutil.copytree(original, output)
     utoc = output / PAK_DIR / f"{CONTAINER}.utoc"
@@ -174,7 +178,7 @@ def verify_export(prepared, exported):
     require(set(manifest["Protected"]) == {"/lua"}, "Native Lua protection is missing or changed.")
     require(set(manifest["Assets"]) == ASSETS and not manifest["Maps"], "Unexpected cooked asset inventory.")
     asset_classes = load(exported / "mod_assethash.json")["assetClasses"]
-    require(asset_classes == dict.fromkeys(ASSETS, "/Script/Engine.StringTable"), "Native asset classes differ from the two StringTables.")
+    require(asset_classes == dict.fromkeys(ASSETS, "/Script/Engine.StringTable"), "Native assets differ from the expected StringTables.")
     expected = non_assets(prepared)
     require(VENUE_UI <= expected.keys(), "The prepared payload is missing the venue invitation UI app.")
     require({key.lstrip("/") for key in manifest["NonAssets"]} == set(expected), "Native manifest differs from the prepared payload.")
